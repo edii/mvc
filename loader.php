@@ -7,6 +7,7 @@ defined('TRACE_LEVEL') or define('TRACE_LEVEL', 0);
 defined('ENABLE_EXCEPTION_HANDLER') or define('ENABLE_EXCEPTION_HANDLER',true);
 defined('ENABLE_ERROR_HANDLER') or define('ENABLE_ERROR_HANDLER',true);
 defined('PATH') or define('PATH',dirname(__FILE__));
+defined('PATH_LIBS') or define('PATH_LIBS',dirname(__FILE__)."libs");
 defined('ZII_PATH') or define('ZII_PATH',PATH.DIRECTORY_SEPARATOR.'zii');
 
 define('DS', DIRECTORY_SEPARATOR);
