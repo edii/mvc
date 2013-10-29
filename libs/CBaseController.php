@@ -8,62 +8,6 @@
  * @license http://www.yiiframework.com/license/
  */
 
-
-/**
- * CBaseController is the base class for {@link CController} and {@link CWidget}.
- *
- * It provides the common functionalities shared by controllers who need to render views.
- *
- * CBaseController also implements the support for the following features:
- * <ul>
- * <li>{@link CClipWidget Clips} : a clip is a piece of captured output that can be inserted elsewhere.</li>
- * <li>{@link CWidget Widgets} : a widget is a self-contained sub-controller with its own view and model.</li>
- * <li>{@link COutputCache Fragment cache} : fragment cache selectively caches a portion of the output.</li>
- * </ul>
- *
- * To use a widget in a view, use the following in the view:
- * <pre>
- * $this->widget('path.to.widgetClass',array('property1'=>'value1',...));
- * </pre>
- * or
- * <pre>
- * $this->beginWidget('path.to.widgetClass',array('property1'=>'value1',...));
- * // ... display other contents here
- * $this->endWidget();
- * </pre>
- *
- * To create a clip, use the following:
- * <pre>
- * $this->beginClip('clipID');
- * // ... display the clip contents
- * $this->endClip();
- * </pre>
- * Then, in a different view or place, the captured clip can be inserted as:
- * <pre>
- * echo $this->clips['clipID'];
- * </pre>
- *
- * Note that $this in the code above refers to current controller so, for example,
- * if you need to access clip from a widget where $this refers to widget itself
- * you need to do it the following way:
- *
- * <pre>
- * echo $this->getController()->clips['clipID'];
- * </pre>
- *
- * To use fragment cache, do as follows,
- * <pre>
- * if($this->beginCache('cacheID',array('property1'=>'value1',...))
- * {
- *     // ... display the content to be cached here
- *    $this->endCache();
- * }
- * </pre>
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @package system.web
- * @since 1.0
- */
 abstract class CBaseController extends CComponent
 {
 	private $_widgetStack=array();

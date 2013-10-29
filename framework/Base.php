@@ -547,9 +547,10 @@ class Base
 	 */
 	private static $_coreClasses = array(
                 // database
-                'CDatabase'       => '/libs/database/CDatabase.php',
-                'CDbException'       => '/libs/database/CDbException.php',
-            
+                'CDbCommandBuilder'     => '/libs/database/CDbCommandBuilder.php',
+                'CDatabase'             => '/libs/database/CDatabase.php',
+                'CDbException'          => '/libs/database/CDbException.php',
+                
                 // core class
                 'CApplicationComponent' => '/framework/base/CApplicationComponent.php',
                 'CApplication'          => '/framework/base/CApplication.php',
