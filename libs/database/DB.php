@@ -1,34 +1,8 @@
 <?php  if ( ! defined('PATH_LIBS')) exit('No direct script access allowed');
-/**
- * CodeIgniter
- *
- * An open source application development framework for PHP 5.1.6 or newer
- *
- * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
- * @link		http://codeigniter.com
- * @since		Version 1.0
- * @filesource
- */
 
-// ------------------------------------------------------------------------
-
-/**
- * Initialize the database
- *
- * @category	Database
- * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/database/
- * @param 	string
- * @param 	bool	Determines if active record should be used or not
- */
-function DB($params = '', $active_record_override = NULL)
-{
+function DB($params = '', $active_record_override = NULL) {
 	// Load the DB config file if a DSN string wasn't passed
-	if (is_string($params) AND strpos($params, '://') === FALSE)
-	{
+	if (is_string($params) AND strpos($params, '://') === FALSE) {
 		// Is the config file in the environment folder?
 		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
 		{
@@ -155,8 +129,3 @@ function DB($params = '', $active_record_override = NULL)
 
 	return $DB;
 }
-
-
-
-/* End of file DB.php */
-/* Location: ./system/database/DB.php */

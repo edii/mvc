@@ -103,6 +103,18 @@ class HelloController extends \Controller
 	 */
 	public function actionIndex()
 	{
+            
+            // connect db from controlers
+            $_params = ['params'=> 'database', 'return'=> TRUE, 'activeRecord' => TRUE];
+            $_db = new CDatabase( $_params );
+            $_connector = $_db::$db;
+            
+            echo "<prte>";
+            var_dump( $_connector );
+            echo "</pre>";
+            // end
+            
+            
             echo "action Index";
             
             $_gets = $this->getActionParams();

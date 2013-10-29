@@ -545,17 +545,21 @@ class Base
 	 * NOTE, DO NOT MODIFY THIS ARRAY MANUALLY. IF YOU CHANGE OR ADD SOME CORE CLASSES,
 	 * PLEASE RUN 'build autoload' COMMAND TO UPDATE THIS ARRAY.
 	 */
-	private static $_coreClasses=array(
+	private static $_coreClasses = array(
+                // database
+                'CDatabase'       => '/libs/database/CDatabase.php',
+                'CDbException'       => '/libs/database/CDbException.php',
+            
                 // core class
                 'CApplicationComponent' => '/framework/base/CApplicationComponent.php',
                 'CApplication'          => '/framework/base/CApplication.php',
                 
                 // module
-                'CModel' => '/framework/base/CModel.php',
-		'CModelBehavior' => '/framework/base/CModelBehavior.php',
-		'CModelEvent' => '/framework/base/CModelEvent.php',
+                'CModel'                => '/framework/base/CModel.php',
+		'CModelBehavior'        => '/framework/base/CModelBehavior.php',
+		'CModelEvent'           => '/framework/base/CModelEvent.php',
             
-		'CModule' => '/framework/base/CModule.php',
+		'CModule'               => '/framework/base/CModule.php',
             
                 'CComponent'            => '/framework/base/CComponent.php',
                 // create app
@@ -595,16 +599,16 @@ class Base
                 'CUrlManager'           => '/libs/CUrlManager.php',
             
                 // controllers
-                'CBaseController' => '/libs/CBaseController.php',
-                'CController' => '/libs/CController.php',
-                'CExtController' => '/libs/CExtController.php',
+                'CBaseController'       => '/libs/CBaseController.php',
+                'CController'           => '/libs/CController.php',
+                'CExtController'        => '/libs/CExtController.php',
             
-                'CAction' => '/libs/actions/CAction.php',
-		'CInlineAction' => '/libs/actions/CInlineAction.php',
-		'CViewAction' => '/libs/actions/CViewAction.php',
+                'CAction'               => '/libs/actions/CAction.php',
+		'CInlineAction'         => '/libs/actions/CInlineAction.php',
+		'CViewAction'           => '/libs/actions/CViewAction.php',
             
-                'CPradoViewRenderer' => '/libs/renderers/CPradoViewRenderer.php',
-		'CViewRenderer' => '/libs/renderers/CViewRenderer.php',
+                'CPradoViewRenderer'    => '/libs/renderers/CPradoViewRenderer.php',
+		'CViewRenderer'         => '/libs/renderers/CViewRenderer.php',
             
                 // create script params
                 'CClientScript' => '/libs/CClientScript.php',
