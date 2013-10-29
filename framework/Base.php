@@ -546,14 +546,15 @@ class Base
 	 * PLEASE RUN 'build autoload' COMMAND TO UPDATE THIS ARRAY.
 	 */
 	private static $_coreClasses = array(
-                // database
-                'CDbCommandBuilder'     => '/libs/database/CDbCommandBuilder.php',
-                'CDatabase'             => '/libs/database/CDatabase.php',
-                'CDbException'          => '/libs/database/CDbException.php',
                 
                 // core class
                 'CApplicationComponent' => '/framework/base/CApplicationComponent.php',
                 'CApplication'          => '/framework/base/CApplication.php',
+            
+                // database
+                'CDbCommandBuilder'     => '/libs/database/CDbCommandBuilder.php',
+                'CDatabase'             => '/libs/database/CDatabase.php',
+                'CDbException'          => '/libs/database/CDbException.php',
                 
                 // module
                 'CModel'                => '/framework/base/CModel.php',

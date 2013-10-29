@@ -1,9 +1,16 @@
 <?php  if ( ! defined('PATH_LIBS')) exit('No direct script access allowed');
 
 function DB($params = '', $active_record_override = NULL) {
+        $_configs = \init::app()->getDb();
+        echo "<pre>";
+        var_dump( $_configs );
+        echo "</pre>";
+        die( 'configs' );
+    
 	// Load the DB config file if a DSN string wasn't passed
 	if (is_string($params) AND strpos($params, '://') === FALSE) {
-		// Is the config file in the environment folder?
+		/*
+                // Is the config file in the environment folder?
 		if ( ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php')) {
 			if ( ! file_exists($file_path = APPPATH.'config/database.php')) {
                                 \init::log($e->getMessage(), \CLogger::LEVEL_ERROR,'exception.DB');
@@ -33,6 +40,8 @@ function DB($params = '', $active_record_override = NULL) {
 		}
 
 		$params = $db[$active_group];
+                */
+                
 	} elseif (is_string($params)) {
 
 		/* parse the URL from the DSN string
