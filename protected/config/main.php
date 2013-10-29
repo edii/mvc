@@ -27,8 +27,8 @@ return [
         ],
 
         // settings db
-    /*	
-    'db' => [
+    	
+        'db' => [
           'main' => [
               'type' => 'mysql',
               'host' => 'localhost',
@@ -37,7 +37,6 @@ return [
               'password' => ''
           ]  
         ],
-    */
     
         // Settings 
         'Settings' => [

@@ -37,6 +37,8 @@ abstract class CApplication extends \CModule
         private $_ftp;
         private $_mail;
         private $_captcha;
+        
+        private $_db;
 	/**
 	 * Processes the request.
 	 * This is the place where the actual request processing work is done.
@@ -77,6 +79,15 @@ abstract class CApplication extends \CModule
                     $this->setMvc('mvc');
                 // end
                 
+                // db path
+                if(isset($config['db'])) {
+                    $this->setDb($config['db']);
+                    unset($config['db']);
+                }
+                else
+                    $this->setDb('db');
+                // end
+                
 		\init::setPathOfAlias('application',$this->getBasePath());
 		\init::setPathOfAlias('webroot',dirname($_SERVER['SCRIPT_FILENAME']));
 		\init::setPathOfAlias('ext',$this->getBasePath().DIRECTORY_SEPARATOR.'extensions');
@@ -92,6 +103,19 @@ abstract class CApplication extends \CModule
 
 		$this->init();
 	}
+        
+        /**
+         * 
+         * global db systems
+         * 
+         */
+        public function setDb($db) {
+            return $this->_db = (is_array($db)) ? $db: null;
+        }
+        
+        public function getDb() {
+            return $this->_db;
+        }
         
         /**
          * 
@@ -443,10 +467,10 @@ abstract class CApplication extends \CModule
 	 * Returns the database connection component.
 	 * @return CDbConnection the database connection
 	 */
-	public function getDb()
-	{
-		return $this->getComponent('db');
-	}
+	//public function getDb()
+	//{
+		//return $this->getComponent('db');
+	//}
 
 	/**
 	 * Returns the error handler component.
@@ -957,9 +981,9 @@ abstract class CApplication extends \CModule
 				'language'=>'en_us',
 				'basePath'=>PATH.DIRECTORY_SEPARATOR.'messages',
 			),
-			'db'=>array(
-				'class'=>'CDbConnection',
-			),
+			//'db'=>array(
+				//'class'=>'CDbConnection',
+			//),
 			'messages'=>array(
 				'class'=>'CPhpMessageSource',
 			),

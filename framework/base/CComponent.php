@@ -48,7 +48,7 @@ class CComponent
 					return $object->$name;
 			}
 		}
-		throw new CException(init::t('init','Property "{class}.{property}" is not defined.',
+		throw new \CException(\init::t('init','Property "{class}.{property}" is not defined.',
 			array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
 
@@ -88,10 +88,10 @@ class CComponent
 			}
 		}
 		if(method_exists($this,'get'.$name))
-			throw new CException(init::t('init','Property "{class}.{property}" is read only.',
+			throw new \CException(\init::t('init','Property "{class}.{property}" is read only.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
 		else
-			throw new CException(init::t('init','Property "{class}.{property}" is not defined.',
+			throw new \CException(\init::t('init','Property "{class}.{property}" is not defined.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
 
