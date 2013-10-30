@@ -9,4 +9,3 @@
 	$databaseDefinition['langs']['cmsCategory']['CategoryMetaDescription']='infield';
 	$databaseDefinition['langs']['cmsCategory']['CategoryMetaKeywords']='infield';
 	$databaseDefinition['langs']['cmsCategory']['CategoryPDFTitle']='infield';
-	

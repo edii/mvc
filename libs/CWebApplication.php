@@ -76,6 +76,7 @@ class CWebApplication extends \CApplication
 	private $_theme;
 
 
+        private $_definition = array();    
 	/**
 	 * Processes the current request.
 	 * It first resolves the request into controller and action,
@@ -230,12 +231,16 @@ class CWebApplication extends \CApplication
             
 		if(($ca=$this->createController($route))!==null)
 		{
+                        
 			list($controller,$actionID)=$ca;
+                        $this->_definition = $this->getLoadDatabaseDefinition( $controller->getId() );
 			$oldController=$this->_controller;
 			$this->_controller=$controller;
 			$controller->init();
 			$controller->run($actionID);
 			$this->_controller=$oldController;
+                        
+                        
 		}
 		else
 			throw new CHttpException(404,\init::t('init','Unable to resolve the request "{route}".',
@@ -261,6 +266,8 @@ class CWebApplication extends \CApplication
 		while(($pos=strpos($route,'/'))!==false)
 		{
 			$id=substr($route,0,$pos);
+                        
+                        
 			if(!preg_match('/^\w+$/',$id))
 				return null;
 			if(!$caseSensitive)
@@ -495,4 +502,52 @@ class CWebApplication extends \CApplication
 		// preload 'request' so that it has chance to respond to onBeginRequest event.
 		$this->getRequest();
 	}
+        
+        /*
+         * register definitopn params
+         */
+        
+        public function getDefinition() {
+		return $this->_definition;
+	}
+
+	/**
+	 * @param CController $value the currently active controller
+	 */
+	public function setDefinition($definition) {
+		$this->_definition = $definition;
+	}
+        // load databaseDefenitions
+        protected function getLoadDatabaseDefinition( $id = null ) {
+            $config = $this->getSettings();
+            $rootPath = $config['RootPath'];
+            
+            $_id = (isset($id) and !empty($id)) ? $id : \init::app()->defaultController;
+            $_path = $rootPath._detected.DS.$_id.DS."definitions";
+            if(($dir = realpath($_path))===false || !is_dir($_path))
+			throw new CException(\init::t('init','The databaseDefinition path "{path}" is not a valid directory.',
+				array('{path}'=>$_path)));
+           
+            
+            //load boxes definitions
+            if ($dp=@opendir($dir)) {
+                    while (false!==($file=readdir($dp))) {
+                            $filename = $dir.DS.$file;
+                            
+                            if ($file!='.' && $file!='..' && is_file($filename)) {
+                                    $databaseDefinitionFile = $filename;
+                                    if(is_file($databaseDefinitionFile)){
+                                        include $databaseDefinitionFile;   
+                                    }
+                            }
+                    }
+                    closedir($dp);
+            }
+            
+             $_definition['databaseDefinition'] = (isset($databaseDefinition) and !empty($databaseDefinition)) ? $databaseDefinition : null;
+             $_definition['boxesDefinition'] = (isset($boxesDefinition) and !empty($boxesDefinition)) ? $boxesDefinition : null;
+        
+             return $_definition;
+        }
+        
 }

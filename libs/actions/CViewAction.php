@@ -109,7 +109,7 @@ class CViewAction extends CAction
 				return;
 			}
 		}
-		throw new CHttpException(404,Yii::t('yii','The requested view "{name}" was not found.',
+		throw new CHttpException(404,\init::t('yii','The requested view "{name}" was not found.',
 			array('{name}'=>$viewPath)));
 	}
 

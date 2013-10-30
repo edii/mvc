@@ -1,11 +1,11 @@
 <?php  if ( ! defined('PATH_LIBS')) exit('No direct script access allowed');
 
 function DB($params = '', $active_record_override = NULL) {
-        $_configs = \init::app()->getDb();
-        echo "<pre>";
-        var_dump( $_configs );
-        echo "</pre>";
-        die( 'configs' );
+        
+        //echo "<pre>";
+        //var_dump( $_configs );
+        //echo "</pre>";
+        //die( 'configs' );
     
 	// Load the DB config file if a DSN string wasn't passed
 	if (is_string($params) AND strpos($params, '://') === FALSE) {

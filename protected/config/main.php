@@ -84,7 +84,7 @@ return [
             'lang' => 'ru',
             'GMT' => '+2',
             
-            'RootPath' => dirname(preg_replace("#\/\/#i", "/", __FILE__)).'/',
+            'RootPath' => PATH.DS.'mvc'.DS,
             'CacheStatus' => 'N',
             'GMT' => '+2',
             

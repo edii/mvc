@@ -6,6 +6,5 @@
             'module'    =>  'cms',
             'method'    =>  'manageCmsCategories',
             'template'  =>  'manageCmsCategories',
-            'params'    =>  '',
-            'align'     =>  'left'
+            'params'    =>  ''
         ];
