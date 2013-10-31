@@ -33,6 +33,45 @@ return [
 
         // settings db
     	
+        /* Database configuration format:
+         * @code
+         *   $databases['default']['default'] = array(
+         *     'driver' => 'mysql',
+         *     'database' => 'databasename',
+         *     'username' => 'username',
+         *     'password' => 'password',
+         *     'host' => 'localhost',
+         *     'prefix' => '',
+         *   );
+         *   $databases['default']['default'] = array(
+         *     'driver' => 'pgsql',
+         *     'database' => 'databasename',
+         *     'username' => 'username',
+         *     'password' => 'password',
+         *     'host' => 'localhost',
+         *     'prefix' => '',
+         *   );
+         *   $databases['default']['default'] = array(
+         *     'driver' => 'sqlite',
+         *     'database' => '/path/to/databasefilename',
+         *   );
+         * @endcode
+         */
+    
+         /* drupal
+        'db' => [
+            'main' => [
+                'driver' => 'mysql',
+                'database' => 'databasename',
+                'username' => 'username',
+                'password' => 'password',
+                'host' => 'localhost',
+                'prefix' => '',
+            ]  
+        ],
+        */
+    
+        /* CI */
         'db' => [
           'main' => [
               'dbdriver' => 'mysql',
@@ -41,17 +80,17 @@ return [
               'username' => 'root',
               'password' => '',
               'dbprefix' => '',
-              'pconnect' => true,
+              'pconnect' => false, // true or false
               'db_debug' => true,
               'cache_on' => false,
               'cachedir' => '',
               'char_set' => 'utf8',
               'dbcollat' => 'utf8_general_ci',
               'swap_pre' => '',
-              'autoinit' => true,
+              'autoinit' => false, // true or false
               'stricton' => false,
           ]  
-        ],
+        ], 
     
         // Settings 
         'Settings' => [

@@ -387,7 +387,7 @@ class CI_DB_driver {
 		}
 
 		// Load and instantiate the result driver
-
+                
 		$driver			= $this->load_rdriver();
 		$RES			= new $driver();
 		$RES->conn_id	= $this->conn_id;
@@ -400,7 +400,7 @@ class CI_DB_driver {
 			$RES->limit_used	= $this->limit_used;
 			$this->stmt_id		= FALSE;
 		}
-
+                // die('query');
 		// oci8 vars must be set before calling this
 		$RES->num_rows	= $RES->num_rows();
 
@@ -440,11 +440,14 @@ class CI_DB_driver {
 	function load_rdriver()
 	{
 		$driver = 'CI_DB_'.$this->dbdriver.'_result';
-
-		if ( ! class_exists($driver))
-		{
-			include_once(PATH_LIBS.DS.'database'.DS.'DB_result.php');
-			include_once(PATH_LIBS.DS.'database'.DS.'drivers'.DS.$this->dbdriver.DS.$this->dbdriver.'_result.php');
+                $_path = PATH_LIBS.DS.'database'.DS.'drivers'.DS.$this->dbdriver.DS.$this->dbdriver.'_result.php';
+		if(is_file($_path)) {
+                       require_once ( $_path );
+                    
+                        // \init::import(PATH_LIBS.DS.'database'.DS.'DB_result.php', false);
+                    
+			// include_once(PATH_LIBS.DS.'database'.DS.'DB_result.php');
+			// include_once(PATH_LIBS.DS.'database'.DS.'drivers'.DS.$this->dbdriver.DS.$this->dbdriver.'_result.php');
 		}
 
 		return $driver;

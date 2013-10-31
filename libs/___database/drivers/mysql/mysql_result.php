@@ -13,17 +13,6 @@
  * @filesource
  */
 
-// --------------------------------------------------------------------
-
-/**
- * MySQL Result Class
- *
- * This class extends the parent result class: CI_DB_result
- *
- * @category	Database
- * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/database/
- */
 class CI_DB_mysql_result extends CI_DB_result {
 
 	/**

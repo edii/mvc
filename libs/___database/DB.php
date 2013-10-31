@@ -76,10 +76,16 @@ function DB($params = '', $active_record_override = NULL) {
 
 	require_once(PATH_LIBS.DS.'database'.DS.'drivers'.DS.$params['dbdriver'].DS.$params['dbdriver'].'_driver.php');
 
+        
+        //echo "path = ".PATH_LIBS.DS.'database'.DS.'drivers'.DS.$params['dbdriver'].DS.$params['dbdriver'].'_driver.php';
+        //die('stop');
 	// Instantiate the DB adapter
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
 	$DB = new $driver($params);
 
+        // var_dump( $DB );
+        // die('DB');
+        
 	if ($DB->autoinit == TRUE) {
 		$DB->initialize();
 	}
@@ -99,6 +105,6 @@ function DB($params = '', $active_record_override = NULL) {
 	return $DB;
 }
 
-class CI_Activ_DB extends CI_DB_active_record { }
+// class CI_Activ_DB extends CI_DB_active_record { }
 
 class CI_DB extends CI_DB_driver { }

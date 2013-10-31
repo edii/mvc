@@ -17,18 +17,14 @@ class CDatabase extends CApplicationComponent {
     public $_databaseDefinition;
     public $_boxesDefinition;
     
-    function __construct( $params, $return = true, $active_record = false ) {
-        
+    function __construct( $params, $return = true, $active_record = true ) {
         $this->setParams($params);
         $this->setReturn($return);
         $this->setActiveRecord($active_record);
         
         // set _configs
         $this->_getDb();
-        
-        //if(!empty($properties) and isset($properties))
-          //      $this->setProperties( $properties );
-        
+        /*$this->setProperties( $properties );*/
         $this->_getDefinitions(); // load definitions from controller
         $this->database();
     }
@@ -144,7 +140,9 @@ class CDatabase extends CApplicationComponent {
     private function database() {
          
                 try {
-                        /* CI old version
+                        
+                        $active_record = $this->getActiveRecord();
+                    
                         require_once(PATH_LIBS.DS.'database'.DS.'DB.php');
                         
                         $_dbDefinition = $this->getDatabaseDefinition();
@@ -153,20 +151,34 @@ class CDatabase extends CApplicationComponent {
                         
                         foreach($this->_configs as $key => $val) {
                             $_params = (array)$val;
-                            $active_record = $this->getActiveRecord();
                             self::$db[$key] = DB($_params, $active_record);
                         }
+                        
+                        
+                       // echo "<pre>";
+                       // var_dump( self::$db );
+                       // echo "</pre>";
+                        
+                        /*
+                        echo "<pre>";
+                        var_dump( $_dbDefinition );
+                        echo "</pre>";
+                        
+                        //$params = $this->getParams();
+                        //$return = $this->getReturn();
+                        //$active_record = $this->getActiveRecord();
+                    
+                        // echo PATH_LIBS.DS.'database'.DS.'DB.php'; die('fix');
+                        
+
+                        if ($return === TRUE) {
+                            return DB($params, $active_record);
+                        }
+
+                        // Load the DB class
+                        self::$db = DB($params, $active_record);
                         */
                         
-                       
-                        $_dbDefinition = $this->getDatabaseDefinition();
-                        
-                        if(!is_array($this->_configs)) return null;
-                        
-                        foreach($this->_configs as $key => $val) {
-                            $_params = (array)$val;
-                            // self::$db[$key] = DB($_params, $active_record);
-                        }
                     
                        
                 } catch(Exception $e) {

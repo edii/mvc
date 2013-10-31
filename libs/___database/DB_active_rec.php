@@ -13,53 +13,40 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
-/**
- * Active Record Class
- *
- * This is the platform-independent base Active Record implementation class.
- *
- * @package		CodeIgniter
- * @subpackage	Drivers
- * @category	Database
- * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/database/
- */
 class CI_DB_active_record extends CI_DB_driver {
 
-	var $ar_select				= array();
-	var $ar_distinct			= FALSE;
-	var $ar_from				= array();
-	var $ar_join				= array();
-	var $ar_where				= array();
-	var $ar_like				= array();
-	var $ar_groupby				= array();
-	var $ar_having				= array();
-	var $ar_keys				= array();
-	var $ar_limit				= FALSE;
-	var $ar_offset				= FALSE;
-	var $ar_order				= FALSE;
-	var $ar_orderby				= array();
-	var $ar_set					= array();
-	var $ar_wherein				= array();
-	var $ar_aliased_tables		= array();
-	var $ar_store_array			= array();
+	var $ar_select              = array();
+	var $ar_distinct            = FALSE;
+	var $ar_from                = array();
+	var $ar_join                = array();
+	var $ar_where               = array();
+	var $ar_like                = array();
+	var $ar_groupby             = array();
+	var $ar_having              = array();
+	var $ar_keys                = array();
+	var $ar_limit               = FALSE;
+	var $ar_offset              = FALSE;
+	var $ar_order               = FALSE;
+	var $ar_orderby             = array();
+	var $ar_set                 = array();
+	var $ar_wherein             = array();
+	var $ar_aliased_tables      = array();
+	var $ar_store_array         = array();
 
 	// Active Record Caching variables
-	var $ar_caching				= FALSE;
-	var $ar_cache_exists		= array();
-	var $ar_cache_select		= array();
-	var $ar_cache_from			= array();
-	var $ar_cache_join			= array();
-	var $ar_cache_where			= array();
-	var $ar_cache_like			= array();
-	var $ar_cache_groupby		= array();
-	var $ar_cache_having		= array();
-	var $ar_cache_orderby		= array();
-	var $ar_cache_set			= array();
+	var $ar_caching             = FALSE;
+	var $ar_cache_exists        = array();
+	var $ar_cache_select        = array();
+	var $ar_cache_from          = array();
+	var $ar_cache_join          = array();
+	var $ar_cache_where         = array();
+	var $ar_cache_like          = array();
+	var $ar_cache_groupby       = array();
+	var $ar_cache_having        = array();
+	var $ar_cache_orderby       = array();
+	var $ar_cache_set           = array();
 	
-	var $ar_no_escape 			= array();
+	var $ar_no_escape           = array();
 	var $ar_cache_no_escape     = array();
 
 	// --------------------------------------------------------------------

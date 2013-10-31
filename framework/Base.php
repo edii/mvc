@@ -229,7 +229,7 @@ class Base
 					if(is_file($classFile))
 						require($classFile);
 					else
-						throw new CException('yii','Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.',array('{alias}'=>$alias));
+						throw new \CException(\init::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.',array('{alias}'=>$alias)));
 					self::$_imports[$alias]=$alias;
 				}
 				else
@@ -237,8 +237,8 @@ class Base
 				return $alias;
 			}
 			else
-				throw new CException('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory.',
-					array('{alias}'=>$namespace));
+				throw new \CException(\init::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory.',
+					array('{alias}'=>$namespace)));
 		}
 
 		if(($pos=strrpos($alias,'.'))===false)  // a simple class name
@@ -263,7 +263,7 @@ class Base
 					if(is_file($path.'.php'))
 						require($path.'.php');
 					else
-						throw new CException('yii','Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.',array('{alias}'=>$alias));
+						throw new \CException(\init::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing PHP file and the file is readable.',array('{alias}'=>$alias)));
 					self::$_imports[$alias]=$className;
 				}
 				else
@@ -288,8 +288,8 @@ class Base
 			}
 		}
 		else
-			throw new CException('init','Alias "{alias}" is invalid. Make sure it points to an existing directory or file.',
-				array('{alias}'=>$alias));
+			throw new CException(\init::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory or file.',
+				array('{alias}'=>$alias)));
 	}
 
 	/**
@@ -551,9 +551,20 @@ class Base
                 'CApplicationComponent' => '/framework/base/CApplicationComponent.php',
                 'CApplication'          => '/framework/base/CApplication.php',
             
-                // database
-                'CI_DB_active_record'   => '/libs/database/DB_active_rec.php',
-                'CI_DB_driver'          => '/libs/database/DB_driver.php',
+                // database CI
+                /*
+                 'CI_DB_active_record'   => '/libs/database/DB_active_rec.php',
+                 'CI_DB_driver'          => '/libs/database/DB_driver.php',
+                 'CI_DB_result'          => '/libs/database/DB_result.php',
+                 */
+            
+                // drupal
+                'DatabaseConnection'    => '/libs/database.php',
+                'DatabaseLog'           => '/libs/log.php',
+                'DatabaseStatementPrefetch'           => '/libs/prefetch.php',
+                'QueryConditionInterface'           => '/libs/query.php',
+                'DatabaseSchema'           => '/libs/schema.php',
+                
             
                 'CDbCommandBuilder'     => '/libs/database/CDbCommandBuilder.php',
                 'CDatabase'             => '/libs/database/CDatabase.php',

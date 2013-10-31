@@ -105,9 +105,17 @@ class HelloController extends \Controller
 	{
             
             // connect db from controlers
-            $_params = ['params'=> 'database', 'return'=> TRUE, 'activeRecord' => TRUE];
-            $_db = new CDatabase( $_params );
-            $_connector = $_db::$db;
+            $_db = new CDatabase( 'main', true, true );
+            
+            
+            // CI (mysql)
+            //$_connector = $_db->getConnection()->query("SELECT * FROM section")->result_array();
+            
+            // CI (pdo)
+            // $_connector = $_db->getConnection()->query("SELECT * FROM section")->result_array();
+            
+            // drupal
+             $_connector = $_db->getConnection();
             
             echo "<prte>";
             var_dump( $_connector );
