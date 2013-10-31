@@ -158,6 +158,7 @@ class CDatabase extends CApplicationComponent {
                         }
                         */
                         
+                        // Database::getConnection($target = 'main', $key = NULL)
                        
                         $_dbDefinition = $this->getDatabaseDefinition();
                         

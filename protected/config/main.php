@@ -58,7 +58,7 @@ return [
          * @endcode
          */
     
-         /* drupal
+         // drupal
         'db' => [
             'main' => [
                 'driver' => 'mysql',
@@ -69,9 +69,10 @@ return [
                 'prefix' => '',
             ]  
         ],
-        */
+        
     
-        /* CI */
+        // CI 
+    /*
         'db' => [
           'main' => [
               'dbdriver' => 'mysql',
@@ -91,6 +92,7 @@ return [
               'stricton' => false,
           ]  
         ], 
+    */
     
         // Settings 
         'Settings' => [
