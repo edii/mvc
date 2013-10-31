@@ -1,48 +1,10 @@
 <?php  if ( ! defined('PATH_LIBS')) exit('No direct script access allowed');
 
+//include_once(PATH_LIBS.DS.'database'.DS.'DB_active_rec.php');
+//include_once(PATH_LIBS.DS.'database'.DS.'DB_driver.php');
+
 function DB($params = '', $active_record_override = NULL) {
-        
-        //echo "<pre>";
-        //var_dump( $_configs );
-        //echo "</pre>";
-        //die( 'configs' );
-    
-	// Load the DB config file if a DSN string wasn't passed
-	if (is_string($params) AND strpos($params, '://') === FALSE) {
-		/*
-                // Is the config file in the environment folder?
-		if ( ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php')) {
-			if ( ! file_exists($file_path = APPPATH.'config/database.php')) {
-                                \init::log($e->getMessage(), \CLogger::LEVEL_ERROR,'exception.DB');
-                                throw new \CDbException('The configuration file database.php does not exist.', (int)$e->getCode(), $e->errorInfo);
-				// show_error('The configuration file database.php does not exist.');
-			}
-		}
-
-		include($file_path);
-
-		if ( ! isset($db) OR count($db) == 0) {
-                            
-                   \init::log($e->getMessage(), \CLogger::LEVEL_ERROR,'exception.DB');
-                            throw new \CDbException('No database connection settings were found in the database config file.', (int)$e->getCode(), $e->errorInfo);
-
-                            //show_error('No database connection settings were found in the database config file.');
-		}
-
-		if ($params != '') {
-			$active_group = $params;
-		}
-
-		if ( ! isset($active_group) OR ! isset($db[$active_group])) {
-                        \init::log($e->getMessage(), \CLogger::LEVEL_ERROR,'exception.DB');
-                            throw new \CDbException('You have specified an invalid database connection group.', (int)$e->getCode(), $e->errorInfo);
-			// show_error('You have specified an invalid database connection group.');
-		}
-
-		$params = $db[$active_group];
-                */
-                
-	} elseif (is_string($params)) {
+        if (is_string($params)) {
 
 		/* parse the URL from the DSN string
 		 *  Database settings can be passed as discreet
@@ -52,9 +14,9 @@ function DB($params = '', $active_record_override = NULL) {
 		 */
 
 		if (($dns = @parse_url($params)) === FALSE) {
-                        \init::log($e->getMessage(), \CLogger::LEVEL_ERROR,'exception.DB');
-                            throw new \CDbException('Invalid DB Connection String', (int)$e->getCode(), $e->errorInfo);
-			// show_error('Invalid DB Connection String');
+                        \init::log('connected', \CLogger::LEVEL_ERROR,'exception.DB');
+                            throw new \CDbException('Invalid DB Connection String');
+			
 		}
 
 		$params = array(
@@ -84,9 +46,9 @@ function DB($params = '', $active_record_override = NULL) {
 
 	// No DB specified yet?  Beat them senseless...
 	if ( ! isset($params['dbdriver']) OR $params['dbdriver'] == '') {
-                \init::log($e->getMessage(), \CLogger::LEVEL_ERROR,'exception.DB');
-                            throw new \CDbException('You have not selected a database type to connect to.', (int)$e->getCode(), $e->errorInfo);
-		// show_error('You have not selected a database type to connect to.');
+                \init::log('init', \CLogger::LEVEL_ERROR,'exception.DB');
+                            throw new \CDbException('You have not selected a database type to connect to.');
+		
 	}
 
 	// Load the DB classes.  Note: Since the active record class is optional
@@ -94,25 +56,25 @@ function DB($params = '', $active_record_override = NULL) {
 	// based on whether we're using the active record class or not.
 	// Kudos to Paul for discovering this clever use of eval()
 
+        
 	if ($active_record_override !== NULL) {
 		$active_record = $active_record_override;
 	}
 
-	require_once(PATH_LIBS.'database/DB_driver.php');
+        
 
 	if ( ! isset($active_record) OR $active_record == TRUE) {
-		require_once(PATH_LIBS.'database/DB_active_rec.php');
-
+		
 		if ( ! class_exists('CI_DB')) {
-			eval('class CI_DB extends CI_DB_active_record { }');
+			//eval('class CI_DB extends CI_DB_active_record { }');
 		}
 	} else {
 		if ( ! class_exists('CI_DB')) {
-			eval('class CI_DB extends CI_DB_driver { }');
+			// eval('class CI_DB extends CI_DB_driver { }');
 		}
 	}
 
-	require_once(PATH_LIBS.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php');
+	require_once(PATH_LIBS.DS.'database'.DS.'drivers'.DS.$params['dbdriver'].DS.$params['dbdriver'].'_driver.php');
 
 	// Instantiate the DB adapter
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
@@ -125,6 +87,18 @@ function DB($params = '', $active_record_override = NULL) {
 	if (isset($params['stricton']) and $params['stricton'] == TRUE) {
 		$DB->query('SET SESSION sql_mode="STRICT_ALL_TABLES"');
 	}
+        
 
+        
+        //echo "<pre>";
+        //var_dump( $params );
+        //echo "</pre>";
+        
+        //$DB = 'main';
+        
 	return $DB;
 }
+
+class CI_Activ_DB extends CI_DB_active_record { }
+
+class CI_DB extends CI_DB_driver { }

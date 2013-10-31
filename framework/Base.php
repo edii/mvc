@@ -552,6 +552,9 @@ class Base
                 'CApplication'          => '/framework/base/CApplication.php',
             
                 // database
+                'CI_DB_active_record'   => '/libs/database/DB_active_rec.php',
+                'CI_DB_driver'          => '/libs/database/DB_driver.php',
+            
                 'CDbCommandBuilder'     => '/libs/database/CDbCommandBuilder.php',
                 'CDatabase'             => '/libs/database/CDatabase.php',
                 'CDbException'          => '/libs/database/CDbException.php',

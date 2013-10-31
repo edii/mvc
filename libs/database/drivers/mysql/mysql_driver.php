@@ -13,27 +13,12 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
-/**
- * MySQL Database Adapter Class
- *
- * Note: _DB is an extender class that the app controller
- * creates dynamically based on whether the active record
- * class is being used or not.
- *
- * @package		CodeIgniter
- * @subpackage	Drivers
- * @category	Database
- * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/database/
- */
 class CI_DB_mysql_driver extends CI_DB {
 
 	var $dbdriver = 'mysql';
 
 	// The character used for escaping
-	var	$_escape_char = '`';
+	var $_escape_char = '`';
 
 	// clause and character used for LIKE escape sequences - not used in MySQL
 	var $_like_escape_str = '';
@@ -773,7 +758,3 @@ class CI_DB_mysql_driver extends CI_DB {
 	}
 
 }
-
-
-/* End of file mysql_driver.php */
-/* Location: ./system/database/drivers/mysql/mysql_driver.php */

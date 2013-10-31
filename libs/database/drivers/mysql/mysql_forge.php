@@ -13,15 +13,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
-/**
- * MySQL Forge Class
- *
- * @category	Database
- * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/database/
- */
 class CI_DB_mysql_forge extends CI_DB_forge {
 
 	/**

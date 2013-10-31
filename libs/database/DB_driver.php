@@ -13,21 +13,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
-/**
- * Database Driver Class
- *
- * This is the platform-independent base DB implementation class.
- * This class will not be called directly. Rather, the adapter
- * class for the specific database will extend and instantiate it.
- *
- * @package		CodeIgniter
- * @subpackage	Drivers
- * @category	Database
- * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/database/
- */
 class CI_DB_driver {
 
 	var $username;
@@ -88,7 +73,9 @@ class CI_DB_driver {
 			}
 		}
 
-		log_message('debug', 'Database Driver Class Initialized');
+                
+                
+		// log_message('debug', 'Database Driver Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -117,12 +104,19 @@ class CI_DB_driver {
 		// No connection resource?  Throw an error
 		if ( ! $this->conn_id)
 		{
-			log_message('error', 'Unable to connect to the database');
+			// log_message('error', 'Unable to connect to the database');
 
-			if ($this->db_debug)
+			if (DEBUG)
 			{
-				$this->display_error('db_unable_to_connect');
+                                \init::log('init', \CLogger::LEVEL_ERROR,'CI_DB_driver');
+                                    throw new \CDbException('db_unable_to_connect');
+				// $this->display_error('db_unable_to_connect');
 			}
+                        
+                        
+                        \init::log('init', \CLogger::LEVEL_ERROR,'CI_DB_driver');
+                                    throw new \CDbException('Unable to connect to the database');
+                        
 			return FALSE;
 		}
 
@@ -133,12 +127,19 @@ class CI_DB_driver {
 		{
 			if ( ! $this->db_select())
 			{
-				log_message('error', 'Unable to select database: '.$this->database);
+				// log_message('error', 'Unable to select database: '.$this->database);
 
-				if ($this->db_debug)
+				if (DEBUG)
 				{
-					$this->display_error('db_unable_to_select', $this->database);
+                                        \init::log('init', \CLogger::LEVEL_ERROR,'CI_DB_driver');
+                                                throw new \CDbException('db_unable_to_select'.$this->database);
+                                    
+					// $this->display_error('db_unable_to_select', $this->database);
 				}
+                                
+                                \init::log('init', \CLogger::LEVEL_ERROR,'CI_DB_driver');
+                                    throw new \CDbException('Unable to select database: '.$this->database);
+                                
 				return FALSE;
 			}
 			else
@@ -170,13 +171,19 @@ class CI_DB_driver {
 	{
 		if ( ! $this->_db_set_charset($this->char_set, $this->dbcollat))
 		{
-			log_message('error', 'Unable to set database connection charset: '.$this->char_set);
+			// log_message('error', 'Unable to set database connection charset: '.$this->char_set);
 
-			if ($this->db_debug)
+			if (DEBUG)
 			{
-				$this->display_error('db_unable_to_set_charset', $this->char_set);
+                                 \init::log('init', \CLogger::LEVEL_ERROR,'CI_DB_driver');
+                                                throw new \CDbException('db_unable_to_set_charset'.$this->char_set);
+                            
+				// $this->display_error('db_unable_to_set_charset', $this->char_set);
 			}
 
+                         \init::log('init', \CLogger::LEVEL_ERROR,'CI_DB_driver');
+                                    throw new \CDbException('Unable to set database connection charset: '.$this->char_set);
+                        
 			return FALSE;
 		}
 
@@ -209,9 +216,12 @@ class CI_DB_driver {
 	{
 		if (FALSE === ($sql = $this->_version()))
 		{
-			if ($this->db_debug)
+			if (DEBUG)
 			{
-				return $this->display_error('db_unsupported_function');
+                                \init::log('init', \CLogger::LEVEL_ERROR,'CI_DB_driver');
+                                                throw new \CDbException('db_unsupported_function');
+                            
+				// return $this->display_error('db_unsupported_function');
 			}
 			return FALSE;
 		}
@@ -251,10 +261,13 @@ class CI_DB_driver {
 	{
 		if ($sql == '')
 		{
-			if ($this->db_debug)
+			if (DEBUG)
 			{
-				log_message('error', 'Invalid query: '.$sql);
-				return $this->display_error('db_invalid_query');
+                                \init::log('init', \CLogger::LEVEL_ERROR,'CI_DB_driver');
+                                                throw new \CDbException('db_invalid_query: '.$sql);
+                            
+				//log_message('error', 'Invalid query: '.$sql);
+				//return $this->display_error('db_invalid_query');
 			}
 			return FALSE;
 		}
@@ -306,8 +319,13 @@ class CI_DB_driver {
 			// This will trigger a rollback if transactions are being used
 			$this->_trans_status = FALSE;
 
-			if ($this->db_debug)
+			if (DEBUG)
 			{
+                            
+                                \init::log('init', \CLogger::LEVEL_ERROR,'CI_DB_driver');
+                                                throw new \CDbException('Query error: '.$error_msg);
+                            
+                                /*
 				// grab the error number and message now, as we might run some
 				// additional queries before displaying the error
 				$error_no = $this->_error_number();
@@ -328,6 +346,7 @@ class CI_DB_driver {
 												$sql
 											)
 										);
+                                */
 			}
 
 			return FALSE;
@@ -424,8 +443,8 @@ class CI_DB_driver {
 
 		if ( ! class_exists($driver))
 		{
-			include_once(PATH_LIBS.'database/DB_result.php');
-			include_once(PATH_LIBS.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result.php');
+			include_once(PATH_LIBS.DS.'database'.DS.'DB_result.php');
+			include_once(PATH_LIBS.DS.'database'.DS.'drivers'.DS.$this->dbdriver.DS.$this->dbdriver.'_result.php');
 		}
 
 		return $driver;
@@ -544,7 +563,10 @@ class CI_DB_driver {
 				$this->_trans_status = TRUE;
 			}
 
-			log_message('debug', 'DB Transaction Failure');
+                         \init::log('init', \CLogger::LEVEL_ERROR,'CI_DB_driver');
+                                                throw new \CDbException('DB Transaction Failure');
+                        
+			// log_message('debug', 'DB Transaction Failure');
 			return FALSE;
 		}
 
@@ -755,9 +777,12 @@ class CI_DB_driver {
 
 		if (FALSE === ($sql = $this->_list_tables($constrain_by_prefix)))
 		{
-			if ($this->db_debug)
+			if (DEBUG)
 			{
-				return $this->display_error('db_unsupported_function');
+                                \init::log('init', \CLogger::LEVEL_ERROR,'CI_DB_driver');
+                                                throw new \CDbException('db_unsupported_function');
+                            
+				// return $this->display_error('db_unsupported_function');
 			}
 			return FALSE;
 		}
@@ -815,18 +840,24 @@ class CI_DB_driver {
 
 		if ($table == '')
 		{
-			if ($this->db_debug)
+			if (DEBUG)
 			{
-				return $this->display_error('db_field_param_missing');
+                                \init::log('init', \CLogger::LEVEL_ERROR,'CI_DB_driver');
+                                                throw new \CDbException('db_field_param_missing');
+                            
+				// return $this->display_error('db_field_param_missing');
 			}
 			return FALSE;
 		}
 
 		if (FALSE === ($sql = $this->_list_columns($table)))
 		{
-			if ($this->db_debug)
+			if (DEBUG)
 			{
-				return $this->display_error('db_unsupported_function');
+				\init::log('init', \CLogger::LEVEL_ERROR,'CI_DB_driver');
+                                                throw new \CDbException('db_unsupported_function');
+                                
+                                // return $this->display_error('db_unsupported_function');
 			}
 			return FALSE;
 		}
@@ -877,9 +908,12 @@ class CI_DB_driver {
 	{
 		if ($table == '')
 		{
-			if ($this->db_debug)
+			if (DEBUG)
 			{
-				return $this->display_error('db_field_param_missing');
+                                \init::log('init', \CLogger::LEVEL_ERROR,'CI_DB_driver');
+                                                throw new \CDbException('db_field_param_missing');
+                            
+				// return $this->display_error('db_field_param_missing');
 			}
 			return FALSE;
 		}
@@ -1006,9 +1040,12 @@ class CI_DB_driver {
 
 		if ( ! function_exists($function))
 		{
-			if ($this->db_debug)
+			if (DEBUG)
 			{
-				return $this->display_error('db_unsupported_function');
+                                \init::log('init', \CLogger::LEVEL_ERROR,'CI_DB_driver');
+                                                throw new \CDbException('db_unsupported_function');
+                            
+				// return $this->display_error('db_unsupported_function');
 			}
 			return FALSE;
 		}
@@ -1121,7 +1158,7 @@ class CI_DB_driver {
 
 		if ( ! class_exists('CI_DB_Cache'))
 		{
-			if ( ! @include(PATH_LIBS.'database/DB_cache.php'))
+			if ( ! @include(PATH_LIBS.DS.'database'.DS.'DB_cache.php'))
 			{
 				return $this->cache_off();
 			}
@@ -1194,7 +1231,7 @@ class CI_DB_driver {
 		}
 
 		$error = load_class('Exceptions', 'core');
-		echo $error->show_error($heading, $message, 'error_db');
+		// echo $error->show_error($heading, $message, 'error_db');
 		exit;
 	}
 

@@ -13,15 +13,6 @@
  * @filesource
  */
 
-// ------------------------------------------------------------------------
-
-/**
- * MySQL Utility Class
- *
- * @category	Database
- * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/database/
- */
 class CI_DB_mysql_utility extends CI_DB_utility {
 
 	/**
@@ -205,6 +196,3 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 		return $output;
 	}
 }
-
-/* End of file mysql_utility.php */
-/* Location: ./system/database/drivers/mysql/mysql_utility.php */
