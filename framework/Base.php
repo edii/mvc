@@ -559,17 +559,15 @@ class Base
                  */
             
                 // drupal
-                'DatabaseConnection'    => '/libs/database/database.php',
-                'Database'              => '/libs/database/database.php',
-                'DatabaseTransaction'   => '/libs/database/database.php',
-            
-                'DatabaseStatementBase' => '/libs/database/database.php',
-                'DatabaseStatementEmpty' => '/libs/database/database.php',
-            
-                'DatabaseLog'           => '/libs/database/log.php',
-                'DatabaseStatementPrefetch'           => '/libs/database/prefetch.php',
-                'QueryConditionInterface'           => '/libs/database/query.php',
-                'DatabaseSchema'           => '/libs/database/schema.php',
+                'DatabaseConnection'        => '/libs/database/database.php',
+                'Database'                  => '/libs/database/database.php',
+                'DatabaseTransaction'       => '/libs/database/database.php',
+                'DatabaseStatementBase'     => '/libs/database/database.php',
+                'DatabaseStatementEmpty'    => '/libs/database/database.php',
+                'DatabaseLog'               => '/libs/database/log.php',
+                'DatabaseStatementPrefetch' => '/libs/database/prefetch.php',
+                'QueryConditionInterface'   => '/libs/database/query.php',
+                'DatabaseSchema'            => '/libs/database/schema.php',
                 
             
                 'CDbCommandBuilder'     => '/libs/database/CDbCommandBuilder.php',

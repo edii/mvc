@@ -144,33 +144,15 @@ class CDatabase extends CApplicationComponent {
     private function database() {
          
                 try {
-                        /* CI old version
-                        require_once(PATH_LIBS.DS.'database'.DS.'DB.php');
                         
                         $_dbDefinition = $this->getDatabaseDefinition();
                         
                         if(!is_array($this->_configs)) return null;
-                        
-                        foreach($this->_configs as $key => $val) {
-                            $_params = (array)$val;
-                            $active_record = $this->getActiveRecord();
-                            self::$db[$key] = DB($_params, $active_record);
-                        }
-                        */
-                        
-                        // Database::getConnection($target = 'main', $key = NULL)
-                       
-                        $_dbDefinition = $this->getDatabaseDefinition();
-                        
-                        if(!is_array($this->_configs)) return null;
-                        
                         
                         Database::setSettings($this->_configs);
                         $_settings = Database::getSettings();
                         self::$db = Database::getConnection($target = 'main', $key = NULL);    
                         
-                       
-                    
                        
                 } catch(Exception $e) {
                     
