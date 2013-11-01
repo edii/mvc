@@ -134,7 +134,7 @@ class HelloController extends \Controller
             echo "<hr /> res";
             
             echo "<pre>";
-            var_dump( $query_res );
+            //var_dump( $query_res );
             echo "</pre>";
             
             // end

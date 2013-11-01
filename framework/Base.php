@@ -582,6 +582,12 @@ class Base
 		'CModule'               => '/framework/base/CModule.php',
             
                 'CComponent'            => '/framework/base/CComponent.php',
+            
+                // create layout
+                'CBox'                => '/libs/CBox.php',
+                'CTheme'                => '/libs/CTheme.php',
+                'CThemeManager'         => '/libs/CThemeManager.php',
+            
                 // create app
                 'CWebApplication'       => '/libs/CWebApplication.php',
                 // create error
