@@ -5,7 +5,7 @@
  * Generic Database schema code.
  */
 
-require_once dirname(__FILE__) . DS .'query.inc';
+require_once dirname(__FILE__) . DS .'query.php';
 
 /**
  * @code

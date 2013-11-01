@@ -634,7 +634,7 @@ abstract class DatabaseConnection extends PDO {
    * @see SelectQuery
    */
   public function select($table, $alias = NULL, array $options = array()) {
-    $class = $this->getDriverClass('SelectQuery', array('query.inc', 'select.inc'));
+    $class = $this->getDriverClass('SelectQuery', array('query.php', 'select.php'));
     return new $class($table, $alias, $this, $options);
   }
 
@@ -650,7 +650,7 @@ abstract class DatabaseConnection extends PDO {
    * @see InsertQuery
    */
   public function insert($table, array $options = array()) {
-    $class = $this->getDriverClass('InsertQuery', array('query.inc'));
+    $class = $this->getDriverClass('InsertQuery', array('query.php'));
     return new $class($this, $table, $options);
   }
 
@@ -666,7 +666,7 @@ abstract class DatabaseConnection extends PDO {
    * @see MergeQuery
    */
   public function merge($table, array $options = array()) {
-    $class = $this->getDriverClass('MergeQuery', array('query.inc'));
+    $class = $this->getDriverClass('MergeQuery', array('query.php'));
     return new $class($this, $table, $options);
   }
 
@@ -683,7 +683,7 @@ abstract class DatabaseConnection extends PDO {
    * @see UpdateQuery
    */
   public function update($table, array $options = array()) {
-    $class = $this->getDriverClass('UpdateQuery', array('query.inc'));
+    $class = $this->getDriverClass('UpdateQuery', array('query.php'));
     return new $class($this, $table, $options);
   }
 
@@ -699,7 +699,7 @@ abstract class DatabaseConnection extends PDO {
    * @see DeleteQuery
    */
   public function delete($table, array $options = array()) {
-    $class = $this->getDriverClass('DeleteQuery', array('query.inc'));
+    $class = $this->getDriverClass('DeleteQuery', array('query.php'));
     return new $class($this, $table, $options);
   }
 
@@ -715,7 +715,7 @@ abstract class DatabaseConnection extends PDO {
    * @see TruncateQuery
    */
   public function truncate($table, array $options = array()) {
-    $class = $this->getDriverClass('TruncateQuery', array('query.inc'));
+    $class = $this->getDriverClass('TruncateQuery', array('query.php'));
     return new $class($this, $table, $options);
   }
 
@@ -729,7 +729,7 @@ abstract class DatabaseConnection extends PDO {
    */
   public function schema() {
     if (empty($this->schema)) {
-      $class = $this->getDriverClass('DatabaseSchema', array('schema.inc'));
+      $class = $this->getDriverClass('DatabaseSchema', array('schema.php'));
       if (class_exists($class)) {
         $this->schema = new $class($this);
       }
@@ -2054,7 +2054,9 @@ class DatabaseStatementBase extends PDOStatement implements DatabaseStatementInt
     if (!empty($logger)) {
       $query_start = microtime(TRUE);
     }
-
+    
+    // var_dump($args); die('stop');
+    
     $return = parent::execute($args);
 
     if (!empty($logger)) {

@@ -115,11 +115,28 @@ class HelloController extends \Controller
             // $_connector = $_db->getConnection()->query("SELECT * FROM section")->result_array();
             
             // drupal
+             $options['target'] = 'main';   
+             $args = array();
+             
              $_connector = $_db->getConnection();
-            
+             // $query_res = $_connector -> query("SELECT * FROM section", $args, $options)-> fetchAll();
+             //$query_res = $_connector -> select('section', 's', $options) 
+                               // -> fields('s', array('SectionID')) 
+                                //-> range(0, 1)
+                               // -> addTag('section_access')    
+                                //-> execute()
+                               // -> fetchObject();
+             
             echo "<prte>";
             var_dump( $_connector );
             echo "</pre>";
+            
+            echo "<hr /> res";
+            
+            echo "<pre>";
+            var_dump( $query_res );
+            echo "</pre>";
+            
             // end
             
             

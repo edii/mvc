@@ -5,7 +5,7 @@
  * @{
  */
 
-require_once dirname(__FILE__) . DS .'query.inc';
+require_once dirname(__FILE__) . DS .'query.php';
 
 /**
  * Interface for extendable query objects.
