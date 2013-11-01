@@ -62,9 +62,9 @@ return [
         'db' => [
             'main' => [
                 'driver' => 'mysql',
-                'database' => 'databasename',
-                'username' => 'username',
-                'password' => 'password',
+                'database' => 'lemberg',
+                'username' => 'root',
+                'password' => '',
                 'host' => 'localhost',
                 'prefix' => '',
             ]  

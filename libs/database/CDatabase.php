@@ -164,10 +164,12 @@ class CDatabase extends CApplicationComponent {
                         
                         if(!is_array($this->_configs)) return null;
                         
-                        foreach($this->_configs as $key => $val) {
-                            $_params = (array)$val;
-                            // self::$db[$key] = DB($_params, $active_record);
-                        }
+                        
+                        Database::setSettings($this->_configs);
+                        $_settings = Database::getSettings();
+                        self::$db = Database::getConnection($target = 'main', $key = NULL);    
+                        
+                       
                     
                        
                 } catch(Exception $e) {

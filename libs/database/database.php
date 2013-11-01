@@ -9,17 +9,6 @@
  * file only, as they cannot auto-load the way classes can.
  */
 
-
-/**
- * Base Database API class.
- *
- * This class provides a Drupal-specific extension of the PDO database
- * abstraction class in PHP. Every database driver implementation must provide a
- * concrete implementation of it to support special handling required by that
- * database.
- *
- * @see http://php.net/manual/en/book.pdo.php
- */
 abstract class DatabaseConnection extends PDO {
 
   /**
@@ -1225,7 +1214,19 @@ abstract class Database {
    * @var array
    */
   static protected $logs = array();
-
+  
+  static protected $_settings = array();
+  
+  public static function getSettings( ) {
+      return self::$_settings;
+  }
+  
+  public static function setSettings( $settings ) {
+      if(!self::$_settings) {
+          self::$_settings = $settings;
+      }
+  }
+  
   /**
    * Starts logging a given logging key on the specified connection.
    *
@@ -1306,15 +1307,23 @@ abstract class Database {
     // "slave", indicating to use a slave SQL server if one is available. If
     // it's not available, then the default/master server is the correct server
     // to use.
-    if (!empty(self::$ignoreTargets[$key][$target]) || !isset(self::$databaseInfo[$key][$target])) {
+    if (!empty(self::$ignoreTargets[$target]) || !isset(self::$databaseInfo[$target])) {
       $target = 'main';
     }
 
-    if (!isset(self::$connections[$key][$target])) {
+    
+    
+    if (!isset(self::$connections[$target])) {
       // If necessary, a new connection is opened.
-      self::$connections[$key][$target] = self::openConnection($key, $target);
+      self::$connections[$target] = self::openConnection($key, $target);
     }
-    return self::$connections[$key][$target];
+    
+  // echo "<pre>";
+  // var_dump( self::$connections );
+  // echo "</pre>";
+  // die('stop');
+   
+    return self::$connections;
   }
 
   /**
@@ -1353,10 +1362,35 @@ abstract class Database {
    * Process the configuration file for database information.
    */
   final public static function parseConnectionInfo() {
-    global $databases;
+    // global $databases;
+      
+    $databases = self::getSettings();
 
     $database_info = is_array($databases) ? $databases : array();
+    
+    
+    
     foreach ($database_info as $index => $info) {
+        foreach ($database_info[$index] as $target => $value) {
+            //if (empty($value['driver'])) {
+              //  $database_info[$index][$target] = $database_info[$index][$target][mt_rand(0, count($database_info[$index][$target]) - 1)];
+           // }
+            
+             if (!isset($database_info[$index]['prefix'])) {
+                  // Default to an empty prefix.
+                  $database_info[$index]['prefix'] = array(
+                    'default' => '',
+                  );
+                }
+                elseif (!is_array($database_info[$index]['prefix'])) {
+                  // Transform the flat form into an array form.
+                  $database_info[$index]['prefix'] = array(
+                    'default' => $database_info[$index]['prefix'],
+                  );
+                }
+            
+        }
+       /* 
       foreach ($database_info[$index] as $target => $value) {
         // If there is no "driver" property, then we assume it's an array of
         // possible connections for this target. Pick one at random. That allows
@@ -1365,22 +1399,27 @@ abstract class Database {
           $database_info[$index][$target] = $database_info[$index][$target][mt_rand(0, count($database_info[$index][$target]) - 1)];
         }
 
+        // echo "$index = $target"; die('stop');
+        
         // Parse the prefix information.
         if (!isset($database_info[$index][$target]['prefix'])) {
           // Default to an empty prefix.
           $database_info[$index][$target]['prefix'] = array(
-            'main' => '',
+            'default' => '',
           );
         }
         elseif (!is_array($database_info[$index][$target]['prefix'])) {
           // Transform the flat form into an array form.
           $database_info[$index][$target]['prefix'] = array(
-            'main' => $database_info[$index][$target]['prefix'],
+            'default' => $database_info[$index][$target]['prefix'],
           );
         }
       }
+      */
     }
 
+    // var_dump( $database_info ); die('stop');
+    
     if (!is_array(self::$databaseInfo)) {
       self::$databaseInfo = $database_info;
     }
@@ -1391,7 +1430,7 @@ abstract class Database {
     else {
       foreach ($database_info as $database_key => $database_values) {
         foreach ($database_values as $target => $target_values) {
-          self::$databaseInfo[$database_key][$target] = $target_values;
+          self::$databaseInfo[$database_key] = $target_values;
         }
       }
     }
@@ -1510,26 +1549,33 @@ abstract class Database {
 
     // If the requested database does not exist then it is an unrecoverable
     // error.
-    if (!isset(self::$databaseInfo[$key])) {
-      throw new DatabaseConnectionNotDefinedException('The specified database connection is not defined: ' . $key);
+    if (!isset(self::$databaseInfo[$target])) {
+        
+        \init::log('init', \CLogger::LEVEL_ERROR, __CLASS__);
+                                    throw new \CDbException('The specified database connection is not defined: ' . $target);
+        
+      // throw new DatabaseConnectionNotDefinedException('The specified database connection is not defined: ' . $key);
     }
 
-    if (!$driver = self::$databaseInfo[$key][$target]['driver']) {
-      throw new DatabaseDriverNotSpecifiedException('Driver not specified for this database connection: ' . $key);
+    if (!$driver = self::$databaseInfo[$target]['driver']) {
+        \init::log('init', \CLogger::LEVEL_ERROR, __CLASS__);
+                                    throw new \CDbException('Driver not specified for this database connection: ' . $target);
+        
+      // throw new DatabaseDriverNotSpecifiedException('Driver not specified for this database connection: ' . $key);
     }
 
     // We cannot rely on the registry yet, because the registry requires an
     // open database connection.
     $driver_class = 'DatabaseConnection_' . $driver;
-    require_once DRUPAL_ROOT . '/includes/database/' . $driver . '/database.inc';
-    $new_connection = new $driver_class(self::$databaseInfo[$key][$target]);
+    require_once PATH_LIBS . DS. 'database'. DS . $driver . DS .'database.php';
+    $new_connection = new $driver_class(self::$databaseInfo[$target]);
     $new_connection->setTarget($target);
     $new_connection->setKey($key);
 
     // If we have any active logging objects for this connection key, we need
     // to associate them with the connection we just opened.
-    if (!empty(self::$logs[$key])) {
-      $new_connection->setLogger(self::$logs[$key]);
+    if (!empty(self::$logs[$target])) {
+      $new_connection->setLogger(self::$logs[$target]);
     }
 
     return $new_connection;
@@ -1554,17 +1600,17 @@ abstract class Database {
     // connection that was not opened yet, in which case the key is not defined
     // yet and we just ensure that the connection key is undefined.
     if (isset($target)) {
-      if (isset(self::$connections[$key][$target])) {
-        self::$connections[$key][$target]->destroy();
-        self::$connections[$key][$target] = NULL;
+      if (isset(self::$connections[$target])) {
+        self::$connections[$target]->destroy();
+        self::$connections[$target] = NULL;
       }
-      unset(self::$connections[$key][$target]);
+      unset(self::$connections[$target]);
     }
     else {
       if (isset(self::$connections[$key])) {
         foreach (self::$connections[$key] as $target => $connection) {
-          self::$connections[$key][$target]->destroy();
-          self::$connections[$key][$target] = NULL;
+          self::$connections[$key]->destroy();
+          self::$connections[$key] = NULL;
         }
       }
       unset(self::$connections[$key]);
@@ -1584,7 +1630,12 @@ abstract class Database {
    *   The target of the specified key to ignore.
    */
   public static function ignoreTarget($key, $target) {
-    self::$ignoreTargets[$key][$target] = TRUE;
+    if(empty(self::$ignoreTargets[$key])) : 
+        self::$ignoreTargets[$target] = NULL;
+    else:
+        self::$ignoreTargets[$key] = TRUE;
+    endif;
+    
   }
 
   /**
