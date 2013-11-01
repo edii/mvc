@@ -9,8 +9,8 @@
  */
 
 
-class CTheme extends \CComponent
-{
+class CTheme extends \CComponent {
+    
 	private $_name;
 	private $_basePath;
 	private $_baseUrl;
@@ -51,26 +51,29 @@ class CTheme extends \CComponent
 	/**
 	 * @return string the path for controller views. Defaults to 'ThemeRoot/views'.
 	 */
-	public function getViewPath()
-	{
-		return $this->_basePath.DIRECTORY_SEPARATOR.'views';
+	public function getViewPath() {
+		// return $this->_basePath.DS.'views';
+            
+            
+            return $this->_basePath.DS;
 	}
 
 	/**
 	 * @return string the path for system views. Defaults to 'ThemeRoot/views/system'.
 	 */
-	public function getSystemViewPath()
-	{
-		return $this->getViewPath().DIRECTORY_SEPARATOR.'system';
+	public function getSystemViewPath() {
+            
+            // echo " ".$this->getViewPath().DS.'system';
+		// return $this->getViewPath().DS.'system';
+            return $this->getViewPath().DS.'system';
 	}
 
 	/**
 	 * @return string the path for widget skins. Defaults to 'ThemeRoot/views/skins'.
 	 * @since 1.1
 	 */
-	public function getSkinPath()
-	{
-		return $this->getViewPath().DIRECTORY_SEPARATOR.'skins';
+	public function getSkinPath() {
+		return $this->getViewPath().DS.'skins';
 	}
 
 	/**
@@ -83,7 +86,7 @@ class CTheme extends \CComponent
 		$moduleViewPath=$this->getViewPath();
 		if(($module=$controller->getModule())!==null)
 			$moduleViewPath.= DS.$module->getId();
-		return $controller->resolveViewFile($viewName,$this->getViewPath().'/'.$controller->getUniqueId(),$this->getViewPath(),$moduleViewPath);
+		return $controller->resolveViewFile($viewName,$this->getViewPath().DS.$controller->getUniqueId(),$this->getViewPath(),$moduleViewPath);
 	}
 
 	/**
@@ -92,14 +95,17 @@ class CTheme extends \CComponent
 	 * @param string $layoutName the layout name
 	 * @return string the layout file path. False if the file does not exist.
 	 */
-	public function getLayoutFile($controller,$layoutName)
-	{
+	public function getLayoutFile($controller,$layoutName) {
+            
+                  
+            
 		$moduleViewPath=$basePath=$this->getViewPath();
 		$module=$controller->getModule();
-		if(empty($layoutName))
-		{
-			while($module!==null)
-			{
+                
+                //echo $layoutName; die('ssss');
+                
+		if(empty($layoutName)) {
+			while($module!==null) {
 				if($module->layout===false)
 					return false;
 				if(!empty($module->layout))
@@ -107,16 +113,17 @@ class CTheme extends \CComponent
 				$module=$module->getParentModule();
 			}
 			if($module===null)
-				$layoutName=\init::app()->layout;
-			else
-			{
-				$layoutName=$module->layout;
-				$moduleViewPath.= DS.$module->getId();
+				$layoutName = \init::app()->layout;
+			else {
+				$layoutName = $module->layout;
+				$moduleViewPath .= DS.$module->getId();
 			}
 		}
 		elseif($module!==null)
 			$moduleViewPath.= DS.$module->getId();
 
-		return $controller->resolveViewFile($layoutName,$moduleViewPath.'/layouts',$basePath,$moduleViewPath);
+                // echo $layoutName." ".$moduleViewPath."  ".$basePath." ".$moduleViewPath; die('loadLayout');
+                
+		return $controller->resolveViewFile($layoutName,$moduleViewPath,$basePath,$moduleViewPath); //.'/layouts'
 	}
 }

@@ -13,12 +13,12 @@ class CWebApplication extends \CApplication
 	/**
 	 * @return string the route of the default controller, action or module. Defaults to 'site'.
 	 */
-	public $defaultController='site';
+	public $defaultController = 'mvc';
 	/**
 	 * @var mixed the application-wide layout. Defaults to 'main' (relative to {@link getLayoutPath layoutPath}).
 	 * If this is false, then no layout will be used.
 	 */
-	public $layout='main';
+	public $layout = 'schemas';
 	/**
 	 * @var array mapping from controller ID to controller configurations.
 	 * Each name-value pair specifies the configuration for a single controller.
@@ -205,8 +205,11 @@ class CWebApplication extends \CApplication
 	/**
 	 * @return CTheme the theme used currently. Null if no theme is being used.
 	 */
-	public function getTheme()
-	{
+	public function getTheme() {
+                // echo "<pre>";
+                // var_dump( $this->_theme );
+                // echo "</pre>"; die('stop');
+            
 		if(is_string($this->_theme))
 			$this->_theme=$this->getThemeManager()->getTheme($this->_theme);
 		return $this->_theme;
@@ -250,8 +253,7 @@ class CWebApplication extends \CApplication
 	/**
 	 * Creates a controller instance based on a route.
 	 */
-	public function createController($route,$owner=null)
-	{
+	public function createController($route,$owner=null) {
                 
             
 		if($owner===null)
@@ -320,8 +322,8 @@ class CWebApplication extends \CApplication
 				}
 				return null;
 			}
-			$controllerID.=$id;
-			$basePath.=DIRECTORY_SEPARATOR.$id;
+			$controllerID .= $id;
+			$basePath.= DS.$id;
 		}
 	}
 
@@ -433,7 +435,7 @@ class CWebApplication extends \CApplication
 		if($this->_layoutPath!==null)
 			return $this->_layoutPath;
 		else
-			return $this->_layoutPath=$this->getViewPath().DIRECTORY_SEPARATOR.'layouts';
+			return $this->_layoutPath=$this->getViewPath().DS.'layout';
 	}
 
 	/**

@@ -2,7 +2,7 @@
 
 class HelloController extends \Controller
 {
-	public $layout='column2';
+	public $layout = 'column1';
 
 	/**
 	 * @var CActiveRecord the currently loaded data model instance.
@@ -41,24 +41,7 @@ class HelloController extends \Controller
 		//));
 	}
 
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		//$model=new Post;
-		//if(isset($_POST['Post']))
-	//	{
-	//		$model->attributes=$_POST['Post'];
-	//		if($model->save())
-	//			$this->redirect(array('view','id'=>$model->id));
-	//	}
-
-		//$this->render('create',array(
-		//	'model'=>$model,
-		//));
-	}
+	
 
 	/**
 	 * Updates a particular model.
@@ -103,7 +86,9 @@ class HelloController extends \Controller
 	 */
 	public function actionIndex()
 	{
+            // echo "layout = ".$this->layout;
             
+            \init::app()->setTheme( $this->layout );
             // connect db from controlers
             $_db = new CDatabase( 'main', true, true );
             

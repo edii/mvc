@@ -29,13 +29,15 @@ class CThemeManager extends \CApplicationComponent
 	 * @param string $name name of the theme to be retrieved
 	 * @return CTheme the theme retrieved. Null if the theme does not exist.
 	 */
-	public function getTheme($name)
-	{
-		$themePath=$this->getBasePath().DIRECTORY_SEPARATOR.$name;
-		if(is_dir($themePath))
-		{
+	public function getTheme($name) {
+                
+		$themePath = $this->getBasePath().DS._detected.DS.$name;
+                
+                // echo $themePath; die('stop');
+                
+		if(is_dir($themePath)) {
 			$class=\init::import($this->themeClass, true);
-			return new $class($name,$themePath,$this->getBaseUrl().DS.$name);
+			return new $class($name,$themePath,$this->getBaseUrl().DS._detected.DS.$name);
 		}
 		else
 			return null;
@@ -69,7 +71,7 @@ class CThemeManager extends \CApplicationComponent
 	public function getBasePath()
 	{
 		if($this->_basePath===null)
-			$this->setBasePath(dirname(\init::app()->getRequest()->getScriptFile()).DIRECTORY_SEPARATOR.self::DEFAULT_BASEPATH);
+			$this->setBasePath(dirname(\init::app()->getRequest()->getScriptFile()).DS.self::DEFAULT_BASEPATH);
 		return $this->_basePath;
 	}
 

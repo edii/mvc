@@ -43,8 +43,8 @@ class CController extends \CBaseController
 	 */
 	public function __construct($id,$module=null)
 	{
-		$this->_id=$id;
-		$this->_module=$module;
+		$this->_id      = $id;
+		$this->_module  = $module;
 		$this->attachBehaviors($this->behaviors());
 	}
 
@@ -53,8 +53,7 @@ class CController extends \CBaseController
 	 * This method is called by the application before the controller starts to execute.
 	 * You may override this method to perform the needed initialization for the controller.
 	 */
-	public function init()
-	{
+	public function init() {
 	}
 
 	/**
@@ -84,8 +83,7 @@ class CController extends \CBaseController
 	 * @return array a list of filter configurations.
 	 * @see CFilter
 	 */
-	public function filters()
-	{
+	public function filters() {
 		return array();
 	}
 
@@ -139,8 +137,7 @@ class CController extends \CBaseController
 	 * @return array list of external action classes
 	 * @see createAction
 	 */
-	public function actions()
-	{
+	public function actions() {
 		return array();
 	}
 
@@ -164,8 +161,7 @@ class CController extends \CBaseController
 	 * For more details about behaviors, see {@link CComponent}.
 	 * @return array the behavior configurations (behavior name=>behavior configuration)
 	 */
-	public function behaviors()
-	{
+	public function behaviors() {
 		return array();
 	}
 
@@ -174,8 +170,7 @@ class CController extends \CBaseController
 	 * Override this method if you use the {@link filterAccessControl accessControl} filter.
 	 * @return array list of access rules. See {@link CAccessControlFilter} for details about rule specification.
 	 */
-	public function accessRules()
-	{
+	public function accessRules() {
 		return array();
 	}
 
@@ -188,10 +183,8 @@ class CController extends \CBaseController
 	 * @see createAction
 	 * @see runAction
 	 */
-	public function run($actionID)
-	{
-		if(($action=$this->createAction($actionID))!==null)
-		{
+	public function run($actionID) {
+		if(($action=$this->createAction($actionID))!==null) {
 			if(($parent=$this->getModule())===null)
 				$parent=\init::app();
 			if($parent->beforeControllerAction($this,$action))
@@ -411,8 +404,7 @@ class CController extends \CBaseController
 	 * @param string $actionID the missing action name
 	 * @throws CHttpException whenever this method is invoked
 	 */
-	public function missingAction($actionID)
-	{
+	public function missingAction($actionID) {
 		throw new \CHttpException(404,\init::t('init','The system is unable to find the requested action "{action}".',
 			array('{action}'=>$actionID==''?$this->defaultAction:$actionID)));
 	}
@@ -420,41 +412,36 @@ class CController extends \CBaseController
 	/**
 	 * @return CAction the action currently being executed, null if no active action.
 	 */
-	public function getAction()
-	{
+	public function getAction() {
 		return $this->_action;
 	}
 
 	/**
 	 * @param CAction $value the action currently being executed.
 	 */
-	public function setAction($value)
-	{
+	public function setAction($value) {
 		$this->_action=$value;
 	}
 
 	/**
 	 * @return string ID of the controller
 	 */
-	public function getId()
-	{
+	public function getId() {
 		return $this->_id;
 	}
 
 	/**
 	 * @return string the controller ID that is prefixed with the module ID (if any).
 	 */
-	public function getUniqueId()
-	{
-		return $this->_module ? $this->_module->getId().'/'.$this->_id : $this->_id;
+	public function getUniqueId() {
+		return $this->_module ? $this->_module->getId().DS.$this->_id : $this->_id;
 	}
 
 	/**
 	 * @return string the route (module ID, controller ID and action ID) of the current request.
 	 * @since 1.1.0
 	 */
-	public function getRoute()
-	{
+	public function getRoute() {
 		if(($action=$this->getAction())!==null)
 			return $this->getUniqueId().'/'.$action->getId();
 		else
@@ -477,8 +464,7 @@ class CController extends \CBaseController
 	 * is the {@link CWebModule::getViewPath module view path} appended with the controller ID.
 	 * @return string the directory containing the view files for this controller. Defaults to 'protected/views/ControllerID'.
 	 */
-	public function getViewPath()
-	{
+	public function getViewPath() {
 		if(($module=$this->getModule())===null)
 			$module=\init::app();
 		// return $module->getViewPath().DS.$this->getId().DS.'view';
@@ -514,26 +500,38 @@ class CController extends \CBaseController
 	 * @see resolveViewFile
 	 * @see CApplication::findLocalizedFile
 	 */
-	public function getViewFile($viewName)
-	{
+	public function getViewFile($viewName) {
+                // $theme=\init::app()->getTheme();
+                // $viewFile = $theme->getViewFile($this, $viewName);
+            
+                //echo "<pre>";
+                //var_dump( $viewName );
+                //echo "</pre>";
+                //die('stop');
                 
                 $_view_path = \init::app()->getMvc().DS._detected.DS; // $this->getMvc().DS._detected.DS.$id.DS.'controllers'.DS;
                 
-                //$theme=\init::app()->getTheme();
-                //$viewFile=$theme->getViewFile($this,$viewName);
+                
+                $themes_k = \init::app()->getTheme(); 
+                
+                //var_dump($themes_k);
+                //die('layout');
                 
                 //echo $viewFile; die('view');
                 //set view
                 if(is_dir( $_view_path )) 
                     \init::app()->setViewPath( $_view_path );
                 
-		if(($theme=\init::app()->getTheme())!==null && ($viewFile=$theme->getViewFile($this,$viewName))!==false)
+               // \init::app()->setTheme( 'layout' );
+                
+		if(($theme = \init::app()->getTheme()) !== null && ($viewFile = $theme->getViewFile($this,$viewName)) !== false)
 			return $viewFile;
+                
 		$moduleViewPath=$basePath=\init::app()->getViewPath();
 		if(($module=$this->getModule())!==null)
 			$moduleViewPath=$module->getViewPath();
                 
-                //echo $this->getViewPath(); die('view');
+                // echo $this->getViewPath(); die('view');
                 
 		return $this->resolveViewFile($viewName,$this->getViewPath(),$basePath,$moduleViewPath);
 	}
@@ -631,8 +629,10 @@ class CController extends \CBaseController
 	 * If this is not set, the application base view path will be used.
 	 * @return mixed the view file path. False if the view file does not exist.
 	 */
-	public function resolveViewFile($viewName,$viewPath,$basePath,$moduleViewPath=null)
-	{
+	public function resolveViewFile($viewName,$viewPath,$basePath,$moduleViewPath=null) {
+            
+            // echo " vn = ".$viewName."  vh = ".$viewPath."  bh = ".$basePath."  mv = ".$moduleViewPath; die('stop');
+            
 		if(empty($viewName))
 			return false;
 
@@ -643,8 +643,7 @@ class CController extends \CBaseController
 			$extension=$renderer->fileExtension;
 		else
 			$extension='.php';
-		if($viewName[0]==='/')
-		{
+		if($viewName[0]==='/') {
 			if(strncmp($viewName,'//',2)===0)
 				$viewFile=$basePath.$viewName;
 			else
