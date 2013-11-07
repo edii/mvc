@@ -547,9 +547,26 @@ class Base
 	 */
 	private static $_coreClasses = array(
                 
+                // create layout
+                'CBox'                  => '/libs/CBox.php',
+                'CTheme'                => '/libs/CTheme.php',
+                'CThemeManager'         => '/libs/CThemeManager.php',
+                
+                // generate content view layout
+                /*
+                'CContentDecorator'     => '/libs/CContentDecorator.php',
+                'CContentDecorator'     => '/libs/CContentDecorator.php',
+                'CFilterWidget'         => '/libs/CFilterWidget.php', 
+                'CWidgetFactory'         => '/libs/CWidgetFactory.php', 
+                'COutputProcessor'         => '/libs/COutputProcessor.php',
+                'CWidget'               => '/libs/CWidget.php',
+                */
+            
                 // core class
                 'CApplicationComponent' => '/framework/base/CApplicationComponent.php',
                 'CApplication'          => '/framework/base/CApplication.php',
+            
+                
             
                 // database CI
                 /*
@@ -583,10 +600,7 @@ class Base
             
                 'CComponent'            => '/framework/base/CComponent.php',
             
-                // create layout
-                'CBox'                => '/libs/CBox.php',
-                'CTheme'                => '/libs/CTheme.php',
-                'CThemeManager'         => '/libs/CThemeManager.php',
+                
             
                 // create app
                 'CWebApplication'       => '/libs/CWebApplication.php',

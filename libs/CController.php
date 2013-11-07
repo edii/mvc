@@ -46,6 +46,7 @@ class CController extends \CBaseController
 		$this->_id      = $id;
 		$this->_module  = $module;
 		$this->attachBehaviors($this->behaviors());
+                
 	}
 
 	/**
@@ -512,7 +513,7 @@ class CController extends \CBaseController
                 $_view_path = \init::app()->getMvc().DS._detected.DS; // $this->getMvc().DS._detected.DS.$id.DS.'controllers'.DS;
                 
                 
-                $themes_k = \init::app()->getTheme(); 
+                //$themes_k = \init::app()->getTheme(); 
                 
                 //var_dump($themes_k);
                 //die('layout');
@@ -523,6 +524,8 @@ class CController extends \CBaseController
                     \init::app()->setViewPath( $_view_path );
                 
                // \init::app()->setTheme( 'layout' );
+                
+                // echo \init::app()->getTheme(); die('---stop');
                 
 		if(($theme = \init::app()->getTheme()) !== null && ($viewFile = $theme->getViewFile($this,$viewName)) !== false)
 			return $viewFile;
@@ -577,6 +580,7 @@ class CController extends \CBaseController
 	 */
 	public function getLayoutFile($layoutName)
 	{
+            
 		if($layoutName===false)
 			return false;
 		if(($theme=\init::app()->getTheme())!==null && ($layoutFile=$theme->getLayoutFile($this,$layoutName))!==false)
@@ -600,6 +604,11 @@ class CController extends \CBaseController
 		elseif(($module=$this->getModule())===null)
 			$module=\init::app();
 
+                // echo $layoutName." "; die('layout');
+                
+                //echo $layoutName." m = ".$module->getLayoutPath()." view = ".\init::app()->getViewPath()." mp = ".$module->getViewPath();
+                //die('stop');
+                
 		return $this->resolveViewFile($layoutName,$module->getLayoutPath(),\init::app()->getViewPath(),$module->getViewPath());
 	}
 
@@ -629,9 +638,28 @@ class CController extends \CBaseController
 	 * If this is not set, the application base view path will be used.
 	 * @return mixed the view file path. False if the view file does not exist.
 	 */
-	public function resolveViewFile($viewName,$viewPath,$basePath,$moduleViewPath=null) {
+	public function resolveViewFile($viewName, $viewPath, $basePath, $moduleViewPath=null) {
             
-            // echo " vn = ".$viewName."  vh = ".$viewPath."  bh = ".$basePath."  mv = ".$moduleViewPath; die('stop');
+               //$theme = \init::app()->getTheme(); 
+               
+               //echo "load layout = ".$theme->getBasePath().DS.$theme->getName().".php"; die('load');
+               
+               //var_dump( $theme );
+               
+               /* load layout */
+               if(($theme=\init::app()->getTheme())!= null) {
+                   $layout_path = $theme->getBasePath().DS. $theme->getName().'.php';
+                   if(is_file($layout_path)) {
+                       return $layout_path;
+                   } else {
+                       throw new CException(\init::t('init','Not load Theme {layout} => {class}',
+				array('{class}'=>get_class($this), '{layout}'=>$layout_path)));
+                   }
+                   
+               }
+               /* end */
+            
+              // echo " vn = ".$viewName."  vh = ".$viewPath."  bh = ".$basePath."  mv = ".$moduleViewPath; die('stop');
             
 		if(empty($viewName))
 			return false;
@@ -643,6 +671,7 @@ class CController extends \CBaseController
 			$extension=$renderer->fileExtension;
 		else
 			$extension='.php';
+                
 		if($viewName[0]==='/') {
 			if(strncmp($viewName,'//',2)===0)
 				$viewFile=$basePath.$viewName;
@@ -654,7 +683,7 @@ class CController extends \CBaseController
 		else
 			$viewFile=$viewPath.DS.$viewName;
 
-                // echo $viewFile.$extension; die('view');
+                // echo $viewFile.$extension; die('view'); // fix
                 
 		if(is_file($viewFile.$extension)) {
 			return \init::app()->findLocalizedFile($viewFile.$extension);
@@ -817,15 +846,15 @@ class CController extends \CBaseController
 	 * @see processOutput
 	 * @see render
 	 */
-	public function renderPartial($view,$data=null,$return=false,$processOutput=false)
+	public function renderPartial($view, $data=null, $return=false, $processOutput=false)
 	{
-                
+                // echo "".$view; die('view');
 		if(($viewFile=$this->getViewFile($view))!==false)
 		{
                     
                         
                     
-			$output=$this->renderFile($viewFile,$data,true);
+			$output = $this->renderFile($viewFile,$data,true);
 			if($processOutput)
 				$output=$this->processOutput($output);
 			if($return)
@@ -834,7 +863,7 @@ class CController extends \CBaseController
 				echo $output;
 		}
 		else
-			throw new CException(\init::t('init','{controller} cannot find the requested view "{view}".',
+			throw new \CException(\init::t('init','{controller} cannot find the requested view "{view}".',
 				array('{controller}'=>get_class($this), '{view}'=>$view)));
 	}
 

@@ -31,13 +31,10 @@ class CThemeManager extends \CApplicationComponent
 	 */
 	public function getTheme($name) {
                 
-		$themePath = $this->getBasePath().DS._detected.DS.$name;
-                
-                // echo $themePath; die('stop');
-                
+		$themePath = $this->getBasePath().DS._detected.DS.'layout';
 		if(is_dir($themePath)) {
-			$class=\init::import($this->themeClass, true);
-			return new $class($name,$themePath,$this->getBaseUrl().DS._detected.DS.$name);
+			$class = \init::import($this->themeClass, true);
+			return new $class($name, $themePath, $this->getBaseUrl().DS._detected.DS.'layout');
 		}
 		else
 			return null;

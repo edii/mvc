@@ -54,8 +54,7 @@ class CTheme extends \CComponent {
 	public function getViewPath() {
 		// return $this->_basePath.DS.'views';
             
-            
-            return $this->_basePath.DS;
+            return $this->_basePath;
 	}
 
 	/**
@@ -97,10 +96,8 @@ class CTheme extends \CComponent {
 	 */
 	public function getLayoutFile($controller,$layoutName) {
             
-                  
-            
-		$moduleViewPath=$basePath=$this->getViewPath();
-		$module=$controller->getModule();
+		$moduleViewPath = $basePath = $this->getViewPath();
+		$module = $controller->getModule();
                 
                 //echo $layoutName; die('ssss');
                 
@@ -110,19 +107,19 @@ class CTheme extends \CComponent {
 					return false;
 				if(!empty($module->layout))
 					break;
-				$module=$module->getParentModule();
+				$module = $module->getParentModule();
 			}
 			if($module===null)
 				$layoutName = \init::app()->layout;
 			else {
 				$layoutName = $module->layout;
-				$moduleViewPath .= DS.$module->getId();
+				$moduleViewPath .= $module->getId();
 			}
 		}
 		elseif($module!==null)
-			$moduleViewPath.= DS.$module->getId();
+			$moduleViewPath .= $module->getId();
 
-                // echo $layoutName." ".$moduleViewPath."  ".$basePath." ".$moduleViewPath; die('loadLayout');
+                 
                 
 		return $controller->resolveViewFile($layoutName,$moduleViewPath,$basePath,$moduleViewPath); //.'/layouts'
 	}

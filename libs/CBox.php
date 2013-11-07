@@ -9,24 +9,68 @@
  */
 
 
-class CBox extends \CComponent
+class CBox extends CApplicationComponent
 {
 	private $_name;
 	private $_basePath;
 	private $_baseUrl;
 
+        public $boxes=array();
+        
 	/**
 	 * Constructor.
 	 * @param string $name name of the theme
 	 * @param string $basePath base theme path
 	 * @param string $baseUrl base theme URL
 	 */
-	public function __construct($name,$basePath,$baseUrl) {
+	public function __construct($name = false,$basePath = false,$baseUrl = false) {
 		$this->_name     =   $name;
 		$this->_baseUrl  =   $baseUrl;
 		$this->_basePath =   $basePath;
 	}
 
+        /**
+	 * Executes the widget.
+	 * This method is called by {@link CBaseController::endWidget}.
+	 */
+	public function run()
+	{
+	}
+        
+        /**
+	 * Creates a new widget based on the given class name and initial properties.
+	 * @param CBaseController $owner the owner of the new widget
+	 * @param string $className the class name of the widget. This can also be a path alias (e.g. system.web.widgets.COutputCache)
+	 * @param array $properties the initial property values (name=>value) of the widget.
+	 * @return CWidget the newly created widget whose properties have been initialized with the given values.
+	 */
+	public function createBox($owner,$className,$properties=array())
+	{
+		$className=\init::import($className,true);
+		$box = new $className($owner);
+
+		if(isset($this->boxes[$className]))
+			$properties=$properties===array() ? $this->boxes[$className] : CMap::mergeArray($this->boxes[$className],$properties);
+		
+                /*
+                if($this->enableSkin)
+		{
+			if($this->skinnableWidgets===null || in_array($className,$this->skinnableWidgets))
+			{
+				$skinName=isset($properties['skin']) ? $properties['skin'] : 'default';
+				if($skinName!==false && ($skin=$this->getSkin($className,$skinName))!==array())
+					$properties=$properties===array() ? $skin : CMap::mergeArray($skin,$properties);
+			}
+		}
+                */
+                
+                // var_dump( $properties ); die('stop');
+                
+		foreach($properties as $name=>$value)
+			$box->$name=$value;
+		return $box;
+	}
+        
 	/**
 	 * @return string theme name
 	 */

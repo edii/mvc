@@ -159,7 +159,7 @@ class CComponent
 			}
 		}
 		elseif(method_exists($this,'get'.$name))
-			throw new CException(init::t('init','Property "{class}.{property}" is read only.',
+			throw new CException(\init::t('init','Property "{class}.{property}" is read only.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
 
@@ -244,7 +244,7 @@ class CComponent
 	public function attachBehavior($name,$behavior)
 	{
 		if(!($behavior instanceof IBehavior))
-			$behavior=init::createComponent($behavior);
+			$behavior = \init::createComponent($behavior);
 		$behavior->setEnabled(true);
 		$behavior->attach($this);
 		return $this->_m[$name]=$behavior;

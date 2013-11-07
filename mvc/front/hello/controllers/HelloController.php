@@ -2,7 +2,7 @@
 
 class HelloController extends \Controller
 {
-	public $layout = 'column1';
+	public $layout = 'column1'; //'column1'
 
 	/**
 	 * @var CActiveRecord the currently loaded data model instance.
@@ -12,6 +12,17 @@ class HelloController extends \Controller
 	/**
 	 * @return array action filters
 	 */
+        
+        //function run() {
+            // set layout
+            //if($this->layout) {
+             // \init::app()->setTheme( $this->layout );
+           // }
+            // end
+            //parent::__construct();
+        //}
+        
+        
 	public function filters()
 	{
 		
@@ -86,11 +97,26 @@ class HelloController extends \Controller
 	 */
 	public function actionIndex()
 	{
-            // echo "layout = ".$this->layout;
+            if($this->layout) {
+              \init::app()->setTheme( $this->layout );
+            }
             
-            \init::app()->setTheme( $this->layout );
+             echo "layout = ".$this->layout;
+             
+             echo "<hr />";
+            
+           // \init::app()->setTheme( $this->layout );
+            
+            $themes = \init::app()->getTheme();
+            
+            echo "<pre>";
+            var_dump( $themes );
+            echo "</pre>";
+            
+            echo "<hr />";
+            
             // connect db from controlers
-            $_db = new CDatabase( 'main', true, true );
+            $_db = new CDatabase( 'main', NULL);
             
             
             // CI (mysql)
@@ -119,7 +145,7 @@ class HelloController extends \Controller
             echo "<hr /> res";
             
             echo "<pre>";
-            //var_dump( $query_res );
+            // var_dump( $query_res );
             echo "</pre>";
             
             // end
@@ -134,9 +160,11 @@ class HelloController extends \Controller
             
             $dataProvider = ['blaaa', 'ddddd'];
             
+            
             $this->render('index', array(
 			'dataProvider'=>$dataProvider,
 		));
+            
             
             
 //		$criteria=new CDbCriteria(array(

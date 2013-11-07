@@ -5,9 +5,8 @@ class CDatabase extends CApplicationComponent {
     public static $db = array();
 
     // settings params
-    var $_params = '';
-    var $_return = true;
-    var $_active_record = true;
+    var $_params = 'main';
+    var $_key = NULL;
     
     var $_configs;
     var $_connection;
@@ -17,11 +16,10 @@ class CDatabase extends CApplicationComponent {
     public $_databaseDefinition;
     public $_boxesDefinition;
     
-    function __construct( $params, $return = true, $active_record = false ) {
+    function __construct( $params, $_key = NULL ) {
         
-        $this->setParams($params);
-        $this->setReturn($return);
-        $this->setActiveRecord($active_record);
+        $this->setParams( $params );
+        $this->setKey(  $_key );
         
         // set _configs
         $this->_getDb();
@@ -116,23 +114,13 @@ class CDatabase extends CApplicationComponent {
     
     
     // return
-    protected function getReturn() {
-        return $this->_return; 
+    protected function getKey() {
+        return $this->_key; 
     }
     
-    protected function setReturn( $return ) {
-        $this->_return = $return;
+    protected function setKey( $key ) {
+        $this->_key = $key;
     }
-    
-     // return
-    protected function getActiveRecord() {
-        return $this->_return; 
-    }
-    
-    protected function setActiveRecord( $active_record ) {
-        $this->_active_record = $active_record;
-    }
-    
     
     public function getConnection() {
         $_p = $this->getParams();
@@ -151,7 +139,7 @@ class CDatabase extends CApplicationComponent {
                         
                         Database::setSettings($this->_configs);
                         $_settings = Database::getSettings();
-                        self::$db = Database::getConnection($target = 'main', $key = NULL);    
+                        self::$db = Database::getConnection($this->getParams(), $this->getKey()); // $target = 'main', $key = NULL   
                         
                        
                 } catch(Exception $e) {

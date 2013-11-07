@@ -319,8 +319,9 @@ abstract class CModule extends \CComponent
 	 * @return IApplicationComponent the application component instance, null if the application component is disabled or does not exist.
 	 * @see hasComponent
 	 */
-	public function getComponent($id,$createIfNull=true) {
-                //var_dump($this->_components );
+	public function getComponent($id, $createIfNull=true) {
+            
+            //die('stop');
             
 		if(isset($this->_components[$id]))
 			return $this->_components[$id];

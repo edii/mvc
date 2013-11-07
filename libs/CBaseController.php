@@ -10,7 +10,7 @@
 
 abstract class CBaseController extends CComponent
 {
-	private $_widgetStack=array();
+	private $_boxStack=array();
 
 	/**
 	 * Returns the view script file according to the specified view name.
@@ -32,16 +32,16 @@ abstract class CBaseController extends CComponent
 	 */
 	public function renderFile($viewFile,$data=null,$return=false)
 	{
-		$widgetCount=count($this->_widgetStack);
-		if(($renderer=\init::app()->getViewRenderer())!==null && $renderer->fileExtension==='.'.CFileHelper::getExtension($viewFile))
+		$widgetCount=count($this->_boxStack);
+		if(($renderer=\init::app()->getViewRenderer())!==null && $renderer->fileExtension==='.'.\CFileHelper::getExtension($viewFile))
 			$content=$renderer->renderFile($this,$viewFile,$data,$return);
 		else
 			$content=$this->renderInternal($viewFile,$data,$return);
-		if(count($this->_widgetStack)===$widgetCount)
+		if(count($this->_boxStack)===$widgetCount)
 			return $content;
 		else
 		{
-			$widget=end($this->_widgetStack);
+			$widget=end($this->_boxStack);
 			throw new CException(\init::t('init','{controller} contains improperly nested widget tags in its view "{view}". A {widget} widget does not have an endWidget() call.',
 				array('{controller}'=>get_class($this), '{view}'=>$viewFile, '{widget}'=>get_class($widget))));
 		}
@@ -85,11 +85,12 @@ abstract class CBaseController extends CComponent
 	 * @param array $properties initial property values
 	 * @return CWidget the fully initialized widget instance.
 	 */
-	public function createWidget($className,$properties=array())
+	public function createBox($className, $properties=array())
 	{
-		$widget=\init::app()->getWidgetFactory()->createWidget($this,$className,$properties);
-		$widget->init();
-		return $widget;
+		$box=\init::app()->getBox()->createBox($this, $className, $properties);
+		$box->init();
+            
+		return $box;
 	}
 
 	/**
@@ -101,21 +102,21 @@ abstract class CBaseController extends CComponent
 	 * and the widget object will be returned. This parameter is available since version 1.1.2.
 	 * @return mixed the widget instance when $captureOutput is false, or the widget output when $captureOutput is true.
 	 */
-	public function widget($className,$properties=array(),$captureOutput=false)
+	public function box($className,$properties=array(),$captureOutput=false)
 	{
 		if($captureOutput)
 		{
 			ob_start();
 			ob_implicit_flush(false);
-			$widget=$this->createWidget($className,$properties);
-			$widget->run();
+			$box = $this->createBox($className,$properties);
+			$box->run();
 			return ob_get_clean();
 		}
 		else
 		{
-			$widget=$this->createWidget($className,$properties);
-			$widget->run();
-			return $widget;
+			$box=$this->createBox($className,$properties);
+			$box->run();
+			return $box;
 		}
 	}
 
@@ -128,11 +129,11 @@ abstract class CBaseController extends CComponent
 	 * @return CWidget the widget created to run
 	 * @see endWidget
 	 */
-	public function beginWidget($className,$properties=array())
+	public function beginBox($className,$properties=array())
 	{
-		$widget=$this->createWidget($className,$properties);
-		$this->_widgetStack[]=$widget;
-		return $widget;
+		$box = $this->createBox($className,$properties);
+		$this->_boxStack[]=$box;
+		return $box;
 	}
 
 	/**
@@ -143,15 +144,15 @@ abstract class CBaseController extends CComponent
 	 * @throws CException if an extra endWidget call is made
 	 * @see beginWidget
 	 */
-	public function endWidget($id='')
+	public function endBox($id='')
 	{
-		if(($widget=array_pop($this->_widgetStack))!==null)
+		if(($box=array_pop($this->_boxStack))!==null)
 		{
-			$widget->run();
-			return $widget;
+			$box->run();
+			return $box;
 		}
 		else
-			throw new CException(\init::t('init','{controller} has an extra endWidget({id}) call in its view.',
+			throw new CException(\init::t('init','{controller} has an extra endBox({id}) call in its view.',
 				array('{controller}'=>get_class($this),'{id}'=>$id)));
 	}
 
@@ -232,7 +233,7 @@ abstract class CBaseController extends CComponent
 	 */
 	public function beginContent($view=null,$data=array())
 	{
-		$this->beginWidget('CContentDecorator',array('view'=>$view, 'data'=>$data));
+		 $this->beginBox('CBox',array('view'=>$view, 'data'=>$data));
 	}
 
 	/**
@@ -241,6 +242,6 @@ abstract class CBaseController extends CComponent
 	 */
 	public function endContent()
 	{
-		$this->endWidget('CContentDecorator');
+		 $this->endBox('CBox');
 	}
 }

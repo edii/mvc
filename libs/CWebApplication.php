@@ -123,8 +123,8 @@ class CWebApplication extends \CApplication
 			'clientScript'=>array(
 				'class'=>'CClientScript',
 			),
-			'widgetFactory'=>array(
-				'class'=>'CWidgetFactory',
+			'CBox'=>array(
+				'class'=>'CBox',
 			),
 		);
 
@@ -189,9 +189,9 @@ class CWebApplication extends \CApplication
 	 * @return IWidgetFactory the widget factory
 	 * @since 1.1
 	 */
-	public function getWidgetFactory()
+	public function getBox()
 	{
-		return $this->getComponent('widgetFactory');
+		return $this->getComponent('CBox');
 	}
 
 	/**
@@ -206,12 +206,15 @@ class CWebApplication extends \CApplication
 	 * @return CTheme the theme used currently. Null if no theme is being used.
 	 */
 	public function getTheme() {
-                // echo "<pre>";
-                // var_dump( $this->_theme );
-                // echo "</pre>"; die('stop');
+                 
             
 		if(is_string($this->_theme))
-			$this->_theme=$this->getThemeManager()->getTheme($this->_theme);
+			$this->_theme = $this->getThemeManager()->getTheme($this->_theme);
+                
+                //echo "<pre>";
+                // var_dump( $this->_theme );
+                // echo "</pre>"; die('stop');
+                
 		return $this->_theme;
 	}
 

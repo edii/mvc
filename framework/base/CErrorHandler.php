@@ -10,49 +10,6 @@
 
 \init::import('CHtml',true);
 
-/**
- * CErrorHandler handles uncaught PHP errors and exceptions.
- *
- * It displays these errors using appropriate views based on the
- * nature of the error and the mode the application runs at.
- * It also chooses the most preferred language for displaying the error.
- *
- * CErrorHandler uses two sets of views:
- * <ul>
- * <li>development views, named as <code>exception.php</code>;
- * <li>production views, named as <code>error&lt;StatusCode&gt;.php</code>;
- * </ul>
- * where &lt;StatusCode&gt; stands for the HTTP error code (e.g. error500.php).
- * Localized views are named similarly but located under a subdirectory
- * whose name is the language code (e.g. zh_cn/error500.php).
- *
- * Development views are displayed when the application is in debug mode
- * (i.e. DEBUG is defined as true). Detailed error information with source code
- * are displayed in these views. Production views are meant to be shown
- * to end-users and are used when the application is in production mode.
- * For security reasons, they only display the error message without any
- * sensitive information.
- *
- * CErrorHandler looks for the view templates from the following locations in order:
- * <ol>
- * <li><code>themes/ThemeName/views/system</code>: when a theme is active.</li>
- * <li><code>protected/views/system</code></li>
- * <li><code>framework/views</code></li>
- * </ol>
- * If the view is not found in a directory, it will be looked for in the next directory.
- *
- * The property {@link maxSourceLines} can be changed to specify the number
- * of source code lines to be displayed in development views.
- *
- * CErrorHandler is a core application component that can be accessed via
- * {@link CApplication::getErrorHandler()}.
- *
- * @property array $error The error details. Null if there is no error.
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @package system.base
- * @since 1.0
- */
 class CErrorHandler extends \CApplicationComponent
 {
 	/**
@@ -338,6 +295,8 @@ class CErrorHandler extends \CApplicationComponent
 			$data['time']=time();
 			$data['admin']=$this->adminInfo;
                         
+                        
+                        
 			include($this->getViewFile($view,$data['code']));
 		}
 	}
@@ -356,7 +315,7 @@ class CErrorHandler extends \CApplicationComponent
 			PATH.DIRECTORY_SEPARATOR.'views',
 		);
 
-                //var_dump( $viewPaths );
+                
                 
 		foreach($viewPaths as $i=>$viewPath)
 		{ 
@@ -378,6 +337,8 @@ class CErrorHandler extends \CApplicationComponent
 	 */
 	protected function getViewFileInternal($viewPath,$view,$code,$srcLanguage=null)
 	{
+                // echo $viewPath; die('stop');
+            
 		$app=\init::app();
 		if($view==='error')
 		{
@@ -387,6 +348,9 @@ class CErrorHandler extends \CApplicationComponent
 		}
 		else
 			$viewFile=$viewPath.DIRECTORY_SEPARATOR."exception.php";
+                
+                // var_dump($viewFile); die('stop');
+                
 		return $viewFile;
 	}
 
