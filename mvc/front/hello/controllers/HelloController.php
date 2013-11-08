@@ -33,9 +33,59 @@ class HelloController extends \Controller
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
-	public function accessRules()
+	public function actionDB()
 	{
+            
+            // connect db from controlers
+            $_db = new CDatabase( 'main', NULL);
+            
+            
+            // CI (mysql)
+            //$_connector = $_db->getConnection()->query("SELECT * FROM section")->result_array();
+            
+            // CI (pdo)
+            // $_connector = $_db->getConnection()->query("SELECT * FROM section")->result_array();
+            
+            // drupal
+             $options['target'] = 'main';   
+             $args = array();
+             
+             $_connector = $_db->getConnection();
+             $query_res = $_connector -> query("SELECT * FROM section", $args, $options)-> fetchAll();
+             //$query_res = $_connector -> select('section', 's', $options) 
+                               // -> fields('s', array('SectionID')) 
+                                //-> range(0, 1)
+                               // -> addTag('section_access')    
+                                //-> execute()
+                               // -> fetchObject();
+             
+            echo "<prte>";
+            var_dump( $_connector );
+            echo "</pre>";
+            
+            echo "<hr /> res";
+            
+            echo "<pre>";
+             var_dump( $query_res );
+            echo "</pre>";
 		
+	}
+        
+        /**
+	 * Displays a particular model.
+	 */
+	public function actionTest()
+	{
+            
+                
+               \init::app()->setTheme( 'column2' );
+                
+            
+               $dataProvider = ['blaaa', 'ddddd'];
+            
+                $this->render('index', array(
+			'dataProvider'=>$dataProvider,
+		));  
 	}
 
 	/**
@@ -43,6 +93,7 @@ class HelloController extends \Controller
 	 */
 	public function actionView()
 	{
+               
 		//$post=$this->loadModel();
 		//$comment=$this->newComment($post);
 
@@ -97,9 +148,9 @@ class HelloController extends \Controller
 	 */
 	public function actionIndex()
 	{
-            if($this->layout) {
-              \init::app()->setTheme( $this->layout );
-            }
+           // if($this->layout) {
+             // \init::app()->setTheme( $this->layout );
+           // }
             
              echo "layout = ".$this->layout;
              
@@ -113,50 +164,19 @@ class HelloController extends \Controller
             var_dump( $themes );
             echo "</pre>";
             
-            echo "<hr />";
-            
-            // connect db from controlers
-            $_db = new CDatabase( 'main', NULL);
+           // echo "<hr />";
             
             
-            // CI (mysql)
-            //$_connector = $_db->getConnection()->query("SELECT * FROM section")->result_array();
-            
-            // CI (pdo)
-            // $_connector = $_db->getConnection()->query("SELECT * FROM section")->result_array();
-            
-            // drupal
-             $options['target'] = 'main';   
-             $args = array();
-             
-             $_connector = $_db->getConnection();
-             // $query_res = $_connector -> query("SELECT * FROM section", $args, $options)-> fetchAll();
-             //$query_res = $_connector -> select('section', 's', $options) 
-                               // -> fields('s', array('SectionID')) 
-                                //-> range(0, 1)
-                               // -> addTag('section_access')    
-                                //-> execute()
-                               // -> fetchObject();
-             
-            echo "<prte>";
-            var_dump( $_connector );
-            echo "</pre>";
-            
-            echo "<hr /> res";
-            
-            echo "<pre>";
-            // var_dump( $query_res );
-            echo "</pre>";
             
             // end
             
             
-            echo "action Index";
+            //echo "action Index";
             
             $_gets = $this->getActionParams();
-            echo "<pre>";
-            var_dump( $_gets );
-            echo "</rpe>";
+            ///echo "<pre>";
+            //var_dump( $_gets );
+            //echo "</rpe>";
             
             $dataProvider = ['blaaa', 'ddddd'];
             

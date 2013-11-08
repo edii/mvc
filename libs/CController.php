@@ -47,143 +47,34 @@ class CController extends \CBaseController
 		$this->_module  = $module;
 		$this->attachBehaviors($this->behaviors());
                 
+                $this->_runLayout(); // load layout
+                
 	}
 
-	/**
-	 * Initializes the controller.
-	 * This method is called by the application before the controller starts to execute.
-	 * You may override this method to perform the needed initialization for the controller.
-	 */
+	
 	public function init() {
 	}
 
-	/**
-	 * Returns the filter configurations.
-	 *
-	 * By overriding this method, child classes can specify filters to be applied to actions.
-	 *
-	 * This method returns an array of filter specifications. Each array element specify a single filter.
-	 *
-	 * For a method-based filter (called inline filter), it is specified as 'FilterName[ +|- Action1, Action2, ...]',
-	 * where the '+' ('-') operators describe which actions should be (should not be) applied with the filter.
-	 *
-	 * For a class-based filter, it is specified as an array like the following:
-	 * <pre>
-	 * array(
-	 *     'FilterClass[ +|- Action1, Action2, ...]',
-	 *     'name1'=>'value1',
-	 *     'name2'=>'value2',
-	 *     ...
-	 * )
-	 * </pre>
-	 * where the name-value pairs will be used to initialize the properties of the filter.
-	 *
-	 * Note, in order to inherit filters defined in the parent class, a child class needs to
-	 * merge the parent filters with child filters using functions like array_merge().
-	 *
-	 * @return array a list of filter configurations.
-	 * @see CFilter
-	 */
+	
 	public function filters() {
 		return array();
 	}
 
-	/**
-	 * Returns a list of external action classes.
-	 * Array keys are action IDs, and array values are the corresponding
-	 * action class in dot syntax (e.g. 'edit'=>'application.controllers.article.EditArticle')
-	 * or arrays representing the configuration of the actions, such as the following,
-	 * <pre>
-	 * return array(
-	 *     'action1'=>'path.to.Action1Class',
-	 *     'action2'=>array(
-	 *         'class'=>'path.to.Action2Class',
-	 *         'property1'=>'value1',
-	 *         'property2'=>'value2',
-	 *     ),
-	 * );
-	 * </pre>
-	 * Derived classes may override this method to declare external actions.
-	 *
-	 * Note, in order to inherit actions defined in the parent class, a child class needs to
-	 * merge the parent actions with child actions using functions like array_merge().
-	 *
-	 * You may import actions from an action provider
-	 * (such as a widget, see {@link CWidget::actions}), like the following:
-	 * <pre>
-	 * return array(
-	 *     ...other actions...
-	 *     // import actions declared in ProviderClass::actions()
-	 *     // the action IDs will be prefixed with 'pro.'
-	 *     'pro.'=>'path.to.ProviderClass',
-	 *     // similar as above except that the imported actions are
-	 *     // configured with the specified initial property values
-	 *     'pro2.'=>array(
-	 *         'class'=>'path.to.ProviderClass',
-	 *         'action1'=>array(
-	 *             'property1'=>'value1',
-	 *         ),
-	 *         'action2'=>array(
-	 *             'property2'=>'value2',
-	 *         ),
-	 *     ),
-	 * )
-	 * </pre>
-	 *
-	 * In the above, we differentiate action providers from other action
-	 * declarations by the array keys. For action providers, the array keys
-	 * must contain a dot. As a result, an action ID 'pro2.action1' will
-	 * be resolved as the 'action1' action declared in the 'ProviderClass'.
-	 *
-	 * @return array list of external action classes
-	 * @see createAction
-	 */
+	
 	public function actions() {
 		return array();
 	}
 
-	/**
-	 * Returns a list of behaviors that this controller should behave as.
-	 * The return value should be an array of behavior configurations indexed by
-	 * behavior names. Each behavior configuration can be either a string specifying
-	 * the behavior class or an array of the following structure:
-	 * <pre>
-	 * 'behaviorName'=>array(
-	 *     'class'=>'path.to.BehaviorClass',
-	 *     'property1'=>'value1',
-	 *     'property2'=>'value2',
-	 * )
-	 * </pre>
-	 *
-	 * Note, the behavior classes must implement {@link IBehavior} or extend from
-	 * {@link CBehavior}. Behaviors declared in this method will be attached
-	 * to the controller when it is instantiated.
-	 *
-	 * For more details about behaviors, see {@link CComponent}.
-	 * @return array the behavior configurations (behavior name=>behavior configuration)
-	 */
+	
 	public function behaviors() {
 		return array();
 	}
 
-	/**
-	 * Returns the access rules for this controller.
-	 * Override this method if you use the {@link filterAccessControl accessControl} filter.
-	 * @return array list of access rules. See {@link CAccessControlFilter} for details about rule specification.
-	 */
+	
 	public function accessRules() {
 		return array();
 	}
 
-	/**
-	 * Runs the named action.
-	 * Filters specified via {@link filters()} will be applied.
-	 * @param string $actionID action ID
-	 * @throws CHttpException if the action does not exist or the action name is not proper.
-	 * @see filters
-	 * @see createAction
-	 * @see runAction
-	 */
 	public function run($actionID) {
 		if(($action=$this->createAction($actionID))!==null) {
 			if(($parent=$this->getModule())===null)
@@ -192,12 +83,19 @@ class CController extends \CBaseController
 			{
 				$this->runActionWithFilters($action,$this->filters());
 				$parent->afterControllerAction($this,$action);
+                                
 			}
 		}
 		else
 			$this->missingAction($actionID);
 	}
 
+        public function _runLayout() {
+            if($this->layout) {
+                \init::app()->setTheme( $this->layout );
+            }
+        }
+        
 	/**
 	 * Runs an action with the specified filters.
 	 * A filter chain will be created based on the specified filters
@@ -298,10 +196,8 @@ class CController extends \CBaseController
 	 * @param string $output output to be processed
 	 * @return string the processed output
 	 */
-	public function processDynamicOutput($output)
-	{
-		if($this->_dynamicOutput)
-		{
+	public function processDynamicOutput($output) {
+		if($this->_dynamicOutput) {
 			$output=preg_replace_callback('/<###dynamic-(\d+)###>/',array($this,'replaceDynamicOutput'),$output);
 		}
 		return $output;
@@ -469,63 +365,19 @@ class CController extends \CBaseController
 		if(($module=$this->getModule())===null)
 			$module=\init::app();
 		// return $module->getViewPath().DS.$this->getId().DS.'view';
-                return $module->getViewPath().DS.$this->getId().DS.'view';
+                
+               // return $module->getViewPath().DS.$this->getId().DS.'view';
+                
+                return \init::app()->getMvc().DS._detected.DS.$this->getId().DS.'view';
 	}
 
-	/**
-	 * Looks for the view file according to the given view name.
-	 *
-	 * When a theme is currently active, this method will call {@link CTheme::getViewFile} to determine
-	 * which view file should be returned.
-	 *
-	 * Otherwise, this method will return the corresponding view file based on the following criteria:
-	 * <ul>
-	 * <li>absolute view within a module: the view name starts with a single slash '/'.
-	 * In this case, the view will be searched for under the currently active module's view path.
-	 * If there is no active module, the view will be searched for under the application's view path.</li>
-	 * <li>absolute view within the application: the view name starts with double slashes '//'.
-	 * In this case, the view will be searched for under the application's view path.
-	 * This syntax has been available since version 1.1.3.</li>
-	 * <li>aliased view: the view name contains dots and refers to a path alias.
-	 * The view file is determined by calling {@link Base::getPathOfAlias()}. Note that aliased views
-	 * cannot be themed because they can refer to a view file located at arbitrary places.</li>
-	 * <li>relative view: otherwise. Relative views will be searched for under the currently active
-	 * controller's view path.</li>
-	 * </ul>
-	 *
-	 * After the view file is identified, this method may further call {@link CApplication::findLocalizedFile}
-	 * to find its localized version if internationalization is needed.
-	 *
-	 * @param string $viewName view name
-	 * @return string the view file path, false if the view file does not exist
-	 * @see resolveViewFile
-	 * @see CApplication::findLocalizedFile
-	 */
+	
 	public function getViewFile($viewName) {
                 // $theme=\init::app()->getTheme();
                 // $viewFile = $theme->getViewFile($this, $viewName);
-            
-                //echo "<pre>";
-                //var_dump( $viewName );
-                //echo "</pre>";
-                //die('stop');
-                
-                $_view_path = \init::app()->getMvc().DS._detected.DS; // $this->getMvc().DS._detected.DS.$id.DS.'controllers'.DS;
+  
                 
                 
-                //$themes_k = \init::app()->getTheme(); 
-                
-                //var_dump($themes_k);
-                //die('layout');
-                
-                //echo $viewFile; die('view');
-                //set view
-                if(is_dir( $_view_path )) 
-                    \init::app()->setViewPath( $_view_path );
-                
-               // \init::app()->setTheme( 'layout' );
-                
-                // echo \init::app()->getTheme(); die('---stop');
                 
 		if(($theme = \init::app()->getTheme()) !== null && ($viewFile = $theme->getViewFile($this,$viewName)) !== false)
 			return $viewFile;
@@ -534,7 +386,12 @@ class CController extends \CBaseController
 		if(($module=$this->getModule())!==null)
 			$moduleViewPath=$module->getViewPath();
                 
-                // echo $this->getViewPath(); die('view');
+                
+               // $_view_path = \init::app()->getMvc().DS._detected.DS; // $this->getMvc().DS._detected.DS.$id.DS.'controllers'.DS;
+
+               // if(is_dir( $_view_path ))
+                  //  \init::app()->setViewPath( $_view_path );
+                
                 
 		return $this->resolveViewFile($viewName,$this->getViewPath(),$basePath,$moduleViewPath);
 	}
@@ -849,10 +706,7 @@ class CController extends \CBaseController
 	public function renderPartial($view, $data=null, $return=false, $processOutput=false)
 	{
                 // echo "".$view; die('view');
-		if(($viewFile=$this->getViewFile($view))!==false)
-		{
-                    
-                        
+		if(($viewFile=$this->getViewFile($view))!==false) {
                     
 			$output = $this->renderFile($viewFile,$data,true);
 			if($processOutput)

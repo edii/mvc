@@ -17,6 +17,9 @@ class CBox extends CApplicationComponent
 
         public $boxes=array();
         
+        public $view = array();
+        public $data = array();
+        
 	/**
 	 * Constructor.
 	 * @param string $name name of the theme
@@ -51,7 +54,7 @@ class CBox extends CApplicationComponent
 
 		if(isset($this->boxes[$className]))
 			$properties=$properties===array() ? $this->boxes[$className] : CMap::mergeArray($this->boxes[$className],$properties);
-		
+
                 /*
                 if($this->enableSkin)
 		{
@@ -64,12 +67,13 @@ class CBox extends CApplicationComponent
 		}
                 */
                 
-                // var_dump( $properties ); die('stop');
+                // var_dump( $properties ); 
                 
 		foreach($properties as $name=>$value)
 			$box->$name=$value;
 		return $box;
 	}
+        
         
 	/**
 	 * @return string theme name

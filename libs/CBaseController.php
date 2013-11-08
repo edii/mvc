@@ -67,7 +67,7 @@ abstract class CBaseController extends CComponent
 		{
 			ob_start();
 			ob_implicit_flush(false);
-			require($_viewFile_);
+			require ($_viewFile_);
 			return ob_get_clean();
 		}
 		else
@@ -244,4 +244,17 @@ abstract class CBaseController extends CComponent
 	{
 		 $this->endBox('CBox');
 	}
+        
+        
+        public function getBoxes( $params ) {
+            $controller = \init::app()->getController();
+            
+            $_id = $controller->getId();
+            $_view = $controller->getViewPath();
+            $_action = $controller->getAction()->getId();
+            
+            echo "<pre>";
+            var_dump( $controller, $_id, $_action, $_view );
+            echo "</pre>";
+        }
 }
