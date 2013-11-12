@@ -36,6 +36,8 @@ class HelloController extends \Controller
 	public function actionDB()
 	{
             
+            \init::app()->setTheme( false );
+            
             // connect db from controlers
             $_db = new CDatabase( 'main', NULL);
             
@@ -51,6 +53,13 @@ class HelloController extends \Controller
              $args = array();
              
              $_connector = $_db->getConnection();
+             $_dbdefionitions = $_db->getDatabaseDefinition();
+             
+             
+             //echo "<pre>";
+             //var_dump( $_dbdefionitions );
+             //echo "</pre>";
+             
              $query_res = $_connector -> query("SELECT * FROM section", $args, $options)-> fetchAll();
              //$query_res = $_connector -> select('section', 's', $options) 
                                // -> fields('s', array('SectionID')) 
@@ -59,15 +68,20 @@ class HelloController extends \Controller
                                 //-> execute()
                                // -> fetchObject();
              
-            echo "<prte>";
-            var_dump( $_connector );
-            echo "</pre>";
+            //echo "<prte>";
+            //var_dump( $_connector );
+            //echo "</pre>";
             
-            echo "<hr /> res";
+            //echo "<hr /> res";
             
-            echo "<pre>";
-             var_dump( $query_res );
-            echo "</pre>";
+            //echo "<pre>";
+            // var_dump( $query_res );
+            //echo "</pre>";
+             
+             $data = ['blaaaa'];
+             $this->render('db', array(
+			'data'=>$data,
+		));
 		
 	}
         
@@ -152,7 +166,7 @@ class HelloController extends \Controller
              // \init::app()->setTheme( $this->layout );
            // }
             
-             echo "layout = ".$this->layout;
+             echo "layout ---- = ".$this->layout;
              
              echo "<hr />";
             

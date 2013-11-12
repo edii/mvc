@@ -1,19 +1,9 @@
 <?php
 /**
- * CDbException class file.
+ * CDbException class files.
  *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
-
-/**
- * CDbException represents an exception that is caused by some DB-related operations.
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @package system.db
- * @since 1.0
+ * @author Sergei Novickiy <edii87shadow@gmail.com>
+ * @copyright Copyright &copy; 2013 
  */
 class CDbException extends CException
 {

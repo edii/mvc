@@ -2,10 +2,8 @@
 /**
  * CBaseController class file.
  *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @author Sergei Novickiy <edii87shadow@gmail.com>
+ * @copyright Copyright &copy; 2013 
  */
 
 abstract class CBaseController extends CComponent
@@ -246,6 +244,30 @@ abstract class CBaseController extends CComponent
 	}
         
         
+        public function render($view,$data=null,$return=false) {
+                
+		if($this->beforeRender($view))
+		{
+                    
+                        
+			$output=$this->renderPartial($view,$data,true);
+                        
+			if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
+				$output=$this->renderFile($layoutFile,array('content'=>$output),true);
+
+                        
+                        
+			$this->afterRender($view,$output);
+
+			$output=$this->processOutput($output);
+
+			if($return)
+				return $output;
+			else
+				echo $output;
+		}
+	}
+        
         public function getBoxes( $params ) {
             $controller = \init::app()->getController();
             
@@ -253,6 +275,32 @@ abstract class CBaseController extends CComponent
             $_view = $controller->getViewPath();
             $_action = $controller->getAction()->getId();
             
+            $viewFile = $_view.DS.$_action;
+            
+            if(($renderer=\init::app()->getViewRenderer())!==null)
+                    $extension=$renderer->fileExtension;
+            else
+                    $extension='.php';
+            
+            
+            
+            $renderer=\init::app()->getViewRenderer();
+            
+            /*
+            
+            if(is_file($viewFile.$extension)) {
+                    return \init::app()->findLocalizedFile($viewFile.$extension);
+            }        
+            elseif($extension!=='.php' && is_file($viewFile.'.php')) 
+                    return \init::app()->findLocalizedFile($viewFile.'.php');
+            else
+                    return false;
+            
+             */ 
+            
+            
+            
+             
             echo "<pre>";
             var_dump( $controller, $_id, $_action, $_view );
             echo "</pre>";

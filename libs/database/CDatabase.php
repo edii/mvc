@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * CDatabase class files.
+ *
+ * @author Sergei Novickiy <edii87shadow@gmail.com>
+ * @copyright Copyright &copy; 2013 
+ */
+
 class CDatabase extends CApplicationComponent {
     
     public static $db = array();
@@ -29,6 +36,7 @@ class CDatabase extends CApplicationComponent {
         
         $this->_getDefinitions(); // load definitions from controller
         $this->database();
+        $this->_loadDbDefionition(); // load definitions
     }
     
     
@@ -58,12 +66,35 @@ class CDatabase extends CApplicationComponent {
         if(is_array($this->_definitions)) {
             if(isset($this->_definitions['databaseDefinition']) and is_array($this->_definitions['databaseDefinition']))
                 $this->setDatabaseDefinition( $this->_definitions['databaseDefinition'] );
-            if(isset($this->_definitions['boxesDefinition']) and is_array($this->_definitions['boxesDefinition']))
-                $this->setBoxesDefinition( $this->_definitions['boxesDefinition'] );
+           // if(isset($this->_definitions['boxesDefinition']) and is_array($this->_definitions['boxesDefinition']))
+             //   $this->setBoxesDefinition( $this->_definitions['boxesDefinition'] );
         }
         
         return $this->_definitions;
         
+    }
+    
+      /**
+     * 
+     * load dbDefinition
+     * return array fields from dbDefionitions
+     * 
+     */
+    private function _loadDbDefionition() {
+        $_result = array();
+        $_dbDefinition = $this->getDatabaseDefinition();
+        if(is_array($_dbDefinition) and count($_dbDefinition) > 0) {
+            $_sql = '';
+            $_db = $this->getConnection();
+            $options['target'] = 'main';
+            
+            foreach($_dbDefinition['t'] as $key => $value) {
+                $_sql = "SELECT ".$value." FROM ".trim($key);
+                $_result[$key] = $_db -> query($_sql, array(), $options)-> fetchAll();
+            }
+            
+            $this->setDatabaseDefinition( $_result );
+        }
     }
     
     public function setProperties(array $properties) {
@@ -78,7 +109,7 @@ class CDatabase extends CApplicationComponent {
      * register variable, settings database 
      * @return databaseDefinition ['t'][['tabel_name'] => '', ['key'] => '']
      */
-    protected function getDatabaseDefinition() {
+    public function getDatabaseDefinition() {
         return $this-> _databaseDefinition;
     }
     protected function setDatabaseDefinition( array $_databaseDefinition ) {
@@ -86,20 +117,7 @@ class CDatabase extends CApplicationComponent {
         return $this-> _databaseDefinition;
     }
     
-    /**
-     * register variable, settings boxesDefinition
-     * @return boxesDefinition ['name_controllers'][['aling']   => 'left', 
-     *                                              ['name']    => 'index', 
-     *                                              ['module']  => 'index', 
-     *                                              ['layout']  => 'index']
-     */
-    protected function getBoxesDefinition() {
-        return $this-> _boxesDefinition;
-    }
-    protected function setBoxesDefinition( array $_boxesDefinition ) {
-        $this-> _boxesDefinition = $_boxesDefinition;
-        return $this-> _boxesDefinition;
-    }
+    
     
     
     
@@ -108,7 +126,7 @@ class CDatabase extends CApplicationComponent {
         return $this->_params; 
     }
     
-    public function setParams( $params ) {
+    protected function setParams( $params ) {
         $this->_params = $params;
     }
     
@@ -129,12 +147,16 @@ class CDatabase extends CApplicationComponent {
          
     }
     
+  
+    
+    /*
+     * 
+     * connect DB;
+     * 
+     */
     private function database() {
          
-                try {
-                        
-                        $_dbDefinition = $this->getDatabaseDefinition();
-                        
+                try {                        
                         if(!is_array($this->_configs)) return null;
                         
                         Database::setSettings($this->_configs);

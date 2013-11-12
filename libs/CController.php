@@ -2,10 +2,8 @@
 /**
  * CController class file.
  *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @author Sergei Novickiy <edii87shadow@gmail.com>
+ * @copyright Copyright &copy; 2013 
  */
 class CController extends \CBaseController
 {
@@ -14,13 +12,7 @@ class CController extends \CBaseController
 	 */
 	const STATE_INPUT_NAME='PAGE_STATE';
 
-	/**
-	 * @var mixed the name of the layout to be applied to this controller's views.
-	 * Defaults to null, meaning the {@link CWebApplication::layout application layout}
-	 * is used. If it is false, no layout will be applied.
-	 * The {@link CWebModule::layout module layout} will be used
-	 * if the controller belongs to a module and this layout property is null.
-	 */
+	
 	public $layout;
 	/**
 	 * @var string the name of the default action. Defaults to 'index'.
@@ -379,7 +371,7 @@ class CController extends \CBaseController
                 
                 
                 
-		if(($theme = \init::app()->getTheme()) !== null && ($viewFile = $theme->getViewFile($this,$viewName)) !== false)
+		if(($theme = \init::app()->getTheme()) != false && ($viewFile = $theme->getViewFile($this,$viewName)) !== false)
 			return $viewFile;
                 
 		$moduleViewPath=$basePath=\init::app()->getViewPath();
@@ -440,7 +432,7 @@ class CController extends \CBaseController
             
 		if($layoutName===false)
 			return false;
-		if(($theme=\init::app()->getTheme())!==null && ($layoutFile=$theme->getLayoutFile($this,$layoutName))!==false)
+		if(($theme=\init::app()->getTheme())!= false && ($layoutFile=$theme->getLayoutFile($this,$layoutName))!==false)
 			return $layoutFile;
 
 		if(empty($layoutName))
@@ -619,9 +611,15 @@ class CController extends \CBaseController
                         
 			$output=$this->renderPartial($view,$data,true);
                         
+                       // echo "<pre>";
+                       // var_dump( $data );
+                       // echo "</pre>";
+                        
 			if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
 				$output=$this->renderFile($layoutFile,array('content'=>$output),true);
 
+                        
+                        
                         
                         
 			$this->afterRender($view,$output);
@@ -656,7 +654,7 @@ class CController extends \CBaseController
 	 * as a reference. That means you can modify it within this method.
 	 * @since 1.1.5
 	 */
-	protected function afterRender($view, &$output)
+	protected function afterRender($view, $output)
 	{
 	}
 
@@ -1062,7 +1060,7 @@ class CController extends \CBaseController
 	 * @param array $states the states to be saved.
 	 * @param string $output the output to be modified. Note, this is passed by reference.
 	 */
-	protected function savePageStates($states,&$output)
+	protected function savePageStates($states, $output)
 	{
 		$data=\init::app()->getSecurityManager()->hashData(serialize($states));
 		if(extension_loaded('zlib'))

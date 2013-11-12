@@ -1,4 +1,4 @@
 <hr />
     <b> Hello world </b>
 <hr />
-Maks Sonechlo!
+This DB connection!

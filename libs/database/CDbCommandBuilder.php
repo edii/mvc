@@ -1,22 +1,9 @@
 <?php
 /**
- * CDbCommandBuilder class file.
+ * CDbCommandBuilder class files.
  *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
-
-/**
- * CDbCommandBuilder provides basic methods to create query commands for tables.
- *
- * @property CDbConnection $dbConnection Database connection.
- * @property CDbSchema $schema The schema for this command builder.
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @package system.db.schema
- * @since 1.0
+ * @author Sergei Novickiy <edii87shadow@gmail.com>
+ * @copyright Copyright &copy; 2013 
  */
 class CDbCommandBuilder extends CComponent
 {

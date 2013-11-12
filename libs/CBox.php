@@ -1,11 +1,9 @@
 <?php
 /**
- * CTheme class file.
+ * CBox class file.
  *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @author Sergei Novickiy <edii87shadow@gmail.com>
+ * @copyright Copyright &copy; 2013 
  */
 
 
@@ -20,6 +18,8 @@ class CBox extends CApplicationComponent
         public $view = array();
         public $data = array();
         
+        public $_boxesDefinition = array();
+        
 	/**
 	 * Constructor.
 	 * @param string $name name of the theme
@@ -30,7 +30,13 @@ class CBox extends CApplicationComponent
 		$this->_name     =   $name;
 		$this->_baseUrl  =   $baseUrl;
 		$this->_basePath =   $basePath;
+                
+                $this-> _loadWebDefinitions(); // load WebDefinitions
 	}
+        
+        public function init() {
+            
+        } // init load Box
 
         /**
 	 * Executes the widget.
@@ -39,6 +45,29 @@ class CBox extends CApplicationComponent
 	public function run()
 	{
 	}
+        
+        protected function _loadWebDefinitions() {
+             $_definitions = \init::app()->getDefinition();
+             if( isset($_definitions) and is_array($_definitions) ) {
+                 if(isset($_definitions['boxesDefinition']) and is_array($_definitions['boxesDefinition']))
+                    $this->setBoxesDefinition( $_definitions['boxesDefinition'] );
+             }
+        }
+        
+        /**
+         * register variable, settings boxesDefinition
+         * @return boxesDefinition ['name_controllers'][['aling']   => 'left', 
+         *                                              ['name']    => 'index', 
+         *                                              ['module']  => 'index', 
+         *                                              ['layout']  => 'index']
+         */
+        public function getBoxesDefinition() {
+            return $this-> _boxesDefinition;
+        }
+        protected function setBoxesDefinition( array $_boxesDefinition ) {
+            $this-> _boxesDefinition = $_boxesDefinition;
+            return $this-> _boxesDefinition;
+        }
         
         /**
 	 * Creates a new widget based on the given class name and initial properties.
