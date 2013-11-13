@@ -84,19 +84,7 @@ class CBox extends CApplicationComponent
 		if(isset($this->boxes[$className]))
 			$properties=$properties===array() ? $this->boxes[$className] : CMap::mergeArray($this->boxes[$className],$properties);
 
-                /*
-                if($this->enableSkin)
-		{
-			if($this->skinnableWidgets===null || in_array($className,$this->skinnableWidgets))
-			{
-				$skinName=isset($properties['skin']) ? $properties['skin'] : 'default';
-				if($skinName!==false && ($skin=$this->getSkin($className,$skinName))!==array())
-					$properties=$properties===array() ? $skin : CMap::mergeArray($skin,$properties);
-			}
-		}
-                */
-                
-                // var_dump( $properties ); 
+               // load scins
                 
 		foreach($properties as $name=>$value)
 			$box->$name=$value;
