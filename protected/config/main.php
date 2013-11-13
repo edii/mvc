@@ -1,10 +1,5 @@
 <?php
 
-/*
- * $active_group = 'default';
-$active_record = TRUE;
- */
-
 return [
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
         'mvc' => PATH.DS.'mvc'.DS,
@@ -31,32 +26,6 @@ return [
 		],
         ],
 
-        // settings db
-    	
-        /* Database configuration format:
-         * @code
-         *   $databases['default']['default'] = array(
-         *     'driver' => 'mysql',
-         *     'database' => 'databasename',
-         *     'username' => 'username',
-         *     'password' => 'password',
-         *     'host' => 'localhost',
-         *     'prefix' => '',
-         *   );
-         *   $databases['default']['default'] = array(
-         *     'driver' => 'pgsql',
-         *     'database' => 'databasename',
-         *     'username' => 'username',
-         *     'password' => 'password',
-         *     'host' => 'localhost',
-         *     'prefix' => '',
-         *   );
-         *   $databases['default']['default'] = array(
-         *     'driver' => 'sqlite',
-         *     'database' => '/path/to/databasefilename',
-         *   );
-         * @endcode
-         */
     
          // drupal
         'db' => [
@@ -70,29 +39,6 @@ return [
             ]  
         ],
         
-    
-        // CI 
-    /*
-        'db' => [
-          'main' => [
-              'dbdriver' => 'mysql',
-              'hostname' => 'localhost',
-              'database' => 'lemberg',
-              'username' => 'root',
-              'password' => '',
-              'dbprefix' => '',
-              'pconnect' => false, // true or false
-              'db_debug' => true,
-              'cache_on' => false,
-              'cachedir' => '',
-              'char_set' => 'utf8',
-              'dbcollat' => 'utf8_general_ci',
-              'swap_pre' => '',
-              'autoinit' => false, // true or false
-              'stricton' => false,
-          ]  
-        ], 
-    */
     
         // Settings 
         'Settings' => [
@@ -178,7 +124,5 @@ return [
             'recaptcha_theme'=>'clean'
         ],
 
-	// application-level parameters that can be accessed
-	// using Yii::app()->params['paramName']
 	'params'=>require(dirname(__FILE__).'/params.php')
 ];
