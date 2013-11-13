@@ -1,4 +1,4 @@
----------------------------------------- start 2
+---------------------------------------- start 2 column2
 <?php $this->beginContent(); ?>
 <div class="container">
 	<div id="content">
