@@ -11,6 +11,13 @@ class HelloController extends \Controller
             
             \init::app()->setTheme( false );
             
+            
+            // load model
+            $_object_model = \init::app()->getModels('vilidate/input');
+            // $_object_model -> save();
+            var_dump($_object_model);
+            
+            
             // connect db from controlers
             $_db = new CDatabase( 'main', NULL);
             

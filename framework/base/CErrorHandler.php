@@ -309,14 +309,21 @@ class CErrorHandler extends \CApplicationComponent
 	 */
 	protected function getViewFile($view,$code)
 	{
+            
+              
+            
 		$viewPaths=array(
-			\init::app()->getTheme()===null ? null :  \init::app()->getTheme()->getSystemViewPath(),
+			\init::app()->getTheme()===null ? null :  \init::app()->getSystemViewPath(),
 			\init::app() instanceof \CWebApplication ? \init::app()->getSystemViewPath() : null,
 			PATH.DIRECTORY_SEPARATOR.'views',
 		);
-
+                 // \init::app()->getTheme()->getSystemViewPath()
+                    
+               //echo "<pre>";
+               //var_dump($viewPaths);
+               //echo "</pre>";
                 
-                
+                //die('blaaaaaaaaaaaaaaaaaaaaaaa');
 		foreach($viewPaths as $i=>$viewPath)
 		{ 
 			if($viewPath !== null) {

@@ -28,7 +28,6 @@ class CController extends \CBaseController
 	private $_pageStates;
 	private $_module;
 
-
 	/**
 	 * @param string $id id of this controller
 	 * @param CWebModule $module the module that this controller belongs to.
@@ -1068,4 +1067,5 @@ class CController extends \CBaseController
 		$value=base64_encode($data);
 		$output=str_replace(CHtml::pageStateField(''),CHtml::pageStateField($value),$output);
 	}
+        
 }
