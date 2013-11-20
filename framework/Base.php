@@ -600,8 +600,8 @@ class Base
             
                 'CComponent'            => '/framework/base/CComponent.php',
             
-                
-            
+                // session
+                'CSession'                  => '/framework/base/CSession.php',
                 // create app
                 'CWebApplication'       => '/libs/CWebApplication.php',
                 // create error

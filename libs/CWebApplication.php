@@ -76,7 +76,11 @@ class CWebApplication extends \CApplication
 	private $_theme;
 
 
-        private $_definition = array();    
+        private $_definition = array(); 
+        
+        /* load model */
+        private $_model = [];
+        
 	/**
 	 * Processes the current request.
 	 * It first resolves the request into controller and action,
@@ -105,9 +109,16 @@ class CWebApplication extends \CApplication
 		parent::registerCoreComponents();
 
 		$components=array(
+                        // detected session
 			'session'=>array(
-				'class'=>'CHttpSession',
+				'class'=>'CSession',
 			),
+                         // detected boxes
+			'CBox'=>array(
+				'class'=>'CBox',
+			),
+                    
+                    
 			'assetManager'=>array(
 				'class'=>'CAssetManager',
 			),
@@ -123,9 +134,7 @@ class CWebApplication extends \CApplication
 			'clientScript'=>array(
 				'class'=>'CClientScript',
 			),
-			'CBox'=>array(
-				'class'=>'CBox',
-			),
+                       
 		);
 
 		$this->setComponents($components);
@@ -555,4 +564,74 @@ class CWebApplication extends \CApplication
              return $_definition;
         }
         
+       
+        
+        public function getModels($model = false) {
+            
+               
+		if (is_array($model)) {
+			foreach ($model as $babe) {
+				$this->models($babe);
+			}
+			return;
+		}
+
+		if ($model == '') {
+			return;
+		}
+
+		$path = '';
+
+		// Is the model in a sub-folder? If so, parse out the filename and path.
+		if (($last_slash = strrpos($model, '/')) !== FALSE) {
+			// The path is in front of the last slash
+			$path = substr($model, 0, $last_slash + 1);
+
+			// And the model name behind it
+			$model = substr($model, $last_slash + 1);
+		}
+
+		
+		if (in_array($model, $this->_model, TRUE)) {
+			return;
+		}
+
+		//$CI =& get_instance();
+		//if (isset($CI->$name))
+		//{
+		//	show_error('The model name you are loading is the name of a resource that is already being used: '.$name);
+		//}
+
+		$model = strtolower($model);
+                if ( ! file_exists(\init::app()->getMvc().DS.'model'.DS.$path.$model.'.php')) {
+                        return false;
+                }
+
+                //if ($db_conn !== FALSE AND ! class_exists('CI_DB')) {
+                //	if ($db_conn === TRUE) {
+                //		$db_conn = '';
+                //	}
+
+                //	$CI->load->database($db_conn, FALSE, TRUE);
+                //}
+
+                //if ( ! class_exists('CI_Model')) {
+                //	load_class('Model', 'core');
+                //}
+
+
+
+                require_once(\init::app()->getMvc().DS.'model'.DS.$path.$model.'.php');
+                $model = ucfirst($model);
+                $_model = new $model();
+
+                $this->_model[] = $_model; // $name
+                return $this->_model;
+		// couldn't find the model
+		// show_error('Unable to locate the model you have specified: '.$model);
+                
+	}
+        
+        
+       
 }
