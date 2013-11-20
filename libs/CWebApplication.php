@@ -105,9 +105,16 @@ class CWebApplication extends \CApplication
 		parent::registerCoreComponents();
 
 		$components=array(
+                        // detected session
 			'session'=>array(
-				'class'=>'CHttpSession',
+				'class'=>'CSession',
 			),
+                         // detected boxes
+			'CBox'=>array(
+				'class'=>'CBox',
+			),
+                    
+                    
 			'assetManager'=>array(
 				'class'=>'CAssetManager',
 			),
@@ -123,9 +130,7 @@ class CWebApplication extends \CApplication
 			'clientScript'=>array(
 				'class'=>'CClientScript',
 			),
-			'CBox'=>array(
-				'class'=>'CBox',
-			),
+                       
 		);
 
 		$this->setComponents($components);

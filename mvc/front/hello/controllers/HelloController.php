@@ -69,8 +69,14 @@ class HelloController extends \Controller
              echo "layout ---- = ".$this->layout;
              echo "<hr />";
             
+             \init::app()->setTheme( 'column2' );
+             
             $themes = \init::app()->getTheme();
                    
+            echo "<pre>";
+            var_dump($themes);
+            echo "</pre>";
+            
             $_gets = $this->getActionParams();
             
             $dataProvider = ['blaaa', 'ddddd'];
