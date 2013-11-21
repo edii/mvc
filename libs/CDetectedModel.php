@@ -57,15 +57,6 @@ class CDetectedModel extends \CModel
 
 	/**
 	 * Sets the parameters about query caching.
-	 * This is a shortcut method to {@link CDbConnection::cache()}.
-	 * It changes the query caching parameter of the {@link dbConnection} instance.
-	 * @param integer $duration the number of seconds that query results may remain valid in cache.
-	 * If this is 0, the caching will be disabled.
-	 * @param CCacheDependency $dependency the dependency that will be used when saving the query results into cache.
-	 * @param integer $queryCount number of SQL queries that need to be cached after calling this method. Defaults to 1,
-	 * meaning that the next SQL query will be cached.
-	 * @return CActiveRecord the active record instance itself.
-	 * @since 1.1.7
 	 */
 	public function cache($duration, $dependency=null, $queryCount=1)
 	{
@@ -87,10 +78,6 @@ class CDetectedModel extends \CModel
         
         /**
 	 * PHP getter magic method.
-	 * This method is overridden so that AR attributes can be accessed like properties.
-	 * @param string $name property name
-	 * @return mixed property value
-	 * @see getAttribute
 	 */
 	public function __get($name)
 	{
@@ -108,9 +95,6 @@ class CDetectedModel extends \CModel
 
 	/**
 	 * PHP setter magic method.
-	 * This method is overridden so that AR attributes can be accessed like properties.
-	 * @param string $name property name
-	 * @param mixed $value property value
 	 */
 	public function __set($name,$value)
 	{
@@ -125,10 +109,6 @@ class CDetectedModel extends \CModel
 
 	/**
 	 * Checks if a property value is null.
-	 * This method overrides the parent implementation by checking
-	 * if the named attribute is null or not.
-	 * @param string $name the property name or the event name
-	 * @return boolean whether the property value is null
 	 */
 	public function __isset($name)
 	{
@@ -146,9 +126,6 @@ class CDetectedModel extends \CModel
 
 	/**
 	 * Sets a component property to be null.
-	 * This method overrides the parent implementation by clearing
-	 * the specified attribute value.
-	 * @param string $name the property name or the event name
 	 */
 	public function __unset($name)
 	{
@@ -162,11 +139,6 @@ class CDetectedModel extends \CModel
 
 	/**
 	 * Calls the named method which is not a class method.
-	 * Do not call this method. This is a PHP magic method that we override
-	 * to implement the named scope feature.
-	 * @param string $name the method name
-	 * @param array $parameters method parameters
-	 * @return mixed the method return value
 	 */
 	public function __call($name,$parameters)
 	{
@@ -190,8 +162,6 @@ class CDetectedModel extends \CModel
         
         /**
 	 * Returns the list of all attribute names of the model.
-	 * This would return all column names of the table associated with this AR class.
-	 * @return array list of attribute names.
 	 */
 	public function attributeNames()
 	{
@@ -200,14 +170,6 @@ class CDetectedModel extends \CModel
         
         /**
 	 * Returns the text label for the specified attribute.
-	 * This method overrides the parent implementation by supporting
-	 * returning the label defined in relational object.
-	 * In particular, if the attribute name is in the form of "post.author.name",
-	 * then this method will derive the label from the "author" relation's "name" attribute.
-	 * @param string $attribute the attribute name
-	 * @return string the attribute label
-	 * @see generateAttributeLabel
-	 * @since 1.1.4
 	 */
 	public function getAttributeLabel($attribute)
 	{
@@ -265,14 +227,6 @@ class CDetectedModel extends \CModel
 
 	/**
 	 * Returns the named attribute value.
-	 * If this is a new record and the attribute is not set before,
-	 * the default column value will be returned.
-	 * If this record is the result of a query and the attribute is not loaded,
-	 * null will be returned.
-	 * You may also use $this->AttributeName to obtain the attribute value.
-	 * @param string $name the attribute name
-	 * @return mixed the attribute value. Null if the attribute is not set or does not exist.
-	 * @see hasAttribute
 	 */
 	public function getAttribute($name)
 	{
@@ -284,11 +238,6 @@ class CDetectedModel extends \CModel
 
 	/**
 	 * Sets the named attribute value.
-	 * You may also use $this->AttributeName to set the attribute value.
-	 * @param string $name the attribute name
-	 * @param mixed $value the attribute value.
-	 * @return boolean whether the attribute exists and the assignment is conducted successfully
-	 * @see hasAttribute
 	 */
 	public function setAttribute($name,$value)
 	{
@@ -304,12 +253,6 @@ class CDetectedModel extends \CModel
         
         /**
 	 * Returns all column attribute values.
-	 * Note, related objects are not returned.
-	 * @param mixed $names names of attributes whose value needs to be returned.
-	 * If this is true (default), then all attribute values will be returned, including
-	 * those that are not loaded from DB (null will be returned for those attributes).
-	 * If this is null, all attributes except those that are not loaded from DB will be returned.
-	 * @return array attribute values indexed by attribute names.
 	 */
 	public function getAttributes($names=true)
 	{
@@ -340,28 +283,8 @@ class CDetectedModel extends \CModel
 	/**
 	 * Saves the current record.
 	 *
-	 * The record is inserted as a row into the database table if its {@link isNewRecord}
-	 * property is true (usually the case when the record is created using the 'new'
-	 * operator). Otherwise, it will be used to update the corresponding row in the table
-	 * (usually the case if the record is obtained using one of those 'find' methods.)
-	 *
-	 * Validation will be performed before saving the record. If the validation fails,
-	 * the record will not be saved. You can call {@link getErrors()} to retrieve the
-	 * validation errors.
-	 *
-	 * If the record is saved via insertion, its {@link isNewRecord} property will be
-	 * set false, and its {@link scenario} property will be set to be 'update'.
-	 * And if its primary key is auto-incremental and is not set before insertion,
-	 * the primary key will be populated with the automatically generated key value.
-	 *
-	 * @param boolean $runValidation whether to perform validation before saving the record.
-	 * If the validation fails, the record will not be saved to database.
-	 * @param array $attributes list of attributes that need to be saved. Defaults to null,
-	 * meaning all attributes that are loaded from DB will be saved.
-	 * @return boolean whether the saving succeeds
 	 */
-	public function save($runValidation=true,$attributes=null)
-	{
+	public function save($runValidation=true,$attributes=null) {
                 
 		if(!$runValidation || $this->validate($attributes))
                         return $this->getIsNewRecord() ? $this->insert($attributes) : $this->update($attributes);
@@ -372,15 +295,6 @@ class CDetectedModel extends \CModel
 
         /**
 	 * Inserts a row into the table based on this active record attributes.
-	 * If the table's primary key is auto-incremental and is null before insertion,
-	 * it will be populated with the actual value after insertion.
-	 * Note, validation is not performed in this method. You may call {@link validate} to perform the validation.
-	 * After the record is inserted to DB successfully, its {@link isNewRecord} property will be set false,
-	 * and its {@link scenario} property will be set to be 'update'.
-	 * @param array $attributes list of attributes that need to be saved. Defaults to null,
-	 * meaning all attributes that are loaded from DB will be saved.
-	 * @return boolean whether the attributes are valid and the record is inserted successfully.
-	 * @throws CDbException if the record is not new
 	 */
 	public function insert($attributes=null)
 	{
@@ -426,12 +340,6 @@ class CDetectedModel extends \CModel
 
 	/**
 	 * Updates the row represented by this active record.
-	 * All loaded attributes will be saved to the database.
-	 * Note, validation is not performed in this method. You may call {@link validate} to perform the validation.
-	 * @param array $attributes list of attributes that need to be saved. Defaults to null,
-	 * meaning all attributes that are loaded from DB will be saved.
-	 * @return boolean whether the update is successful
-	 * @throws CDbException if the record is new
 	 */
 	public function update($attributes=null)
 	{
@@ -454,21 +362,6 @@ class CDetectedModel extends \CModel
 
 	/**
 	 * Saves a selected list of attributes.
-	 * Unlike {@link save}, this method only saves the specified attributes
-	 * of an existing row dataset and does NOT call either {@link beforeSave} or {@link afterSave}.
-	 * Also note that this method does neither attribute filtering nor validation.
-	 * So do not use this method with untrusted data (such as user posted data).
-	 * You may consider the following alternative if you want to do so:
-	 * <pre>
-	 * $postRecord=Post::model()->findByPk($postID);
-	 * $postRecord->attributes=$_POST['post'];
-	 * $postRecord->save();
-	 * </pre>
-	 * @param array $attributes attributes to be updated. Each element represents an attribute name
-	 * or an attribute value indexed by its name. If the latter, the record's
-	 * attribute will be changed accordingly before saving.
-	 * @return boolean whether the update is successful
-	 * @throws CException if the record is new or any database error
 	 */
 	public function saveAttributes($attributes)
 	{
@@ -546,10 +439,6 @@ class CDetectedModel extends \CModel
         
         /**
 	 * Returns if the current record is new.
-	 * @return boolean whether the record is new and should be inserted when calling {@link save}.
-	 * This property is automatically set in constructor and {@link populateRecord}.
-	 * Defaults to false, but it will be set to true if the instance is created using
-	 * the new operator.
 	 */
 	public function getIsNewRecord()
 	{
@@ -558,8 +447,6 @@ class CDetectedModel extends \CModel
 
 	/**
 	 * Sets if the record is new.
-	 * @param boolean $value whether the record is new and should be inserted when calling {@link save}.
-	 * @see getIsNewRecord
 	 */
 	public function setIsNewRecord($value)
 	{
