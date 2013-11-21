@@ -31,10 +31,10 @@ class Input extends \CDetectedModel {
      * save (input or update)
      * 
      */
-    public function save($runValidation = true, $attributes = NULL) {
-        echo('load model input save');
+   // public function save($runValidation = true, $attributes = NULL) {
+     //   echo('load model input save');
         // die('stop');
-    }
+   // }
     
     
 }

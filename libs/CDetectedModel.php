@@ -362,10 +362,12 @@ class CDetectedModel extends \CModel
 	 */
 	public function save($runValidation=true,$attributes=null)
 	{
+                
 		if(!$runValidation || $this->validate($attributes))
-			return $this->getIsNewRecord() ? $this->insert($attributes) : $this->update($attributes);
+                        return $this->getIsNewRecord() ? $this->insert($attributes) : $this->update($attributes);
 		else
 			return false;
+                
 	}
 
         /**
@@ -384,9 +386,10 @@ class CDetectedModel extends \CModel
 	{
 		if(!$this->getIsNewRecord())
 			throw new CDbException(\init::t('yii','The active record cannot be inserted to database because it is not new.'));
-		if($this->beforeSave())
+		/*
+                if($this->beforeSave())
 		{
-			Yii::trace(get_class($this).'.insert()','system.db.ar.CActiveRecord');
+			\init::trace(get_class($this).'.insert()','system.db.ar.CActiveRecord');
 			$builder=$this->getCommandBuilder();
 			$table=$this->getMetaData()->tableSchema;
 			$command=$builder->createInsertCommand($table,$this->getAttributes($attributes));
@@ -416,6 +419,8 @@ class CDetectedModel extends \CModel
 				return true;
 			}
 		}
+                */
+                
 		return false;
 	}
 
@@ -432,7 +437,8 @@ class CDetectedModel extends \CModel
 	{
 		if($this->getIsNewRecord())
 			throw new CDbException(\init::t('yii','The active record cannot be updated because it is new.'));
-		if($this->beforeSave())
+		/*
+                if($this->beforeSave())
 		{
 			\init::trace(get_class($this).'.update()','system.db.ar.CActiveRecord');
 			if($this->_pk===null)
@@ -442,7 +448,7 @@ class CDetectedModel extends \CModel
 			$this->afterSave();
 			return true;
 		}
-		else
+		else */
 			return false;
 	}
 
@@ -536,6 +542,28 @@ class CDetectedModel extends \CModel
 		}
 		else
 			return false;
+	}
+        
+        /**
+	 * Returns if the current record is new.
+	 * @return boolean whether the record is new and should be inserted when calling {@link save}.
+	 * This property is automatically set in constructor and {@link populateRecord}.
+	 * Defaults to false, but it will be set to true if the instance is created using
+	 * the new operator.
+	 */
+	public function getIsNewRecord()
+	{
+		return $this->_new;
+	}
+
+	/**
+	 * Sets if the record is new.
+	 * @param boolean $value whether the record is new and should be inserted when calling {@link save}.
+	 * @see getIsNewRecord
+	 */
+	public function setIsNewRecord($value)
+	{
+		$this->_new=$value;
 	}
 
 }
