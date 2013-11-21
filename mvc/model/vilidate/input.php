@@ -1,17 +1,16 @@
 <?php
 
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * model Input
  */
 
-class Input extends \CModel {
+class Input extends \CDetectedModel {
     
-    private static $db;
+    public static $db;
 
     private static $_tabelName = ['user'];
     
-    protected function init() {
+    public function init() {
     }
     
     public function attributeNames() {
@@ -24,7 +23,7 @@ class Input extends \CModel {
     public function input() {       
     }
     
-    public function update() {
+    public function update($attributes = NULL) {
     }
     
     /**
@@ -32,10 +31,10 @@ class Input extends \CModel {
      * save (input or update)
      * 
      */
-    public function save() {
-        die('load model input save');
-        
-    }
+   // public function save($runValidation = true, $attributes = NULL) {
+     //   echo('load model input save');
+        // die('stop');
+   // }
     
     
 }
