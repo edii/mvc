@@ -286,18 +286,21 @@ class CDetectedModel extends \CModel
 	 */
 	public function save($runValidation=true,$attributes=null) {
                 
-		if(!$runValidation || $this->validate($attributes))
+		if(!$runValidation || $this->validate($attributes)) :
+                        
                         return $this->getIsNewRecord() ? $this->insert($attributes) : $this->update($attributes);
-		else
+		else :
 			return false;
-                
+                endif;
 	}
 
         /**
 	 * Inserts a row into the table based on this active record attributes.
 	 */
-	public function insert($attributes=null)
-	{
+	public function insert($attributes=null) {
+            
+                
+            
 		if(!$this->getIsNewRecord())
 			throw new CDbException(\init::t('yii','The active record cannot be inserted to database because it is not new.'));
 		/*
@@ -341,8 +344,9 @@ class CDetectedModel extends \CModel
 	/**
 	 * Updates the row represented by this active record.
 	 */
-	public function update($attributes=null)
-	{
+	public function update($attributes=null) {
+            
+            
 		if($this->getIsNewRecord())
 			throw new CDbException(\init::t('yii','The active record cannot be updated because it is new.'));
 		/*
