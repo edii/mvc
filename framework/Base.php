@@ -595,8 +595,9 @@ class Base
                 'CModel'                => '/framework/base/CModel.php',
 		'CModelBehavior'        => '/framework/base/CModelBehavior.php',
 		'CModelEvent'           => '/framework/base/CModelEvent.php',
-            
+                'CDetectedModel'        => '/libs/CDetectedModel.php',
 		'CModule'               => '/framework/base/CModule.php',
+            
             
                 'CComponent'            => '/framework/base/CComponent.php',
             
