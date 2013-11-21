@@ -13,7 +13,7 @@ class HelloController extends \Controller
             
             
             // load model
-            $_object_model = \init::app()->getModels('vilidate/input')-> save(); //-> save()
+            $_object_model = \init::app()->getModels('vilidate/input')-> save(false, null); //-> save()
            // var_dump($_object_model);
             
             

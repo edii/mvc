@@ -16,16 +16,27 @@ abstract class CModel extends \CComponent implements IteratorAggregate, ArrayAcc
 
 	
 	public function validate($attributes=null, $clearErrors=true) {
+                
+            
 		if($clearErrors)
 			$this->clearErrors();
+                
 		if($this->beforeValidate()) {
-			foreach($this->getValidators() as $validator)
-				$validator->validate($this,$attributes);
+                        
+                    
+			foreach($this->getValidators() as $validator):
+				$validator->validate($this, $attributes);
+                        endforeach;
+                        
 			$this->afterValidate();
+                        
+                        
+                        
 			return !$this->hasErrors();
 		}
 		else
 			return false;
+                
 	}
 
 	/**
@@ -144,14 +155,17 @@ abstract class CModel extends \CComponent implements IteratorAggregate, ArrayAcc
 	public function createValidators()
 	{
 		$validators=new \CList;
-		foreach($this->rules() as $rule)
+		
+                /*
+                foreach($this->rules() as $rule)
 		{
 			if(isset($rule[0],$rule[1]))  // attributes, validator name
 				$validators->add(CValidator::createValidator($rule[1],$this,$rule[0],array_slice($rule,2)));
 			else
 				throw new \CException(\init::t('init','{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
 					array('{class}'=>get_class($this))));
-		}
+		} */
+                
 		return $validators;
 	}
 

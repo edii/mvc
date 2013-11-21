@@ -123,7 +123,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 		elseif($index>=0 && $index<$this->_c) // in case the value is null
 			return $this->_d[$index];
 		else
-			throw new CException(Yii::t('yii','List index "{index}" is out of bound.',
+			throw new CException(\init::t('yii','List index "{index}" is out of bound.',
 				array('{index}'=>$index)));
 	}
 
@@ -158,11 +158,11 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 				$this->_c++;
 			}
 			else
-				throw new CException(Yii::t('yii','List index "{index}" is out of bound.',
+				throw new CException(\init::t('yii','List index "{index}" is out of bound.',
 					array('{index}'=>$index)));
 		}
 		else
-			throw new CException(Yii::t('yii','The list is read only.'));
+			throw new CException(\init::t('yii','The list is read only.'));
 	}
 
 	/**
@@ -207,11 +207,11 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 				}
 			}
 			else
-				throw new CException(Yii::t('yii','List index "{index}" is out of bound.',
+				throw new CException(\init::t('yii','List index "{index}" is out of bound.',
 					array('{index}'=>$index)));
 		}
 		else
-			throw new CException(Yii::t('yii','The list is read only.'));
+			throw new CException(\init::t('yii','The list is read only.'));
 	}
 
 	/**
@@ -270,7 +270,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 				$this->add($item);
 		}
 		elseif($data!==null)
-			throw new CException(Yii::t('yii','List data must be an array or an object implementing Traversable.'));
+			throw new CException(\init::t('yii','List data must be an array or an object implementing Traversable.'));
 	}
 
 	/**
@@ -289,7 +289,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 				$this->add($item);
 		}
 		elseif($data!==null)
-			throw new CException(Yii::t('yii','List data must be an array or an object implementing Traversable.'));
+			throw new CException(\init::t('yii','List data must be an array or an object implementing Traversable.'));
 	}
 
 	/**
