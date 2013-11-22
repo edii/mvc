@@ -536,17 +536,13 @@ interface IBehavior
  * @package system.web
  * @since 1.1
  */
+/*
 interface IWidgetFactory
 {
-	/**
-	 * Creates a new widget based on the given class name and initial properties.
-	 * @param CBaseController $owner the owner of the new widget
-	 * @param string $className the class name of the widget. This can also be a path alias (e.g. system.web.widgets.COutputCache)
-	 * @param array $properties the initial property values (name=>value) of the widget.
-	 * @return CWidget the newly created widget whose properties have been initialized with the given values.
-	 */
+
 	public function createWidget($owner,$className,$properties=array());
 }
+*/
 
 /**
  * IDataProvider is the interface that must be implemented by data provider classes.
@@ -626,6 +622,6 @@ interface ILogFilter
 	 *   [2] => category (string)
 	 *   [3] => timestamp (float, obtained by microtime(true));
 	 */
-	public function filter(&$logs);
+	public function filter($logs);
 }
 

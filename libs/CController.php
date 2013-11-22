@@ -758,10 +758,8 @@ class CController extends \CBaseController
 	 * @param integer $statusCode the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
 	 * for details about HTTP status code.
 	 */
-	public function redirect($url,$terminate=true,$statusCode=302)
-	{
-		if(is_array($url))
-		{
+	public function redirect($url,$terminate=true,$statusCode=302) {
+		if(is_array($url)) {
 			$route=isset($url[0]) ? $url[0] : '';
 			$url=$this->createUrl($route,array_splice($url,1));
 		}
@@ -776,8 +774,7 @@ class CController extends \CBaseController
 	 * @param string $anchor the anchor that should be appended to the redirection URL.
 	 * Defaults to empty. Make sure the anchor starts with '#' if you want to specify it.
 	 */
-	public function refresh($terminate=true,$anchor='')
-	{
+	public function refresh($terminate=true,$anchor='') {
 		$this->redirect(\init::app()->getRequest()->getUrl().$anchor,$terminate);
 	}
 
@@ -791,8 +788,7 @@ class CController extends \CBaseController
 	 * @param array $params parameters passed to the method
 	 * @see COutputCache
 	 */
-	public function recordCachingAction($context,$method,$params)
-	{
+	public function recordCachingAction($context,$method,$params) {
 		if($this->_cachingStack) // record only when there is an active output cache
 		{
 			foreach($this->_cachingStack as $cache)
@@ -804,8 +800,7 @@ class CController extends \CBaseController
 	 * @param boolean $createIfNull whether to create a stack if it does not exist yet. Defaults to true.
 	 * @return CStack stack of {@link COutputCache} objects
 	 */
-	public function getCachingStack($createIfNull=true)
-	{
+	public function getCachingStack($createIfNull=true) {
 		if(!$this->_cachingStack)
 			$this->_cachingStack=new CStack;
 		return $this->_cachingStack;

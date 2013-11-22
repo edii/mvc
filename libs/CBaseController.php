@@ -300,16 +300,16 @@ abstract class CBaseController extends CComponent
             
             $renderer=\init::app()->getViewRenderer();
             
+           /// echo "<pre>";
+           // var_dump( $controller, $_id, $_action, $_view );
+           // echo "</pre>";
             
-            
+           // echo "<hr />";
             
             
              
-            echo "<pre>";
-            var_dump( $controller, $_id, $_action, $_view );
-            echo "</pre>";
-            
-            
+             //->getController()
+           
         }
         
         public function renderView($view, $data=null, $return=false, $layout = false) {
