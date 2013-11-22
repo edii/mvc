@@ -204,29 +204,14 @@ class CWebApplication extends \CApplication
 		return $this->getComponent('CBox');
 	}
 
-	/**
-	 * @return CThemeManager the theme manager.
-	 */
-	public function getThemeManager() {
-		return $this->getComponent('themeManager');
-	}
 
 	/**
 	 * @return CTheme the theme used currently. Null if no theme is being used.
 	 */
 	public function getTheme() {
-                 
-                /*
-		if(is_string($this->_theme))
-			$this->_theme = $this->getThemeManager()->getTheme($this->_theme);
-                */
             
                 if(is_string($this->_theme))
                     $this->_theme = $this->getBox()->getTheme($this->_theme);
-                
-                //echo "<pre>";
-                // var_dump( $this->_theme );
-                // echo "</pre>"; die('stop');
                 
 		return $this->_theme;
 	}
