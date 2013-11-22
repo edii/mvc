@@ -4,6 +4,7 @@
 </div>
 
 ---------------------------------------- start 2 column2
+<br />
 <?php /* $this->beginContent(); ?>
 <div class="container">
 	<div id="content">
@@ -12,4 +13,10 @@
 	</div><!-- content -->
 </div>
 <?php $this->endContent(); */ ?>
------------------------------------------ end -------
+---------------------------------------- end -------
+
+<hr /> center
+<?php 
+    $this->getBoxes('center') 
+?>
+<hr />
