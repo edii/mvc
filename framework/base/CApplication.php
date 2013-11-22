@@ -309,7 +309,7 @@ abstract class CApplication extends \CModule
 	public function setRuntimePath($path)
 	{
 		if(($runtimePath=realpath($path))===false || !is_dir($runtimePath) || !is_writable($runtimePath))
-			throw new CException(init::t('init','Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.',
+			throw new CException(\init::t('init','Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.',
 				array('{path}'=>$path)));
 		$this->_runtimePath=$runtimePath;
 	}
@@ -318,8 +318,7 @@ abstract class CApplication extends \CModule
 	 * Returns the root directory that holds all third-party extensions.
 	 * @return string the directory that contains all extensions. Defaults to the 'extensions' directory under 'protected'.
 	 */
-	public function getExtensionPath()
-	{
+	public function getExtensionPath() {
 		return \init::getPathOfAlias('ext');
 	}
 
@@ -327,8 +326,7 @@ abstract class CApplication extends \CModule
 	 * Sets the root directory that holds all third-party extensions.
 	 * @param string $path the directory that contains all third-party extensions.
 	 */
-	public function setExtensionPath($path)
-	{
+	public function setExtensionPath($path) {
 		if(($extensionPath=realpath($path))===false || !is_dir($extensionPath))
 			throw new \CException(\init::t('init','Extension path "{path}" does not exist.',
 				array('{path}'=>$path)));
@@ -340,8 +338,7 @@ abstract class CApplication extends \CModule
 	 * @return string the language that the user is using and the application should be targeted to.
 	 * Defaults to the {@link sourceLanguage source language}.
 	 */
-	public function getLanguage()
-	{
+	public function getLanguage() {
 		return $this->_language===null ? $this->sourceLanguage : $this->_language;
 	}
 
@@ -356,9 +353,8 @@ abstract class CApplication extends \CModule
 	 * @param string $language the user language (e.g. 'en_US', 'zh_CN').
 	 * If it is null, the {@link sourceLanguage} will be used.
 	 */
-	public function setLanguage($language)
-	{
-		$this->_language=$language;
+	public function setLanguage($language) {
+		$this->_language = $language;
 	}
 
 	/**
@@ -367,8 +363,7 @@ abstract class CApplication extends \CModule
 	 * @return string the time zone used by this application.
 	 * @see http://php.net/manual/en/function.date-default-timezone-get.php
 	 */
-	public function getTimeZone()
-	{
+	public function getTimeZone() {
 		return date_default_timezone_get();
 	}
 
@@ -378,8 +373,7 @@ abstract class CApplication extends \CModule
 	 * @param string $value the time zone used by this application.
 	 * @see http://php.net/manual/en/function.date-default-timezone-set.php
 	 */
-	public function setTimeZone($value)
-	{
+	public function setTimeZone($value) {
 		date_default_timezone_set($value);
 	}
 
@@ -402,8 +396,7 @@ abstract class CApplication extends \CModule
 	 * @return string the matching localized file. The original file is returned if no localized version is found
 	 * or if source language is the same as the desired language.
 	 */
-	public function findLocalizedFile($srcFile, $srcLanguage=null, $language=null)
-	{       
+	public function findLocalizedFile($srcFile, $srcLanguage=null, $language=null) {       
 		if($srcLanguage===null)
 			$srcLanguage=$this->sourceLanguage;
 		if($language===null)
@@ -411,7 +404,7 @@ abstract class CApplication extends \CModule
 		if($language===$srcLanguage) {
 			return $srcFile;
                 }        
-		$desiredFile=dirname($srcFile).DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.basename($srcFile);
+		$desiredFile=dirname($srcFile).DS.$language.DS.basename($srcFile);
                  
 		return is_file($desiredFile) ? $desiredFile : $srcFile;
 	}
@@ -421,8 +414,7 @@ abstract class CApplication extends \CModule
 	 * @param string $localeID the locale ID (e.g. en_US). If null, the {@link getLanguage application language ID} will be used.
 	 * @return CLocale the locale instance
 	 */
-	public function getLocale($localeID=null)
-	{
+	public function getLocale($localeID=null) {
 		return \CLocale::getInstance($localeID===null?$this->getLanguage():$localeID);
 	}
 
@@ -431,8 +423,7 @@ abstract class CApplication extends \CModule
 	 * @return string the directory that contains the locale data. It defaults to 'framework/i18n/data'.
 	 * @since 1.1.0
 	 */
-	public function getLocaleDataPath()
-	{
+	public function getLocaleDataPath() {
 		return \CLocale::$dataPath===null ? \init::getPathOfAlias('system.i18n.data') : \CLocale::$dataPath;
 	}
 
@@ -441,8 +432,7 @@ abstract class CApplication extends \CModule
 	 * @param string $value the directory that contains the locale data.
 	 * @since 1.1.0
 	 */
-	public function setLocaleDataPath($value)
-	{
+	public function setLocaleDataPath($value) {
 		\CLocale::$dataPath=$value;
 	}
 
@@ -450,8 +440,7 @@ abstract class CApplication extends \CModule
 	 * @return CNumberFormatter the locale-dependent number formatter.
 	 * The current {@link getLocale application locale} will be used.
 	 */
-	public function getNumberFormatter()
-	{
+	public function getNumberFormatter() {
 		return $this->getLocale()->getNumberFormatter();
 	}
 

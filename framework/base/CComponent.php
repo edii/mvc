@@ -66,8 +66,7 @@ class CComponent
 	 * @throws CException if the property/event is not defined or the property is read only.
 	 * @see __get
 	 */
-	public function __set($name,$value)
-	{
+	public function __set($name,$value) {
 		$setter='set'.$name;
 		if(method_exists($this,$setter))
 			return $this->$setter($value);
@@ -193,8 +192,7 @@ class CComponent
 	 * @param string $behavior the behavior name
 	 * @return IBehavior the behavior object, or null if the behavior does not exist
 	 */
-	public function asa($behavior)
-	{
+	public function asa($behavior) {
 		return isset($this->_m[$behavior]) ? $this->_m[$behavior] : null;
 	}
 

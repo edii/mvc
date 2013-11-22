@@ -31,14 +31,18 @@ abstract class CBaseController extends CComponent
 	public function renderFile($viewFile,$data=null,$return=false)
 	{
 		$widgetCount=count($this->_boxStack);
-		if(($renderer=\init::app()->getViewRenderer())!==null && $renderer->fileExtension==='.'.\CFileHelper::getExtension($viewFile))
+		if(($renderer=\init::app()->getViewRenderer())!==null && $renderer->fileExtension==='.'.\CFileHelper::getExtension($viewFile)):
 			$content=$renderer->renderFile($this,$viewFile,$data,$return);
-		else
+		else:
 			$content=$this->renderInternal($viewFile,$data,$return);
-		if(count($this->_boxStack)===$widgetCount)
+                endif;
+                //echo "<pre>";
+                //var_dump( $content );
+                //echo "</pre>";
+                
+		if(count($this->_boxStack)===$widgetCount) 
 			return $content;
-		else
-		{
+		else {
 			$widget=end($this->_boxStack);
 			throw new CException(\init::t('init','{controller} contains improperly nested widget tags in its view "{view}". A {widget} widget does not have an endWidget() call.',
 				array('{controller}'=>get_class($this), '{view}'=>$viewFile, '{widget}'=>get_class($widget))));
@@ -54,22 +58,30 @@ abstract class CBaseController extends CComponent
 	 * @param boolean $_return_ whether the rendering result should be returned as a string
 	 * @return string the rendering result. Null if the rendering result is not required.
 	 */
-	public function renderInternal($_viewFile_,$_data_=null,$_return_=false)
-	{
+	public function renderInternal($_viewFile_,$_data_=null,$_return_=false) {
+            
+               // echo "<pre>";
+               // var_dump($_viewFile_,$_data_);
+               // echo "</pre>";
+            
 		// we use special variable names here to avoid conflict when extracting data
-		if(is_array($_data_))
+		if(is_array($_data_)) {
 			extract($_data_,EXTR_PREFIX_SAME,'data');
-		else
+                        
+                } else {
 			$data=$_data_;
-		if($_return_)
-		{
+                }        
+		if($_return_) {
 			ob_start();
 			ob_implicit_flush(false);
 			require ($_viewFile_);
 			return ob_get_clean();
-		}
-		else
+		} else {
 			require($_viewFile_);
+                }   
+                
+                
+                
 	}
 
 	/**
@@ -293,7 +305,7 @@ abstract class CBaseController extends CComponent
             }        
             elseif($extension!=='.php' && is_file($viewFile.'.php')) 
                     return \init::app()->findLocalizedFile($viewFile.'.php');
-            else
+            else 
                     return false;
             
              */ 
@@ -301,8 +313,8 @@ abstract class CBaseController extends CComponent
             
             
              
-            echo "<pre>";
-            var_dump( $controller, $_id, $_action, $_view );
-            echo "</pre>";
+           // echo "<pre>";
+           // var_dump( $controller, $_id, $_action, $_view );
+          //  echo "</pre>";
         }
 }

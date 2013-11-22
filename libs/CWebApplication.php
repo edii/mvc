@@ -204,26 +204,14 @@ class CWebApplication extends \CApplication
 		return $this->getComponent('CBox');
 	}
 
-	/**
-	 * @return CThemeManager the theme manager.
-	 */
-	public function getThemeManager()
-	{
-		return $this->getComponent('themeManager');
-	}
 
 	/**
 	 * @return CTheme the theme used currently. Null if no theme is being used.
 	 */
 	public function getTheme() {
-                 
             
-		if(is_string($this->_theme))
-			$this->_theme = $this->getThemeManager()->getTheme($this->_theme);
-                
-                //echo "<pre>";
-                // var_dump( $this->_theme );
-                // echo "</pre>"; die('stop');
+                if(is_string($this->_theme))
+                    $this->_theme = $this->getBox()->getTheme($this->_theme);
                 
 		return $this->_theme;
 	}
@@ -231,9 +219,8 @@ class CWebApplication extends \CApplication
 	/**
 	 * @param string $value the theme name
 	 */
-	public function setTheme($value)
-	{
-		$this->_theme=$value;
+	public function setTheme($value) {
+		$this->_theme = $value;
 	}
 
 	/**
@@ -241,12 +228,10 @@ class CWebApplication extends \CApplication
 	 * @param string $route the route of the current request. See {@link createController} for more details.
 	 * @throws CHttpException if the controller could not be created.
 	 */
-	public function runController($route)
-	{
+	public function runController($route) {
                 
             
-		if(($ca=$this->createController($route))!==null)
-		{
+		if(($ca=$this->createController($route))!==null) {
                         
 			list($controller,$actionID)=$ca;
                         $this->_definition = $this->getLoadDatabaseDefinition( $controller->getId() );
@@ -443,8 +428,7 @@ class CWebApplication extends \CApplication
 	/**
 	 * @return string the root directory of layout files. Defaults to 'protected/views/layouts'.
 	 */
-	public function getLayoutPath()
-	{
+	public function getLayoutPath() {
 		if($this->_layoutPath!==null)
 			return $this->_layoutPath;
 		else
@@ -455,8 +439,7 @@ class CWebApplication extends \CApplication
 	 * @param string $path the root directory of layout files.
 	 * @throws CException if the directory does not exist.
 	 */
-	public function setLayoutPath($path)
-	{
+	public function setLayoutPath($path) {
 		if(($this->_layoutPath=realpath($path))===false || !is_dir($this->_layoutPath))
 			throw new CException(\init::t('init','The layout path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
@@ -471,8 +454,7 @@ class CWebApplication extends \CApplication
 	 * @param CAction $action the action
 	 * @return boolean whether the action should be executed.
 	 */
-	public function beforeControllerAction($controller,$action)
-	{
+	public function beforeControllerAction($controller,$action) {
 		return true;
 	}
 
@@ -484,8 +466,7 @@ class CWebApplication extends \CApplication
 	 * @param CController $controller the controller
 	 * @param CAction $action the action
 	 */
-	public function afterControllerAction($controller,$action)
-	{
+	public function afterControllerAction($controller,$action) {
 	}
 
 	/**

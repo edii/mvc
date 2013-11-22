@@ -9,21 +9,16 @@
  */
 
 
-class CTheme extends \CComponent {
+class CBoxLayout extends \CComponent {
     
 	private $_name;
 	private $_basePath;
-	private $_baseUrl;
 
 	/**
 	 * Constructor.
-	 * @param string $name name of the theme
-	 * @param string $basePath base theme path
-	 * @param string $baseUrl base theme URL
 	 */
-	public function __construct($name,$basePath,$baseUrl) {
+	public function __construct($name,$basePath) {
 		$this->_name     =   $name;
-		$this->_baseUrl  =   $baseUrl;
 		$this->_basePath =   $basePath;
 	}
 
@@ -32,13 +27,6 @@ class CTheme extends \CComponent {
 	 */
 	public function getName() {
 		return $this->_name;
-	}
-
-	/**
-	 * @return string the relative URL to the theme folder (without ending slash)
-	 */
-	public function getBaseUrl() {
-		return $this->_baseUrl;
 	}
 
 	/**
@@ -52,8 +40,6 @@ class CTheme extends \CComponent {
 	 * @return string the path for controller views. Defaults to 'ThemeRoot/views'.
 	 */
 	public function getViewPath() {
-		// return $this->_basePath.DS.'views';
-            
             return $this->_basePath;
 	}
 
@@ -67,13 +53,6 @@ class CTheme extends \CComponent {
             return $this->getViewPath().DS.'system';
 	}
 
-	/**
-	 * @return string the path for widget skins. Defaults to 'ThemeRoot/views/skins'.
-	 * @since 1.1
-	 */
-	public function getSkinPath() {
-		return $this->getViewPath().DS.'skins';
-	}
 
 	/**
 	 * Finds the view file for the specified controller's view.
@@ -82,11 +61,15 @@ class CTheme extends \CComponent {
 	 * @return string the view file path. False if the file does not exist.
 	 */
 	public function getViewFile($controller,$viewName) {
+            
+            /*
 		$moduleViewPath=$this->getViewPath();
 		if(($module=$controller->getModule())!==null)
 			$moduleViewPath.= DS.$module->getId();
 		return $controller->resolveViewFile($viewName,$this->getViewPath().DS.$controller->getUniqueId(),$this->getViewPath(),$moduleViewPath);
-	}
+                */
+                
+        }
 
 	/**
 	 * Finds the layout file for the specified controller's layout.
@@ -95,7 +78,12 @@ class CTheme extends \CComponent {
 	 * @return string the layout file path. False if the file does not exist.
 	 */
 	public function getLayoutFile($controller,$layoutName) {
-            
+                $path = $this->getBasePath().DS.$this->getName().'.php';
+                return $path;
+                 //echo "BLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ".__CLASS__.'  = '.$path;
+                 //die('layout');
+                /*
+                // echo "BLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ".__CLASS__; 
 		$moduleViewPath = $basePath = $this->getViewPath();
 		$module = $controller->getModule();
                 
@@ -122,5 +110,6 @@ class CTheme extends \CComponent {
                  
                 
 		return $controller->resolveViewFile($layoutName,$moduleViewPath,$basePath,$moduleViewPath); //.'/layouts'
+                */
 	}
 }
