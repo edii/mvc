@@ -191,8 +191,7 @@ class CClientScript extends \CApplicationComponent
 	 * at <code>head</code> and <code>body</code> sections in the HTML output.
 	 * @param string $output the existing output that needs to be inserted with script tags
 	 */
-	public function render(&$output)
-	{
+	public function render($output) {
 		if(!$this->hasScripts)
 			return;
 
@@ -215,8 +214,7 @@ class CClientScript extends \CApplicationComponent
 	 * Removes duplicated scripts from {@link scriptFiles}.
 	 * @since 1.1.5
 	 */
-	protected function unifyScripts()
-	{
+	protected function unifyScripts() {
 		if(!$this->enableJavaScript)
 			return;
 		$map=array();
@@ -247,8 +245,7 @@ class CClientScript extends \CApplicationComponent
 	/**
 	 * Uses {@link scriptMap} to re-map the registered scripts.
 	 */
-	protected function remapScripts()
-	{
+	protected function remapScripts() {
 		$cssFiles=array();
 		foreach($this->cssFiles as $url=>$media)
 		{
@@ -295,8 +292,7 @@ class CClientScript extends \CApplicationComponent
 	/**
 	 * Renders the specified core javascript library.
 	 */
-	public function renderCoreScripts()
-	{
+	public function renderCoreScripts() {
 		if($this->coreScripts===null)
 			return;
 		$cssFiles=array();
@@ -337,8 +333,7 @@ class CClientScript extends \CApplicationComponent
 	 * Inserts the scripts in the head section.
 	 * @param string $output the output to be inserted with scripts.
 	 */
-	public function renderHead(&$output)
-	{
+	public function renderHead($output) {
 		$html='';
 		foreach($this->metaTags as $meta)
 			$html.= \CHtml::metaTag($meta['content'],null,null,$meta)."\n";
@@ -375,8 +370,7 @@ class CClientScript extends \CApplicationComponent
 	 * Inserts the scripts at the beginning of the body section.
 	 * @param string $output the output to be inserted with scripts.
 	 */
-	public function renderBodyBegin(&$output)
-	{
+	public function renderBodyBegin($output) {
 		$html='';
 		if(isset($this->scriptFiles[self::POS_BEGIN]))
 		{
@@ -401,8 +395,7 @@ class CClientScript extends \CApplicationComponent
 	 * Inserts the scripts at the end of the body section.
 	 * @param string $output the output to be inserted with scripts.
 	 */
-	public function renderBodyEnd(&$output)
-	{
+	public function renderBodyEnd($output) {
 		if(!isset($this->scriptFiles[self::POS_END]) && !isset($this->scripts[self::POS_END])
 			&& !isset($this->scripts[self::POS_READY]) && !isset($this->scripts[self::POS_LOAD]))
 			return;
@@ -445,8 +438,7 @@ class CClientScript extends \CApplicationComponent
 	 * 'framework/web/js/source' and return the corresponding URL.
 	 * @return string the base URL of all core javascript files
 	 */
-	public function getCoreScriptUrl()
-	{
+	public function getCoreScriptUrl() {
 		if($this->_baseUrl!==null)
 			return $this->_baseUrl;
 		else
@@ -459,8 +451,7 @@ class CClientScript extends \CApplicationComponent
 	 * to a pre-specified location. This may save asset publishing time for large-scale applications.
 	 * @param string $value the base URL of all core javascript files.
 	 */
-	public function setCoreScriptUrl($value)
-	{
+	public function setCoreScriptUrl($value) {
 		$this->_baseUrl=$value;
 	}
 
@@ -472,8 +463,7 @@ class CClientScript extends \CApplicationComponent
 	 * @see registerPackage
 	 * @since 1.1.8
 	 */
-	public function getPackageBaseUrl($name)
-	{
+	public function getPackageBaseUrl($name) {
 		if(!isset($this->coreScripts[$name]))
 			return false;
 		$package=$this->coreScripts[$name];
@@ -500,8 +490,7 @@ class CClientScript extends \CApplicationComponent
 	 * @since 1.1.7
 	 * @see renderCoreScript
 	 */
-	public function registerPackage($name)
-	{
+	public function registerPackage($name) {
 		return $this->registerCoreScript($name);
 	}
 
@@ -511,8 +500,7 @@ class CClientScript extends \CApplicationComponent
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 * @see renderCoreScript
 	 */
-	public function registerCoreScript($name)
-	{
+	public function registerCoreScript($name) {
 		if(isset($this->coreScripts[$name]))
 			return $this;
 		if(isset($this->packages[$name]))
@@ -545,8 +533,7 @@ class CClientScript extends \CApplicationComponent
 	 * @param string $media media that the CSS file should be applied to. If empty, it means all media types.
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerCssFile($url,$media='')
-	{
+	public function registerCssFile($url,$media='') {
 		$this->hasScripts=true;
 		$this->cssFiles[$url]=$media;
 		$params=func_get_args();
@@ -561,8 +548,7 @@ class CClientScript extends \CApplicationComponent
 	 * @param string $media media that the CSS code should be applied to. If empty, it means all media types.
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerCss($id,$css,$media='')
-	{
+	public function registerCss($id,$css,$media='') {
 		$this->hasScripts=true;
 		$this->css[$id]=array($css,$media);
 		$params=func_get_args();
@@ -581,8 +567,7 @@ class CClientScript extends \CApplicationComponent
 	 * </ul>
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerScriptFile($url,$position=null)
-	{
+	public function registerScriptFile($url,$position=null) {
 		if($position===null)
 			$position=$this->defaultScriptFilePosition;
 		$this->hasScripts=true;
@@ -606,8 +591,7 @@ class CClientScript extends \CApplicationComponent
 	 * </ul>
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerScript($id,$script,$position=null)
-	{
+	public function registerScript($id,$script,$position=null) {
 		if($position===null)
 			$position=$this->defaultScriptPosition;
 		$this->hasScripts=true;
@@ -637,8 +621,7 @@ class CClientScript extends \CApplicationComponent
 	 * @param string $id Optional id of the meta tag to avoid duplicates
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerMetaTag($content,$name=null,$httpEquiv=null,$options=array(),$id=null)
-	{
+	public function registerMetaTag($content,$name=null,$httpEquiv=null,$options=array(),$id=null) {
 		$this->hasScripts=true;
 		if($name!==null)
 			$options['name']=$name;
@@ -660,8 +643,7 @@ class CClientScript extends \CApplicationComponent
 	 * @param array $options other options in name-value pairs
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
-	public function registerLinkTag($relation=null,$type=null,$href=null,$media=null,$options=array())
-	{
+	public function registerLinkTag($relation=null,$type=null,$href=null,$media=null,$options=array()) {
 		$this->hasScripts=true;
 		if($relation!==null)
 			$options['rel']=$relation;
@@ -682,8 +664,7 @@ class CClientScript extends \CApplicationComponent
 	 * @param string $url URL of the CSS file
 	 * @return boolean whether the CSS file is already registered
 	 */
-	public function isCssFileRegistered($url)
-	{
+	public function isCssFileRegistered($url) {
 		return isset($this->cssFiles[$url]);
 	}
 

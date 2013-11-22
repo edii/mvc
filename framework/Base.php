@@ -223,7 +223,7 @@ class Base
 			$namespace=str_replace('\\','.',ltrim(substr($alias,0,$pos),'\\'));
 			if(($path=self::getPathOfAlias($namespace))!==false)
 			{
-				$classFile=$path.DIRECTORY_SEPARATOR.substr($alias,$pos+1).'.php';
+				$classFile=$path.DS.substr($alias,$pos+1).'.php';
 				if($forceInclude)
 				{
 					if(is_file($classFile))
@@ -547,10 +547,7 @@ class Base
 	 */
 	private static $_coreClasses = array(
                 
-                // create layout
-                'CBox'                  => '/libs/CBox.php',
-                'CTheme'                => '/libs/CTheme.php',
-                'CThemeManager'         => '/libs/CThemeManager.php',
+                
                 
                 // generate content view layout
                 /*
@@ -632,10 +629,10 @@ class Base
             
                 'CHttpCookie'           => '/libs/CHttpCookie.php',
 		'CHttpRequest'          => '/libs/CHttpRequest.php',
-		'CHttpSession'          => '/libs/CHttpSession.php',
-		'CHttpSessionIterator'  => '/libs/CHttpSessionIterator.php',
+		//'CHttpSession'          => '/libs/CHttpSession.php',
+		//'CHttpSessionIterator'  => '/libs/CHttpSessionIterator.php',
 		'COutputEvent'          => '/libs/COutputEvent.php',
-		'CPagination'           => '/libs/CPagination.php',
+		// 'CPagination'           => '/libs/CPagination.php',
             
                 'CUrlManager'           => '/libs/CUrlManager.php',
             
@@ -653,6 +650,14 @@ class Base
             
                 // create script params
                 'CClientScript' => '/libs/CClientScript.php',
+            
+            
+                // create layout
+                'CBox'                  => '/libs/CBox.php',
+                'CBoxLayout'            => '/libs/CBoxLayout.php',
+               // 'CTheme'                => '/libs/CTheme.php',
+               // 'CThemeManager'         => '/libs/CThemeManager.php',
+            
             
 		
 	);

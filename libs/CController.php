@@ -38,7 +38,7 @@ class CController extends \CBaseController
 		$this->_module  = $module;
 		$this->attachBehaviors($this->behaviors());
                 
-                $this->_runLayout(); // load layout
+                // $this->_runLayout(); // load layout
                 
 	}
 
@@ -81,11 +81,11 @@ class CController extends \CBaseController
 			$this->missingAction($actionID);
 	}
 
-        public function _runLayout() {
-            if($this->layout) {
-                \init::app()->setTheme( $this->layout );
-            }
-        }
+       // public function _runLayout() {
+        //    if($this->layout) {
+         //       \init::app()->setTheme( $this->layout );
+          //  }
+       // }
         
 	/**
 	 * Runs an action with the specified filters.
@@ -368,10 +368,10 @@ class CController extends \CBaseController
                 // $viewFile = $theme->getViewFile($this, $viewName);
   
                 
+                //echo "viewName = ".$viewName;
                 
-                
-		if(($theme = \init::app()->getTheme()) != false && ($viewFile = $theme->getViewFile($this,$viewName)) !== false)
-			return $viewFile;
+		//if(($theme = \init::app()->getTheme()) != false && ($viewFile = $theme->getViewFile($this,$viewName)) !== false)
+			//return $viewFile;
                 
 		$moduleViewPath=$basePath=\init::app()->getViewPath();
 		if(($module=$this->getModule())!==null)
@@ -390,44 +390,11 @@ class CController extends \CBaseController
 	/**
 	 * Looks for the layout view script based on the layout name.
 	 *
-	 * The layout name can be specified in one of the following ways:
-	 *
-	 * <ul>
-	 * <li>layout is false: returns false, meaning no layout.</li>
-	 * <li>layout is null: the currently active module's layout will be used. If there is no active module,
-	 * the application's layout will be used.</li>
-	 * <li>a regular view name.</li>
-	 * </ul>
-	 *
-	 * The resolution of the view file based on the layout view is similar to that in {@link getViewFile}.
-	 * In particular, the following rules are followed:
-	 *
-	 * Otherwise, this method will return the corresponding view file based on the following criteria:
-	 * <ul>
-	 * <li>When a theme is currently active, this method will call {@link CTheme::getLayoutFile} to determine
-	 * which view file should be returned.</li>
-	 * <li>absolute view within a module: the view name starts with a single slash '/'.
-	 * In this case, the view will be searched for under the currently active module's view path.
-	 * If there is no active module, the view will be searched for under the application's view path.</li>
-	 * <li>absolute view within the application: the view name starts with double slashes '//'.
-	 * In this case, the view will be searched for under the application's view path.
-	 * This syntax has been available since version 1.1.3.</li>
-	 * <li>aliased view: the view name contains dots and refers to a path alias.
-	 * The view file is determined by calling {@link Base::getPathOfAlias()}. Note that aliased views
-	 * cannot be themed because they can refer to a view file located at arbitrary places.</li>
-	 * <li>relative view: otherwise. Relative views will be searched for under the currently active
-	 * module's layout path. In case when there is no active module, the view will be searched for
-	 * under the application's layout path.</li>
-	 * </ul>
-	 *
-	 * After the view file is identified, this method may further call {@link CApplication::findLocalizedFile}
-	 * to find its localized version if internationalization is needed.
-	 *
-	 * @param mixed $layoutName layout name
-	 * @return string the view file for the layout. False if the view file cannot be found
 	 */
-	public function getLayoutFile($layoutName)
-	{
+	public function getLayoutFile($layoutName) {
+               
+            
+                // echo "layout loader = ".$layoutName;
             
 		if($layoutName===false)
 			return false;
@@ -452,6 +419,8 @@ class CController extends \CBaseController
 		elseif(($module=$this->getModule())===null)
 			$module=\init::app();
 
+                
+                 //echo "BLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ".__CLASS__." BPath = ".\init::app()->getViewPath()." modelPath = ".$module->getLayoutPath(); 
                 // echo $layoutName." "; die('layout');
                 
                 //echo $layoutName." m = ".$module->getLayoutPath()." view = ".\init::app()->getViewPath()." mp = ".$module->getViewPath();
@@ -461,30 +430,7 @@ class CController extends \CBaseController
 	}
 
 	/**
-	 * Finds a view file based on its name.
-	 * The view name can be in one of the following formats:
-	 * <ul>
-	 * <li>absolute view within a module: the view name starts with a single slash '/'.
-	 * In this case, the view will be searched for under the currently active module's view path.
-	 * If there is no active module, the view will be searched for under the application's view path.</li>
-	 * <li>absolute view within the application: the view name starts with double slashes '//'.
-	 * In this case, the view will be searched for under the application's view path.
-	 * This syntax has been available since version 1.1.3.</li>
-	 * <li>aliased view: the view name contains dots and refers to a path alias.
-	 * The view file is determined by calling {@link Base::getPathOfAlias()}. Note that aliased views
-	 * cannot be themed because they can refer to a view file located at arbitrary places.</li>
-	 * <li>relative view: otherwise. Relative views will be searched for under the currently active
-	 * controller's view path.</li>
-	 * </ul>
-	 * For absolute view and relative view, the corresponding view file is a PHP file
-	 * whose name is the same as the view name. The file is located under a specified directory.
-	 * This method will call {@link CApplication::findLocalizedFile} to search for a localized file, if any.
-	 * @param string $viewName the view name
-	 * @param string $viewPath the directory that is used to search for a relative view name
-	 * @param string $basePath the directory that is used to search for an absolute view name under the application
-	 * @param string $moduleViewPath the directory that is used to search for an absolute view name under the current module.
-	 * If this is not set, the application base view path will be used.
-	 * @return mixed the view file path. False if the view file does not exist.
+	 * Finds a view file based on its name..
 	 */
 	public function resolveViewFile($viewName, $viewPath, $basePath, $moduleViewPath=null) {
             
@@ -493,9 +439,9 @@ class CController extends \CBaseController
                //echo "load layout = ".$theme->getBasePath().DS.$theme->getName().".php"; die('load');
                
                //var_dump( $theme );
-               
                /* load layout */
-               if(($theme=\init::app()->getTheme())!= null) {
+                /*  
+                if(($theme=\init::app()->getTheme())!= null) {
                    $layout_path = $theme->getBasePath().DS. $theme->getName().'.php';
                    if(is_file($layout_path)) {
                        return $layout_path;
@@ -505,9 +451,11 @@ class CController extends \CBaseController
                    }
                    
                }
+               */
                /* end */
+               
             
-              // echo " vn = ".$viewName."  vh = ".$viewPath."  bh = ".$basePath."  mv = ".$moduleViewPath; die('stop');
+               // echo " vn = ".$viewName."  vh = ".$viewPath."  bh = ".$basePath."  mv = ".$moduleViewPath; die('stop');
             
 		if(empty($viewName))
 			return false;
@@ -540,6 +488,9 @@ class CController extends \CBaseController
 			return \init::app()->findLocalizedFile($viewFile.'.php');
                 else
 			return false;
+                
+                
+                
 	}
 
 	/**
@@ -583,36 +534,19 @@ class CController extends \CBaseController
 
 	/**
 	 * Renders a view with a layout.
-	 *
-	 * This method first calls {@link renderPartial} to render the view (called content view).
-	 * It then renders the layout view which may embed the content view at appropriate place.
-	 * In the layout view, the content view rendering result can be accessed via variable
-	 * <code>$content</code>. At the end, it calls {@link processOutput} to insert scripts
-	 * and dynamic contents if they are available.
-	 *
-	 * By default, the layout view script is "protected/views/layouts/main.php".
-	 * This may be customized by changing {@link layout}.
-	 *
-	 * @param string $view name of the view to be rendered. See {@link getViewFile} for details
-	 * about how the view script is resolved.
-	 * @param array $data data to be extracted into PHP variables and made available to the view script
-	 * @param boolean $return whether the rendering result should be returned instead of being displayed to end users.
-	 * @return string the rendering result. Null if the rendering result is not required.
-	 * @see renderPartial
-	 * @see getLayoutFile
 	 */
 	public function render($view,$data=null,$return=false)
 	{
-                
+                // echo "view = ".$view;
 		if($this->beforeRender($view))
 		{
                     
                         
 			$output=$this->renderPartial($view,$data,true);
                         
-                       // echo "<pre>";
-                       // var_dump( $data );
-                       // echo "</pre>";
+                        //echo "<pre>";
+                        //var_dump( $output );
+                        //echo "</pre>";
                         
 			if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
 				$output=$this->renderFile($layoutFile,array('content'=>$output),true);
@@ -680,35 +614,25 @@ class CController extends \CBaseController
 
 	/**
 	 * Renders a view.
-	 *
-	 * The named view refers to a PHP script (resolved via {@link getViewFile})
-	 * that is included by this method. If $data is an associative array,
-	 * it will be extracted as PHP variables and made available to the script.
-	 *
-	 * This method differs from {@link render()} in that it does not
-	 * apply a layout to the rendered result. It is thus mostly used
-	 * in rendering a partial view, or an AJAX response.
-	 *
-	 * @param string $view name of the view to be rendered. See {@link getViewFile} for details
-	 * about how the view script is resolved.
-	 * @param array $data data to be extracted into PHP variables and made available to the view script
-	 * @param boolean $return whether the rendering result should be returned instead of being displayed to end users
-	 * @param boolean $processOutput whether the rendering result should be postprocessed using {@link processOutput}.
-	 * @return string the rendering result. Null if the rendering result is not required.
-	 * @throws CException if the view does not exist
-	 * @see getViewFile
-	 * @see processOutput
-	 * @see render
 	 */
 	public function renderPartial($view, $data=null, $return=false, $processOutput=false)
 	{
-                // echo "".$view; die('view');
+                //  echo "".$view; die('view');
 		if(($viewFile=$this->getViewFile($view))!==false) {
                     
+                    // echo "viewFile = ".$viewFile;
+                    
 			$output = $this->renderFile($viewFile,$data,true);
+                        
+                        
+                        //echo "<pre>";
+                        //var_dump( $output );
+                        //echo "</pre>";
+                        
 			if($processOutput)
 				$output=$this->processOutput($output);
-			if($return)
+			//echo "".$view; die('view');
+                        if($return)
 				return $output;
 			else
 				echo $output;
@@ -720,15 +644,6 @@ class CController extends \CBaseController
 
 	/**
 	 * Renders a named clip with the supplied parameters.
-	 * This is similar to directly accessing the {@link clips} property.
-	 * The main difference is that it can take an array of named parameters
-	 * which will replace the corresponding placeholders in the clip.
-	 * @param string $name the name of the clip
-	 * @param array $params an array of named parameters (name=>value) that should replace
-	 * their corresponding placeholders in the clip
-	 * @param boolean $return whether to return the clip content or echo it.
-	 * @return mixed either the clip content or null
-	 * @since 1.1.8
 	 */
 	public function renderClip($name,$params=array(),$return=false)
 	{
@@ -742,22 +657,6 @@ class CController extends \CBaseController
 
 	/**
 	 * Renders dynamic content returned by the specified callback.
-	 * This method is used together with {@link COutputCache}. Dynamic contents
-	 * will always show as their latest state even if the content surrounding them is being cached.
-	 * This is especially useful when caching pages that are mostly static but contain some small
-	 * dynamic regions, such as username or current time.
-	 * We can use this method to render these dynamic regions to ensure they are always up-to-date.
-	 *
-	 * The first parameter to this method should be a valid PHP callback, while the rest parameters
-	 * will be passed to the callback.
-	 *
-	 * Note, the callback and its parameter values will be serialized and saved in cache.
-	 * Make sure they are serializable.
-	 *
-	 * @param callback $callback a PHP callback which returns the needed dynamic content.
-	 * When the callback is specified as a string, it will be first assumed to be a method of the current
-	 * controller class. If the method does not exist, it is assumed to be a global PHP function.
-	 * Note, the callback should return the dynamic content instead of echoing it.
 	 */
 	public function renderDynamic($callback)
 	{

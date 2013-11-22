@@ -7,8 +7,13 @@
  */
 
 
-class CBox extends CApplicationComponent
+class CBox extends \CApplicationComponent
 {
+        /**
+	 * default themes base path
+	 */
+	const DEFAULT_BASEPATH = 'schemas'; //.DS._detected.DS
+    
 	private $_name;
 	private $_basePath;
 	private $_baseUrl;
@@ -20,11 +25,10 @@ class CBox extends CApplicationComponent
         
         public $_boxesDefinition = array();
         
+        public $themeClass = 'CBoxLayout';
+        
 	/**
 	 * Constructor.
-	 * @param string $name name of the theme
-	 * @param string $basePath base theme path
-	 * @param string $baseUrl base theme URL
 	 */
 	public function __construct($name = false,$basePath = false,$baseUrl = false) {
 		$this->_name     =   $name;
@@ -44,6 +48,21 @@ class CBox extends CApplicationComponent
 	 */
 	public function run()
 	{
+	}
+        
+        /**
+	 * @param string $name name of the theme to be retrieved
+	 * @return CTheme the theme retrieved. Null if the theme does not exist.
+	 */
+	public function getTheme($name) {
+                
+		$themePath = self::DEFAULT_BASEPATH.$this->getBasePath().DS._detected.DS.'layout';
+		if(is_dir($themePath)) {
+			$class = \init::import($this->themeClass, true);
+			return new $class($name, $themePath);
+		}
+		else
+			return null;
 	}
         
         protected function _loadWebDefinitions() {
@@ -247,38 +266,38 @@ class CBox extends CApplicationComponent
                 return $out;	
             }
 
-            //show boxe by sides
-            public function getBoxes($boxesSide,$mode='') {
-                global $CORE, $SERVER_SOAP, $currentBoxParams;
-                $website = $CORE->getWebsiteDefinition();
+        //show boxe by sides
+        public function getBoxes($boxesSide,$mode='') {
+            global $CORE, $SERVER_SOAP, $currentBoxParams;
+            $website = $CORE->getWebsiteDefinition();
 
-                $input = $CORE->getInput();
-                $sectionID = $input['SID'];
-                $boxes = $website[$sectionID][$boxesSide];
-                
-                if(is_array($boxes)) {
-                        foreach($boxes as $id=>$box) {
-                                $boxID =  $box['boxid'];
-                                //echo $boxID.' side:'.$boxesSide.'<br>'; 
-                                $params['boxtitle'] = $box['boxtitle'];
-                                $params['boxshowtitle'] = $box['boxshowtitle']; 
-                                $boxContent = $box['boxcontent'];
-                                if(!empty($boxContent)) {
-                                    $boxContent = str_replace("&quot;",'"',$boxContent);
-                                    $boxContent = stripslashes($boxContent);
-                                }
-                                $params['boxcontent'] = $boxContent; 
-                                $params['boxtemplate'] = $box['boxtemplate']; 
-                                $params['boxparams'] = $box['boxparams']; 
-                                $params['boxstyle'] = $box['boxstyle'];
-                                $params['boxside'] = $boxesSide;
-                                $params['boxindex'] = $box['boxindex'];
-                                $currentBoxParams = $params;
-                                getBox($boxID,$params);
-                                $currentBoxParams = '';
-                        }
-                }
-        }
+            $input = $CORE->getInput();
+            $sectionID = $input['SID'];
+            $boxes = $website[$sectionID][$boxesSide];
+
+            if(is_array($boxes)) {
+                    foreach($boxes as $id=>$box) {
+                            $boxID =  $box['boxid'];
+                            //echo $boxID.' side:'.$boxesSide.'<br>'; 
+                            $params['boxtitle'] = $box['boxtitle'];
+                            $params['boxshowtitle'] = $box['boxshowtitle']; 
+                            $boxContent = $box['boxcontent'];
+                            if(!empty($boxContent)) {
+                                $boxContent = str_replace("&quot;",'"',$boxContent);
+                                $boxContent = stripslashes($boxContent);
+                            }
+                            $params['boxcontent'] = $boxContent; 
+                            $params['boxtemplate'] = $box['boxtemplate']; 
+                            $params['boxparams'] = $box['boxparams']; 
+                            $params['boxstyle'] = $box['boxstyle'];
+                            $params['boxside'] = $boxesSide;
+                            $params['boxindex'] = $box['boxindex'];
+                            $currentBoxParams = $params;
+                            getBox($boxID,$params);
+                            $currentBoxParams = '';
+                    }
+            }
+    }
 
         public function boxHeader($data='',$mode='') {
                 global $CORE, $currentBoxParams;

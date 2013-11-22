@@ -7,11 +7,12 @@
  * @copyright Copyright &copy; 2013 
  */
 
-	$boxesDefinition['home.index'] = [
+	$boxesDefinition['hello/db'] = [
             'name'      =>  'test load box element',
             'type'      =>  'front',
             'module'    =>  '',
             'method'    =>  'actionIndex',
             'template'  =>  'index',
-            'params'    =>  ''
+            'params'    =>  '',
+            'align'     =>  'center'
         ];
