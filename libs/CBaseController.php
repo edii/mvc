@@ -264,14 +264,6 @@ abstract class CBaseController extends CComponent
                         
 			$output=$this->renderPartial($view,$data,true);
                         
-                        //echo $layoutFile=$this->getLayoutFile($this->layout);
-                        //die('stop');
-                        
-                        //echo "<hr /> output";
-                        //echo "<pre>";
-                        //var_dump( $output );
-                        //echo "</pre>";
-                        
 			if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
 				$output=$this->renderFile($layoutFile,array('content'=>$output),true);
 

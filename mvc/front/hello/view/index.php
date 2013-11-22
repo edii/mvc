@@ -3,8 +3,10 @@
 <hr />
 Maks Sonechlo!
 
+
+
 <?php
-    echo "<hr /> params in";
+    echo "<hr /> params in ----";
     
     echo "<pre>";
     var_dump( $dataProvider );
@@ -12,3 +14,12 @@ Maks Sonechlo!
     
     echo "<hr /> end";
 ?>
+
+
+<hr /> render
+
+<?php 
+    $_rener = $this->render('db', ['1','blaaaaaaaaaaaaaaaaa']);
+?>
+
+<hr />
