@@ -9,7 +9,7 @@ class HelloController extends \Controller
 	public function actionDB()
 	{
             
-            \init::app()->setTheme( false );
+           // \init::app()->setTheme( false );
             
             // connect db from controlers
             $_db = new CDatabase( 'main', NULL);

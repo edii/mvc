@@ -281,6 +281,8 @@ abstract class CBaseController extends CComponent
 	}
         
         public function getBoxes( $params ) {
+            
+            
             $controller = \init::app()->getController();
             
             $_id = $controller->getId();
@@ -298,23 +300,40 @@ abstract class CBaseController extends CComponent
             
             $renderer=\init::app()->getViewRenderer();
             
-            /*
+           /// echo "<pre>";
+           // var_dump( $controller, $_id, $_action, $_view );
+           // echo "</pre>";
             
-            if(is_file($viewFile.$extension)) {
-                    return \init::app()->findLocalizedFile($viewFile.$extension);
-            }        
-            elseif($extension!=='.php' && is_file($viewFile.'.php')) 
-                    return \init::app()->findLocalizedFile($viewFile.'.php');
-            else 
-                    return false;
-            
-             */ 
-            
+           // echo "<hr />";
             
             
              
-           // echo "<pre>";
-           // var_dump( $controller, $_id, $_action, $_view );
-          //  echo "</pre>";
+             //->getController()
+           
         }
+        
+        public function renderView($view, $data=null, $return=false, $layout = false) {
+            if($this->beforeRender($view))
+		{
+                    
+                        
+			$output=$this->renderPartial($view,$data,true);
+                        
+			if(($layoutFile=$this->getLayoutFile($this->layout))!==false and $layout == true)
+				$output=$this->renderFile($layoutFile,array('content'=>$output),true);
+
+                        
+                        
+			$this->afterRender($view,$output);
+
+			$output=$this->processOutput($output);
+
+			if($return)
+				return $output;
+			else
+				echo $output;
+		}
+        }
+        
+        
 }

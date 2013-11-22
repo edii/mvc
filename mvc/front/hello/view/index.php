@@ -18,8 +18,6 @@ Maks Sonechlo!
 
 <hr /> render
 
-<?php 
-    $_rener = $this->render('db', ['1','blaaaaaaaaaaaaaaaaa']);
-?>
+<?php $this->renderView('db', ['1','blaaaaaaaaaaaaaaaaa']); ?>
 
 <hr />
