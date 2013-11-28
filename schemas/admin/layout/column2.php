@@ -1,4 +1,4 @@
----------------------------------------- fix params admin
+---------------------------------------- fix params admin column2 fix
 <div class="content">
     <?= $content ?>
 </div>

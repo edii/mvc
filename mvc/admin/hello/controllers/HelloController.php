@@ -11,15 +11,17 @@ class HelloController extends \Controller
             
             //echo "BLAAAAAAAAAAAAAAAA MAKS!";
             
-            \init::app()->setTheme( 'column1' );
+            $this->layout( 'column2' ); //'column2'
+            
+            //\init::app()->setTheme( 'column1' );
              
             $themes = \init::app()->getTheme();
             
-            $layout = \init::app() -> getLayoutPath();
+            //$layout = \init::app() -> getLayoutPath();
             
             echo "<hr /> controller";
             echo "<pre>";
-            var_dump($themes, $layout);
+            var_dump($themes);
             echo "</pre>";
             
             //\init::app()->setTheme( 'column2' );

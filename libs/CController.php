@@ -961,4 +961,19 @@ class CController extends \CBaseController
 		$output=str_replace(CHtml::pageStateField(''),CHtml::pageStateField($value),$output);
 	}
         
+        /**
+         * layout;
+         * in $layout
+         * return object connected layout
+         */
+        public function layout( $layout ) { 
+            if(!$layout) : 
+                 \init::app()->setTheme( $this->layout );
+            elseif(is_string( $layout )) :
+                \init::app()->setTheme( $layout );
+            else:
+                \init::app()->setTheme( false );
+            endif;
+        }
+        
 }
