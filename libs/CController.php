@@ -28,6 +28,9 @@ class CController extends \CBaseController
 	private $_pageStates;
 	private $_module;
 
+        
+        public $_view_global = [];
+        
 	/**
 	 * @param string $id id of this controller
 	 * @param CWebModule $module the module that this controller belongs to.
@@ -229,7 +232,7 @@ class CController extends \CBaseController
 		else
 		{
 			$action=$this->createActionFromMap($this->actions(),$actionID,$actionID);
-			if($action!==null && !method_exists($action,'run'))
+			if($action!==null and !method_exists($action,'run'))
 				throw new CException(\init::t('init', 'Action class {class} must implement the "run" method.', array('{class}'=>get_class($action))));
 			return $action;
 		}
@@ -522,8 +525,7 @@ class CController extends \CBaseController
 	{
 		if(strpos($route,'/')===false)
 			$this->run($route);
-		else
-		{
+		else {
 			if($route[0]!=='/' && ($module=$this->getModule())!==null)
 				$route=$module->getId().'/'.$route;
 			\init::app()->runController($route);
@@ -535,11 +537,11 @@ class CController extends \CBaseController
 	/**
 	 * Renders a view with a layout.
 	 */
-	public function render($view,$data=null,$return=false)
-	{
-                // echo "view = ".$view;
-		if($this->beforeRender($view))
-		{
+	public function render($view,$data=null,$return=false) {
+                 
+                //$this -> _view_global[$view] = $view;
+            
+		if($this->beforeRender($view)) {
                     
                         
 			$output=$this->renderPartial($view,$data,true);
@@ -547,6 +549,7 @@ class CController extends \CBaseController
                         //echo "<pre>";
                         //var_dump( $output );
                         //echo "</pre>";
+                        //die('stop');
                         
 			if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
 				$output=$this->renderFile($layoutFile,array('content'=>$output),true);
@@ -563,7 +566,10 @@ class CController extends \CBaseController
 				return $output;
 			else
 				echo $output;
+                        
 		}
+                
+                //return $this -> _view_global;
 	}
 
 	/**

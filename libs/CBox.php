@@ -368,4 +368,15 @@ class CBox extends \CApplicationComponent
 
         }
         
+        
+        
+        /**
+         * 
+         * runControllers
+         * 
+         */
+        public function runController( $route ) {
+            $p = \init::app()->createController('test'); // name controllers
+            $run = $p[0]->createAction('view')-> run(); // load action controllers
+        }
 }

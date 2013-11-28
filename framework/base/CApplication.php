@@ -567,7 +567,7 @@ abstract class CApplication extends \CModule
 	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
 	{
 		$url=$this->createUrl($route,$params,$ampersand);
-		if(strpos($url,'http')===0)
+		if( strpos($url,'http') === 0 )
 			return $url;
 		else
 			return $this->getRequest()->getHostInfo($schema).$url;
@@ -580,18 +580,15 @@ abstract class CApplication extends \CModule
 	 * @return string the relative URL for the application
 	 * @see CHttpRequest::getBaseUrl()
 	 */
-	public function getBaseUrl($absolute=false)
-	{
+	public function getBaseUrl($absolute=false) {
 		return $this->getRequest()->getBaseUrl($absolute);
 	}
 
 	/**
 	 * @return string the homepage URL
 	 */
-	public function getHomeUrl()
-	{
-		if($this->_homeUrl===null)
-		{
+	public function getHomeUrl() {
+		if($this->_homeUrl===null) {
 			if($this->getUrlManager()->showScriptName)
 				return $this->getRequest()->getScriptUrl();
 			else
@@ -604,8 +601,7 @@ abstract class CApplication extends \CModule
 	/**
 	 * @param string $value the homepage URL
 	 */
-	public function setHomeUrl($value)
-	{
+	public function setHomeUrl($value) {
 		$this->_homeUrl=$value;
 	}
 
@@ -618,8 +614,7 @@ abstract class CApplication extends \CModule
 	 * @return mixed the named global value
 	 * @see setGlobalState
 	 */
-	public function getGlobalState($key,$defaultValue=null)
-	{
+	public function getGlobalState($key,$defaultValue=null) {
 		if($this->_globalState===null)
 			$this->loadGlobalState();
 		if(isset($this->_globalState[$key]))
@@ -734,30 +729,23 @@ abstract class CApplication extends \CModule
 		$message.="\n---";
 		init::log($message, CLogger::LEVEL_ERROR,$category);
 
-		try
-		{
+		try {
 			$event=new CExceptionEvent($this,$exception);
 			$this->onException($event);
-			if(!$event->handled)
-			{
+			if(!$event->handled) {
 				// try an error handler
 				if(($handler=$this->getErrorHandler())!==null)
 					$handler->handle($event);
 				else
 					$this->displayException($exception);
 			}
-		}
-		catch(Exception $e)
-		{
+		} catch(Exception $e) {
 			$this->displayException($e);
 		}
 
-		try
-		{
+		try {
 			$this->end(1);
-		}
-		catch(Exception $e)
-		{
+		} catch(Exception $e) {
 			// use the most primitive way to log error
 			$msg = get_class($e).': '.$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
 			$msg .= $e->getTraceAsString()."\n";
