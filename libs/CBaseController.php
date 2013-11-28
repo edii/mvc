@@ -258,10 +258,10 @@ abstract class CBaseController extends CComponent
         
         public function render($view,$data=null,$return=false) {
                 
-		if($this->beforeRender($view))
-		{
+                // echo $this->layout; die('layout');
+            
+		if($this->beforeRender($view)) {
                     
-                        
 			$output=$this->renderPartial($view,$data,true);
                         
 			if(($layoutFile=$this->getLayoutFile($this->layout))!==false)

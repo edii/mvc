@@ -57,6 +57,8 @@ class CBox extends \CApplicationComponent
 	public function getTheme($name) {
                 
 		$themePath = self::DEFAULT_BASEPATH.$this->getBasePath().DS._detected.DS.'layout';
+                
+                
 		if(is_dir($themePath)) {
 			$class = \init::import($this->themeClass, true);
 			return new $class($name, $themePath);

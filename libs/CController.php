@@ -539,6 +539,8 @@ class CController extends \CBaseController
 	 */
 	public function render($view,$data=null,$return=false) {
                  
+                
+                // var_dump($this->layout); die('layout');
                 //$this -> _view_global[$view] = $view;
             
 		if($this->beforeRender($view)) {
@@ -546,17 +548,11 @@ class CController extends \CBaseController
                         
 			$output=$this->renderPartial($view,$data,true);
                         
-                        //echo "<pre>";
-                        //var_dump( $output );
-                        //echo "</pre>";
-                        //die('stop');
                         
-			if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
-				$output=$this->renderFile($layoutFile,array('content'=>$output),true);
+			if(($layoutFile=$this->getLayoutFile($this->layout))!==false) 
+				 $output=$this->renderFile($layoutFile,array('content'=>$output),true);
+                               
 
-                        
-                        
-                        
                         
 			$this->afterRender($view,$output);
 
@@ -579,8 +575,7 @@ class CController extends \CBaseController
 	 * @return boolean whether the view should be rendered.
 	 * @since 1.1.5
 	 */
-	protected function beforeRender($view)
-	{
+	protected function beforeRender($view) {
 		return true;
 	}
 
@@ -593,8 +588,7 @@ class CController extends \CBaseController
 	 * as a reference. That means you can modify it within this method.
 	 * @since 1.1.5
 	 */
-	protected function afterRender($view, $output)
-	{
+	protected function afterRender($view, $output) {
 	}
 
 	/**
@@ -605,8 +599,7 @@ class CController extends \CBaseController
 	 * @return string the rendering result. Null if the rendering result is not required.
 	 * @see getLayoutFile
 	 */
-	public function renderText($text,$return=false)
-	{
+	public function renderText($text,$return=false) {
 		if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
 			$text=$this->renderFile($layoutFile,array('content'=>$text),true);
 

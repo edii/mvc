@@ -8,8 +8,12 @@
  * @license http://www.yiiframework.com/license/
  */
 
-class CWebApplication extends \CApplication
-{
+class CWebApplication extends \CApplication {
+        /**
+	 * default themes base path
+	 */
+	const DEFAULT_BASEPATH = 'schemas'; //.DS._detected.DS
+    
 	/**
 	 * @return string the route of the default controller, action or module. Defaults to 'site'.
 	 */
@@ -210,8 +214,12 @@ class CWebApplication extends \CApplication
 	 */
 	public function getTheme() {
             
+                // echo "theme load = ".$this->_theme; die('stop');
+            
                 if(is_string($this->_theme))
                     $this->_theme = $this->getBox()->getTheme($this->_theme);
+                
+                //var_dump( $this->_theme ); die('stop');
                 
 		return $this->_theme;
 	}
@@ -429,10 +437,14 @@ class CWebApplication extends \CApplication
 	 * @return string the root directory of layout files. Defaults to 'protected/views/layouts'.
 	 */
 	public function getLayoutPath() {
-		if($this->_layoutPath!==null)
+		if($this->_layoutPath!==null):
 			return $this->_layoutPath;
-		else
-			return $this->_layoutPath=$this->getViewPath().DS.'layout';
+		else:
+                        if(_detected == 'admin') 
+                            return $this->_layoutPath = self::DEFAULT_BASEPATH.DS._detected.DS.'layout';
+                        else
+                            return $this->_layoutPath = $this->getViewPath().DS.'layout';
+                endif;
 	}
 
 	/**
