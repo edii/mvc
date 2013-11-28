@@ -2,7 +2,7 @@
 
 class TestController extends \Controller
 {
-	public $layout='column2';
+	public $layout = false;
 	private $_model;
 
 	public function filters() {
@@ -14,14 +14,16 @@ class TestController extends \Controller
 	}
 
 	public function actionView() {
+             // \init::app()->setTheme( false ); // disabled layout
+            
 		//$post=$this->loadModel();
 		//$comment=$this->newComment($post);
-            echo "BLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+            echo "Controller actionc";
 		
-                $this->render('view',array(
-			'model'=> [1,2],
-			'comment' => 'component',
-		));
+                $this->render('view', [
+                    'data' => 'Maks Buc'
+                ]);
+                
                 
 	}
 

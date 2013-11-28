@@ -282,7 +282,7 @@ abstract class CBaseController extends CComponent
         
         public function getBoxes( $params ) {
             
-            
+            /*
             $controller = \init::app()->getController();
             
             $_id = $controller->getId();
@@ -300,13 +300,28 @@ abstract class CBaseController extends CComponent
             
             $renderer=\init::app()->getViewRenderer();
             
-           /// echo "<pre>";
-           // var_dump( $controller, $_id, $_action, $_view );
-           // echo "</pre>";
+            $controller_run = \CController;
+            $controller_run->forward('hello/db');
+            
+            echo "<pre>";
+            var_dump( $controller, $_id, $_action, $_view );
+            echo "</pre>";
+            */
+            
             
            // echo "<hr />";
             
-            
+           $this->beginContent();
+           $_box = new \CBox();
+           $_controllers = $_box -> runController('hello/db');
+           $this -> endContent();
+           //exit();
+           //$i = 0;
+           //echo "<pre>";
+           //var_dump( $_controllers );
+           //echo "</pre>";
+           
+           //echo "<hr /> ". $i++;
              
              //->getController()
            
