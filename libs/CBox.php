@@ -14,6 +14,8 @@ class CBox extends \CApplicationComponent
 	 */
 	const DEFAULT_BASEPATH = 'schemas'; //.DS._detected.DS
     
+        private $widgets;
+        
 	private $_name;
 	private $_basePath;
 	private $_baseUrl;
@@ -39,7 +41,7 @@ class CBox extends \CApplicationComponent
 	}
         
         public function init() {
-            
+            parent::init();
         } // init load Box
 
         /**
@@ -134,21 +136,48 @@ class CBox extends \CApplicationComponent
 		return $this->_basePath;
 	}
 
+        
+        
 	
         //show box by id or by alias
         public function getBox( $boxID, $layout = false ) {
-            
+            $_controller = array();
             if(is_string($boxID)) {
                 if(strpos($boxID, '/')) :
                     $_run = explode('/', trim($boxID));
-                    \init::app()->setTheme( false );
-                    $p = \init::app()->createController( (string)$_run[0] ); // name controllers
-                    $p[0] -> layout = false;
-                    //var_dump( $p ); die('stop');
-                    //\init::app()->layout(false);
-                    $run = $p[0] ->createAction((string)$_run[1])-> run(); // load action controllers
-                    //return $run;
-                    // var_dump( $run ); die('stop');
+//                    if(_detected == 'admin') {
+//                         \init::app()->setTheme( false );
+//                    } else { 
+//                        \init::app()->setTheme( false ); 
+//                    }
+                    
+                    //\init::app()->setTheme( false ); 
+                    
+                    list($controller) = \init::app()->createController((string)$_run[0]);
+                    $controller -> layout = false;
+                    $method='action'.(string)$_run[1];
+                    $_run = $controller->$method();
+                    //$this->init();
+                    //var_dump( $url );    
+                    
+                    //$widget=$this->createWidget($className,$properties);
+                    //$widget->run();
+                    //return $widget;
+                    
+                    //$p = \init::app()->createController( (string)$_run[0] ); // name controllers
+                    //$_controller = $p[0]->createAction((string)$_run[1]) -> run();
+                    //unset($p);
+                    
+                    //$method='action'.$_controller[ $boxID ]->getId();
+                    //$_controller[ $boxID ]->getController()->$method();
+                    
+                    //$_controller[ $boxID ]->getController()->layout = false;
+                    //$_controller[ $boxID ]->run();
+                    //$this->getController()->$method();
+                    
+                     //var_dump( $_controller[ $boxID ]->getController(), $method );
+                     
+                   // $run = $p[0] ->createAction((string)$_run[1]) -> run(); // load action controllers
                 endif;
             } elseif( is_array( $boxID ) ) {
                 echo "<hr /> box load";
@@ -272,12 +301,16 @@ class CBox extends \CApplicationComponent
          * 
          */
         public function runController( $route, $layout = false ) {
-            \init::app()->setTheme( $layout );
+             \init::app()->setTheme( $layout );
             
+             /*
+              * должно не равнятся текущему контролеру что бы не было зацикливания
+              */
+             
             $p = \init::app()->createController('test'); // name controllers
             $run = $p[0]->createAction('view')-> run(); // load action controllers
             
-            $p = \init::app()->createController('hello'); // name controllers
-            $run = $p[0]->createAction('db')-> run(); // load action controllers
+            //$p = \init::app()->createController('hello'); // name controllers
+            //$run = $p[0]->createAction('db')-> run(); // load action controllers
         }
 }

@@ -21,6 +21,6 @@
 ?>
 
 <?php 
-    $this->getBox('hello/test');
+     $this->getBox('hello/db');
 ?>
 <hr />

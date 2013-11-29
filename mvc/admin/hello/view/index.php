@@ -8,3 +8,6 @@
     echo "</pre>";
 ?>
 
+<?php 
+  // $this->getBox('hello/db');
+?>

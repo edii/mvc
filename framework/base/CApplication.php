@@ -41,6 +41,7 @@ abstract class CApplication extends \CModule
         private $_db;
         
        
+        private $_session;
 	/**
 	 * Processes the request.
 	 * This is the place where the actual request processing work is done.
@@ -535,6 +536,15 @@ abstract class CApplication extends \CModule
 		return $this->getComponent('urlManager');
 	}
 
+        
+        /**
+         * CSession
+         * 
+         */
+        public function getSession() {
+            return $this -> getComponent( 'session' );
+        } 
+        
 	/**
 	 * @return CController the currently active controller. Null is returned in this base class.
 	 * @since 1.1.8
@@ -983,6 +993,10 @@ abstract class CApplication extends \CModule
 			),
 			'format'=>array(
 				'class'=>'CFormatter',
+			),
+                    
+                        'session'=>array(
+				'class'=>'CSession',
 			),
 		);
 

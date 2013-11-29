@@ -50,7 +50,7 @@ class CSession {
 		// log_message('debug', "Session Class Initialized");
 
 		// Set the super object to a local variable for use throughout the class
-		$this->_session = get_instance();
+		$this->_session = \init::app();
 
 		// Set all the session preferences, which can either be set
 		// manually via the $params array above or via the config file
@@ -69,7 +69,7 @@ class CSession {
                             'time_reference', 
                             'cookie_prefix', 
                             'encryption_key'] as $key) {
-			$this->$key = (isset($params[$key])) ? $params[$key] : $this->_session->config->item($key);
+			$this->$key = (isset($params[$key])) ? $params[$key] : ''; //$this->_session->config->item($key)
 		}
 
 		if ($this->encryption_key == '') {
@@ -77,16 +77,17 @@ class CSession {
 		}
 
 		// Load the string helper so we can use the strip_slashes() function
-		$this->_session->load->helper('string');
+		//$this->_session->load->helper('string');
 
 		// Do we need encryption? If so, load the encryption class
-		if ($this->sess_encrypt_cookie == TRUE) {
-			$this->_session->load->library('encrypt');
-		}
+		//if ($this->sess_encrypt_cookie == TRUE) {
+			//$this->_session->load->library('encrypt');
+		//}
 
 		// Are we using a database?  If so, load it
 		if ($this->sess_use_database === TRUE AND $this->sess_table_name != '') {
-			$this->_session->load->database();
+			//$_db = $this->_session->getDbConnect();
+                        //$_db 
 		}
 
 		// Set the "now" time.  Can either be GMT or server time, based on the
@@ -131,6 +132,12 @@ class CSession {
 	 * @return	bool
 	 */
 	function sess_read() {
+                $_request = $this->_session->getRequest() -> getCookies();
+                echo "<pre>";
+                var_dump( $_request -> getCoikiesAll(), $this->sess_cookie_name );
+                echo "</pre>";
+                die('stop session');
+            
 		// Fetch the cookie
 		$session = $this->_session->input->cookie($this->sess_cookie_name);
 

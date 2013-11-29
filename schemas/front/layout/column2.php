@@ -1,4 +1,4 @@
----------------------------------------- fix params
+---------------------------------------- fix params ---
 <div class="content">
     <?= $content ?>
 </div>
@@ -18,5 +18,9 @@
 <hr /> center
 <?php 
     $this->getBoxes('center') 
+?>
+
+<?php
+    $this->getBox('test/view');
 ?>
 <hr />

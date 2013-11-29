@@ -36,9 +36,6 @@ abstract class CBaseController extends CComponent
 		else:
 			$content=$this->renderInternal($viewFile,$data,$return);
                 endif;
-                //echo "<pre>";
-                //var_dump( $content );
-                //echo "</pre>";
                 
 		if(count($this->_boxStack)===$widgetCount) 
 			return $content;
@@ -59,30 +56,45 @@ abstract class CBaseController extends CComponent
 	 * @return string the rendering result. Null if the rendering result is not required.
 	 */
 	public function renderInternal($_viewFile_,$_data_=null,$_return_=false) {
+            // we use special variable names here to avoid conflict when extracting data
+            if(is_array($_data_)) {
+                    extract($_data_,EXTR_PREFIX_SAME,'data');
+
+            } else {
+                    $data=$_data_;
+            }
             
-               // echo "<pre>";
-               // var_dump($_viewFile_,$_data_);
-               // echo "</pre>";
             
-		// we use special variable names here to avoid conflict when extracting data
-		if(is_array($_data_)) {
-			extract($_data_,EXTR_PREFIX_SAME,'data');
-                        
-                } else {
-			$data=$_data_;
-                }        
-		if($_return_) {
-			ob_start();
-			ob_implicit_flush(false);
-			require ($_viewFile_);
-			return ob_get_clean();
-		} else {
-			require($_viewFile_);
-                }   
+           
+		        
+            if($_return_) {
+                  
+                try {
+                    ob_start();
+                    ob_implicit_flush(false);
+                    
+                    if($_viewFile_ and !empty($_viewFile_) and isset($_viewFile_) ) {
+                        require($_viewFile_); //require_once $_viewFile_;
+                    } else { 
+                        return $content;
+                    }    
+                    return ob_get_clean();
+                    
+		} catch(\Exception $e) {
+                    
+                    throw new CException(\init::t('init','{controller} error fix loader "{view}". Error-info: {message}.',
+				array('{controller}'=>get_class($this), '{line}'=>$e->getLine(), '{message}'=>$e->getMessage())));
+                }
                 
-                
-                
+              
+                    
+                    
+            } else {
+                    require($_viewFile_);
+            }   
+                 
 	}
+        
 
 	/**
 	 * Creates a widget and initializes it.
@@ -309,19 +321,14 @@ abstract class CBaseController extends CComponent
         }
         
         public function renderView($view, $data=null, $return=false, $layout = false) {
-            if($this->beforeRender($view))
-		{
+            if($this->beforeRender($view)) {
                     
-                        
-			$output=$this->renderPartial($view,$data,true);
-                        
+			$output = $this->renderPartial($view,$data,true);
 			if(($layoutFile=$this->getLayoutFile($this->layout))!==false and $layout == true)
 				$output=$this->renderFile($layoutFile,array('content'=>$output),true);
 
                         
-                        
 			$this->afterRender($view,$output);
-
 			$output=$this->processOutput($output);
 
 			if($return)

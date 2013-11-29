@@ -9,42 +9,42 @@ class HelloController extends \Controller
 	
 	public function actionIndex() {
             
-            //echo "BLAAAAAAAAAAAAAAAA MAKS!";
-            
             $this->layout( 'column2' ); //'column2'
             
-            //\init::app()->setTheme( 'column1' );
-             
-            //$themes = \init::app()->getTheme();
-            
-            //$layout = \init::app() -> getLayoutPath();
-            
-            //echo "<hr /> controller";
-            //echo "<pre>";
-            //var_dump($themes);
-            //echo "</pre>";
-            
-            //\init::app()->setTheme( 'column2' );
+            echo "<hr /> session";
+            $_session = \init::app() -> getSession();
+            echo "<pre>";
+            var_dump( $_session );
+            echo "</pre>";
             
             $this->render('index', array(
 			'dataProvider'=>'Admin',
-		));
+            ));
 
 	}
         
         public function actionDB() {
+            $this->layout( 'column1' );
             
-            echo "BLAAAAAAAAAAAAAAAA MAKS! DB";
+            echo "DB";
+            
+            $this->render('db', array(
+			'dataProvider'=>'Admin',
+            ));
             
 
 	}
         
         public function actionTest() {
-            // $this->layout( false );
+             $this->layout( false );
             
             // \init::app()->setTheme( false );
             
             echo "load test params!";
+            
+            $this->render('test', array(
+			'dataProvider'=>'Admin',
+            ));
            
         }
 }
