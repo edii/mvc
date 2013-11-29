@@ -15,14 +15,14 @@ class HelloController extends \Controller
             
             //\init::app()->setTheme( 'column1' );
              
-            $themes = \init::app()->getTheme();
+            //$themes = \init::app()->getTheme();
             
             //$layout = \init::app() -> getLayoutPath();
             
-            echo "<hr /> controller";
-            echo "<pre>";
-            var_dump($themes);
-            echo "</pre>";
+            //echo "<hr /> controller";
+            //echo "<pre>";
+            //var_dump($themes);
+            //echo "</pre>";
             
             //\init::app()->setTheme( 'column2' );
             
@@ -38,4 +38,13 @@ class HelloController extends \Controller
             
 
 	}
+        
+        public function actionTest() {
+            // $this->layout( false );
+            
+            // \init::app()->setTheme( false );
+            
+            echo "load test params!";
+           
+        }
 }

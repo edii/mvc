@@ -280,50 +280,31 @@ abstract class CBaseController extends CComponent
 		}
 	}
         
+        /**
+         * getBox ( type: [left, right, center, bottom, top, 'controller/action'] )
+         * load box this controllers or load controllers
+         * @param type $params
+         */
+        public function getBox( $params ) {
+            $this->beginContent();
+            $_box = new \CBox();
+            $_controllers = $_box -> getBox( $params );
+            $this -> endContent();
+        }
+        
+        /**
+         * getBoxes
+         * load all boxDefinitions ( all controllers )
+         * @param type $params
+         */
         public function getBoxes( $params ) {
-            
-            /*
-            $controller = \init::app()->getController();
-            
-            $_id = $controller->getId();
-            $_view = $controller->getViewPath();
-            $_action = $controller->getAction()->getId();
-            
-            $viewFile = $_view.DS.$_action;
-            
-            if(($renderer=\init::app()->getViewRenderer())!==null)
-                    $extension=$renderer->fileExtension;
-            else
-                    $extension='.php';
-            
-            
-            
-            $renderer=\init::app()->getViewRenderer();
-            
-            $controller_run = \CController;
-            $controller_run->forward('hello/db');
-            
-            echo "<pre>";
-            var_dump( $controller, $_id, $_action, $_view );
-            echo "</pre>";
-            */
-            
-            
-           // echo "<hr />";
+
             
            $this->beginContent();
            $_box = new \CBox();
            $_controllers = $_box -> runController('hello/db');
            $this -> endContent();
-           //exit();
-           //$i = 0;
-           //echo "<pre>";
-           //var_dump( $_controllers );
-           //echo "</pre>";
-           
-           //echo "<hr /> ". $i++;
-             
-             //->getController()
+  
            
         }
         

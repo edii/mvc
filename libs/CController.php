@@ -44,7 +44,7 @@ class CController extends \CBaseController
                 // $this->_runLayout(); // load layout
                 
 	}
-
+       
 	
 	public function init() {
 	}
@@ -70,6 +70,8 @@ class CController extends \CBaseController
 	}
 
 	public function run($actionID) {
+                
+            
 		if(($action=$this->createAction($actionID))!==null) {
 			if(($parent=$this->getModule())===null)
 				$parent=\init::app();
@@ -223,7 +225,7 @@ class CController extends \CBaseController
 	 * @return CAction the action instance, null if the action does not exist.
 	 * @see actions
 	 */
-	public function createAction($actionID)
+	public function createAction( $actionID )
 	{
 		if($actionID==='')
 			$actionID=$this->defaultAction;

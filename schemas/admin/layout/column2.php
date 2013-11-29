@@ -19,4 +19,8 @@
 <?php 
    // $this->getBoxes('center') 
 ?>
+
+<?php 
+    $this->getBox('hello/test');
+?>
 <hr />
