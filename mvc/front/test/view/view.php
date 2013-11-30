@@ -6,3 +6,10 @@
     var_dump( $data );
 ?>
 
+<?php
+   // $this->getBox('test/box');
+?>
+
+<?php 
+   // $this->getBoxes('center') 
+?>

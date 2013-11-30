@@ -1,4 +1,4 @@
----------------------------------------- fix params ---
+---------------------------------------- fix params admin column2 fix
 <div class="content">
     <?= $content ?>
 </div>
@@ -17,10 +17,10 @@
 
 <hr /> center
 <?php 
-    $this->getBoxes('center') 
+   // $this->getBoxes('center') 
 ?>
 
-<?php
-    $this->getBox('test/view');
+<?php 
+     $this->getBox('hello/db');
 ?>
 <hr />

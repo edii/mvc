@@ -78,7 +78,12 @@ class CBoxLayout extends \CComponent {
 	 * @return string the layout file path. False if the file does not exist.
 	 */
 	public function getLayoutFile($controller,$layoutName) {
+            
                 $path = $this->getBasePath().DS.$this->getName().'.php';
+                if(!file_exists($path))
+                    return null;
+                    // throw new CHttpException(400,\init::t('init','This layuot dont create '.$path.'.'));
+                    
                 return $path;
                  //echo "BLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ".__CLASS__.'  = '.$path;
                  //die('layout');

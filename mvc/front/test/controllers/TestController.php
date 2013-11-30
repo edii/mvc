@@ -15,7 +15,7 @@ class TestController extends \Controller
 
 	public function actionView() {
              // \init::app()->setTheme( false ); // disabled layout
-            
+            $this->layout( 'dddd' );
 		//$post=$this->loadModel();
 		//$comment=$this->newComment($post);
             echo "Controller actionc";
@@ -115,24 +115,7 @@ class TestController extends \Controller
 	 * @param Post the post that the new comment belongs to
 	 * @return Comment the comment instance
 	 */
-	protected function newComment($post)
-	{
-//		$comment=new Comment;
-//		if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
-//		{
-//			echo CActiveForm::validate($comment);
-//			Yii::app()->end();
-//		}
-//		if(isset($_POST['Comment']))
-//		{
-//			$comment->attributes=$_POST['Comment'];
-//			if($post->addComment($comment))
-//			{
-//				if($comment->status==Comment::STATUS_PENDING)
-//					Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
-//				$this->refresh();
-//			}
-//		}
-//		return $comment;
+	public function actionBox() {
+            echo "load test box";
 	}
 }

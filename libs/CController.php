@@ -44,7 +44,7 @@ class CController extends \CBaseController
                 // $this->_runLayout(); // load layout
                 
 	}
-
+       
 	
 	public function init() {
 	}
@@ -70,6 +70,8 @@ class CController extends \CBaseController
 	}
 
 	public function run($actionID) {
+                
+            
 		if(($action=$this->createAction($actionID))!==null) {
 			if(($parent=$this->getModule())===null)
 				$parent=\init::app();
@@ -223,8 +225,9 @@ class CController extends \CBaseController
 	 * @return CAction the action instance, null if the action does not exist.
 	 * @see actions
 	 */
-	public function createAction($actionID)
+	public function createAction( $actionID, $layout = true )
 	{
+               
 		if($actionID==='')
 			$actionID=$this->defaultAction;
 		if(method_exists($this,'action'.$actionID) && strcasecmp($actionID,'s')) // we have actions method
@@ -237,6 +240,24 @@ class CController extends \CBaseController
 			return $action;
 		}
 	}
+        
+        public function createBoxAction( $actionID, $layout = true )
+	{
+                $this->layout = false;
+		if($actionID==='')
+			$actionID=$this->defaultAction;
+		if(method_exists($this,'action'.$actionID) && strcasecmp($actionID,'s')) // we have actions method
+			return new \CInlineAction($this,$actionID);
+		else
+		{
+			$action=$this->createActionFromMap($this->actions(),$actionID,$actionID);
+			if($action!==null and !method_exists($action,'run'))
+				throw new CException(\init::t('init', 'Action class {class} must implement the "run" method.', array('{class}'=>get_class($action))));
+			return $action;
+		}
+	}
+        
+        
 
 	/**
 	 * Creates the action instance based on the action map.
@@ -399,6 +420,8 @@ class CController extends \CBaseController
             
                 // echo "layout loader = ".$layoutName;
             
+                
+            
 		if($layoutName===false)
 			return false;
 		if(($theme=\init::app()->getTheme())!= false && ($layoutFile=$theme->getLayoutFile($this,$layoutName))!==false)
@@ -436,29 +459,6 @@ class CController extends \CBaseController
 	 * Finds a view file based on its name..
 	 */
 	public function resolveViewFile($viewName, $viewPath, $basePath, $moduleViewPath=null) {
-            
-               //$theme = \init::app()->getTheme(); 
-               
-               //echo "load layout = ".$theme->getBasePath().DS.$theme->getName().".php"; die('load');
-               
-               //var_dump( $theme );
-               /* load layout */
-                /*  
-                if(($theme=\init::app()->getTheme())!= null) {
-                   $layout_path = $theme->getBasePath().DS. $theme->getName().'.php';
-                   if(is_file($layout_path)) {
-                       return $layout_path;
-                   } else {
-                       throw new CException(\init::t('init','Not load Theme {layout} => {class}',
-				array('{class}'=>get_class($this), '{layout}'=>$layout_path)));
-                   }
-                   
-               }
-               */
-               /* end */
-               
-            
-               // echo " vn = ".$viewName."  vh = ".$viewPath."  bh = ".$basePath."  mv = ".$moduleViewPath; die('stop');
             
 		if(empty($viewName))
 			return false;
@@ -539,34 +539,24 @@ class CController extends \CBaseController
 	 */
 	public function render($view,$data=null,$return=false) {
                  
+                
+                // var_dump($this->layout); die('layout');
                 //$this -> _view_global[$view] = $view;
             
 		if($this->beforeRender($view)) {
                     
-                        
 			$output=$this->renderPartial($view,$data,true);
-                        
-                        //echo "<pre>";
-                        //var_dump( $output );
-                        //echo "</pre>";
-                        //die('stop');
-                        
-			if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
-				$output=$this->renderFile($layoutFile,array('content'=>$output),true);
-
-                        
-                        
-                        
+			if(($layoutFile=$this->getLayoutFile($this->layout))!==false) {
+                            $output=$this->renderFile($layoutFile,array('content'=>$output),true);
+                        }        
                         
 			$this->afterRender($view,$output);
-
 			$output=$this->processOutput($output);
 
 			if($return)
 				return $output;
 			else
 				echo $output;
-                        
 		}
                 
                 //return $this -> _view_global;
@@ -579,8 +569,7 @@ class CController extends \CBaseController
 	 * @return boolean whether the view should be rendered.
 	 * @since 1.1.5
 	 */
-	protected function beforeRender($view)
-	{
+	protected function beforeRender($view) {
 		return true;
 	}
 
@@ -593,8 +582,7 @@ class CController extends \CBaseController
 	 * as a reference. That means you can modify it within this method.
 	 * @since 1.1.5
 	 */
-	protected function afterRender($view, $output)
-	{
+	protected function afterRender($view, $output) {
 	}
 
 	/**
@@ -605,8 +593,7 @@ class CController extends \CBaseController
 	 * @return string the rendering result. Null if the rendering result is not required.
 	 * @see getLayoutFile
 	 */
-	public function renderText($text,$return=false)
-	{
+	public function renderText($text,$return=false) {
 		if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
 			$text=$this->renderFile($layoutFile,array('content'=>$text),true);
 
@@ -625,15 +612,8 @@ class CController extends \CBaseController
 	{
                 //  echo "".$view; die('view');
 		if(($viewFile=$this->getViewFile($view))!==false) {
-                    
-                    // echo "viewFile = ".$viewFile;
-                    
+                        
 			$output = $this->renderFile($viewFile,$data,true);
-                        
-                        
-                        //echo "<pre>";
-                        //var_dump( $output );
-                        //echo "</pre>";
                         
 			if($processOutput)
 				$output=$this->processOutput($output);
@@ -651,8 +631,7 @@ class CController extends \CBaseController
 	/**
 	 * Renders a named clip with the supplied parameters.
 	 */
-	public function renderClip($name,$params=array(),$return=false)
-	{
+	public function renderClip($name,$params=array(),$return=false) {
 		$text=isset($this->clips[$name]) ? strtr($this->clips[$name], $params) : '';
 
 		if($return)
@@ -664,8 +643,7 @@ class CController extends \CBaseController
 	/**
 	 * Renders dynamic content returned by the specified callback.
 	 */
-	public function renderDynamic($callback)
-	{
+	public function renderDynamic($callback) {
 		$n=count($this->_dynamicOutput);
 		echo "<###dynamic-$n###>";
 		$params=func_get_args();
@@ -679,8 +657,7 @@ class CController extends \CBaseController
 	 * @param array $params parameters passed to the PHP callback
 	 * @see renderDynamic
 	 */
-	public function renderDynamicInternal($callback,$params)
-	{
+	public function renderDynamicInternal($callback,$params) {
 		$this->recordCachingAction('','renderDynamicInternal',array($callback,$params));
 		if(is_string($callback) && method_exists($this,$callback))
 			$callback=array($this,$callback);
@@ -967,5 +944,22 @@ class CController extends \CBaseController
 		$value=base64_encode($data);
 		$output=str_replace(CHtml::pageStateField(''),CHtml::pageStateField($value),$output);
 	}
+        
+        /**
+         * layout;
+         * in $layout
+         * return object connected layout
+         */
+        public function layout( $layout ) { 
+            if(!$layout == 'default') : 
+                 \init::app()->setTheme( $this->layout );
+            elseif(is_string( $layout )) :
+                \init::app()->setTheme( $layout );
+            else:
+                \init::app()->setTheme( '' );
+            endif;
+        }
+        
+        
         
 }

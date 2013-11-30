@@ -14,6 +14,8 @@ class CBox extends \CApplicationComponent
 	 */
 	const DEFAULT_BASEPATH = 'schemas'; //.DS._detected.DS
     
+        private $widgets;
+        
 	private $_name;
 	private $_basePath;
 	private $_baseUrl;
@@ -39,7 +41,7 @@ class CBox extends \CApplicationComponent
 	}
         
         public function init() {
-            
+            parent::init();
         } // init load Box
 
         /**
@@ -57,6 +59,8 @@ class CBox extends \CApplicationComponent
 	public function getTheme($name) {
                 
 		$themePath = self::DEFAULT_BASEPATH.$this->getBasePath().DS._detected.DS.'layout';
+                
+                
 		if(is_dir($themePath)) {
 			$class = \init::import($this->themeClass, true);
 			return new $class($name, $themePath);
@@ -132,139 +136,60 @@ class CBox extends \CApplicationComponent
 		return $this->_basePath;
 	}
 
+        
+        
 	
         //show box by id or by alias
-        public function getBox($boxID,$mode='') {
-            //echo $boxID.'///'.$mode;
-            //print_r($mode);
-            //echo 'getbox: '.$boxID.'<br>';
-            global $CORE, $SERVER_SOAP, $boxesSidePositionsCounter;
-            $boxes = $CORE->getBoxesDefinition();
-            //print_r($website);
-            //print_r($boxes);
-            $box = $boxes[$boxID];
-    
-            $arguments = $box['arguments'];
-            $pageboxarguments =  $mode['boxparams'];
-            if(!empty($pageboxarguments)) { $arguments =  $arguments.'/'.$pageboxarguments; }
-                //print_r($mode);
-                $params = $mode['params'];
-                if(!empty($arguments)) {
-                    $CORE->getArguments($arguments,'torestore');
-                }
-                $input = $CORE->getInput();
-	
-                $config = $CORE->getConfig();
-                $setting = $config;
-                $user = $CORE->getUser();
-                $clientType = $config['ClientType'];
-                //print_r($setting);
-                $module = $box['module'];
-                $customFolder = 'custom/'.$config['OwnerID'];    
-    
-                if(empty($templateType)) { $templateType = $input['ResourceTemplate'];}
-        
-                $layout = $config['Layout'];
-                 //echo '$layout='.$layout;
-                $template = $box['template'];
-    
-                $boxContent =  $mode['boxcontent'];
-                $boxSide =  $mode['boxside'];
-                setSetting('BoxSide',$mode['boxside']);
-
-                $box['boxindex'] = $mode['boxindex'];
-                setSetting('BoxIndex',$mode['boxindex']);
-
-                $boxesSidePositionsCounter[$boxSide] = $boxesSidePositionsCounter[$boxSide]+1;
-
-                $box['boxsideposition'] = $boxesSidePositionsCounter[$boxSide];
-                $box['boxside'] = $boxSide;
-                $box['boxcontent'] = $mode['boxcontent'];  
-                $box['boxtitle'] = $mode['boxtitle'];
-                $box['boxshowtitle'] = $mode['boxshowtitle']; 
-                $box['boxtemplate'] = $mode['boxtemplate'];
-                $box['boxparams'] = $mode['boxparams'];
-                $box['boxstyle'] = $mode['boxstyle'];
-    
-                $moduleFile = $config['RootPath'].'modules/'.$module.'/module.php';
-	
-                if(is_file($moduleFile)) {   
-                    include_once($moduleFile);
-                    $method = $box['method'];
-                    //$methodString = "\$moduleObject = new \$class(); if(function_exists(\$moduleObject->\$method())) {\$moduleObject->\$method();}";
-                    if(!empty($method)) {
-                        if(function_exists($method)) {$out = $method();}
-                    }
-		
-                    $input = $CORE->getInput();
-                    $templateType = $input['TemplateType'];
-                    //get template lib
-                    $templateLibFile = $config['RootPath'].$customFolder.'/templates/'.$clientType.'/'.$module.'/lib.tpl.php';
-                    if(is_file($templateLibFile)) {
-                        include_once($templateLibFile);
-                    } else {
-                        $templateLibFile = $config['RootPath'].'templates/'.$clientType.'/'.$module.'/lib.tpl.php';
-                        if(is_file($templateLibFile)) {
-                            include_once($templateLibFile);
-                        }
-                    }
-        		
-                    //echo $config['RootPath'].'templates/'.$clientType.'/'.$module.'/layouts/'.$layout.'/'.$templateType.'/'.$template.'.tpl.php';
-                    if(!empty($templateType)) {
-			$templateFile = $config['RootPath'].$customFolder.'/templates/'.$clientType.'/'.$module.'/'.$templateType.'/'.$template.'.tpl.php';
-                        if(is_file($templateFile)) {
-                            include($templateFile);
-                        } else {
-                            $templateFile = $config['RootPath'].$customFolder.'/templates/'.$clientType.'/'.$module.'/'.$template.'.tpl.php';
-                            if(is_file($templateFile)) {
-                                include($templateFile);
-                            } else {
-                                $templateFile = $config['RootPath'].'templates/'.$clientType.'/'.$module.'/layouts/'.$layout.'/'.$templateType.'/'.$template.'.tpl.php';
-                                if(is_file($templateFile)) {
-                                    include($templateFile);
-                                } else { 
-                                    $templateFile = $config['RootPath'].'templates/'.$clientType.'/'.$module.'/layouts/'.$layout.'/'.$template.'.tpl.php'; 
-                                    if(is_file($templateFile)) {
-                                        include($templateFile);
-                                    } else {
-                                        $templateFile = $config['RootPath'].'templates/'.$clientType.'/'.$module.'/'.$templateType.'/'.$template.'.tpl.php'; 
-                                        if(is_file($templateFile)) {
-                                            include($templateFile);
-                                        } else {
-                                            $templateFile = $config['RootPath'].'templates/'.$clientType.'/'.$module.'/'.$template.'.tpl.php';
-                                            if(is_file($templateFile)) {
-                                                include($templateFile);
-                                            }
-                                        }                             
-                                    }                     
-                                }   
-                            }  
-                        }             
-                    } else {
-                        $templateFile = $config['RootPath'].$customFolder.'/templates/'.$clientType.'/'.$module.'/'.$template.'.tpl.php';
-                        if(is_file($templateFile)) {
-                            include($templateFile);
-                        } else {
-                            $templateFile = $config['RootPath'].'templates/'.$clientType.'/'.$module.'/layouts/'.$layout.'/'.$template.'.tpl.php';
-                            //echo 'ddddd:'.$templateFile; 
-                            if(is_file($templateFile)) {
-                                include($templateFile);
-                            } else {
-                                $templateFile = $config['RootPath'].'templates/'.$clientType.'/'.$module.'/'.$template.'.tpl.php';
-                                if(is_file($templateFile)) {
-                                    include($templateFile);
-                                }                    
-                            }
-                        }
-                    }
-		
-                }
-                if(!empty($arguments)) {
-                    $CORE->restoreArguments();
-                }
-    
-                return $out;	
+        public function getBox( $boxID, $layout = false ) {
+            $_controller = array();
+            if(is_string($boxID)) {
+                if(strpos($boxID, '/')) :
+                    $_run = explode('/', trim($boxID));
+//                    if(_detected == 'admin') {
+//                         \init::app()->setTheme( false );
+//                    } else { 
+//                        \init::app()->setTheme( false ); 
+//                    }
+                    
+                    //\init::app()->setTheme( false ); 
+                    
+                    list($controller) = \init::app()->createController((string)$_run[0]);
+                    $controller -> layout = false;
+                    $method='action'.(string)$_run[1];
+                    $_run = $controller->$method();
+                    //$this->init();
+                    //var_dump( $url );    
+                    
+                    //$widget=$this->createWidget($className,$properties);
+                    //$widget->run();
+                    //return $widget;
+                    
+                    //$p = \init::app()->createController( (string)$_run[0] ); // name controllers
+                    //$_controller = $p[0]->createAction((string)$_run[1]) -> run();
+                    //unset($p);
+                    
+                    //$method='action'.$_controller[ $boxID ]->getId();
+                    //$_controller[ $boxID ]->getController()->$method();
+                    
+                    //$_controller[ $boxID ]->getController()->layout = false;
+                    //$_controller[ $boxID ]->run();
+                    //$this->getController()->$method();
+                    
+                     //var_dump( $_controller[ $boxID ]->getController(), $method );
+                     
+                   // $run = $p[0] ->createAction((string)$_run[1]) -> run(); // load action controllers
+                endif;
+            } elseif( is_array( $boxID ) ) {
+                echo "<hr /> box load";
+                echo "<pre>";
+                var_dump( $boxID );
+                echo "</pre>";
+            
+            } else {
+                return null;
             }
+            
+        }
 
         //show boxe by sides
         public function getBoxes($boxesSide,$mode='') {
@@ -375,8 +300,17 @@ class CBox extends \CApplicationComponent
          * runControllers
          * 
          */
-        public function runController( $route ) {
+        public function runController( $route, $layout = false ) {
+             \init::app()->setTheme( $layout );
+            
+             /*
+              * должно не равнятся текущему контролеру что бы не было зацикливания
+              */
+             
             $p = \init::app()->createController('test'); // name controllers
             $run = $p[0]->createAction('view')-> run(); // load action controllers
+            
+            //$p = \init::app()->createController('hello'); // name controllers
+            //$run = $p[0]->createAction('db')-> run(); // load action controllers
         }
 }

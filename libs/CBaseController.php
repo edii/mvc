@@ -36,9 +36,6 @@ abstract class CBaseController extends CComponent
 		else:
 			$content=$this->renderInternal($viewFile,$data,$return);
                 endif;
-                //echo "<pre>";
-                //var_dump( $content );
-                //echo "</pre>";
                 
 		if(count($this->_boxStack)===$widgetCount) 
 			return $content;
@@ -59,30 +56,45 @@ abstract class CBaseController extends CComponent
 	 * @return string the rendering result. Null if the rendering result is not required.
 	 */
 	public function renderInternal($_viewFile_,$_data_=null,$_return_=false) {
+            // we use special variable names here to avoid conflict when extracting data
+            if(is_array($_data_)) {
+                    extract($_data_,EXTR_PREFIX_SAME,'data');
+
+            } else {
+                    $data=$_data_;
+            }
             
-               // echo "<pre>";
-               // var_dump($_viewFile_,$_data_);
-               // echo "</pre>";
             
-		// we use special variable names here to avoid conflict when extracting data
-		if(is_array($_data_)) {
-			extract($_data_,EXTR_PREFIX_SAME,'data');
-                        
-                } else {
-			$data=$_data_;
-                }        
-		if($_return_) {
-			ob_start();
-			ob_implicit_flush(false);
-			require ($_viewFile_);
-			return ob_get_clean();
-		} else {
-			require($_viewFile_);
-                }   
+           
+		        
+            if($_return_) {
+                  
+                try {
+                    ob_start();
+                    ob_implicit_flush(false);
+                    
+                    if($_viewFile_ and !empty($_viewFile_) and isset($_viewFile_) ) {
+                        require($_viewFile_); //require_once $_viewFile_;
+                    } else { 
+                        return $content;
+                    }    
+                    return ob_get_clean();
+                    
+		} catch(\Exception $e) {
+                    
+                    throw new CException(\init::t('init','{controller} error fix loader "{view}". Error-info: {message}.',
+				array('{controller}'=>get_class($this), '{line}'=>$e->getLine(), '{message}'=>$e->getMessage())));
+                }
                 
-                
-                
+              
+                    
+                    
+            } else {
+                    require($_viewFile_);
+            }   
+                 
 	}
+        
 
 	/**
 	 * Creates a widget and initializes it.
@@ -258,10 +270,10 @@ abstract class CBaseController extends CComponent
         
         public function render($view,$data=null,$return=false) {
                 
-		if($this->beforeRender($view))
-		{
+                // echo $this->layout; die('layout');
+            
+		if($this->beforeRender($view)) {
                     
-                        
 			$output=$this->renderPartial($view,$data,true);
                         
 			if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
@@ -280,67 +292,43 @@ abstract class CBaseController extends CComponent
 		}
 	}
         
+        /**
+         * getBox ( type: [left, right, center, bottom, top, 'controller/action'] )
+         * load box this controllers or load controllers
+         * @param type $params
+         */
+        public function getBox( $params ) {
+            $this->beginContent();
+            $_box = new \CBox();
+            $_controllers = $_box -> getBox( $params );
+            $this -> endContent();
+        }
+        
+        /**
+         * getBoxes
+         * load all boxDefinitions ( all controllers )
+         * @param type $params
+         */
         public function getBoxes( $params ) {
-            
-            /*
-            $controller = \init::app()->getController();
-            
-            $_id = $controller->getId();
-            $_view = $controller->getViewPath();
-            $_action = $controller->getAction()->getId();
-            
-            $viewFile = $_view.DS.$_action;
-            
-            if(($renderer=\init::app()->getViewRenderer())!==null)
-                    $extension=$renderer->fileExtension;
-            else
-                    $extension='.php';
-            
-            
-            
-            $renderer=\init::app()->getViewRenderer();
-            
-            $controller_run = \CController;
-            $controller_run->forward('hello/db');
-            
-            echo "<pre>";
-            var_dump( $controller, $_id, $_action, $_view );
-            echo "</pre>";
-            */
-            
-            
-           // echo "<hr />";
+
             
            $this->beginContent();
            $_box = new \CBox();
            $_controllers = $_box -> runController('hello/db');
            $this -> endContent();
-           //exit();
-           //$i = 0;
-           //echo "<pre>";
-           //var_dump( $_controllers );
-           //echo "</pre>";
-           
-           //echo "<hr /> ". $i++;
-             
-             //->getController()
+  
            
         }
         
         public function renderView($view, $data=null, $return=false, $layout = false) {
-            if($this->beforeRender($view))
-		{
+            if($this->beforeRender($view)) {
                     
-                        
-			$output=$this->renderPartial($view,$data,true);
-                        
+			$output = $this->renderPartial($view,$data,true);
 			if(($layoutFile=$this->getLayoutFile($this->layout))!==false and $layout == true)
 				$output=$this->renderFile($layoutFile,array('content'=>$output),true);
 
                         
-                        
 			$this->afterRender($view,$output);
-
 			$output=$this->processOutput($output);
 
 			if($return)

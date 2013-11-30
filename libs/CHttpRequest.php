@@ -1036,6 +1036,10 @@ class CCookieCollection extends \CMap
 		return $this->_request;
 	}
 
+        public function getCoikiesAll() {
+           return $this -> getCookies();
+        }
+        
 	/**
 	 * @return array list of validated cookies
 	 */

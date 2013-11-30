@@ -48,7 +48,7 @@ abstract class CAction extends \CComponent implements IAction
 	public function runWithParams($params)
 	{
 		$method=new \ReflectionMethod($this, 'run');
-		if($method->getNumberOfParameters()>0)
+		if($method->getNumberOfParameters() > 0)
 			return $this->runWithParamsInternal($this, $method, $params);
 		else
 			return $this->run();
