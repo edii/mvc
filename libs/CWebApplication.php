@@ -164,10 +164,10 @@ class CWebApplication extends \CApplication {
 	/**
 	 * @return CHttpSession the session component
 	 */
-	public function getSession()
-	{
-		return $this->getComponent('session');
-	}
+	//public function getSession()
+	//{
+	//	return $this->getComponent('session');
+	//}
 
 	/**
 	 * @return CWebUser the user session information

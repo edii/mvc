@@ -135,6 +135,21 @@ class CSession {
             
         }
 
+        
+        public function setSession() {
+            $argv = func_get_args();
+            //var_dump( $argv ); die('session');
+            if(is_array($argv) and count($argv) > 0) {
+		
+                foreach ((array)$argv as $key => $val) {
+                        $this->userdata[$key] = $val;
+                }
+		
+
+                $this->sess_write(); 
+               return $this;
+            }
+        }
 
         // --------------------------------------------------------------------
 
@@ -305,8 +320,6 @@ class CSession {
 		// _set_cookie() function. Normally that function will store $this->userdata, but
 		// in this case that array contains custom data, which we do not want in the cookie.
 		$this->_set_cookie($cookie_userdata);
-                
-                // return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -471,6 +484,8 @@ class CSession {
 		}
 
 		$this->sess_write();
+                
+                return $this;
 	}
 
 	// --------------------------------------------------------------------
