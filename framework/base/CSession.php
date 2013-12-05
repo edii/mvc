@@ -19,7 +19,7 @@
  */
 class CSession {
 
-	var $sess_encrypt_cookie		= FALSE;
+	
 	var $sess_use_database			= FALSE;
 	var $sess_table_name			= '';
 	var $sess_expiration			= 7200;
@@ -76,13 +76,7 @@ class CSession {
 			// show_error('In order to use the Session class you are required to set an encryption key in your config file.');
 		}
 
-		// Load the string helper so we can use the strip_slashes() function
-		//$this->_session->load->helper('string');
-
-		// Do we need encryption? If so, load the encryption class
-		//if ($this->sess_encrypt_cookie == TRUE) {
-			//$this->_session->load->library('encrypt');
-		//}
+		
 
 		// Are we using a database?  If so, load it
 		if ($this->sess_use_database === TRUE AND $this->sess_table_name != '') {
@@ -123,8 +117,29 @@ class CSession {
 		// log_message('debug', "Session routines successfully run");
 	}
 
-	// --------------------------------------------------------------------
+        public static function init() {
+            
+        }
 
+
+        // --------------------------------------------------------------------
+
+        protected function getCokkiesName( $name ) {
+            if(!empty($name)) {
+                $_cokkies = array();
+                foreach($_COOKIE as $key => $value) {
+                    if($name == $key)
+                        $_cokkies[$key] = $value;
+                }
+                
+                if(is_array($_cokkies) and count($_cokkies) > 0)
+                    return $_cokkies;
+                
+            } else {
+                return false;
+            }
+        }
+        
 	/**
 	 * Fetch the current session data if it exists
 	 *
@@ -132,14 +147,14 @@ class CSession {
 	 * @return	bool
 	 */
 	function sess_read() {
-                $_request = $this->_session->getRequest() -> getCookies();
-                echo "<pre>";
-                var_dump( $_request -> getCoikiesAll(), $this->sess_cookie_name );
-                echo "</pre>";
-                die('stop session');
+                //$_request = $this->_session->getRequest() -> getCookies();
+                //echo "<pre>";
+                //var_dump( $this->sess_cookie_name, \init::app()->getRequest()->getUserAgent() );
+                //e/cho "</pre>";
+                //die('stop session');
             
 		// Fetch the cookie
-		$session = $this->_session->input->cookie($this->sess_cookie_name);
+		$session = $this ->getCokkiesName( $this->sess_cookie_name );
 
 		// No cookie?  Goodbye cruel world!...
 		if ($session === FALSE) {
@@ -147,21 +162,17 @@ class CSession {
 			return FALSE;
 		}
 
-		// Decrypt the cookie data
-		if ($this->sess_encrypt_cookie == TRUE) {
-			$session = $this->_session->encrypt->decode($session);
-		} else {
-			// encryption was not used, so we need to check the md5 hash
-			$hash	 = substr($session, strlen($session)-32); // get last 32 chars
-			$session = substr($session, 0, strlen($session)-32);
+                // encryption was not used, so we need to check the md5 hash
+                $hash	 = substr($session, strlen($session)-32); // get last 32 chars
+                $session = substr($session, 0, strlen($session)-32);
 
-			// Does the md5 hash match?  This is to prevent manipulation of session data in userspace
-			if ($hash !==  md5($session.$this->encryption_key)) {
-				// log_message('error', 'The session cookie data did not match what was expected. This could be a possible hacking attempt.');
-				$this->sess_destroy();
-				return FALSE;
-			}
-		}
+                // Does the md5 hash match?  This is to prevent manipulation of session data in userspace
+                if ($hash !==  md5($session.$this->encryption_key)) {
+                        // log_message('error', 'The session cookie data did not match what was expected. This could be a possible hacking attempt.');
+                        $this->sess_destroy();
+                        return FALSE;
+                }
+		
 
 		// Unserialize the session array
 		$session = $this->_unserialize($session);
@@ -183,13 +194,13 @@ class CSession {
 		}
 
 		// Does the IP Match?
-		if ($this->sess_match_ip == TRUE AND $session['ip_address'] != $this->_session->input->ip_address()) {
+		if ($this->sess_match_ip == TRUE AND $session['ip_address'] != \init::app()->getRequest()->getUserHostAddress()) {
 			$this->sess_destroy();
 			return FALSE;
 		}
 
 		// Does the User Agent Match?
-		if ($this->sess_match_useragent == TRUE AND trim($session['user_agent']) != trim(substr($this->_session->input->user_agent(), 0, 120))) {
+		if ($this->sess_match_useragent == TRUE AND trim($session['user_agent']) != trim(substr(\init::app()->getRequest()->getUserAgent(), 0, 120))) {
 			$this->sess_destroy();
 			return FALSE;
 		}
@@ -296,12 +307,12 @@ class CSession {
 		}
 
 		// To make the session ID even more secure we'll combine it with the user's IP
-		$sessid .= $this->_session->input->ip_address();
+		$sessid .= \init::app()->getRequest()->getUserHostAddress();
 
 		$this->userdata = [
                                     'session_id'	=> md5(uniqid($sessid, TRUE)),
-                                    'ip_address'	=> $this->_session->input->ip_address(),
-                                    'user_agent'	=> substr($this->_session->input->user_agent(), 0, 120),
+                                    'ip_address'	=> \init::app()->getRequest()->getUserHostAddress(),
+                                    'user_agent'	=> substr(\init::app()->getRequest()->getUserAgent(), 0, 120),
                                     'last_activity'	=> $this->now,
                                     'user_data'		=> ''
                                     ];
@@ -339,7 +350,7 @@ class CSession {
 		}
 
 		// To make the session ID even more secure we'll combine it with the user's IP
-		$new_sessid .= $this->_session->input->ip_address();
+		$new_sessid .= \init::app()->getRequest()->getUserHostAddress();
 
 		// Turn it into a hash
 		$new_sessid = md5(uniqid($new_sessid, TRUE));
@@ -600,14 +611,7 @@ class CSession {
 
 		// Serialize the userdata for the cookie
 		$cookie_data = $this->_serialize($cookie_data);
-
-		if ($this->sess_encrypt_cookie == TRUE) {
-			$cookie_data = $this->_session->encrypt->encode($cookie_data);
-		} else {
-			// if encryption is not used, we provide an md5 hash to prevent userside tampering
-			$cookie_data = $cookie_data.md5($cookie_data.$this->encryption_key);
-		}
-
+		$cookie_data = $cookie_data.md5($cookie_data.$this->encryption_key);
 		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
 
 		// Set the cookie
