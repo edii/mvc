@@ -9,6 +9,8 @@ class HelloController extends \Controller
 	public function actionDB()
 	{
             
+            
+            
             // \init::app()->setTheme( false );
             
             // connect db from controlers
@@ -62,6 +64,17 @@ class HelloController extends \Controller
 
 	public function actionIndex()
 	{
+            
+            //echo "path = ".PATH; die('stop');
+            
+            
+            $img = ResizeImages::createImage(PATH.'/style/front/image/sisky.jpg');
+            $img->cropCenter('4pr', '3pr')->save(PATH.'/style/front/image/crop_image.jpg');
+            //var_dump( $_c );
+            
+            //$img = framework\imagetoolkit\AcImage::createImage('../style/front/image/sisky.jpg');
+            //$img->cropCenter('4pr', '3pr')->save('../style/front/image/crop_image.jpg');
+            
            // if($this->layout) {
              // \init::app()->setTheme( $this->layout );
            // }

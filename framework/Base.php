@@ -99,7 +99,7 @@ class Base
 		if(self::$_app===null || $app===null)
 			self::$_app=$app;
 		else
-			throw new \CException('yii','Yii application can only be created once.');
+			throw new \CException('init','Init application can only be created once.');
 	}
 
 	/**
@@ -143,7 +143,7 @@ class Base
 			throw new \CException('init','Object configuration must be an array containing a "class" element.');
 
 		if(!class_exists($type,false))
-			$type = \init::import($type,true);
+			$type = \init::import($type, true);
 
 		if(($n=func_num_args())>1)
 		{
@@ -658,7 +658,9 @@ class Base
                // 'CTheme'                => '/libs/CTheme.php',
                // 'CThemeManager'         => '/libs/CThemeManager.php',
             
-            
+                // Resize Images
+                //'ResizeImages'           => '/framework/imagetoolkit/AcImage.php',
+                'ResizeImages'           => '/framework/imagetoolkit/ResizeImages.php',
 		
 	);
 }
