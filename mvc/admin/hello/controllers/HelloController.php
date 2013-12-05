@@ -12,7 +12,7 @@ class HelloController extends \Controller
             $this->layout( 'column2' ); //'column2'
             
             echo "<hr /> session";
-            $_session = \init::app() -> getSession();
+            $_session = \init::app() -> getSession() -> all_userdata();
             echo "<pre>";
             var_dump( $_session );
             echo "</pre>";
