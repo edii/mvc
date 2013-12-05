@@ -66,18 +66,9 @@ class HelloController extends \Controller
 	{
             
             //echo "path = ".PATH; die('stop');
-            
-            
-            $img = ResizeImages::createImage(PATH.'/style/front/image/sisky.jpg');
-            $img->cropCenter('4pr', '3pr')->save(PATH.'/style/front/image/crop_image.jpg');
-            //var_dump( $_c );
-            
-            //$img = framework\imagetoolkit\AcImage::createImage('../style/front/image/sisky.jpg');
-            //$img->cropCenter('4pr', '3pr')->save('../style/front/image/crop_image.jpg');
-            
-           // if($this->layout) {
-             // \init::app()->setTheme( $this->layout );
-           // }
+                    
+            //$img = ResizeImages::createImage(PATH.'/style/front/image/sisky.jpg');
+            //$img->cropCenter('4pr', '3pr')->save(PATH.'/style/front/image/crop_image.jpg');
             
              echo "layout ---- = ".$this->layout;
              echo "<hr />";
