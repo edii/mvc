@@ -9,6 +9,7 @@ defined('ENABLE_ERROR_HANDLER') or define('ENABLE_ERROR_HANDLER',true);
 defined('PATH') or define('PATH',dirname(__FILE__));
 defined('PATH_LIBS') or define('PATH_LIBS',dirname(__FILE__).DIRECTORY_SEPARATOR."libs");
 defined('ZII_PATH') or define('ZII_PATH',PATH.DIRECTORY_SEPARATOR.'zii');
+defined('PATH_APP)') or define('PATH_APP',dirname(__FILE__).DIRECTORY_SEPARATOR."framework");
 
 define('DS', DIRECTORY_SEPARATOR);
 define('LDTR', DIRECTORY_SEPARATOR);

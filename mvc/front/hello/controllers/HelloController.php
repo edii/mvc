@@ -9,13 +9,9 @@ class HelloController extends \Controller
 	public function actionDB()
 	{
             
+            
+            
             // \init::app()->setTheme( false );
-            
-            
-            // load model
-            $_object_model = \init::app()->getModels('vilidate/input')-> save(false, null); //-> save()
-           // var_dump($_object_model);
-            
             
             // connect db from controlers
             $_db = new CDatabase( 'main', NULL);
@@ -68,20 +64,17 @@ class HelloController extends \Controller
 
 	public function actionIndex()
 	{
-           // if($this->layout) {
-             // \init::app()->setTheme( $this->layout );
-           // }
             
+            //echo "path = ".PATH; die('stop');
+                    
+            //$img = ResizeImages::createImage(PATH.'/style/front/image/sisky.jpg');
+            //$img->cropCenter('4pr', '3pr')->save(PATH.'/style/front/image/crop_image.jpg');
             
-            \init::app()->setTheme( 'column2' );
-             
-            $themes = \init::app()->getTheme();
-                 
+             echo "layout ---- = ".$this->layout;
+             echo "<hr />";
             
-            //echo "<pre>";
-            //var_dump($themes);
-            //echo "</pre>";
-            
+            $themes = \init::app()->getTheme( 'home' );
+                   
             $_gets = $this->getActionParams();
             
             $dataProvider = ['blaaa', 'ddddd'];

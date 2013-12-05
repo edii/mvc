@@ -17,6 +17,9 @@ class HelloController extends \Controller
             var_dump( $_session );
             echo "</pre>";
             
+            
+            
+            
             $this->render('index', array(
 			'dataProvider'=>'Admin',
             ));
@@ -36,9 +39,7 @@ class HelloController extends \Controller
 	}
         
         public function actionTest() {
-             $this->layout( false );
-            
-            // \init::app()->setTheme( false );
+            $this->layout( false );
             
             echo "load test params!";
             

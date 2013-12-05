@@ -537,6 +537,8 @@ abstract class CApplication extends \CModule
 	}
 
         
+        
+        
         /**
          * CSession
          * 
@@ -998,6 +1000,7 @@ abstract class CApplication extends \CModule
                         'session'=>array(
 				'class'=>'CSession',
 			),
+                    
 		);
 
 		$this->setComponents($components);
