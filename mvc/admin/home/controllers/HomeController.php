@@ -27,7 +27,11 @@ class HomeController extends \Controller
             var_dump( $_session );
             echo "</pre>";
             
-            
+            $_data = \init::app() -> getRequest() -> getParam('data');
+            echo "<pre>";
+            var_dump( $_data );
+            echo "</pre>";
+            die('stop');
             
             
             $this -> redirect('home/login');

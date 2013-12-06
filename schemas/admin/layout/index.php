@@ -69,7 +69,7 @@
     <div class="container-fluid">
 
         <div class="loginContainer">
-            <form class="form-horizontal" action="" id="loginForm" >
+            <form class="form-horizontal" action="index" id="loginForm" >
                 <div class="form-row row-fluid">
                     <div class="span12">
                         <div class="row-fluid">
