@@ -3,7 +3,7 @@
     <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Supr admin</title>
-    <meta name="author" content="SuggeElson" />
+   
     <meta name="description" content="Supr admin template - new premium responsive admin template. This template is designed to help you build the site administration without losing valuable time.Template contains all the important functions which must have one backend system.Build on great twitter boostrap framework" />
     <meta name="keywords" content="admin, admin template, admin theme, responsive, responsive admin, responsive admin template, responsive theme, themeforest, 960 grid system, grid, grid theme, liquid, masonry, jquery, administration, administration template, administration theme, mobile, touch , responsive layout, boostrap, twitter boostrap" />
     <meta name="application-name" content="Supr admin template" />
@@ -77,7 +77,7 @@
                                 Username:
                                 <span class="icon16 icomoon-icon-user right gray marginR10"></span>
                             </label>
-                            <input class="span12" id="username" type="text" name="username" value="" />
+                            <input class="span12" id="username" type="text" name="data[username]" value="" />
                         </div>
                     </div>
                 </div>
@@ -90,7 +90,7 @@
                                 <span class="icon16 icomoon-icon-lock right gray marginR10"></span>
                                 <span class="forgot"><a href="#">Forgot your password?</a></span>
                             </label>
-                            <input class="span12" id="password" type="password" name="password" value="" />
+                            <input class="span12" id="password" type="password" name="data[password]" value="" />
                         </div>
                     </div>
                 </div>

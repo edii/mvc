@@ -2,14 +2,13 @@
 
 class HomeController extends \Controller
 {
-	public $layout = 'index'; //'column1'
+	public $layout = 'dashboard'; //'column1'
 
 	private $_model;
 
 	
 	public function actionIndex() {
             
-            $this->layout( 'column2' ); //'column2'
             
             echo "<hr /> session";
             // вид 1
@@ -29,7 +28,9 @@ class HomeController extends \Controller
             echo "</pre>";
             
             
-            $this ->redirect('home/login');
+            
+            
+            $this -> redirect('home/login');
             
             // $this->render('index', array(
 	    //		'dataProvider'=>'Admin',
@@ -39,6 +40,13 @@ class HomeController extends \Controller
         
         /* controller Login */
         public function actionLogin() {
+            $_data = \init::app() -> getRequest() -> getParam('data');
+            echo "<pre>";
+            var_dump( $_data );
+            echo "</pre>";
+            // die('stop');
+            
+            $this->layout( 'index' );
             $this->render('login');    
         }
         /* end */
