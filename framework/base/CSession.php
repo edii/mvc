@@ -15,6 +15,20 @@
 // ------------------------------------------------------------------------
 
 /**
+ * DataBase
+ * CREATE TABLE IF NOT EXISTS  `ci_sessions` (
+    session_id varchar(40) DEFAULT '0' NOT NULL,
+    ip_address varchar(45) DEFAULT '0' NOT NULL,
+    user_agent varchar(120) NOT NULL,
+    last_activity int(10) unsigned DEFAULT 0 NOT NULL,
+    user_data text NOT NULL,
+    PRIMARY KEY (session_id),
+    KEY `last_activity_idx` (`last_activity`)
+   );
+ * 
+ */
+
+/**
  * Session Class
  */
 class CSession {
@@ -121,6 +135,21 @@ class CSession {
             
         }
 
+        
+        public function setSession() {
+            $argv = func_get_args();
+            //var_dump( $argv ); die('session');
+            if(is_array($argv) and count($argv) > 0) {
+		
+                foreach ((array)$argv as $key => $val) {
+                        $this->userdata[$key] = $val;
+                }
+		
+
+                $this->sess_write(); 
+               return $this;
+            }
+        }
 
         // --------------------------------------------------------------------
 
@@ -282,10 +311,11 @@ class CSession {
 			$custom_userdata = $this->_serialize($custom_userdata);
 		}
 
-		// Run the update query
-		$this->_session->db->where('session_id', $this->userdata['session_id']);
-		$this->_session->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
-
+                if ($this->sess_use_database === TRUE) {
+                    // Run the update query
+                    $this->_session->db->where('session_id', $this->userdata['session_id']);
+                    $this->_session->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
+                }
 		// Write the cookie.  Notice that we manually pass the cookie data array to the
 		// _set_cookie() function. Normally that function will store $this->userdata, but
 		// in this case that array contains custom data, which we do not want in the cookie.
@@ -454,6 +484,8 @@ class CSession {
 		}
 
 		$this->sess_write();
+                
+                return $this;
 	}
 
 	// --------------------------------------------------------------------
