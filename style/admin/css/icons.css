@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'icomoon';
-	src:url('fonts/icomoon.eot');
-	src:url('fonts/icomoon.eot?#iefix') format('embedded-opentype'),
-		url('fonts/icomoon.woff') format('woff'),
-		url('fonts/icomoon.ttf') format('truetype'),
-		url('fonts/icomoon.svg#icomoon') format('svg');
+	src:url('/style/admin/css/fonts/icomoon.eot');
+	src:url('/style/admin/css/fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('/style/admin/css/fonts/icomoon.woff') format('woff'),
+		url('/style/admin/css/fonts/icomoon.ttf') format('truetype'),
+		url('/style/admin/css/fonts/icomoon.svg#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -12,110 +12,110 @@
 /*Optional font-face icons just remove if not want it*/
 @font-face {
 	font-family: 'broccolidry';
-	src: url('fonts/broccolidry.eot');
-	src: url('fonts/broccolidry.eot?#iefix') format('eot'),
-		url('fonts/broccolidry.svg#broccolidry') format('svg'),
-		url('fonts/broccolidry.woff') format('woff'),
-		url('fonts/broccolidry.ttf') format('truetype');
+	src: url('/style/admin/css/fonts/broccolidry.eot');
+	src: url('/style/admin/css/fonts/broccolidry.eot?#iefix') format('eot'),
+		url('/style/admin/css/fonts/broccolidry.svg#broccolidry') format('svg'),
+		url('/style/admin/css/fonts/broccolidry.woff') format('woff'),
+		url('/style/admin/css/fonts/broccolidry.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'cuticons';
-	src: url('fonts/cuticons.eot');
-	src: url('fonts/cuticons.eot?#iefix') format('eot'),
-		url('fonts/cuticons.svg#cuticons') format('svg'),
-		url('fonts/cuticons.woff') format('woff'),
-		url('fonts/cuticons.ttf') format('truetype');
+	src: url('/style/admin/css/fonts/cuticons.eot');
+	src: url('/style/admin/css/fonts/cuticons.eot?#iefix') format('eot'),
+		url('/style/admin/css/fonts/cuticons.svg#cuticons') format('svg'),
+		url('/style/admin/css/fonts/cuticons.woff') format('woff'),
+		url('/style/admin/css/fonts/cuticons.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'entypo';
-	src: url('fonts/entypo.eot');
-	src: url('fonts/entypo.eot?#iefix') format('eot'),
-		url('fonts/entypo.svg#entypo') format('svg'),
-		url('fonts/entypo.woff') format('woff'),
-		url('fonts/entypo.ttf') format('truetype');
+	src: url('/style/admin/css/fonts/entypo.eot');
+	src: url('/style/admin/css/fonts/entypo.eot?#iefix') format('eot'),
+		url('/style/admin/css/fonts/entypo.svg#entypo') format('svg'),
+		url('/style/admin/css/fonts/entypo.woff') format('woff'),
+		url('/style/admin/css/fonts/entypo.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'minia';
-	src: url('fonts/minia.eot');
-	src: url('fonts/minia.eot?#iefix') format('eot'),
-		url('fonts/minia.svg#minia') format('svg'),
-		url('fonts/minia.woff') format('woff'),
-		url('fonts/minia.ttf') format('truetype');
+	src: url('/style/admin/css/fonts/minia.eot');
+	src: url('/style/admin/css/fonts/minia.eot?#iefix') format('eot'),
+		url('/style/admin/css/fonts/minia.svg#minia') format('svg'),
+		url('/style/admin/css/fonts/minia.woff') format('woff'),
+		url('/style/admin/css/fonts/minia.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'iconic';
-	src: url('fonts/iconic.eot');
-	src: url('fonts/iconic.eot?#iefix') format('eot'),
-		url('fonts/iconic.svg#iconic') format('svg'),
-		url('fonts/iconic.woff') format('woff'),
-		url('fonts/iconic.ttf') format('truetype');
+	src: url('/style/admin/css/fonts/iconic.eot');
+	src: url('/style/admin/css/fonts/iconic.eot?#iefix') format('eot'),
+		url('/style/admin/css/fonts/iconic.svg#iconic') format('svg'),
+		url('/style/admin/css/fonts/iconic.woff') format('woff'),
+		url('/style/admin/css/fonts/iconic.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'meteocons';
-	src: url('fonts/meteocons.eot');
-	src: url('fonts/meteocons.eot?#iefix') format('eot'),
-		url('fonts/meteocons.svg#meteocons') format('svg'),
-		url('fonts/meteocons.woff') format('woff'),
-		url('fonts/meteocons.ttf') format('truetype');
+	src: url('/style/admin/css/fonts/meteocons.eot');
+	src: url('/style/admin/css/fonts/meteocons.eot?#iefix') format('eot'),
+		url('/style/admin/css/fonts/meteocons.svg#meteocons') format('svg'),
+		url('/style/admin/css/fonts/meteocons.woff') format('woff'),
+		url('/style/admin/css/fonts/meteocons.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'silkcons';
-	src: url('fonts/silkcons.eot');
-	src: url('fonts/silkcons.eot?#iefix') format('eot'),
-		url('fonts/silkcons.svg#silkcons') format('svg'),
-		url('fonts/silkcons.woff') format('woff'),
-		url('fonts/silkcons.ttf') format('truetype');
+	src: url('/style/admin/css/fonts/silkcons.eot');
+	src: url('/style/admin/css/fonts/silkcons.eot?#iefix') format('eot'),
+		url('/style/admin/css/fonts/silkcons.svg#silkcons') format('svg'),
+		url('/style/admin/css/fonts/silkcons.woff') format('woff'),
+		url('/style/admin/css/fonts/silkcons.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'typicons';
-	src: url('fonts/typicons.eot');
-	src: url('fonts/typicons.eot?#iefix') format('eot'),
-		url('fonts/typicons.svg#typicons') format('svg'),
-		url('fonts/typicons.woff') format('woff'),
-		url('fonts/typicons.ttf') format('truetype');
+	src: url('/style/admin/css/fonts/typicons.eot');
+	src: url('/style/admin/css/fonts/typicons.eot?#iefix') format('eot'),
+		url('/style/admin/css/fonts/typicons.svg#typicons') format('svg'),
+		url('/style/admin/css/fonts/typicons.woff') format('woff'),
+		url('/style/admin/css/fonts/typicons.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'wpzoom';
-	src: url('fonts/wpzoom.eot');
-	src: url('fonts/wpzoom.eot?#iefix') format('embedded-opentype'),
-		url('fonts/wpzoom.svg#wpzoom') format('svg'),
-		url('fonts/wpzoom.woff') format('woff'),
-		url('fonts/wpzoom.ttf') format('truetype');
+	src: url('/style/admin/css/fonts/wpzoom.eot');
+	src: url('/style/admin/css/fonts/wpzoom.eot?#iefix') format('embedded-opentype'),
+		url('/style/admin/css/fonts/wpzoom.svg#wpzoom') format('svg'),
+		url('/style/admin/css/fonts/wpzoom.woff') format('woff'),
+		url('/style/admin/css/fonts/wpzoom.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'ecoico';
-	src: url('fonts/ecoico.eot');
-	src: url('fonts/ecoico.eot?#iefix') format('embedded-opentype'),
-		url('fonts/ecoico.svg#ecoico') format('svg'),
-		url('fonts/ecoico.woff') format('woff'),
-		url('fonts/ecoico.ttf') format('truetype');
+	src: url('/style/admin/css/fonts/ecoico.eot');
+	src: url('/style/admin/css/fonts/ecoico.eot?#iefix') format('embedded-opentype'),
+		url('/style/admin/css/fonts/ecoico.svg#ecoico') format('svg'),
+		url('/style/admin/css/fonts/ecoico.woff') format('woff'),
+		url('/style/admin/css/fonts/ecoico.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }

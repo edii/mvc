@@ -1,8 +1,8 @@
 <?php
 
-class HelloController extends \Controller
+class HomeController extends \Controller
 {
-	public $layout = 'column1'; //'column1'
+	public $layout = 'index'; //'column1'
 
 	private $_model;
 
@@ -29,7 +29,7 @@ class HelloController extends \Controller
             echo "</pre>";
             
             
-            $this ->redirect('hello/login');
+            $this ->redirect('home/login');
             
             // $this->render('index', array(
 	    //		'dataProvider'=>'Admin',
@@ -39,7 +39,7 @@ class HelloController extends \Controller
         
         /* controller Login */
         public function actionLogin() {
-            echo "this login controllers!";
+            $this->render('login');    
         }
         /* end */
         

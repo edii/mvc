@@ -14,7 +14,7 @@ return [
 		'application.components.*',
 	),
 	
-	'defaultController'=>'hello', // post
+	'defaultController'=>'home', // post
         'components'=>[
             'urlManager'=>[
 			'urlFormat'=>'path',
@@ -31,7 +31,7 @@ return [
         'db' => [
             'main' => [
                 'driver' => 'mysql',
-                'database' => 'lemberg',
+                'database' => 'mvc',
                 'username' => 'root',
                 'password' => '',
                 'host' => 'localhost',
