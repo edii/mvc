@@ -14,7 +14,7 @@
 	width: 16px;
 	height: 16px;
 	cursor: default;
-	background: url(../../images/handle.png) no-repeat;
+	background: url(/style/admin/image/handle.png) no-repeat;
 	border: none;
 	cursor: pointer;
 	margin-top:-1px;
