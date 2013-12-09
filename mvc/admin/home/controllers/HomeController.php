@@ -28,13 +28,25 @@ class HomeController extends \Controller
             echo "</pre>";
             
             $_data = \init::app() -> getRequest() -> getParam('data');
-            echo "<pre>";
-            var_dump( $_data );
-            echo "</pre>";
-            die('stop');
+            
+            if(is_array($_data) and count($_data) > 0) :
+                echo "<pre>";
+                var_dump( $_data );
+                echo "</pre>";
+                
+                $_auth = \init::app() -> getModels('auth/users') -> getValidate();
+                //var_dump($_auth);
+                //$_auth ->getValidate();
+                
+                //die('stop');
+            else:   
+                $this -> redirect('home/login');
+            endif;
+
             
             
-            $this -> redirect('home/login');
+            
+            
             
             // $this->render('index', array(
 	    //		'dataProvider'=>'Admin',

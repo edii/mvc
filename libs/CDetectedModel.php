@@ -36,11 +36,11 @@ class CDetectedModel extends \CModel
 
 		$this->setScenario($scenario);
 		$this->setIsNewRecord(true);
-		$this->_attributes=$this->getMetaData()->attributeDefaults;
+		//$this->_attributes=$this->getMetaData()->attributeDefaults;
 
 		$this->init();
 
-		$this->attachBehaviors($this->behaviors());
+		//$this->attachBehaviors($this->behaviors());
 		$this->afterConstruct();
 	}
 

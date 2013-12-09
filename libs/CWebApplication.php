@@ -591,11 +591,17 @@ class CWebApplication extends \CApplication {
 		//	show_error('The model name you are loading is the name of a resource that is already being used: '.$name);
 		//}
 
+                //echo "url = ".\init::app()->getMvc().DS.'model'.DS.$path.$model.'.php';
+                //die('stop');
+                
 		$model = strtolower($model);
                 if ( ! file_exists(\init::app()->getMvc().DS.'model'.DS.$path.$model.'.php')) {
                         return false;
                 }
 
+                
+                
+                
                 //if ($db_conn !== FALSE AND ! class_exists('CI_DB')) {
                 //	if ($db_conn === TRUE) {
                 //		$db_conn = '';
@@ -611,6 +617,7 @@ class CWebApplication extends \CApplication {
 
 
                 require_once(\init::app()->getMvc().DS.'model'.DS.$path.$model.'.php');
+                
                 $model = ucfirst($model);
                 $_model = new $model();
                 if(!$this->_model)
