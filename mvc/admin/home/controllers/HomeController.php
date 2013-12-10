@@ -49,9 +49,9 @@ class HomeController extends \Controller
                             -> setSession();
                 if($_auth) {
                     
-                    echo "<pre>";
-                    var_dump( $_auth );
-                    echo "</pre>";
+                   // echo "<pre>";
+                   // var_dump( $_auth );
+                   // echo "</pre>";
                     
                     $this->render('index', array(
                         'dataProvider'=>'Admin',
