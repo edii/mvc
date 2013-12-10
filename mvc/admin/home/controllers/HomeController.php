@@ -10,7 +10,10 @@ class HomeController extends \Controller
          * construct
          */
         public function init() {
-            
+            //echo "<pre>";
+            //var_dump($_SESSION);
+           // echo "</pre>";
+           // die('stop');
         }
         
         /**
@@ -18,6 +21,14 @@ class HomeController extends \Controller
          */
 	public function actionIndex() {
             
+            $_sess = \init::app() -> getSession() -> all_userdata();
+            $login = \init::app() -> getSession() -> userdata('login');
+            $password = \init::app() -> getSession() -> userdata('password');
+            // $_sess2 = \init::app() -> getRequest() -> getCookies();
+            echo "<pre>";
+            var_dump($_sess, $login, $password);
+            echo "</pre>";
+            die('stop');
             
            // echo "<hr /> session";
             // вид 1
