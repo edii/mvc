@@ -12,7 +12,7 @@ var supr_Options = {
 //load some plugins only if is needed
 Modernizr.load({
   test: Modernizr.placeholder,
-  nope: 'plugins/forms/placeholder/jquery.placeholder.min.js',
+  nope: '/style/admin/plugins/forms/placeholder/jquery.placeholder.min.js',
   complete: function () {
 	//------------- placeholder fallback  -------------//
 	$('input[placeholder], textarea[placeholder]').placeholder();
@@ -20,7 +20,7 @@ Modernizr.load({
 });
 Modernizr.load({
   test: Modernizr.touch,
-  yep: ['plugins/fix/ios-fix/ios-orientationchange-fix.js', 'plugins/fix/touch-punch/jquery.ui.touch-punch.min.js']
+  yep: ['/style/admin/plugins/fix/ios-fix/ios-orientationchange-fix.js', '/style/admin/plugins/fix/touch-punch/jquery.ui.touch-punch.min.js']
 });
 
 //window resize events
@@ -50,23 +50,23 @@ $(document).ready(function(){
 			create : function () {
 				//create switcher and inject into html
 				$('body').append('<a href="#" id="switchBtn"><span class="icon24 icomoon-icon-cogs"></span></a>');
-				$('body').append('<div id="switcher"><h4>Header patterns</h4><div class="header-patterns"><ul><li><a href="#" class="hpat1"><img src="images/patterns/header/1.png"></a></li><li><a href="#" class="hpat2"><img src="images/patterns/header/2.png"></a></li><li><a href="#" class="hpat3"><img src="images/patterns/header/3.png"></a></li><li><a href="#" class="hpat4"><img src="images/patterns/header/4.png"></a></li></ul></div><h4>Sidebar patterns</h4><div class="sidebar-patterns"><ul><li><a href="#" class="spat1"><img src="images/patterns/sidebar/1.png"></a></li><li><a href="#" class="spat2"><img src="images/patterns/sidebar/2.png"></a></li><li><a href="#" class="spat3"><img src="images/patterns/sidebar/3.png"></a></li><li><a href="#" class="spat4"><img src="images/patterns/sidebar/4.png"></a></li></ul></div><h4>Body patterns</h4><div class="body-patterns"><ul><li><a href="#" class="bpat1"><img src="images/patterns/body/1.png"></a></li><li><a href="#" class="bpat2"><img src="images/patterns/body/2.png"></a></li><li><a href="#" class="bpat3"><img src="images/patterns/body/3.png"></a></li><li><a href="#" class="bpat4"><img src="images/patterns/body/4.png"></a></li></ul></div></div>');
+				$('body').append('<div id="switcher"><h4>Header patterns</h4><div class="header-patterns"><ul><li><a href="#" class="hpat1"><img src="/style/admin/image/patterns/header/1.png"></a></li><li><a href="#" class="hpat2"><img src="/style/admin/image/patterns/header/2.png"></a></li><li><a href="#" class="hpat3"><img src="/style/admin/image/patterns/header/3.png"></a></li><li><a href="#" class="hpat4"><img src="/style/admin/image/patterns/header/4.png"></a></li></ul></div><h4>Sidebar patterns</h4><div class="sidebar-patterns"><ul><li><a href="#" class="spat1"><img src="/style/admin/image/patterns/sidebar/1.png"></a></li><li><a href="#" class="spat2"><img src="/style/admin/image/patterns/sidebar/2.png"></a></li><li><a href="#" class="spat3"><img src="/style/admin/image/patterns/sidebar/3.png"></a></li><li><a href="#" class="spat4"><img src="/style/admin/image/patterns/sidebar/4.png"></a></li></ul></div><h4>Body patterns</h4><div class="body-patterns"><ul><li><a href="#" class="bpat1"><img src="/style/admin/image/patterns/body/1.png"></a></li><li><a href="#" class="bpat2"><img src="/style/admin/image/patterns/body/2.png"></a></li><li><a href="#" class="bpat3"><img src="/style/admin/image/patterns/body/3.png"></a></li><li><a href="#" class="bpat4"><img src="/style/admin/image/patterns/body/4.png"></a></li></ul></div></div>');
 			},
 			init: function() {
 				supr_switcher.create();
 				$('#switcher a').click(function() {
-					if($(this).hasClass('hpat1')) {$('#header').css('background', 'url(images/patterns/header/bedge_grunge.png)');}
-					if($(this).hasClass('hpat2')) {$('#header').css('background', 'url(images/patterns/header/grid.png)');}
-					if($(this).hasClass('hpat3')) {$('#header').css('background', 'url(images/patterns/header/nasty_fabric.png)');}
-					if($(this).hasClass('hpat4')) {$('#header').css('background', 'url(images/patterns/header/natural_paper.png)');}
-					if($(this).hasClass('spat1')) {$('#sidebarbg').css('background', 'url(images/patterns/sidebar/az_subtle.png)');}
-					if($(this).hasClass('spat2')) {$('#sidebarbg').css('background', 'url(images/patterns/sidebar/billie_holiday.png)');}
-					if($(this).hasClass('spat3')) {$('#sidebarbg').css('background', 'url(images/patterns/sidebar/grey.png)');}
-					if($(this).hasClass('spat4')) {$('#sidebarbg').css('background', 'url(images/patterns/sidebar/noise_lines.png)');}
-					if($(this).hasClass('bpat1')) {$('#content').css('background', 'url(images/patterns/body/cream_dust.png)');}
-					if($(this).hasClass('bpat2')) {$('#content').css('background', 'url(images/patterns/body/dust.png)');}
-					if($(this).hasClass('bpat3')) {$('#content').css('background', 'url(images/patterns/body/grey.png)');}
-					if($(this).hasClass('bpat4')) {$('#content').css('background', 'url(images/patterns/body/subtle_dots.png)');}					
+					if($(this).hasClass('hpat1')) {$('#header').css('background', 'url(/style/admin/image/patterns/header/bedge_grunge.png)');}
+					if($(this).hasClass('hpat2')) {$('#header').css('background', 'url(/style/admin/image/patterns/header/grid.png)');}
+					if($(this).hasClass('hpat3')) {$('#header').css('background', 'url(/style/admin/image/patterns/header/nasty_fabric.png)');}
+					if($(this).hasClass('hpat4')) {$('#header').css('background', 'url(/style/admin/image/patterns/header/natural_paper.png)');}
+					if($(this).hasClass('spat1')) {$('#sidebarbg').css('background', 'url(/style/admin/image/patterns/sidebar/az_subtle.png)');}
+					if($(this).hasClass('spat2')) {$('#sidebarbg').css('background', 'url(/style/admin/image/patterns/sidebar/billie_holiday.png)');}
+					if($(this).hasClass('spat3')) {$('#sidebarbg').css('background', 'url(/style/admin/image/patterns/sidebar/grey.png)');}
+					if($(this).hasClass('spat4')) {$('#sidebarbg').css('background', 'url(/style/admin/image/patterns/sidebar/noise_lines.png)');}
+					if($(this).hasClass('bpat1')) {$('#content').css('background', 'url(/style/admin/image/patterns/body/cream_dust.png)');}
+					if($(this).hasClass('bpat2')) {$('#content').css('background', 'url(/style/admin/image/patterns/body/dust.png)');}
+					if($(this).hasClass('bpat3')) {$('#content').css('background', 'url(/style/admin/image/patterns/body/grey.png)');}
+					if($(this).hasClass('bpat4')) {$('#content').css('background', 'url(/style/admin/image/patterns/body/subtle_dots.png)');}					
 				});
 
 				$('#switchBtn').click(function() {

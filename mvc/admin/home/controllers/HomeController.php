@@ -54,7 +54,8 @@ class HomeController extends \Controller
                    // echo "</pre>";
                     
                     $this->render('index', array(
-                        'dataProvider'=>'Admin',
+                        'validate' => true,
+                        'session' => $_auth
                     ));     
                 } else {
                     $this -> redirect('login');

@@ -176,7 +176,7 @@ thead .fc-first, thead .fc-last {
 	}
 	
 .fc-state-highlight { /* <td> today cell */ /* TODO: add .fc-today to <th> */
-	background: url(../../../images/patterns/3.png) repeat;
+	background: url(/style/admin/image/patterns/3.png) repeat;
 	}
 	
 .fc-cell-overlay { /* semi-transparent rectangle while dragging */
