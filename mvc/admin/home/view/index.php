@@ -1,5 +1,5 @@
 <hr />
-<b> Hello world index</b>
+<b> login OK! index</b>
 <hr />
 
 <?php

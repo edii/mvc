@@ -10,7 +10,7 @@ class HomeController extends \Controller
 	public function actionIndex() {
             
             
-            echo "<hr /> session";
+           // echo "<hr /> session";
             // вид 1
             //\init::app() -> getSession() -> set_userdata(array('test' => 'params'));
             //$_session = \init::app() -> getSession() -> all_userdata();
@@ -20,37 +20,41 @@ class HomeController extends \Controller
             //$_session = $_sess->setSession(array('test' => 'params'))-> all_userdata();
             
             // вариант 3
-            $_session = \init::app() -> getSession() -> set_userdata(array('test' => 'params')) -> all_userdata();
+           // $_session = \init::app() -> getSession() -> set_userdata(array('test' => 'params')) -> all_userdata();
             
             
-            echo "<pre>";
-            var_dump( $_session );
-            echo "</pre>";
+           // echo "<pre>";
+           // var_dump( $_session );
+           // echo "</pre>";
             
             $_data = \init::app() -> getRequest() -> getParam('data');
             
             if(is_array($_data) and count($_data) > 0) :
-                echo "<pre>";
-                var_dump( $_data );
-                echo "</pre>";
                 
-                $_auth = \init::app() -> getModels('auth/users') -> getValidate();
-                //var_dump($_auth);
-                //$_auth ->getValidate();
                 
-                //die('stop');
+                if(empty($_data['username'])) $this -> redirect('login', array('error' => true));
+                if(empty($_data['password'])) $this -> redirect('login', array('error' => true));
+                
+                $_auth = \init::app() 
+                            -> getModels('auth/users') 
+                            -> getValidate( $_data['username'], $_data['password'] ) 
+                            -> setSession();
+                if($_auth) {
+                    
+                    echo "<pre>";
+                    var_dump( $_auth );
+                    echo "</pre>";
+                    
+                    $this->render('index', array(
+                        'dataProvider'=>'Admin',
+                    ));     
+                } else {
+                    $this -> redirect('login');
+                }
             else:   
                 $this -> redirect('home/login');
             endif;
 
-            
-            
-            
-            
-            
-            // $this->render('index', array(
-	    //		'dataProvider'=>'Admin',
-            // ));
 
 	}
         
