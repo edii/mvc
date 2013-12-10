@@ -30,7 +30,7 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
             $login = stripcslashes(htmlspecialchars(trim($login)));
             $password = md5(stripcslashes(htmlspecialchars(trim($password))));
             
-            $_query = self::$db -> query("SELECT UserName as login, Email as email, Password as password FROM user WHERE (UserName = '".$login."' OR Email = '".$login."') AND Password = '".$password."' ", array('target'=>'main'), array())-> fetchAll();          
+            $_query = self::$db -> query("SELECT UserID as id, UserName as login, Email as email, Password as password FROM user WHERE (UserName = '".$login."' OR Email = '".$login."') AND Password = '".$password."' ", array('target'=>'main'), array())-> fetchAll();          
             if(is_array($_query) and count($_query) > 0):
                 $this->_users = array_shift($_query);
             endif;

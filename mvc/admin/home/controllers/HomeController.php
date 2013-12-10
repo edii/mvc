@@ -36,6 +36,8 @@ class HomeController extends \Controller
            // var_dump( $_session );
            // echo "</pre>";
             
+           // \init::app() -> 
+            
             $_data = \init::app() -> getRequest() -> getParam('data');
             
             if(is_array($_data) and count($_data) > 0) :
@@ -55,13 +57,13 @@ class HomeController extends \Controller
                     
                     $this->render('index', array(
                         'validate' => true,
-                        'session' => $_auth
+                        '_session' => $_auth
                     ));     
                 } else {
-                    $this -> redirect('login');
+                    $this -> redirect('/'._request_uri.'/home/login');
                 }
             else:   
-                $this -> redirect('home/login');
+                $this -> redirect('/'._request_uri.'/home/login');
             endif;
 
 
@@ -75,6 +77,13 @@ class HomeController extends \Controller
             $this->render('login');    
         }
         
+        /* 
+         * controller Logout 
+         */
+        public function actionLogout() {
+            $this->layout( 'index' );
+            $this->render('login');    
+        }
         
         public function actionDB() {
             $this->layout( 'column1' );

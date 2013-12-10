@@ -11,7 +11,7 @@
     <div class="navbar">
         <div class="navbar-inner">
           <div class="container-fluid">
-            <a class="brand" href="dashboard.html">Supr.<span class="slogan">admin</span></a>
+            <a class="brand" href="dashboard.html">Rotor (v2.0).<span class="slogan">admin</span></a>
             <div class="nav-no-collapse">
                 <ul class="nav">
                     <li class="active"><a href="dashboard.html"><span class="icon16 icomoon-icon-screen-2"></span> <span class="txt">Dashboard</span></a></li>
@@ -101,7 +101,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle avatar" data-toggle="dropdown">
                             <img src="/style/admin/image/avatar.jpg" alt="" class="image" /> 
-                            <span class="txt">admin@supr.com</span>
+                            <span class="txt"><?= $_session['email'] ?></span>
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
@@ -120,7 +120,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="index.html"><span class="icon16 icomoon-icon-exit"></span><span class="txt"> Logout</span></a></li>
+                    <li><a href="logout"><span class="icon16 icomoon-icon-exit"></span><span class="txt"> Logout</span></a></li>
                 </ul>
             </div><!-- /.nav-collapse -->
           </div>

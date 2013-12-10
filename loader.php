@@ -40,7 +40,7 @@ if($_request_uri == "adm.php") {
    $_detected = 'admin'; 
 }
 // echo " $_detected "; die('stop');
-
+define('_request_uri', $_request_uri);
 define('_detected', $_detected);
 
 
