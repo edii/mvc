@@ -33,15 +33,10 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
             $_query = self::$db -> query("SELECT UserName as login, Email as email, Password as password FROM user WHERE (UserName = '".$login."' OR Email = '".$login."') AND Password = '".$password."' ", array('target'=>'main'), array())-> fetchAll();          
             if(is_array($_query) and count($_query) > 0):
                 $this->_users = array_shift($_query);
-                return $this;
-            else:
-                return false;
             endif;
-            
-            return true;
-        } else {
-           return false; 
-        }
+        } 
+        
+        return $this;
         
     }
     

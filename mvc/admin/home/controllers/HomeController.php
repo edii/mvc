@@ -6,7 +6,16 @@ class HomeController extends \Controller
 
 	private $_model;
 
-	
+        /**
+         * construct
+         */
+        public function init() {
+            
+        }
+        
+        /**
+         * load index admin
+         */
 	public function actionIndex() {
             
             
@@ -30,7 +39,6 @@ class HomeController extends \Controller
             $_data = \init::app() -> getRequest() -> getParam('data');
             
             if(is_array($_data) and count($_data) > 0) :
-                
                 
                 if(empty($_data['username'])) $this -> redirect('login', array('error' => true));
                 if(empty($_data['password'])) $this -> redirect('login', array('error' => true));
@@ -58,18 +66,13 @@ class HomeController extends \Controller
 
 	}
         
-        /* controller Login */
+        /* 
+         * controller Login 
+         */
         public function actionLogin() {
-            $_data = \init::app() -> getRequest() -> getParam('data');
-            echo "<pre>";
-            var_dump( $_data );
-            echo "</pre>";
-            // die('stop');
-            
             $this->layout( 'index' );
             $this->render('login');    
         }
-        /* end */
         
         
         public function actionDB() {
