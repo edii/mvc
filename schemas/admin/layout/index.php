@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Supr admin</title>
+    <title>Rotor (v2.0) admin</title>
    
     <meta name="description" content="Supr admin template - new premium responsive admin template. This template is designed to help you build the site administration without losing valuable time.Template contains all the important functions which must have one backend system.Build on great twitter boostrap framework" />
     <meta name="keywords" content="admin, admin template, admin theme, responsive, responsive admin, responsive admin template, responsive theme, themeforest, 960 grid system, grid, grid theme, liquid, masonry, jquery, administration, administration template, administration theme, mobile, touch , responsive layout, boostrap, twitter boostrap" />
@@ -39,7 +39,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/style/admin/image/apple-touch-icon-72-precomposed.png" />
     <link rel="apple-touch-icon-precomposed" href="/style/admin/image/apple-touch-icon-57-precomposed.png" />
 
-    <script type="text/javascript" src="js/libs/modernizr.js"></script>
+    <script type="text/javascript" src="/style/admin/js/libs/modernizr.js"></script>
 
     </head>
       
@@ -54,7 +54,7 @@
                 <div class="navbar">
                     <div class="navbar-inner">
                       <div class="container">
-                            <a class="brand" href="dashboard.html">Supr.<span class="slogan">admin</span></a>
+                            <a class="brand" href="dashboard.html">Rotor (v2.0).<span class="slogan">admin</span></a>
                       </div>
                     </div><!-- /navbar-inner -->
                   </div><!-- /navbar -->
@@ -68,47 +68,7 @@
 
     <div class="container-fluid">
 
-        <div class="loginContainer">
-            <form class="form-horizontal" action="index" id="loginForm" >
-                <div class="form-row row-fluid">
-                    <div class="span12">
-                        <div class="row-fluid">
-                            <label class="form-label span12" for="username">
-                                Username:
-                                <span class="icon16 icomoon-icon-user right gray marginR10"></span>
-                            </label>
-                            <input class="span12" id="username" type="text" name="data[username]" value="" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-row row-fluid">
-                    <div class="span12">
-                        <div class="row-fluid">
-                            <label class="form-label span12" for="password">
-                                Password:
-                                <span class="icon16 icomoon-icon-lock right gray marginR10"></span>
-                                <span class="forgot"><a href="#">Forgot your password?</a></span>
-                            </label>
-                            <input class="span12" id="password" type="password" name="data[password]" value="" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row row-fluid">                       
-                    <div class="span12">
-                        <div class="row-fluid">
-                            <div class="form-actions">
-                            <div class="span12 controls">
-                                <input type="checkbox" id="keepLoged" value="Value" class="styled" name="logged" /> Keep me logged in
-                                <button type="submit" class="btn btn-info right" id="loginBtn"><span class="icon16 icomoon-icon-enter white"></span> Login</button>
-                            </div>
-                            </div>
-                        </div>
-                    </div> 
-                </div>
-
-            </form>
-        </div>
+        <?= $content ?>
 
     </div><!-- End .container-fluid -->
 

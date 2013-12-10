@@ -6,11 +6,20 @@ class HomeController extends \Controller
 
 	private $_model;
 
-	
+        /**
+         * construct
+         */
+        public function init() {
+            
+        }
+        
+        /**
+         * load index admin
+         */
 	public function actionIndex() {
             
             
-            echo "<hr /> session";
+           // echo "<hr /> session";
             // вид 1
             //\init::app() -> getSession() -> set_userdata(array('test' => 'params'));
             //$_session = \init::app() -> getSession() -> all_userdata();
@@ -20,41 +29,61 @@ class HomeController extends \Controller
             //$_session = $_sess->setSession(array('test' => 'params'))-> all_userdata();
             
             // вариант 3
-            $_session = \init::app() -> getSession() -> set_userdata(array('test' => 'params')) -> all_userdata();
+           // $_session = \init::app() -> getSession() -> set_userdata(array('test' => 'params')) -> all_userdata();
             
             
-            echo "<pre>";
-            var_dump( $_session );
-            echo "</pre>";
+           // echo "<pre>";
+           // var_dump( $_session );
+           // echo "</pre>";
+            
+           // \init::app() -> 
             
             $_data = \init::app() -> getRequest() -> getParam('data');
-            echo "<pre>";
-            var_dump( $_data );
-            echo "</pre>";
-            die('stop');
             
-            
-            $this -> redirect('home/login');
-            
-            // $this->render('index', array(
-	    //		'dataProvider'=>'Admin',
-            // ));
+            if(is_array($_data) and count($_data) > 0) :
+                
+                if(empty($_data['username'])) $this -> redirect('login', array('error' => true));
+                if(empty($_data['password'])) $this -> redirect('login', array('error' => true));
+                
+                $_auth = \init::app() 
+                            -> getModels('auth/users') 
+                            -> getValidate( $_data['username'], $_data['password'] ) 
+                            -> setSession();
+                if($_auth) {
+                    
+                   // echo "<pre>";
+                   // var_dump( $_auth );
+                   // echo "</pre>";
+                    
+                    $this->render('index', array(
+                        'validate' => true,
+                        '_session' => $_auth
+                    ));     
+                } else {
+                    $this -> redirect('/'._request_uri.'/home/login');
+                }
+            else:   
+                $this -> redirect('/'._request_uri.'/home/login');
+            endif;
+
 
 	}
         
-        /* controller Login */
+        /* 
+         * controller Login 
+         */
         public function actionLogin() {
-            $_data = \init::app() -> getRequest() -> getParam('data');
-            echo "<pre>";
-            var_dump( $_data );
-            echo "</pre>";
-            // die('stop');
-            
             $this->layout( 'index' );
             $this->render('login');    
         }
-        /* end */
         
+        /* 
+         * controller Logout 
+         */
+        public function actionLogout() {
+            $this->layout( 'index' );
+            $this->render('login');    
+        }
         
         public function actionDB() {
             $this->layout( 'column1' );
