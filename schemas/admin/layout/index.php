@@ -39,7 +39,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/style/admin/image/apple-touch-icon-72-precomposed.png" />
     <link rel="apple-touch-icon-precomposed" href="/style/admin/image/apple-touch-icon-57-precomposed.png" />
 
-    <script type="text/javascript" src="js/libs/modernizr.js"></script>
+    <script type="text/javascript" src="/style/admin/js/libs/modernizr.js"></script>
 
     </head>
       
