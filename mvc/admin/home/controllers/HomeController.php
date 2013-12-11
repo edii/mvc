@@ -13,7 +13,14 @@ class HomeController extends \Controller
          * construct
          */
         public function init() {
-            
+//            $_sess = \init::app() -> getSession() -> all_userdata();
+//            $login = \init::app() -> getSession() -> userdata('login');
+//            $password = \init::app() -> getSession() -> userdata('password');
+//            // $_sess2 = \init::app() -> getRequest() -> getCookies();
+//            echo "<pre>";
+//            var_dump($_sess, $login, $password);
+//            echo "</pre>";
+//            die('stop');
            
             
             /*
@@ -33,14 +40,14 @@ class HomeController extends \Controller
          */
 	public function actionIndex() {
             
-            $_sess = \init::app() -> getSession() -> all_userdata();
-            $login = \init::app() -> getSession() -> userdata('login');
-            $password = \init::app() -> getSession() -> userdata('password');
+            //$_sess = \init::app() -> getSession() -> all_userdata();
+            //$login = \init::app() -> getSession() -> userdata('login');
+            //$password = \init::app() -> getSession() -> userdata('password');
             // $_sess2 = \init::app() -> getRequest() -> getCookies();
-            echo "<pre>";
-            var_dump($_sess, $login, $password);
-            echo "</pre>";
-            die('stop');
+           // echo "<pre>";
+           // var_dump($_sess, $login, $password);
+           // echo "</pre>";
+           // die('stop');
             
            // echo "<hr /> session";
             // вид 1
@@ -95,12 +102,12 @@ class HomeController extends \Controller
          * controller Login 
          */
         public function actionLogin() {
-             $sess = \init::app() 
-                            -> getModels('auth/users')
-                            -> getSession();
+             //$sess = \init::app() 
+             //               -> getModels('auth/users')
+             //               -> getSession();
             $this->layout( 'index' );
-            var_dump($_SESSION, $this -> _auth, $sess);
-            die('stop');
+            //var_dump($_SESSION, $this -> _auth, $sess);
+            //die('stop');
             $this->render('login');    
         }
         
