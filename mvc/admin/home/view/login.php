@@ -1,5 +1,5 @@
 <div class="loginContainer">
-    <form class="form-horizontal" action="index" id="loginForm" method="POST">
+    <form class="form-horizontal" action="/<?= _request_uri ?>/" id="loginForm" method="POST">
         <div class="form-row row-fluid">
             <div class="span12">
                 <div class="row-fluid">

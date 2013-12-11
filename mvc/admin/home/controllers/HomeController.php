@@ -6,10 +6,21 @@ class HomeController extends \Controller
 
 	private $_model;
 
+        private $_auth = false;
+        private $_validate = false;
+        
         /**
          * construct
          */
         public function init() {
+            $this ->_auth = \init::app() 
+                            -> getModels('auth/users') 
+                            -> getValidate()
+                            -> getSession();
+            
+            if($this ->_auth) :
+                $this->_validate = true; 
+            endif;
             
         }
         
@@ -32,40 +43,34 @@ class HomeController extends \Controller
            // $_session = \init::app() -> getSession() -> set_userdata(array('test' => 'params')) -> all_userdata();
             
             
-           // echo "<pre>";
-           // var_dump( $_session );
-           // echo "</pre>";
-            
-           // \init::app() -> 
             
             $_data = \init::app() -> getRequest() -> getParam('data');
             
-            if(is_array($_data) and count($_data) > 0) :
+            if(is_array($_data) and count($_data) > 0 and !$this -> _auth) :
                 
-                if(empty($_data['username'])) $this -> redirect('login', array('error' => true));
-                if(empty($_data['password'])) $this -> redirect('login', array('error' => true));
+                if(empty($_data['username'])) $this -> redirect('/'._request_uri.'/home/login', array('error' => true));
+                if(empty($_data['password'])) $this -> redirect('/'._request_uri.'/home/login', array('error' => true));
                 
-                $_auth = \init::app() 
+                $this-> _auth = \init::app() 
                             -> getModels('auth/users') 
                             -> getValidate( $_data['username'], $_data['password'] ) 
                             -> setSession();
-                if($_auth) {
-                    
-                   // echo "<pre>";
-                   // var_dump( $_auth );
-                   // echo "</pre>";
-                    
-                    $this->render('index', array(
-                        'validate' => true,
-                        '_session' => $_auth
-                    ));     
+                if($this-> _auth) {
+                    $this->_validate = true;
                 } else {
                     $this -> redirect('/'._request_uri.'/home/login');
                 }
             else:   
-                $this -> redirect('/'._request_uri.'/home/login');
+                if(!$this -> _auth and (!isset($_data) or empty($_data)) ) :
+                    $this -> redirect('/'._request_uri.'/home/login');
+                endif;
             endif;
 
+            
+            $this->render('index', array(
+                        'validate' => $this->_validate,
+                        '_session' => $this-> _auth
+                    )); 
 
 	}
         
@@ -73,8 +78,12 @@ class HomeController extends \Controller
          * controller Login 
          */
         public function actionLogin() {
-            $this->layout( 'index' );
-            $this->render('login');    
+            if(!$this -> _auth) :
+                $this->layout( 'index' );
+                $this->render('login');
+            else:
+                $this -> redirect('/'._request_uri.'/');
+            endif;
         }
         
         /* 

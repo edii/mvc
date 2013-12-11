@@ -34,25 +34,27 @@
 class CSession {
 
 	
-	var $sess_use_database			= FALSE;
-	var $sess_table_name			= '';
-	var $sess_expiration			= 7200;
-	var $sess_expire_on_close		= FALSE;
-	var $sess_match_ip			= FALSE;
-	var $sess_match_useragent		= TRUE;
-	var $sess_cookie_name			= 'csession';
-	var $cookie_prefix			= '';
-	var $cookie_path			= '';
-	var $cookie_domain			= '';
-	var $cookie_secure			= FALSE;
-	var $sess_time_to_update		= 300;
-	var $encryption_key			= '';
-	var $flashdata_key			= 'flash';
-	var $time_reference			= 'time';
-	var $gc_probability			= 5;
-	var $userdata				= array();
-	var $_session;
-	var $now;
+	private $sess_use_database = FALSE;
+	private $sess_table_name    = '';
+	private $sess_expiration    = 7200;
+	private $sess_expire_on_close   = FALSE;
+	private $sess_match_ip  = FALSE;
+	private $sess_match_useragent   = TRUE;
+        private $sess_cookie_name   = 'csession';
+	private $cookie_prefix  = '';
+	private $cookie_path    = '';
+	private $cookie_domain  = '';
+	private $cookie_secure  = FALSE;
+	private $sess_time_to_update    = 300;
+	private $encryption_key = '';
+	private $flashdata_key  = 'flash';
+	private $time_reference = 'time';
+	private $gc_probability = 5;
+	private $userdata = array();
+	private $_session;
+	private $now;
+        
+        private $_sess = 'BLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaa';
 
 	/**
 	 * Session Constructor
@@ -66,6 +68,7 @@ class CSession {
 		// Set the super object to a local variable for use throughout the class
 		$this->_session = \init::app();
 
+                /*    
 		// Set all the session preferences, which can either be set
 		// manually via the $params array above or via the config file
 		foreach ( ['sess_encrypt_cookie', 
@@ -85,7 +88,8 @@ class CSession {
                             'encryption_key'] as $key) {
 			$this->$key = (isset($params[$key])) ? $params[$key] : ''; //$this->_session->config->item($key)
 		}
-
+                */
+                
 		if ($this->encryption_key == '') {
 			// show_error('In order to use the Session class you are required to set an encryption key in your config file.');
 		}
@@ -110,7 +114,8 @@ class CSession {
 
 		// Set the cookie name
 		$this->sess_cookie_name = $this->cookie_prefix.$this->sess_cookie_name;
-
+                //var_dump( $this->sess_cookie_name ); die('stop_stop');
+                
 		// Run the Session routine. If a session doesn't exist we'll
 		// create a new one.  If it does, we'll update it.
 		if ( ! $this->sess_read()) {
@@ -154,6 +159,8 @@ class CSession {
         // --------------------------------------------------------------------
 
         protected function getCokkiesName( $name ) {
+            // var_dump( $name ); die('stop');
+            
             if(!empty($name)) {
                 $_cokkies = array();
                 foreach($_COOKIE as $key => $value) {
@@ -176,20 +183,18 @@ class CSession {
 	 * @return	bool
 	 */
 	function sess_read() {
-                //$_request = $this->_session->getRequest() -> getCookies();
-                //echo "<pre>";
-                //var_dump( $this->sess_cookie_name, \init::app()->getRequest()->getUserAgent() );
-                //e/cho "</pre>";
-                //die('stop session');
             
 		// Fetch the cookie
 		$session = $this ->getCokkiesName( $this->sess_cookie_name );
-
+                
+                if(is_array($session)) $session = $session[$this->sess_cookie_name];
 		// No cookie?  Goodbye cruel world!...
 		if ($session === FALSE) {
 			// log_message('debug', 'A session cookie was not found.');
 			return FALSE;
 		}
+                
+                
 
                 // encryption was not used, so we need to check the md5 hash
                 $hash	 = substr($session, strlen($session)-32); // get last 32 chars
@@ -267,6 +272,15 @@ class CSession {
 			}
 		}
 
+                /*
+                var_dump( $session );
+                echo "<hr /> session";
+                echo "<pre>";
+                var_dump( $_COOKIE );
+                echo "</pre>";
+                die('csession');
+                */
+                
 		// Session is valid!
 		$this->userdata = $session;
 		unset($session);
@@ -698,7 +712,7 @@ class CSession {
 	 * @return	string
 	 */
 	function _unserialize($data) {
-		$data = @unserialize(strip_slashes($data));
+		$data = unserialize(stripcslashes($data));
 
 		if (is_array($data)) {
 			foreach ($data as $key => $val) {
