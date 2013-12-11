@@ -66,28 +66,23 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
     }
     
     public function getSession() {
-        $_session = \init::app() -> getSession() -> all_userdata();
-        return (is_array($_session) and count($_session) > 0) ? $_session : false;
+        return (is_array($this->_users) and count($this->_users) > 0) ? $this->_users : false;
     }
     
     protected function getSessionValidate($login = false, $password = false) {
-        //$_session = false;
-        
-         $_session = $_SESSION;
-        
-        //$_pass = \init::app() -> getSession() -> userdata('password');
-        //var_dump( $_session );
-        //die('stop');
-        
+        $_session = \init::app() -> getSession() -> all_userdata();
         if($login and $password) {
-            //$_session = \init::app() -> getSession() -> all_userdata();
-            // $_pass = \init::app() -> getSession() -> userdata('password');
+            $_login = \init::app() -> getSession() -> userdata('login');
+            $_password = \init::app() -> getSession() -> userdata('password');
             
-            //var_dump($_session);
-            //die('-----stop');
-            return false;
+            if($login == $_login and $password == $_password) {
+                return $_session;
+            } else {
+               return false; 
+            }
+            
         } else if(is_array($_session) and count($_session) > 0) {
-            return false;
+            return $_session;
         } else {
             return false;
         }

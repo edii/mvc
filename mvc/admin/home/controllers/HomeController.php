@@ -13,26 +13,15 @@ class HomeController extends \Controller
          * construct
          */
         public function init() {
-//            $_sess = \init::app() -> getSession() -> all_userdata();
-//            $login = \init::app() -> getSession() -> userdata('login');
-//            $password = \init::app() -> getSession() -> userdata('password');
-//            // $_sess2 = \init::app() -> getRequest() -> getCookies();
-//            echo "<pre>";
-//            var_dump($_sess, $login, $password);
-//            echo "</pre>";
-//            die('stop');
-           
-            
-            /*
             $this ->_auth = \init::app() 
                             -> getModels('auth/users') 
                             -> getValidate()
                             -> getSession();
-            if($_auth) :
+            
+            if($this ->_auth) :
                 $this->_validate = true; 
             endif;
             
-            */
         }
         
         /**
@@ -40,14 +29,6 @@ class HomeController extends \Controller
          */
 	public function actionIndex() {
             
-            //$_sess = \init::app() -> getSession() -> all_userdata();
-            //$login = \init::app() -> getSession() -> userdata('login');
-            //$password = \init::app() -> getSession() -> userdata('password');
-            // $_sess2 = \init::app() -> getRequest() -> getCookies();
-           // echo "<pre>";
-           // var_dump($_sess, $login, $password);
-           // echo "</pre>";
-           // die('stop');
             
            // echo "<hr /> session";
             // вид 1
@@ -62,11 +43,6 @@ class HomeController extends \Controller
            // $_session = \init::app() -> getSession() -> set_userdata(array('test' => 'params')) -> all_userdata();
             
             
-           // echo "<pre>";
-           // var_dump( $_session );
-           // echo "</pre>";
-            
-           // \init::app() -> 
             
             $_data = \init::app() -> getRequest() -> getParam('data');
             
@@ -102,13 +78,12 @@ class HomeController extends \Controller
          * controller Login 
          */
         public function actionLogin() {
-             //$sess = \init::app() 
-             //               -> getModels('auth/users')
-             //               -> getSession();
-            $this->layout( 'index' );
-            //var_dump($_SESSION, $this -> _auth, $sess);
-            //die('stop');
-            $this->render('login');    
+            if(!$this -> _auth) :
+                $this->layout( 'index' );
+                $this->render('login');
+            else:
+                $this -> redirect('/'._request_uri.'/');
+            endif;
         }
         
         /* 
