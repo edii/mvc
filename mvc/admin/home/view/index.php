@@ -120,7 +120,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="logout"><span class="icon16 icomoon-icon-exit"></span><span class="txt"> Logout</span></a></li>
+                    <li><a href="/<?= _request_uri ?>/home/logout/?logout=true"><span class="icon16 icomoon-icon-exit"></span><span class="txt"> Logout</span></a></li>
                 </ul>
             </div><!-- /.nav-collapse -->
           </div>
