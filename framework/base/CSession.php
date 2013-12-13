@@ -42,7 +42,7 @@ class CSession {
 	private $sess_match_useragent   = TRUE;
         private $sess_cookie_name   = 'csession';
 	private $cookie_prefix  = '';
-	private $cookie_path    = '';
+	private $cookie_path    = '/';
 	private $cookie_domain  = '';
 	private $cookie_secure  = FALSE;
 	private $sess_time_to_update    = 300;
@@ -449,6 +449,7 @@ class CSession {
 
 		// Kill session data
 		$this->userdata = array();
+                return $this;
 	}
 
 	// --------------------------------------------------------------------
@@ -522,6 +523,7 @@ class CSession {
 		}
 
 		$this->sess_write();
+                return $this;
 	}
 
 	// ------------------------------------------------------------------------
@@ -753,6 +755,17 @@ class CSession {
 			// log_message('debug', 'Session garbage collection performed.');
 		}
 	}
+        
+        
+        public function _clearSession() {
+            if(isset($_COOKIE[ $this->sess_cookie_name ])) {
+              unset($_COOKIE[$this->sess_cookie_name]);
+              setcookie($this->sess_cookie_name, '', time() - 3600); // empty value and old timestamp
+              $this->userdata = false;
+            }
+            
+            return $this;
+        }
 
 
 }

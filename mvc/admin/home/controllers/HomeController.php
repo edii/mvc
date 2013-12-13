@@ -13,15 +13,7 @@ class HomeController extends \Controller
          * construct
          */
         public function init() {
-            $this ->_auth = \init::app() 
-                            -> getModels('auth/users') 
-                            -> getValidate()
-                            -> getSession();
-            
-            if($this ->_auth) :
-                $this->_validate = true; 
-            endif;
-            
+            $this -> _model = \init::app() -> getModels('auth/users');
         }
         
         /**
@@ -29,6 +21,18 @@ class HomeController extends \Controller
          */
 	public function actionIndex() {
             
+            $_session = \init::app() -> getSession() -> all_userdata();
+            $this ->_auth = $this -> _model 
+                            -> getValidate()
+                            -> getSession();
+            
+            
+            
+           
+            
+            if($this ->_auth) :
+                $this->_validate = true; 
+            endif;
             
            // echo "<hr /> session";
             // вид 1
@@ -46,13 +50,12 @@ class HomeController extends \Controller
             
             $_data = \init::app() -> getRequest() -> getParam('data');
             
-            if(is_array($_data) and count($_data) > 0 and !$this -> _auth) :
+            if(is_array($_data) and count($_data) > 0) :
                 
                 if(empty($_data['username'])) $this -> redirect('/'._request_uri.'/home/login', array('error' => true));
                 if(empty($_data['password'])) $this -> redirect('/'._request_uri.'/home/login', array('error' => true));
                 
-                $this-> _auth = \init::app() 
-                            -> getModels('auth/users') 
+                $this-> _auth = $this -> _model 
                             -> getValidate( $_data['username'], $_data['password'] ) 
                             -> setSession();
                 if($this-> _auth) {
@@ -60,17 +63,24 @@ class HomeController extends \Controller
                 } else {
                     $this -> redirect('/'._request_uri.'/home/login');
                 }
+                
+                \init::app() -> getRequest() -> getDelete('data');
             else:   
-                if(!$this -> _auth and (!isset($_data) or empty($_data)) ) :
+                if(!isset($this -> _auth['login']) or empty($this -> _auth['login']) 
+                        or !isset($this -> _auth['password']) or empty($this -> _auth['password'])
+                        or (!$this -> _auth and (!isset($_data) or empty($_data))) ) :
                     $this -> redirect('/'._request_uri.'/home/login');
                 endif;
             endif;
 
             
+            
             $this->render('index', array(
                         'validate' => $this->_validate,
                         '_session' => $this-> _auth
                     )); 
+            
+            
 
 	}
         
@@ -78,20 +88,27 @@ class HomeController extends \Controller
          * controller Login 
          */
         public function actionLogin() {
-            if(!$this -> _auth) :
                 $this->layout( 'index' );
                 $this->render('login');
-            else:
-                $this -> redirect('/'._request_uri.'/');
-            endif;
         }
         
         /* 
          * controller Logout 
          */
         public function actionLogout() {
-            $this->layout( 'index' );
-            $this->render('login');    
+            
+            $user_data = \init::app() -> getSession()->all_userdata();
+            foreach ($user_data as $key => $value) {
+                if ($key != 'session_id' && $key != 'ip_address' && $key != 'user_agent' && $key != 'last_activity') {
+                    \init::app() -> getSession() ->unset_userdata($key);
+                }
+            }
+            \init::app() -> getSession()->sess_destroy();
+            if(!$this -> _model->getLogin() and !$this -> _model->getPassword()) :
+                $this -> redirect('/'._request_uri.'/home/login'); 
+            else:
+                throw new \CException(\init::t('init','CSession, not destroy session. try egaine!'));
+            endif;
         }
         
         public function actionDB() {

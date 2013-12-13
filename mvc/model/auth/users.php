@@ -30,6 +30,7 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
      * input ( create fields )
      */
     public function getValidate($login = false, $password = false) {
+        $this->_users = false;
         
         if($login and $password) {
             $this->_login = stripcslashes(htmlspecialchars(trim($login)));
@@ -86,6 +87,25 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
         } else {
             return false;
         }
+    }
+    
+    public function getLogin() {
+        $_login = \init::app() -> getSession() -> userdata('login');
+        return (isset($_login) and !empty($_login)) ? $_login : false;    
+    }
+    
+    public function getPassword() {
+        $_password = \init::app() -> getSession() -> userdata('password');
+        return (isset($_password) and !empty($_password)) ? $_password : false;    
+    }
+    
+    /**
+     * LogOut systems 
+     */
+    public function getLogout(){
+        \init::app() -> getSession() -> _clearSession();
+        $this->_users = false;
+        return $this;
     }
     
     public function update($attributes = NULL) {
