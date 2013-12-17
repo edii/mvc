@@ -16,10 +16,7 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
     private $_password;
     
     public function init() {
-        $_db =  new CDatabase( 'main', NULL);
-        self::$db = $_db->getConnection();
-        
-       // $this -> _users = 
+        self::$db = \init::app() -> getDBConnector();
     }
     
     public function attributeNames() {

@@ -14,8 +14,10 @@ class HelloController extends \Controller
             // \init::app()->setTheme( false );
             
             // connect db from controlers
-            $_db = new CDatabase( 'main', NULL);
+            //$_db = new CDatabase( 'main', NULL);
             
+            $_connector = \init::app() -> getDBConnector();
+            $_dbDefinition = \init::app() -> getDBDefinitions();
             
             // CI (mysql)
             //$_connector = $_db->getConnection()->query("SELECT * FROM section")->result_array();
@@ -27,10 +29,9 @@ class HelloController extends \Controller
              $options['target'] = 'main';   
              $args = array();
              
-             $_connector = $_db->getConnection();
-             $_dbdefionitions = $_db->getDatabaseDefinition();
+             //$_dbdefionitions = $_db->getDatabaseDefinition();
              
-             $query_res = $_connector -> query("SELECT * FROM section", $args, $options)-> fetchAll();
+             $query_res = $_connector -> query("SELECT * FROM section LIMIT 1", $args, $options)-> fetchAll();
              //$query_res = $_connector -> select('section', 's', $options) 
                                // -> fields('s', array('SectionID')) 
                                 //-> range(0, 1)
@@ -40,7 +41,8 @@ class HelloController extends \Controller
              
              $data = ['blaaaa'];
              $this->render('db', array(
-			'data'=>$data,
+			'data'=>$query_res,
+                        'definitions' => $_dbDefinition   
 		));
 		
 	}

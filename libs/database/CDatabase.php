@@ -36,7 +36,7 @@ class CDatabase extends CApplicationComponent {
         
         $this->_getDefinitions(); // load definitions from controller
         $this->database();
-        $this->_loadDbDefionition(); // load definitions
+        // $this->_loadDbDefionition(); // load definitions
     }
     
     
@@ -80,6 +80,7 @@ class CDatabase extends CApplicationComponent {
      * return array fields from dbDefionitions
      * 
      */
+    /*
     private function _loadDbDefionition() {
         $_result = array();
         $_dbDefinition = $this->getDatabaseDefinition();
@@ -96,6 +97,7 @@ class CDatabase extends CApplicationComponent {
             $this->setDatabaseDefinition( $_result );
         }
     }
+    */
     
     public function setProperties(array $properties) {
         foreach ($properties as $property => $value) {
