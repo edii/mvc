@@ -8,7 +8,7 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
     
     public static $db;
 
-    private static $_tabelName = ['user'];
+    private $_tableName = 'user';
     
     public $_users = false;
     
@@ -35,9 +35,15 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
             
             if(!$_session = $this -> getSessionValidate( $this->_login, $this->_password )) :
             
-                $_query = self::$db -> query("SELECT UserID as id, UserName as login, Email as email, Password as password FROM user WHERE (UserName = '".$this->_login."' OR Email = '".$this->_login."') AND Password = '".$this->_password."' ", array('target'=>'main'), array())-> fetchAll();          
+                $_query = self::$db -> query("SELECT UserID as id, 
+                                                     UserName as login, 
+                                                     Email as email 
+                                              FROM ".$this->_tableName." 
+                                              WHERE (UserName = '".$this->_login."' OR Email = '".$this->_login."') 
+                                                        AND Password = '".$this->_password."' ", array('target'=>'main'), array())
+                                        -> fetchAll();          
                 if(is_array($_query) and count($_query) > 0):
-                    $this->_users = array_shift($_query);
+                    $this->_users = (object) array_merge( (array)array_shift($_query), ['validate' => true] );
                 endif;
             
             else:
@@ -70,8 +76,8 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
     protected function getSessionValidate($login = false, $password = false) {
         $_session = \init::app() -> getSession() -> all_userdata();
         if($login and $password) {
-            $_login = \init::app() -> getSession() -> userdata('login');
-            $_password = \init::app() -> getSession() -> userdata('password');
+            $_login = $this->getLogin();
+            $_password = $this->getPassword();
             
             if($login == $_login and $password == $_password) {
                 return $_session;
@@ -80,10 +86,20 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
             }
             
         } else if(is_array($_session) and count($_session) > 0) {
-            return $_session;
+            if($this -> getRight() or $this->getPassword()):
+                return $_session;
+            else:
+                return false;
+            endif;
         } else {
             return false;
         }
+    }
+    
+    
+    public function getRight() {
+       $_validate = \init::app() -> getSession() -> userdata('validate');
+       return (isset($_validate) and !empty($_validate)) ? $_validate : false;
     }
     
     public function getLogin() {
