@@ -191,39 +191,7 @@ class CBox extends \CApplicationComponent
             
         }
 
-        //show boxe by sides
-        public function getBoxes($boxesSide,$mode='') {
-            global $CORE, $SERVER_SOAP, $currentBoxParams;
-            $website = $CORE->getWebsiteDefinition();
-
-            $input = $CORE->getInput();
-            $sectionID = $input['SID'];
-            $boxes = $website[$sectionID][$boxesSide];
-
-            if(is_array($boxes)) {
-                    foreach($boxes as $id=>$box) {
-                            $boxID =  $box['boxid'];
-                            //echo $boxID.' side:'.$boxesSide.'<br>'; 
-                            $params['boxtitle'] = $box['boxtitle'];
-                            $params['boxshowtitle'] = $box['boxshowtitle']; 
-                            $boxContent = $box['boxcontent'];
-                            if(!empty($boxContent)) {
-                                $boxContent = str_replace("&quot;",'"',$boxContent);
-                                $boxContent = stripslashes($boxContent);
-                            }
-                            $params['boxcontent'] = $boxContent; 
-                            $params['boxtemplate'] = $box['boxtemplate']; 
-                            $params['boxparams'] = $box['boxparams']; 
-                            $params['boxstyle'] = $box['boxstyle'];
-                            $params['boxside'] = $boxesSide;
-                            $params['boxindex'] = $box['boxindex'];
-                            $currentBoxParams = $params;
-                            getBox($boxID,$params);
-                            $currentBoxParams = '';
-                    }
-            }
-    }
-
+        
         public function boxHeader($data='',$mode='') {
                 global $CORE, $currentBoxParams;
                 //$boxes = $CORE->getBoxesDefinition();

@@ -304,21 +304,7 @@ abstract class CBaseController extends CComponent
             $this -> endContent();
         }
         
-        /**
-         * getBoxes
-         * load all boxDefinitions ( all controllers )
-         * @param type $params
-         */
-        public function getBoxes( $params ) {
-
-            
-           $this->beginContent();
-           $_box = new \CBox();
-           $_controllers = $_box -> runController('hello/db');
-           $this -> endContent();
-  
-           
-        }
+        
         
         public function renderView($view, $data=null, $return=false, $layout = false) {
             if($this->beforeRender($view)) {

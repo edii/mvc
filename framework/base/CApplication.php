@@ -455,6 +455,49 @@ abstract class CApplication extends \CModule
 		return $this->getLocale()->getDateFormatter();
 	}
 
+        /**
+         * connet DB
+         * return (object)CDatabase
+         */
+        public function DB($main = 'main') {
+            return new CDatabase( $main, NULL);
+        }
+        
+        /**
+         * 
+         * @param type $main ( default 'main' )
+         * @return database connet 
+         */
+        
+        public function getDBConnector($main = 'main') {
+           return $this -> DB( $main ) -> getConnection();
+        }
+        
+        /**
+         * method getDBDefinitions()
+         * @return (array) databaseDefinitions
+         */
+        
+        public function getDBDefinitions() {
+            $_result = array();
+            $_connector = $this->getDBConnector();
+            $_dbDefinition = $this-> DB() ->getDatabaseDefinition();
+            if(is_array($_dbDefinition) and count($_dbDefinition) > 0) {
+                
+                $_sql = '';
+                $options['target'] = 'main';
+
+                foreach($_dbDefinition['t'] as $key => $value) {
+                    $_sql = "SELECT ".$value." FROM ".trim($key);
+                    $_result[$key] = $_connector -> query($_sql, array(), $options)-> fetchAll();
+                }
+
+                
+            }
+            
+            return $_result;
+        }
+        
 	/**
 	 * Returns the database connection component.
 	 * @return CDbConnection the database connection
