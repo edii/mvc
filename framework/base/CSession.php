@@ -45,7 +45,7 @@ class CSession {
 	private $cookie_path    = '/';
 	private $cookie_domain  = '';
 	private $cookie_secure  = FALSE;
-	private $sess_time_to_update    = 300;
+	private $sess_time_to_update    = 30000;
 	private $encryption_key = '';
 	private $flashdata_key  = 'flash';
 	private $time_reference = 'time';
@@ -159,7 +159,7 @@ class CSession {
         // --------------------------------------------------------------------
 
         protected function getCokkiesName( $name ) {
-            // var_dump( $name ); die('stop');
+             
             
             if(!empty($name)) {
                 $_cokkies = array();
@@ -167,6 +167,8 @@ class CSession {
                     if($name == $key)
                         $_cokkies[$key] = $value;
                 }
+                
+                // var_dump( $_cokkies ); die('stop');
                 
                 if(is_array($_cokkies) and count($_cokkies) > 0)
                     return $_cokkies;
@@ -200,6 +202,8 @@ class CSession {
                 $hash	 = substr($session, strlen($session)-32); // get last 32 chars
                 $session = substr($session, 0, strlen($session)-32);
 
+                
+                
                 // Does the md5 hash match?  This is to prevent manipulation of session data in userspace
                 if ($hash !==  md5($session.$this->encryption_key)) {
                         // log_message('error', 'The session cookie data did not match what was expected. This could be a possible hacking attempt.');
@@ -221,6 +225,8 @@ class CSession {
 			return FALSE;
 		}
 
+                
+                
 		// Is the session current?
 		if (($session['last_activity'] + $this->sess_expiration) < $this->now) {
 			$this->sess_destroy();
@@ -281,11 +287,14 @@ class CSession {
                 die('csession');
                 */
                 
+                //var_dump($session);
+                // die('stop');
+                
 		// Session is valid!
 		$this->userdata = $session;
 		unset($session);
 
-		return TRUE;
+		return (isset($this->userdata) and !empty($this->userdata)) ? TRUE: FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -380,11 +389,14 @@ class CSession {
 	 * @return	void
 	 */
 	function sess_update() {
+                
+                // var_dump( ($this->userdata['last_activity'] + $this->sess_time_to_update), $this->now ); die('stop');
+            
 		// We only update the session every five minutes by default
 		if (($this->userdata['last_activity'] + $this->sess_time_to_update) >= $this->now) {
 			return;
 		}
-
+                
 		// Save the old session id so we know which record to
 		// update in the database if we need it
 		$old_sessid = $this->userdata['session_id'];
@@ -418,6 +430,8 @@ class CSession {
 			$this->_session->db->query($this->_session->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid), array('session_id' => $old_sessid)));
 		}
 
+                
+                
 		// Write the cookie
 		$this->_set_cookie($cookie_data);
 	}
@@ -640,6 +654,8 @@ class CSession {
 		} else {
 			$time = time();
 		}
+                
+                // var_dump($time); die('stop');
 
 		return $time;
 	}
@@ -671,6 +687,9 @@ class CSession {
 					$this->cookie_domain,
 					$this->cookie_secure
 				);
+                
+                                // var_dump($_COOKIE); die('stop');
+                
 	}
 
 	// --------------------------------------------------------------------

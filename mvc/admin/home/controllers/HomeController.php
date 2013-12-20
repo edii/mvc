@@ -21,6 +21,10 @@ class HomeController extends \Controller
          */
 	public function actionIndex() {
             
+//            echo "<pre>";
+//            var_dump( $_COOKIE );
+//            echo "</pre>"; die('stop');
+            
             $_session = \init::app() -> getSession() -> all_userdata();
             $this ->_auth = $this -> _model 
                             -> getValidate()
@@ -28,7 +32,7 @@ class HomeController extends \Controller
             
             
             
-           
+                    
             
             if($this ->_auth) :
                 $this->_validate = true; 
@@ -50,7 +54,9 @@ class HomeController extends \Controller
             
             $_data = \init::app() -> getRequest() -> getParam('data');
             
-            if(is_array($_data) and count($_data) > 0) :
+            
+            
+            if(is_array($_data) and count($_data) > 0 and !$this->_validate) :
                 
                 if(empty($_data['username'])) $this -> redirect('/'._request_uri.'/home/login', array('error' => true));
                 if(empty($_data['password'])) $this -> redirect('/'._request_uri.'/home/login', array('error' => true));
@@ -65,14 +71,22 @@ class HomeController extends \Controller
                 }
                 
                 \init::app() -> getRequest() -> getDelete('data');
-            else:   
-                if(!isset($this -> _auth['login']) or empty($this -> _auth['login']) 
-                        or !isset($this -> _auth['password']) or empty($this -> _auth['password'])
-                        or (!$this -> _auth and (!isset($_data) or empty($_data))) ) :
+            
+            else:  
+                
+                if(!$right = $this -> _model -> getRight()) {
                     $this -> redirect('/'._request_uri.'/home/login');
+//                } else if (!isset($this -> _auth['login']) or empty($this -> _auth['login']) 
+//                        and !isset($this -> _auth['password']) or empty($this -> _auth['password'])) {
+//                    $this -> redirect('/'._request_uri.'/home/login');
+                } else if(!$this -> _auth and (!isset($_data) or empty($_data)) ) :
+                    $this -> redirect('/'._request_uri.'/home/login');
+                else: 
+                    $this->_validate = true; 
                 endif;
             endif;
-
+            
+            // var_dump( $_data ); die('stop');
             
             
             $this->render('index', array(
