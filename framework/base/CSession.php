@@ -54,10 +54,13 @@ class CSession {
 	private $_session;
 	private $now;
         
+        // db params
         private static $db;
-        
         private $_query;
+        
+        // (true | false) .. default cookie ( false )
         private $_bool_session = true;
+        private $_session_path = false; // realpath(dirname($_SERVER['DOCUMENT_ROOT']) . '/../session')
 
 
         /**
@@ -68,7 +71,10 @@ class CSession {
 	 */
 	public function __construct($params = array()) {
                 if($this->_bool_session) {
-                    if ( $this->is_session_started() === FALSE ) session_start();
+                    if ( $this->is_session_started() === FALSE ) {
+                        ini_set('session.save_path', $this->_session_path);
+                        session_start();
+                    }    
                 }
             
 		// log_message('debug', "Session Class Initialized");
