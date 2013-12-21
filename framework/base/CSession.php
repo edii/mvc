@@ -57,6 +57,7 @@ class CSession {
         private static $db;
         
         private $_query;
+        private $_bool_session = true;
 
 
         /**
@@ -66,7 +67,9 @@ class CSession {
 	 * whenever the class is instantiated.
 	 */
 	public function __construct($params = array()) {
-                
+                if($this->_bool_session) {
+                    if ( $this->is_session_started() === FALSE ) session_start();
+                }
             
 		// log_message('debug', "Session Class Initialized");
 
@@ -143,6 +146,17 @@ class CSession {
 		// log_message('debug', "Session routines successfully run");
 	}
 
+        function is_session_started() {
+            if ( php_sapi_name() !== 'cli' ) {
+                if ( version_compare(phpversion(), '5.4.0', '>=') ) {
+                    return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
+                } else {
+                    return session_id() === '' ? FALSE : TRUE;
+                }
+            }
+            return FALSE;
+        }
+        
         public static function init() {
             
         }
@@ -168,7 +182,7 @@ class CSession {
         protected function getCokkiesName( $name ) {
              
             
-            if(!empty($name)) {
+            if(!empty($name) and !$this->_bool_session) {
                 $_cokkies = array();
                 foreach($_COOKIE as $key => $value) {
                     if($name == $key)
@@ -178,6 +192,15 @@ class CSession {
                 if(is_array($_cokkies) and count($_cokkies) > 0)
                     return $_cokkies;
                 
+            } elseif(!empty($name) and $this->_bool_session) {
+                $_session = array();
+                foreach($_SESSION as $key => $value) {
+                    if($name == $key)
+                        $_session[$key] = $value;
+                }
+                
+                if(is_array($_session) and count($_session) > 0)
+                    return $_session;
             } else {
                 return false;
             }
@@ -497,16 +520,21 @@ class CSession {
                     
 		}
 
-		// Kill the cookie
-		setcookie(
-					$this->sess_cookie_name,
-					addslashes(serialize(array())),
-					($this->now - 31500000),
-					$this->cookie_path,
-					$this->cookie_domain,
-					0
-				);
-
+                if($this-> _bool_session) {
+                    if(isset($_SESSION[$this->sess_cookie_name]))
+                        unset($_SESSION[$this->sess_cookie_name]);
+                } else {
+                
+                    // Kill the cookie
+                    setcookie(
+                                            $this->sess_cookie_name,
+                                            addslashes(serialize(array())),
+                                            ($this->now - 31500000),
+                                            $this->cookie_path,
+                                            $this->cookie_domain,
+                                            0
+                                    );
+                }
 		// Kill session data
 		$this->userdata = array();
                 return $this;
@@ -732,16 +760,20 @@ class CSession {
 		$cookie_data = $cookie_data.md5($cookie_data.$this->encryption_key);
 		$expire = ($this->sess_expire_on_close === TRUE) ? 0 : $this->sess_expiration + time();
 
-		// Set the cookie
-		setcookie(
-					$this->sess_cookie_name,
-					$cookie_data,
-					$expire,
-					$this->cookie_path,
-					$this->cookie_domain,
-					$this->cookie_secure
-				);
+                if($this->_bool_session) {
+                    $_SESSION[ $this->sess_cookie_name ] = $cookie_data;
+                } else {
                 
+                    // Set the cookie
+                    setcookie(
+                                            $this->sess_cookie_name,
+                                            $cookie_data,
+                                            $expire,
+                                            $this->cookie_path,
+                                            $this->cookie_domain,
+                                            $this->cookie_secure
+                                    );
+                }
                                 // var_dump($_COOKIE); die('stop');
                 
 	}
@@ -842,6 +874,11 @@ class CSession {
               unset($_COOKIE[$this->sess_cookie_name]);
               setcookie($this->sess_cookie_name, '', time() - 3600); // empty value and old timestamp
               $this->userdata = false;
+            }
+            
+            if(isset($_SESSION[ $this->sess_cookie_name ]) and $this->_bool_session) {
+                unset($_SESSION[ $this->sess_cookie_name ]);
+                $this->userdata = false;
             }
             
             return $this;
