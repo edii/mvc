@@ -34,8 +34,8 @@
 class CSession {
 
 	
-	private $sess_use_database = FALSE;
-	private $sess_table_name    = '';
+	private $sess_use_database = TRUE; /* true or false */
+	private $sess_table_name    = 'sessions';
 	private $sess_expiration    = 7200;
 	private $sess_expire_on_close   = FALSE;
 	private $sess_match_ip  = FALSE;
@@ -54,15 +54,20 @@ class CSession {
 	private $_session;
 	private $now;
         
-        private $_sess = 'BLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaa';
+        private static $db;
+        
+        private $_query;
 
-	/**
+
+        /**
 	 * Session Constructor
 	 *
 	 * The constructor runs the session routines automatically
 	 * whenever the class is instantiated.
 	 */
 	public function __construct($params = array()) {
+                
+            
 		// log_message('debug', "Session Class Initialized");
 
 		// Set the super object to a local variable for use throughout the class
@@ -98,8 +103,8 @@ class CSession {
 
 		// Are we using a database?  If so, load it
 		if ($this->sess_use_database === TRUE AND $this->sess_table_name != '') {
-			//$_db = $this->_session->getDbConnect();
-                        //$_db 
+			self::$db  = \init::app() -> getDBConnector();
+                        $this->_query = self::$db -> select('sessions', 's', array('target' => 'main'));
 		}
 
 		// Set the "now" time.  Can either be GMT or server time, based on the
@@ -122,6 +127,8 @@ class CSession {
 			$this->sess_create();
 		} else {
 			$this->sess_update();
+                        
+                        
 		}
 
 		// Delete 'old' flashdata (from last request)
@@ -168,8 +175,6 @@ class CSession {
                         $_cokkies[$key] = $value;
                 }
                 
-                // var_dump( $_cokkies ); die('stop');
-                
                 if(is_array($_cokkies) and count($_cokkies) > 0)
                     return $_cokkies;
                 
@@ -185,9 +190,11 @@ class CSession {
 	 * @return	bool
 	 */
 	function sess_read() {
-            
+                
 		// Fetch the cookie
 		$session = $this ->getCokkiesName( $this->sess_cookie_name );
+                
+                
                 
                 if(is_array($session)) $session = $session[$this->sess_cookie_name];
 		// No cookie?  Goodbye cruel world!...
@@ -247,28 +254,33 @@ class CSession {
 
 		// Is there a corresponding session in the DB?
 		if ($this->sess_use_database === TRUE) {
-			$this->_session->db->where('session_id', $session['session_id']);
+                        
+                        
+                        $this -> _query -> fields('s', array('session_id', 'ip_address', 'user_agent'));
+                       
+			$this->_query->condition('session_id', $session['session_id'], '=');
 
 			if ($this->sess_match_ip == TRUE) {
-				$this->_session->db->where('ip_address', $session['ip_address']);
+				$this->_query->condition('ip_address', $session['ip_address'], '=');
 			}
 
 			if ($this->sess_match_useragent == TRUE) {
-				$this->_session->db->where('user_agent', $session['user_agent']);
+				$this->_query->condition('user_agent', $session['user_agent'], '=');
 			}
 
-			$query = $this->_session->db->get($this->sess_table_name);
+			$query = $this->_query-> execute()->fetchAll(); //fetchAll(_) fetchAllAssoc('s.session_id', PDO::FETCH_ASSOC)
 
+                        
+                        
 			// No result?  Kill it!
-			if ($query->num_rows() == 0) {
+			if (count($query) == 0) {
 				$this->sess_destroy();
 				return FALSE;
 			}
 
 			// Is there custom data?  If so, add it to the main session array
-			$row = $query->row();
-			if (isset($row->user_data) AND $row->user_data != '') {
-				$custom_data = $this->_unserialize($row->user_data);
+			if (is_array($query) and count($query) > 0) {
+				$custom_data = $this->_unserialize($query);
 
 				if (is_array($custom_data)) {
 					foreach ($custom_data as $key => $val) {
@@ -278,14 +290,14 @@ class CSession {
 			}
 		}
 
-                /*
-                var_dump( $session );
-                echo "<hr /> session";
-                echo "<pre>";
-                var_dump( $_COOKIE );
-                echo "</pre>";
-                die('csession');
-                */
+                
+//                var_dump( $session );
+//                echo "<hr /> session";
+//                echo "<pre>";
+//                var_dump( $_COOKIE );
+//                echo "</pre>";
+//                die('csession');
+                
                 
                 //var_dump($session);
                 // die('stop');
@@ -312,7 +324,7 @@ class CSession {
 			$this->_set_cookie();
 			return;
 		}
-
+                 
 		// set the custom userdata, the session data we will set in a second
 		$custom_userdata = $this->userdata;
 		$cookie_userdata = array();
@@ -320,10 +332,12 @@ class CSession {
 		// Before continuing, we need to determine if there is any custom data to deal with.
 		// Let's determine this by removing the default indexes to see if there's anything left in the array
 		// and set the session data while we're at it
-		foreach (['session_id','ip_address','user_agent','last_activity'] as $val) {
+		/*
+                foreach (['session_id','ip_address','user_agent','last_activity'] as $val) {
 			unset($custom_userdata[$val]);
 			$cookie_userdata[$val] = $this->userdata[$val];
 		}
+                */
 
 		// Did we find any custom data?  If not, we turn the empty array into a string
 		// since there's no reason to serialize and store an empty array in the DB
@@ -336,12 +350,18 @@ class CSession {
 
                 if ($this->sess_use_database === TRUE) {
                     // Run the update query
-                    $this->_session->db->where('session_id', $this->userdata['session_id']);
-                    $this->_session->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
+                    //$this->_query->where('session_id', $this->userdata['session_id']);
+                    //$this->_query->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
+                    
+                    
+                    $_update = self::$db->update($this->sess_table_name) ->fields( array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata) );
+                    $_update ->condition('session_id', $this->userdata['session_id'], '=') -> execute();
                 }
 		// Write the cookie.  Notice that we manually pass the cookie data array to the
 		// _set_cookie() function. Normally that function will store $this->userdata, but
 		// in this case that array contains custom data, which we do not want in the cookie.
+               
+                
 		$this->_set_cookie($cookie_userdata);
 	}
 
@@ -362,18 +382,30 @@ class CSession {
 		// To make the session ID even more secure we'll combine it with the user's IP
 		$sessid .= \init::app()->getRequest()->getUserHostAddress();
 
+                
+
+		// Serialize the userdata for the cookie
+                $cookie_data = '';
+                if($this->userdata)  {
+                    $cookie_data = $this->_serialize($this->userdata);
+                    $cookie_data = $cookie_data.md5($cookie_data.$this->encryption_key);
+                }
+		
+//                var_dump($this->userdata); die('all');
+                
 		$this->userdata = [
                                     'session_id'	=> md5(uniqid($sessid, TRUE)),
                                     'ip_address'	=> \init::app()->getRequest()->getUserHostAddress(),
                                     'user_agent'	=> substr(\init::app()->getRequest()->getUserAgent(), 0, 120),
                                     'last_activity'	=> $this->now,
-                                    'user_data'		=> ''
+                                    'user_data'		=> $cookie_data
                                     ];
 
 
 		// Save the data to the DB if needed
 		if ($this->sess_use_database === TRUE) {
-			$this->_session->db->query($this->_session->db->insert_string($this->sess_table_name, $this->userdata));
+                        self::$db->insert($this->sess_table_name) ->fields($this->userdata) ->execute();
+			// $this->_query->query($this->_query->insert($this->sess_table_name, $this->userdata));
 		}
 
 		// Write the cookie
@@ -389,8 +421,9 @@ class CSession {
 	 * @return	void
 	 */
 	function sess_update() {
+               
                 
-                // var_dump( ($this->userdata['last_activity'] + $this->sess_time_to_update), $this->now ); die('stop');
+                 // var_dump( ($this->userdata['last_activity'] + $this->sess_time_to_update), $this->now ); die('stop');
             
 		// We only update the session every five minutes by default
 		if (($this->userdata['last_activity'] + $this->sess_time_to_update) >= $this->now) {
@@ -419,16 +452,26 @@ class CSession {
 		// by pushing all userdata to the cookie.
 		$cookie_data = NULL;
 
+                
+                
 		// Update the session ID and last_activity field in the DB if needed
 		if ($this->sess_use_database === TRUE) {
 			// set cookie explicitly to only have our session data
-			$cookie_data = array();
+			/*$cookie_data = array();
+                        
 			foreach (['session_id','ip_address','user_agent','last_activity'] as $val) {
 				$cookie_data[$val] = $this->userdata[$val];
 			}
-
-			$this->_session->db->query($this->_session->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid), array('session_id' => $old_sessid)));
-		}
+                        */
+                        
+                    
+                        // var_dump( $cookie_data ); die('update');
+                        
+			// $this->_session->db->query($this->_session->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid), array('session_id' => $old_sessid)));
+		
+                        $_update = self::$db->update($this->sess_table_name) ->fields( array('last_activity' => $this->now, 'session_id' => $new_sessid) );
+                        $_update ->condition('session_id', $old_sessid, '=') -> execute();
+                 }
 
                 
                 
@@ -447,8 +490,11 @@ class CSession {
 	function sess_destroy() {
 		// Kill the session DB row
 		if ($this->sess_use_database === TRUE && isset($this->userdata['session_id'])) {
-			$this->_session->db->where('session_id', $this->userdata['session_id']);
-			$this->_session->db->delete($this->sess_table_name);
+			//$this->_session->db->where('session_id', $this->userdata['session_id']);
+			//$this->_session->db->delete($this->sess_table_name);
+                        $_update = self::$db->delete($this->sess_table_name);
+                        $_update ->condition('session_id', $this->userdata['session_id'], '=') -> execute();
+                    
 		}
 
 		// Kill the cookie
@@ -487,7 +533,8 @@ class CSession {
 	 * @access	public
 	 * @return	array
 	 */
-	function all_userdata() {
+	function all_userdata() {                
+                
 		return $this->userdata;
 	}
 
@@ -512,6 +559,8 @@ class CSession {
 			}
 		}
 
+                 
+                
 		$this->sess_write();
                 
                 return $this;
@@ -669,10 +718,15 @@ class CSession {
 	 * @return	void
 	 */
 	function _set_cookie($cookie_data = NULL) {
-		if (is_null($cookie_data)) {
+                // var_dump($this->userdata); die('all');
+            
+		if (is_null($cookie_data) or !$cookie_data) {
 			$cookie_data = $this->userdata;
 		}
 
+                
+                 // var_dump( $cookie_data, $this->userdata ); // die('cookie');
+                
 		// Serialize the userdata for the cookie
 		$cookie_data = $this->_serialize($cookie_data);
 		$cookie_data = $cookie_data.md5($cookie_data.$this->encryption_key);
@@ -733,7 +787,14 @@ class CSession {
 	 * @return	string
 	 */
 	function _unserialize($data) {
-		$data = unserialize(stripcslashes($data));
+                //var_dump( unserialize($data) ); die('stop');
+            
+                if(is_string($data)) {
+                    $data = unserialize(stripcslashes($data));
+                } else {
+                    return; // error!
+                }
+		
 
 		if (is_array($data)) {
 			foreach ($data as $key => $val) {
@@ -768,8 +829,8 @@ class CSession {
 		if ((rand() % 100) < $this->gc_probability) {
 			$expire = $this->now - $this->sess_expiration;
 
-			$this->_session->db->where("last_activity < {$expire}");
-			$this->_session->db->delete($this->sess_table_name);
+			//$this->_session->db->where("last_activity < {$expire}");
+			self::$db->delete($this->sess_table_name) ->condition('last_activity', $expire, '<') -> execute();
 
 			// log_message('debug', 'Session garbage collection performed.');
 		}
