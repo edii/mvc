@@ -155,6 +155,10 @@
             </ul>
         </div><!-- End search -->            
 
+        <?php
+            $this->getBox('tree/index'); // navigation
+        ?>
+        
         <div class="sidenav">
 
             <div class="sidebar-widget" style="margin: -1px 0 0 0;">

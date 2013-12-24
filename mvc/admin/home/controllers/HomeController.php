@@ -125,6 +125,13 @@ class HomeController extends \Controller
             endif;
         }
         
+        /**
+         * genarate tree
+         * return array
+         */
+        
+        
+        
         public function actionDB() {
             $this->layout( 'column1' );
             

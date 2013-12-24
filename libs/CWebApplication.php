@@ -580,7 +580,7 @@ class CWebApplication extends \CApplication {
 			$model = substr($model, $last_slash + 1);
 		}
 
-		
+                
 		//if (in_array($model, $this->_model, TRUE)) { //array_keys($this->_model)
 			//return;
 		//}
@@ -594,12 +594,14 @@ class CWebApplication extends \CApplication {
                 //echo "url = ".\init::app()->getMvc().DS.'model'.DS.$path.$model.'.php';
                 //die('stop');
                 
+                 
+                
 		$model = strtolower($model);
                 if ( ! file_exists(\init::app()->getMvc().DS.'model'.DS.$path.$model.'.php')) {
                         return false;
                 }
 
-                
+                // echo \init::app()->getMvc().DS.'model'.DS.$path.$model.'.php <br />'; 
                 
                 
                 //if ($db_conn !== FALSE AND ! class_exists('CI_DB')) {
@@ -614,13 +616,16 @@ class CWebApplication extends \CApplication {
                 //	load_class('Model', 'core');
                 //}
 
-
+                
 
                 require_once(\init::app()->getMvc().DS.'model'.DS.$path.$model.'.php');
                 
                 $model = ucfirst($model);
+                
+                // echo "m = ".$model." <br />";
+                
                 $_model = new $model();
-                if(!$this->_model)
+                if(!$this->_model or is_object($_model))
                     $this->_model = $_model; 
                 return $this->_model;
                 
