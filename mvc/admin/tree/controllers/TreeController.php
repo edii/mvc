@@ -24,11 +24,14 @@ class TreeController extends \Controller
             $this->layout( false );
             
             $_model = \init::app() -> getModels('tree/ctree');
-            $_tree = $_model -> getTree();
+            // $_tree = $_model -> getTree(); - old
             
-//            echo "<pre>";
-//            var_dump( $_tree );
-//            echo "</pre>";
+            $_tree = $_model -> _getCreateTree();
+            
+            
+            echo "<pre>";
+            var_dump( $_tree );
+            echo "</pre>";
             
             $this->render('index');
         }

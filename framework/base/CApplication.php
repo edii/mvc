@@ -108,6 +108,17 @@ abstract class CApplication extends \CModule
 	}
         
         /**
+        * Detected define
+        */
+        public function _getPanel() {
+            $_type = 'front';
+            if(defined('_detected')) {
+                $_type = _detected;
+            }
+            return $_type;
+        }
+        
+        /**
          * 
          * global db systems
          * 
