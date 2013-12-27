@@ -67,8 +67,8 @@ class HomeController extends \Controller
             
             // detected owner
             echo "Owner ";
-            $_owner = \init::app() -> getOwner();
-            echo $_owner -> getOwnerID();
+            $_owner = \init::app() -> getOwner()-> getOwnerID();
+            echo $_owner;
             
             echo "<hr />";
             

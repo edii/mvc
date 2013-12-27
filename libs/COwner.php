@@ -45,6 +45,10 @@ class COwner extends \CApplicationComponent {
         public function getOwnerID() {
             return (isset($this->_owner['OwnerID']) and !empty($this->_owner['OwnerID'])) ? $this->_owner['OwnerID'] : null;
         }
+        
+        public function getOwnerCode() {
+            return (isset($this->_owner['OwnerCode']) and !empty($this->_owner['OwnerCode'])) ? $this->_owner['OwnerCode'] : null;
+        }
         /**
          * Detected Owners ( ID )
          */

@@ -15,12 +15,15 @@ class Ctree extends \CDetectedModel { //extends \CDetectedModel
     private $_level = 1;
     private $_type; // type panel
     
+    private $_owner_code = 'root';
+    
     // protected $_sections;
     
     public function init() {
         self::$db = \init::app() -> getDBConnector(); // connected DB
         if(!$this->_mod_access) throw new \CException(\init::t('init','Not access this controller!'));
         $this -> _type = \init::app() -> _getPanel();
+        $this->_owner_code = \init::app() -> getOwner() -> getOwnerCode();
     }
     
     public function attributeNames() {
@@ -57,7 +60,11 @@ class Ctree extends \CDetectedModel { //extends \CDetectedModel
                                                 'SectionAlias',
                                                 'SectionType'    
                                                 ));
-        $sql ->condition('SectionType', $this -> _type, '=') ->condition('SectionParentID', $_pId, '=');
+        $sql ->condition('SectionType', $this -> _type, '=') 
+                ->condition('SectionParentID', $_pId, '=')
+                ->condition('OwnerID', $this->_owner_code, '=')
+                ->condition('hidden', 0, '=');
+        
         $_query_res = $sql -> execute()->fetchAll();
         
         echo "<pre>";
