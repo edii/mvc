@@ -47,6 +47,9 @@ class CHttpRequest extends \CApplicationComponent
 	private $_csrfToken;
 	private $_restParams;
 
+        private $_port;
+        private $_securePort;
+        
 	/**
 	 * Initializes the application component.
 	 * This method overrides the parent implementation by preprocessing
@@ -388,6 +391,15 @@ class CHttpRequest extends \CApplicationComponent
 		return $this->_pathInfo;
 	}
 
+        /**
+         * 
+         * Detected host name
+         * 
+         */
+        public function getHost() {
+            return ($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST']: null;
+        }
+        
 	/**
 	 * Decodes the path info.
 	 * This method is an improved variant of the native urldecode() function and used in {@link getPathInfo getPathInfo()} to
@@ -647,7 +659,7 @@ class CHttpRequest extends \CApplicationComponent
 		return isset($_SERVER['HTTP_ACCEPT'])?$_SERVER['HTTP_ACCEPT']:null;
 	}
 
-	private $_port;
+	
 
  	/**
 	 * Returns the port to use for insecure requests.
@@ -678,7 +690,7 @@ class CHttpRequest extends \CApplicationComponent
 		$this->_hostInfo=null;
 	}
 
-	private $_securePort;
+	
 
 	/**
 	 * Returns the port to use for secure requests.

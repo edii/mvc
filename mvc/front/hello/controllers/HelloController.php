@@ -67,6 +67,8 @@ class HelloController extends \Controller
 	public function actionIndex()
 	{
             
+            
+                    
             //echo "path = ".PATH; die('stop');
                     
             //$img = ResizeImages::createImage(PATH.'/style/front/image/sisky.jpg');

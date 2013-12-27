@@ -65,6 +65,13 @@ class HomeController extends \Controller
 	public function actionIndex()
 	{
             
+            // detected owner
+            echo "Owner ";
+            $_owner = \init::app() -> getOwner();
+            echo $_owner -> getOwnerID();
+            
+            echo "<hr />";
+            
             //echo "path = ".PATH; die('stop');
                     
             //$img = ResizeImages::createImage(PATH.'/style/front/image/sisky.jpg');
