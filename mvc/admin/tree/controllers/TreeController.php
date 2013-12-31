@@ -26,7 +26,7 @@ class TreeController extends \Controller
             $_model = \init::app() -> getModels('tree/ctree');
             // $_tree = $_model -> getTree(); - old
             
-            $_tree = $_model -> _getCreateTree();
+            $_tree = $_model -> getTree();
             
             
             echo "<pre>";

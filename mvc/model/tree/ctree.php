@@ -16,7 +16,7 @@ class Ctree extends \CDetectedModel { //extends \CDetectedModel
     private $_type; // type panel
     
     private $_owner_code = 'root';
-    
+    private $_tree = array();
     // protected $_sections;
     
     public function init() {
@@ -34,53 +34,60 @@ class Ctree extends \CDetectedModel { //extends \CDetectedModel
      * 
      * @param type $attributes
      */
-    public function getTree( $_level = 1 ) {
+    public function getTree() {
         
-        $_fields = 'SectionID as s_id, SectionParentID as p_id, SectionAlias as s_alies, SectionType as s_type';
-        $_where = " SectionID <> 0 AND SectionType = '".$this -> _type."'";
+        $_fields = 'SectionID, SectionParentID, SectionAlias, SectionType';
+        $_where = " SectionParentID = 0 AND SectionID <> 0 AND SectionType = '".$this -> _type."'";
         $_order = ' ORDER BY TimeCreated';
         $_limit = '';
         
         $sections = self::$db -> query( "SELECT ".$_fields." FROM ".$this->_tableName." WHERE ".$_where.$_order.$_limit ) -> fetchAll();
         
-        return $sections;
+        if(is_array($sections) and count($sections) > 0) :
+            foreach($sections as $key=>$_sec):
+                $this->_tree[$key] = $this->_getCreateTree($_sec);
+            endforeach;
+        endif;
+        
+        return $this->_tree;
     }
     
     
-    public function _getCreateTree( $_label = false, $_p_id = false ) {
-        // array_unique - убрать из массива одинаковые значения!
-        $_tree = array();
-        
-        $_pId = ($_p_id) ? $_p_id : 0;
-        $_lavel = ($_label) ? $_label : $this->_level;
-        
-        $sql = self::$db -> select('section', 'sec', array('target' => 'main'))
+    public function _getCreateTree( $currentID, $ctree='' ) {
+        // var_dump( $currentID ); die('stop');
+	
+	if(empty($cPath)) {
+		$path[] = $currentID;
+	} else {
+		$path = $ctree;
+	}
+	
+	if($currentID -> SectionParentID >0) {
+		// $parent = $DS->query("SELECT CategoryID, CategoryCode, CategoryName, CategoryParentID FROM Category WHERE OwnerID = '".$OwnerID."' AND CategoryID = '".$currentID[0]['CategoryParentID']."'");
+		
+                $sql = self::$db -> select('section', 'sec', array('target' => 'main'))
                          -> fields('sec', array('SectionID', 
                                                 'SectionParentID', 
                                                 'SectionAlias',
                                                 'SectionType'    
                                                 ));
-        $sql ->condition('SectionType', $this -> _type, '=') 
-                ->condition('SectionParentID', $_pId, '=')
-                ->condition('OwnerID', $this->_owner_code, '=')
-                ->condition('hidden', 0, '=');
-        
-        $_query_res = $sql -> execute()->fetchAll();
-        
-        echo "<pre>";
-        var_dump( $_query_res );
-        echo "</pre>";
-        
-        
-//        if(is_array($_query_res) and count($_query_res) > 0) {
-//            $_teration = 1;
-//            foreach($_query_res as $k=>$value) :
-//                 
-//                $_teration ++;
-//            endforeach;
-//        }
-        
-        
+                $sql ->condition('SectionType', $this -> _type, '=') 
+                        ->condition('SectionID', $currentID-> SectionParentID, '=')
+                        ->condition('OwnerID', $this->_owner_code, '=')
+                        ->condition('hidden', 0, '=');
+
+                $parent = $sql -> execute()->fetchAll();
+            
+		if( $parent -> SectionParentID > 0 ) {
+			$path[] = $parent;
+			return $this->_getCreateTree($parent, $path);
+		} elseif( $parent -> SectionParentID == 0 ) {
+			$path[] = $parent;
+			return $path;
+		}
+	} else {
+		return $path;
+	}
         
     }
     
