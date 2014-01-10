@@ -53,9 +53,10 @@ class HelloController extends \Controller
 	public function actionTest()
 	{
             
-                
-               \init::app()->setTheme( 'column2' );
-                
+                echo "<pre>";
+                var_dump( $_REQUEST );
+                echo "</pre>";
+            
             
                $dataProvider = ['blaaa', 'ddddd'];
             
@@ -63,9 +64,19 @@ class HelloController extends \Controller
 			'dataProvider'=>$dataProvider,
 		));  
 	}
-
-	public function actionIndex()
+        
+        public function actionSubcat()
 	{
+            
+                echo "<pre>";
+                var_dump( $_REQUEST );
+                echo "</pre>";
+            
+                echo "SUbCat";
+             
+	}
+
+	public function actionIndex() {
             
             
                     

@@ -36,34 +36,35 @@ class Ctree extends \CDetectedModel { //extends \CDetectedModel
      */
     public function getTree() {
         
+        echo "ovner code = ".$this->_owner_code;
+        
         $_fields = 'SectionID, SectionParentID, SectionAlias, SectionType';
         $_where = " SectionParentID = 0 AND SectionID <> 0 AND SectionType = '".$this -> _type."'";
         $_order = ' ORDER BY TimeCreated';
         $_limit = '';
         
-        $sections = self::$db -> query( "SELECT ".$_fields." FROM ".$this->_tableName." WHERE ".$_where.$_order.$_limit ) -> fetchAll();
+        $sections = self::$db -> query( "SELECT ".$_fields." FROM ".$this->_tableName." WHERE ".$_where.$_order.$_limit ) -> fetchAll();// fetchAssoc() fetchAll();
         
         if(is_array($sections) and count($sections) > 0) :
-            foreach($sections as $key=>$_sec):
-                $this->_tree[$key] = $this->_getCreateTree($_sec);
+            foreach($sections as $key=>$_section):
+                $this->_tree[$_section -> SectionID] = (array)$_section;
+                $this->_tree[$_section -> SectionID]['childs'] = $this->_getCreateTree((array)$_section, 0);
             endforeach;
         endif;
+        
+        
         
         return $this->_tree;
     }
     
     
-    public function _getCreateTree( $currentID, $ctree='' ) {
-        // var_dump( $currentID ); die('stop');
+    
+    public function _getCreateTree( $section, $level ) {
+        
+        $tree = NULL;
+	if(!is_array($section)) return false;
 	
-	if(empty($cPath)) {
-		$path[] = $currentID;
-	} else {
-		$path = $ctree;
-	}
-	
-	if($currentID -> SectionParentID >0) {
-		// $parent = $DS->query("SELECT CategoryID, CategoryCode, CategoryName, CategoryParentID FROM Category WHERE OwnerID = '".$OwnerID."' AND CategoryID = '".$currentID[0]['CategoryParentID']."'");
+	if($section['SectionID'] > 0) {
 		
                 $sql = self::$db -> select('section', 'sec', array('target' => 'main'))
                          -> fields('sec', array('SectionID', 
@@ -72,22 +73,30 @@ class Ctree extends \CDetectedModel { //extends \CDetectedModel
                                                 'SectionType'    
                                                 ));
                 $sql ->condition('SectionType', $this -> _type, '=') 
-                        ->condition('SectionID', $currentID-> SectionParentID, '=')
+                        ->condition('SectionParentID', $section['SectionID'], '=')
                         ->condition('OwnerID', $this->_owner_code, '=')
                         ->condition('hidden', 0, '=');
 
-                $parent = $sql -> execute()->fetchAll();
+                $_childs = $sql -> execute()->fetchAll(); //fetchAll()
             
-		if( $parent -> SectionParentID > 0 ) {
-			$path[] = $parent;
-			return $this->_getCreateTree($parent, $path);
-		} elseif( $parent -> SectionParentID == 0 ) {
-			$path[] = $parent;
-			return $path;
-		}
-	} else {
-		return $path;
-	}
+                
+                
+                if(is_array($_childs) and count($_childs) > 0) {
+                    
+                    foreach($_childs as $key => $_val):
+                        $_subcat = (array)$_val;
+                        $tree[$key][$_subcat['SectionID']] = $_subcat;
+                        if($_subcat['SectionParentID'] != 0)
+                            $tree[$key][$_subcat['SectionID']]['childs'] = $this->_getCreateTree($_subcat, $level + 1);
+                        
+                    endforeach;
+                    
+                } 
+                
+                return $tree;
+                
+		
+	} 
         
     }
     

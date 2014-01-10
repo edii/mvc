@@ -57,13 +57,13 @@ class HelloController extends \Controller
 	}
         
         public function actionTest() {
-            $this->layout( false );
-            
-            echo "load test params!";
-            
-            $this->render('test', array(
-			'dataProvider'=>'Admin',
-            ));
+//            $this->layout( false );
+//            
+//            echo "load test params!";
+//            
+//            $this->render('test', array(
+//			'dataProvider'=>'Admin',
+//            ));
            
         }
 }
