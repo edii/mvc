@@ -1315,7 +1315,7 @@ select {width: 150px;}
 /*Collapse sidebar button*/
 .collapseBtn {position: absolute;z-index: 1000;display: block;}
 .collapseBtn.leftbar {top:120px;left:170px;}
-	.collapseBtn.leftbar.top {left: 200px; top:20px;}
+	.collapseBtn.leftbar.top {left: 300px; top:20px;}
 
 .collapseBtn.rightbar {top:120px;right:18px;}
 	.collapseBtn.rightbar.top {top: 80px;right: 10px;}

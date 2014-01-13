@@ -108,6 +108,17 @@ abstract class CApplication extends \CModule
 	}
         
         /**
+        * Detected define
+        */
+        public function _getPanel() {
+            $_type = 'front';
+            if(defined('_detected')) {
+                $_type = _detected;
+            }
+            return $_type;
+        }
+        
+        /**
          * 
          * global db systems
          * 
@@ -590,6 +601,15 @@ abstract class CApplication extends \CModule
             return $this -> getComponent( 'session' );
         } 
         
+        /**
+         * COwner
+         * 
+         */
+         public function getOwner() {
+            return $this -> getComponent( 'owner' );
+        }
+        
+        
 	/**
 	 * @return CController the currently active controller. Null is returned in this base class.
 	 * @since 1.1.8
@@ -1043,6 +1063,10 @@ abstract class CApplication extends \CModule
                         'session'=>array(
 				'class'=>'CSession',
 			),
+                        
+                        'owner' => array(
+                                'class' => 'COwner'
+                        ),
                     
 		);
 

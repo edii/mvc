@@ -259,80 +259,121 @@ class CWebApplication extends \CApplication {
 	/**
 	 * Creates a controller instance based on a route.
 	 */
-	public function createController($route,$owner=null) {
-                
+	public function createController($route, $owner=null) {
             
-		if($owner===null)
-			$owner=$this;
-		if(($route=trim($route,'/'))==='')
-			$route=$owner->defaultController;
-		$caseSensitive=$this->getUrlManager()->caseSensitive;
-
-		$route.='/';
+                if($owner===null)
+                    $owner=$this;
+                //var_dump($route);die('stop');
+                if($_section = $this -> parseAlies($route)) {
+                    $route = $_section['Controller'].'/'.$_section['Action']; 
+                } // load DB controller and action
+                else if(($route=trim($route,'/'))==='') {
+                    $route = $owner->defaultController;
+                } else {
+                    $route= false; 
+                }
                 
-                
-		while(($pos=strpos($route,'/'))!==false)
-		{
-			$id=substr($route,0,$pos);
-                        
-                        
-			if(!preg_match('/^\w+$/',$id))
-				return null;
-			if(!$caseSensitive)
-				$id=strtolower($id);
-			$route=(string)substr($route,$pos+1);
-                        
-                        if(isset($id) and !empty($id))  {
-                            $_path = $this->getMvc().DS._detected.DS.$id.DS.'controllers'.DS;
-                            $this->setControllerPath( $_path );
-                        }    
-                        
-                        
-			if(!isset($basePath))  // first segment
-			{
-				if(isset($owner->controllerMap[$id]))
-				{
-					return array(
-						\init::createComponent($owner->controllerMap[$id],$id,$owner===$this?null:$owner),
-						$this->parseActionParams($route),
-					);
-				}
+//                    if(($route=trim($route,'/'))==='')
+//                            $route=$owner->defaultController;
+                    $caseSensitive=$this->getUrlManager()->caseSensitive;
+                    $route.='/';
 
-				if(($module=$owner->getModule($id))!==null)
-					return $this->createController($route,$module);
 
-				$basePath=$owner->getControllerPath();
-				$controllerID='';
-			}
-			else
-				$controllerID.='/';
-			$className=ucfirst($id).'Controller';
-			$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
 
-                        //echo "route = ".$classFile; die('stop');
-                        
-			if($owner->controllerNamespace!==null)
-				$className=$owner->controllerNamespace.'\\'.$className;
+                    while(($pos=strpos($route,'/'))!==false) {
+                            $id=substr($route,0,$pos);
 
-			if(is_file($classFile))
-			{
-				if(!class_exists($className,false))
-					require($classFile);
-				if(class_exists($className,false) && is_subclass_of($className,'CController'))
-				{
-					$id[0]=strtolower($id[0]);
-					return array(
-						new $className($controllerID.$id,$owner===$this?null:$owner),
-						$this->parseActionParams($route),
-					);
-				}
-				return null;
-			}
-			$controllerID .= $id;
-			$basePath.= DS.$id;
-		}
+
+                            if(!preg_match('/^\w+$/',$id))
+                                    return null;
+                            if(!$caseSensitive)
+                                    $id=strtolower($id);
+                            $route=(string)substr($route,$pos+1);
+
+                            if(isset($id) and !empty($id))  {
+                                $_path = $this->getMvc().DS._detected.DS.$id.DS.'controllers'.DS;
+                                $this->setControllerPath( $_path );
+                            }    
+
+
+                            if(!isset($basePath))  // first segment
+                            {
+                                    if(isset($owner->controllerMap[$id]))
+                                    {
+                                            return array(
+                                                    \init::createComponent($owner->controllerMap[$id],$id,$owner===$this?null:$owner),
+                                                    $this->parseActionParams($route),
+                                            );
+                                    }
+
+                                    if(($module=$owner->getModule($id))!==null)
+                                            return $this->createController($route,$module);
+
+                                    $basePath=$owner->getControllerPath();
+                                    $controllerID='';
+                            }
+                            else
+                                    $controllerID.='/';
+                            $className=ucfirst($id).'Controller';
+                            $classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
+
+                            //echo "route = ".$classFile; die('stop');
+
+                            if($owner->controllerNamespace!==null)
+                                    $className=$owner->controllerNamespace.'\\'.$className;
+
+                            if(is_file($classFile))
+                            {
+                                    if(!class_exists($className,false))
+                                            require($classFile);
+                                    if(class_exists($className,false) && is_subclass_of($className,'CController'))
+                                    {
+                                            $id[0]=strtolower($id[0]);
+                                            return array(
+                                                    new $className($controllerID.$id,$owner===$this?null:$owner),
+                                                    $this->parseActionParams($route),
+                                            );
+                                    }
+                                    return null;
+                            }
+                            $controllerID .= $id;
+                            $basePath.= DS.$id;
+                    }
+                 
 	}
 
+        
+        /**
+         * Detected Alies
+         * params $route
+         * return (controller, action)
+         */
+        
+        protected function parseAlies($route) {
+            
+            
+            $_db = \init::app() -> getDBConnector();
+//             var_dump($route); die('stop');
+            if(!strpos($route,'/')){
+                $_route = $route;
+            } else {
+                $_route = explode('/', $route);
+
+                if(is_array($_route) and count($_route) > 0) :
+                    foreach($_route as $_key => $_value):
+                        if(empty($_value) or $_value == '') unset($_route[$_key]);
+                    endforeach;
+                endif;
+                $_route = array_pop( $_route );
+            }
+            if($section = $_db -> query( "SELECT SectionController as Controller, 
+                                                 SectionAction as Action 
+                                          FROM section WHERE SectionAlias LIKE '".  htmlspecialchars(trim($_route))."'" )-> fetchAssoc()) {
+                return $section;
+            }
+            return null;
+        }
+        
 	/**
 	 * Parses a path info into an action ID and GET variables.
 	 * @param string $pathInfo path info
@@ -580,7 +621,7 @@ class CWebApplication extends \CApplication {
 			$model = substr($model, $last_slash + 1);
 		}
 
-		
+                
 		//if (in_array($model, $this->_model, TRUE)) { //array_keys($this->_model)
 			//return;
 		//}
@@ -594,12 +635,14 @@ class CWebApplication extends \CApplication {
                 //echo "url = ".\init::app()->getMvc().DS.'model'.DS.$path.$model.'.php';
                 //die('stop');
                 
+                 
+                
 		$model = strtolower($model);
                 if ( ! file_exists(\init::app()->getMvc().DS.'model'.DS.$path.$model.'.php')) {
                         return false;
                 }
 
-                
+                // echo \init::app()->getMvc().DS.'model'.DS.$path.$model.'.php <br />'; 
                 
                 
                 //if ($db_conn !== FALSE AND ! class_exists('CI_DB')) {
@@ -614,13 +657,16 @@ class CWebApplication extends \CApplication {
                 //	load_class('Model', 'core');
                 //}
 
-
+                
 
                 require_once(\init::app()->getMvc().DS.'model'.DS.$path.$model.'.php');
                 
                 $model = ucfirst($model);
+                
+                // echo "m = ".$model." <br />";
+                
                 $_model = new $model();
-                if(!$this->_model)
+                if(!$this->_model or is_object($_model))
                     $this->_model = $_model; 
                 return $this->_model;
                 

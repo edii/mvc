@@ -37,7 +37,7 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
             
                 $_query = self::$db -> query("SELECT UserID as id, 
                                                      UserName as login, 
-                                                     Email as email 
+                                                     Email as email
                                               FROM ".$this->_tableName." 
                                               WHERE (UserName = '".$this->_login."' OR Email = '".$this->_login."') 
                                                         AND Password = '".$this->_password."' ", array('target'=>'main'), array())

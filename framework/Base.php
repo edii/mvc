@@ -547,7 +547,8 @@ class Base
 	 */
 	private static $_coreClasses = array(
                 
-                
+                // create layout
+                'COwner'                  => '/libs/COwner.php',
                 
                 // generate content view layout
                 /*
