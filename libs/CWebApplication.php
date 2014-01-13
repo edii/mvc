@@ -264,14 +264,20 @@ class CWebApplication extends \CApplication {
                 if($owner===null)
                     $owner=$this;
                 //var_dump($route);die('stop');
-                if($_section = $this -> parseAlies($route)) {
+                if($_section = $this -> parseAlies($route) and _detected == 'front') {
                     $route = $_section['Controller'].'/'.$_section['Action']; 
                 } // load DB controller and action
                 else if(($route=trim($route,'/'))==='') {
                     $route = $owner->defaultController;
+                } else if( _detected == 'admin' ) {
+                    if($_section = $this -> parseAlies($route)) $route = $_section['Controller'].'/'.$_section['Action'];
+                    if(!isset($route) and empty($route)) $route = false;
                 } else {
                     $route= false; 
                 }
+                 
+                
+                
                 
 //                    if(($route=trim($route,'/'))==='')
 //                            $route=$owner->defaultController;
@@ -351,24 +357,31 @@ class CWebApplication extends \CApplication {
         
         protected function parseAlies($route) {
             
-            
+            $_owner_code = \init::app() -> getOwner() -> getOwnerCode();
             $_db = \init::app() -> getDBConnector();
-//             var_dump($route); die('stop');
+            
             if(!strpos($route,'/')){
-                $_route = $route;
+                $_route = $route.'/';
             } else {
-                $_route = explode('/', $route);
-
-                if(is_array($_route) and count($_route) > 0) :
-                    foreach($_route as $_key => $_value):
-                        if(empty($_value) or $_value == '') unset($_route[$_key]);
-                    endforeach;
-                endif;
-                $_route = array_pop( $_route );
+                $_route = $route.'/';
             }
+            
+//            else {
+//                $_route = explode('/', $route);
+//
+//                if(is_array($_route) and count($_route) > 0) :
+//                    foreach($_route as $_key => $_value):
+//                        if(empty($_value) or $_value == '') unset($_route[$_key]);
+//                    endforeach;
+//                endif;
+//                $_route = array_pop( $_route );
+//            }
             if($section = $_db -> query( "SELECT SectionController as Controller, 
                                                  SectionAction as Action 
-                                          FROM section WHERE SectionAlias LIKE '".  htmlspecialchars(trim($_route))."'" )-> fetchAssoc()) {
+                                          FROM section 
+                                          WHERE SectionUrl LIKE '".  htmlspecialchars(trim($_route))."' 
+                                                            AND OwnerID = '".$_owner_code."'
+                                                            AND hidden = 0" )-> fetchAssoc()) {
                 return $section;
             }
             return null;
