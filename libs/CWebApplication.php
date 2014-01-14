@@ -312,18 +312,19 @@ class CWebApplication extends \CApplication {
                 if($owner===null)
                     $owner=$this;
                 //var_dump($route);die('stop');
-                if(_detected == 'front') {
+                if( trim($route,'/') !== '' and _detected == 'front') {
                     
                     $this -> parseAlies($route);
                     // load section
-                    if($_section = $this->getTreeSection())
+                    if($_section = $this->getTreeSection()) {
                         $route = $_section['Controller'].'/'.$_section['Action']; 
+                        // load params
+                        if($_params = $this->getTreeParams() and isset($route) and !empty($route)) {
+                            $manager=$this->getUrlManager();
+                            $manager->parsePathInfo((string)$_params);
+                        }
+                    }    
                     
-                    // load params
-                    if($_params = $this->getTreeParams() and isset($route) and !empty($route)) {
-                        $manager=$this->getUrlManager();
-			$manager->parsePathInfo((string)$_params);
-                    }	
                     
                 } // load DB controller and action
                 else if(($route=trim($route,'/'))==='') {
@@ -334,14 +335,16 @@ class CWebApplication extends \CApplication {
                     } else {
                         $this -> parseAlies($route);
                         // load section
-                        if($_section = $this->getTreeSection())
+                        if($_section = $this->getTreeSection()) {
                             $route = $_section['Controller'].'/'.$_section['Action']; 
+                            // load params
+                            if($_params = $this->getTreeParams() and isset($route) and !empty($route)) {
+                                $manager=$this->getUrlManager();
+                                $manager->parsePathInfo((string)$_params);
+                            }
+                        }    
 
-                        // load params
-                        if($_params = $this->getTreeParams() and isset($route) and !empty($route)) {
-                            $manager=$this->getUrlManager();
-                            $manager->parsePathInfo((string)$_params);
-                        }	
+                        	
                     }    
                     
                     
@@ -350,7 +353,6 @@ class CWebApplication extends \CApplication {
                     $route= false; 
                 }
                  
-                
                 
                 
 //                    if(($route=trim($route,'/'))==='')
@@ -459,13 +461,13 @@ class CWebApplication extends \CApplication {
             
             
             
-            if($section = $_db -> query( "SELECT SectionController as Controller, 
+            $section = $_db -> query( "SELECT SectionController as Controller, 
                                                  SectionAction as Action, 
                                                  SectionUrl as url
                                           FROM section 
                                           WHERE SectionUrl IN (".$_route.") 
                                                             AND OwnerID = '".$_owner_code."'
-                                                            AND hidden = 0" ) -> fetchAll()) {
+                                                            AND hidden = 0" ) -> fetchAll(); 
                 
                 
                 
@@ -486,14 +488,14 @@ class CWebApplication extends \CApplication {
                         $_params = substr($route, $_start, $_end);
                         $this->setTreeParams( $_params );
                     }
+                   
+                    return $this;
                     
+                } else {
+                    return null;
                 }
                 
-                
-                
-                return $this;
-            }
-            return null;
+            
         }
         
 	/**
