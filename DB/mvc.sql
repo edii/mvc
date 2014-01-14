@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 10, 2014 at 04:20 PM
+-- Generation Time: Jan 14, 2014 at 10:10 AM
 -- Server version: 5.5.23
 -- PHP Version: 5.4.11
 
@@ -5052,6 +5052,9 @@ CREATE TABLE IF NOT EXISTS `section` (
   `SectionIsHiddenInMenu` char(1) COLLATE utf8_bin NOT NULL DEFAULT '',
   `SectionController` varchar(255) COLLATE utf8_bin NOT NULL,
   `SectionAction` varchar(255) COLLATE utf8_bin NOT NULL,
+  `SectionView` varchar(255) COLLATE utf8_bin NOT NULL,
+  `SectionUrl` varchar(255) COLLATE utf8_bin NOT NULL,
+  `SectionRout` varchar(255) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`SectionID`),
   KEY `SectionAlias` (`SectionAlias`),
   KEY `OwnerID` (`OwnerID`),
@@ -5077,15 +5080,15 @@ CREATE TABLE IF NOT EXISTS `section` (
 -- Dumping data for table `section`
 --
 
-INSERT INTO `section` (`SectionID`, `hidden`, `SectionAlias`, `OwnerID`, `UserID`, `TimeCreated`, `TimeSaved`, `SectionType`, `SectionLanguages`, `SectionParentID`, `SectionGroupID`, `SectionLayout`, `SectionBox`, `SectionBoxStyle`, `AccessGroups`, `SectionArguments`, `SectionLink`, `SectionTarget`, `SectionName`, `SectionTitle`, `SectionDescription`, `SectionKeywords`, `SectionPosition`, `SectionIntroContent`, `SectionContent`, `SectionClicks`, `SectionViewOptions`, `SectionIsHiddenInMenu`, `SectionController`, `SectionAction`) VALUES
-(1, 0, 'parent1', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', ''),
-(2, 0, 'parent2', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', ''),
-(3, 0, 'c1_1', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '1', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', ''),
-(4, 0, 'c1_2', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '1', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', ''),
-(5, 0, 'c2_1', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '3', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', ''),
-(6, 0, 'c2_2', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '3', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', ''),
-(7, 0, 'test', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'front', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', 'hello', 'test'),
-(8, 0, 'subcat', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'front', '', '7', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', 'hello', 'subcat');
+INSERT INTO `section` (`SectionID`, `hidden`, `SectionAlias`, `OwnerID`, `UserID`, `TimeCreated`, `TimeSaved`, `SectionType`, `SectionLanguages`, `SectionParentID`, `SectionGroupID`, `SectionLayout`, `SectionBox`, `SectionBoxStyle`, `AccessGroups`, `SectionArguments`, `SectionLink`, `SectionTarget`, `SectionName`, `SectionTitle`, `SectionDescription`, `SectionKeywords`, `SectionPosition`, `SectionIntroContent`, `SectionContent`, `SectionClicks`, `SectionViewOptions`, `SectionIsHiddenInMenu`, `SectionController`, `SectionAction`, `SectionView`, `SectionUrl`, `SectionRout`) VALUES
+(1, 0, 'home', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', 'home', 'index', '', '', ''),
+(2, 0, 'login', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', 'home', 'login', '', '', ''),
+(3, 0, 'c1_1', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '1', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', '', '', '', ''),
+(4, 0, 'c1_2', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '1', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', '', '', '', ''),
+(5, 0, 'c2_1', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '3', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', '', '', '', ''),
+(6, 0, 'c2_2', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '3', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', '', '', '', ''),
+(7, 0, 'test', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'front', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', 'hello', 'test', '', 'test', ''),
+(8, 0, 'subcat', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'front', '', '7', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 0, '', '', 'hello', 'subcat', '', 'test/subcat', '');
 
 -- --------------------------------------------------------
 
@@ -5185,8 +5188,9 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('3be0c5dfdafc6a34b66d44c87c367970', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0', 1389279420, 'a:9:{s:10:"session_id";s:32:"3be0c5dfdafc6a34b66d44c87c367970";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:72:"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0";s:13:"last_activity";i:1389279420;s:9:"user_data";s:0:"";s:2:"id";s:4:"root";s:5:"login";s:4:"root";s:5:"email";s:16:"jjboun@gmail.com";s:8:"validate";b:1;}'),
-('af81ec4bdaedc7cd54de8521bea4e48f', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0', 1389358827, 'a:9:{s:10:"session_id";s:32:"af81ec4bdaedc7cd54de8521bea4e48f";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:72:"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0";s:13:"last_activity";i:1389358827;s:9:"user_data";s:0:"";s:2:"id";s:4:"root";s:5:"login";s:4:"root";s:5:"email";s:16:"jjboun@gmail.com";s:8:"validate";b:1;}');
+('0c77c2cf94f7060ebbf73d31ab50cf54', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0', 1389600346, 'a:9:{s:10:"session_id";s:32:"0c77c2cf94f7060ebbf73d31ab50cf54";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:72:"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0";s:13:"last_activity";i:1389600346;s:9:"user_data";s:0:"";s:2:"id";s:4:"root";s:5:"login";s:4:"root";s:5:"email";s:16:"jjboun@gmail.com";s:8:"validate";b:1;}'),
+('4b1c82885c61e21f3f8658ec483ef65e', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0', 1389621710, ''),
+('d97ac0bfeab633c47366b761f9687eb9', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0', 1389689128, 'a:9:{s:10:"session_id";s:32:"d97ac0bfeab633c47366b761f9687eb9";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:72:"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0";s:13:"last_activity";i:1389689128;s:9:"user_data";s:0:"";s:2:"id";s:4:"root";s:5:"login";s:4:"root";s:5:"email";s:16:"jjboun@gmail.com";s:8:"validate";b:1;}');
 
 -- --------------------------------------------------------
 
