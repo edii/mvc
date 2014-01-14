@@ -329,8 +329,23 @@ class CWebApplication extends \CApplication {
                 else if(($route=trim($route,'/'))==='') {
                     $route = $owner->defaultController;
                 } else if( _detected == 'admin' ) {
-                    if($_section = $this -> parseAlies($route)) $route = $_section['Controller'].'/'.$_section['Action'];
-                    if(!isset($route) and empty($route)) $route = false;
+                    if(!isset($route) and empty($route)) { 
+                        $route = false;
+                    } else {
+                        $this -> parseAlies($route);
+                        // load section
+                        if($_section = $this->getTreeSection())
+                            $route = $_section['Controller'].'/'.$_section['Action']; 
+
+                        // load params
+                        if($_params = $this->getTreeParams() and isset($route) and !empty($route)) {
+                            $manager=$this->getUrlManager();
+                            $manager->parsePathInfo((string)$_params);
+                        }	
+                    }    
+                    
+                    
+                    
                 } else {
                     $route= false; 
                 }
