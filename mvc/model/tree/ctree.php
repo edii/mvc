@@ -36,10 +36,8 @@ class Ctree extends \CDetectedModel { //extends \CDetectedModel
      */
     public function getTree() {
         
-        echo "ovner code = ".$this->_owner_code;
-        
-        $_fields = 'SectionID, SectionParentID, SectionAlias, SectionType';
-        $_where = " SectionParentID = 0 AND SectionID <> 0 AND SectionType = '".$this -> _type."'";
+        $_fields = 'SectionID, SectionParentID, SectionAlias, SectionUrl, SectionType, SectionName';
+        $_where = " SectionParentID = 0 AND SectionID <> 0 "; //AND SectionType = '".$this -> _type."'
         $_order = ' ORDER BY TimeCreated';
         $_limit = '';
         
@@ -70,12 +68,13 @@ class Ctree extends \CDetectedModel { //extends \CDetectedModel
                          -> fields('sec', array('SectionID', 
                                                 'SectionParentID', 
                                                 'SectionAlias',
-                                                'SectionType'    
+                                                'SectionUrl',
+                                                'SectionType',
+                                                'SectionName'
                                                 ));
-                $sql ->condition('SectionType', $this -> _type, '=') 
-                        ->condition('SectionParentID', $section['SectionID'], '=')
+                $sql ->condition('SectionParentID', $section['SectionID'], '=')
                         ->condition('OwnerID', $this->_owner_code, '=')
-                        ->condition('hidden', 0, '=');
+                        ->condition('hidden', 0, '='); //->condition('SectionType', $this -> _type, '=')
 
                 $_childs = $sql -> execute()->fetchAll(); //fetchAll()
             
@@ -85,9 +84,9 @@ class Ctree extends \CDetectedModel { //extends \CDetectedModel
                     
                     foreach($_childs as $key => $_val):
                         $_subcat = (array)$_val;
-                        $tree[$key][$_subcat['SectionID']] = $_subcat;
+                        $tree[$key] = $_subcat; //[$_subcat['SectionID']]
                         if($_subcat['SectionParentID'] != 0)
-                            $tree[$key][$_subcat['SectionID']]['childs'] = $this->_getCreateTree($_subcat, $level + 1);
+                            $tree[$key]['childs'] = $this->_getCreateTree($_subcat, $level + 1); //[$_subcat['SectionID']]
                         
                     endforeach;
                     

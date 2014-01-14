@@ -6,8 +6,6 @@ class TreeController extends \Controller
 
 	private $_model;
         
-       
-        
         /**
          * construct
          */
@@ -22,18 +20,12 @@ class TreeController extends \Controller
          */
         public function actionIndex() {
             $this->layout( false );
-            
             $_model = \init::app() -> getModels('tree/ctree');
-            // $_tree = $_model -> getTree(); - old
-            
             $_tree = $_model -> getTree();
             
-            
-            echo "<pre>";
-            var_dump( $_tree );
-            echo "</pre>";
-            
-            $this->render('index');
+            $this->render('index', array(
+                'tree' => $_tree
+            ));
         }
         
 }
