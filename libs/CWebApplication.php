@@ -85,8 +85,8 @@ class CWebApplication extends \CApplication {
         /* load model */
         private $_model = false;
 
-        private $_tree_sections = array();
-        private $_tree_section = array();
+        private $_tree_sections = null;
+        private $_tree_section = null;
         private $_tree_params = false;
         
 
@@ -149,7 +149,7 @@ class CWebApplication extends \CApplication {
             if(empty($this->_tree_params)) {
                 $this->_tree_params = $_params;
             }
-            return $this;
+           return $this;
         }
         
 	/**
@@ -309,49 +309,51 @@ class CWebApplication extends \CApplication {
 	 */
 	public function createController($route, $owner=null) {
                 $this -> parseAlies($route);
-            
+                
                 if($owner===null)
                     $owner=$this;
                 //var_dump($route);die('stop');
                 if( trim($route,'/') !== '' and _detected == 'front') {
                     
                     // load section
-                    if($_section = $this->getTreeSection()) {
-                        $route = $_section['Controller'].'/'.$_section['Action']; 
+                    if($_section = $this->getTreeSection() and is_array($_section) and count($_section) > 0) {
+                        
+                        if(isset($_section['Controller']) and !empty($_section['Controller'])) {
+                            $_sec_action = (isset($_section['Action']) and !empty($_section['Action'])) ? $_section['Action'] : 'index';
+                            $route = $_section['Controller'].'/'.$_sec_action; 
+                        }
                         // load params
                         if($_params = $this->getTreeParams() and isset($route) and !empty($route)) {
                             $manager=$this->getUrlManager();
                             $manager->parsePathInfo((string)$_params);
                         }
+                        
+                        
                     }    
                     
                     
                 } // load DB controller and action
                 else if(($route=trim($route,'/'))==='') {
                     $route = $owner->defaultController;
-                } else if( _detected == 'admin' ) {
-                    // if(!isset($route) and empty($route)) { 
-                    //    $route = false;
-                    // } else {
+                } else if( _detected == 'admin' and trim($route,'/') !== '' ) {
                     
                         // load section
-                        if($_section = $this->getTreeSection()) {
-                            $route = $_section['Controller'].'/'.$_section['Action']; 
+                        if($_section = $this->getTreeSection() and is_array($_section) and count($_section) > 0) {
+                            if(isset($_section['Controller']) and !empty($_section['Controller'])) {
+                                $_sec_action = (isset($_section['Action']) and !empty($_section['Action'])) ? $_section['Action'] : 'index';
+                                $route = $_section['Controller'].'/'.$_sec_action; 
+                            }
                             // load params
                             if($_params = $this->getTreeParams() and isset($route) and !empty($route)) {
                                 $manager=$this->getUrlManager();
                                 $manager->parsePathInfo((string)$_params);
                             }
                         }   
-                        	
-                    // }    
-                    
-                    
-                    
+                   
                 } else {
                     $route= false; 
                 }
-                 
+                
                 
                 
 //                    if(($route=trim($route,'/'))==='')
@@ -457,6 +459,8 @@ class CWebApplication extends \CApplication {
                 
             }
             
+            
+            
             $section = $_db -> query( "SELECT SectionController as Controller, 
                                                  SectionAction as Action, 
                                                  SectionUrl as url
@@ -465,7 +469,8 @@ class CWebApplication extends \CApplication {
                                                             AND OwnerID = '".$_owner_code."'
                                                             AND SectionType = '".$_type."'    
                                                             AND hidden = 0" ) -> fetchAll(); 
-               
+            
+            
             
                 if(is_array($section) and count($section) > 0) {
                     $_trees = array();

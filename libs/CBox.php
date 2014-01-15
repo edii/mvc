@@ -153,10 +153,14 @@ class CBox extends \CApplicationComponent
                     
                     //\init::app()->setTheme( false ); 
                     
+                    
+                
                     list($controller) = \init::app()->createController((string)$_run[0]);
                     $controller -> layout = false;
                     $method='action'.(string)$_run[1];
                     $_run = $controller->$method();
+                    
+                    
                     //$this->init();
                     //var_dump( $url );    
                     
