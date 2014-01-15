@@ -243,6 +243,7 @@ class CUrlManager extends \CApplicationComponent
 	 */
 	public function parseUrl($request)
 	{
+                
 		if($this->getUrlFormat()===self::PATH_FORMAT)
 		{
 			$rawPathInfo=$request->getPathInfo();
