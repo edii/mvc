@@ -19,17 +19,13 @@ class HomeController extends \Controller
          * construct
          */
         public function init() {
-           
+           $this -> _model = \init::app() -> getModels('auth/users');
         }
         
         /**
          * load index admin
          */
 	public function actionIndex() {
-            $this -> _model = \init::app() -> getModels('auth/users');
-            
-            // $this -> _model = \init::app() -> getModels('auth/users');
-            // var_dump( $this -> _model ); die('stop');
             
             $_session = \init::app() -> getSession() -> all_userdata();
             $this ->_auth = $this -> _model -> getValidate() -> getSession();
@@ -135,8 +131,7 @@ class HomeController extends \Controller
         
         public function actionOwner() {
             $this->layout( false );
-            $this -> _model = \init::app() -> getModels('auth/users');
-           
+            
             $this->render('owner', array(
                         'validate' => $this -> _model -> getRight(),
                         '_session' =>  $this -> _model -> getValidate() -> getSession()
