@@ -75,6 +75,16 @@ class HelloController extends \Controller
                 echo "SUbCat";
              
 	}
+        
+        public function actionSubcat2() {
+            
+                echo "<pre>";
+                var_dump( $_REQUEST );
+                echo "</pre>";
+            
+                echo "SUbCat2";
+             
+	}
 
 	public function actionIndex() {
             

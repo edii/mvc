@@ -37,7 +37,7 @@ class Ctree extends \CDetectedModel { //extends \CDetectedModel
     public function getTree() {
         
         $_fields = 'SectionID, SectionParentID, SectionAlias, SectionUrl, SectionType, SectionName';
-        $_where = " SectionParentID = 0 AND SectionID <> 0 "; //AND SectionType = '".$this -> _type."'
+        $_where = " SectionParentID = 0 AND SectionID <> 0 AND SectionType = '".$this -> _type."'"; //AND SectionType = '".$this -> _type."'
         $_order = ' ORDER BY TimeCreated';
         $_limit = '';
         
@@ -72,9 +72,10 @@ class Ctree extends \CDetectedModel { //extends \CDetectedModel
                                                 'SectionType',
                                                 'SectionName'
                                                 ));
-                $sql ->condition('SectionParentID', $section['SectionID'], '=')
-                        ->condition('OwnerID', $this->_owner_code, '=')
-                        ->condition('hidden', 0, '='); //->condition('SectionType', $this -> _type, '=')
+                $sql ->condition('SectionType', $this -> _type, '=') 
+                     ->condition('SectionParentID', $section['SectionID'], '=')
+                     ->condition('OwnerID', $this->_owner_code, '=')
+                     ->condition('hidden', 0, '='); //->condition('SectionType', $this -> _type, '=')
 
                 $_childs = $sql -> execute()->fetchAll(); //fetchAll()
             

@@ -308,13 +308,13 @@ class CWebApplication extends \CApplication {
 	 * Creates a controller instance based on a route.
 	 */
 	public function createController($route, $owner=null) {
+                $this -> parseAlies($route);
             
                 if($owner===null)
                     $owner=$this;
                 //var_dump($route);die('stop');
                 if( trim($route,'/') !== '' and _detected == 'front') {
                     
-                    $this -> parseAlies($route);
                     // load section
                     if($_section = $this->getTreeSection()) {
                         $route = $_section['Controller'].'/'.$_section['Action']; 
@@ -330,10 +330,10 @@ class CWebApplication extends \CApplication {
                 else if(($route=trim($route,'/'))==='') {
                     $route = $owner->defaultController;
                 } else if( _detected == 'admin' ) {
-                    if(!isset($route) and empty($route)) { 
-                        $route = false;
-                    } else {
-                        $this -> parseAlies($route);
+                    // if(!isset($route) and empty($route)) { 
+                    //    $route = false;
+                    // } else {
+                    
                         // load section
                         if($_section = $this->getTreeSection()) {
                             $route = $_section['Controller'].'/'.$_section['Action']; 
@@ -342,10 +342,9 @@ class CWebApplication extends \CApplication {
                                 $manager=$this->getUrlManager();
                                 $manager->parsePathInfo((string)$_params);
                             }
-                        }    
-
+                        }   
                         	
-                    }    
+                    // }    
                     
                     
                     
@@ -432,7 +431,7 @@ class CWebApplication extends \CApplication {
          */
         
         protected function parseAlies($route) {
-            
+            $_type = \init::app() -> _getPanel();
             $_owner_code = \init::app() -> getOwner() -> getOwnerCode();
             $_db = \init::app() -> getDBConnector();
             
@@ -456,10 +455,7 @@ class CWebApplication extends \CApplication {
                     $_route = implode(',', $_arr_tree);
                 }
                 
-                
             }
-            
-            
             
             $section = $_db -> query( "SELECT SectionController as Controller, 
                                                  SectionAction as Action, 
@@ -467,10 +463,10 @@ class CWebApplication extends \CApplication {
                                           FROM section 
                                           WHERE SectionUrl IN (".$_route.") 
                                                             AND OwnerID = '".$_owner_code."'
+                                                            AND SectionType = '".$_type."'    
                                                             AND hidden = 0" ) -> fetchAll(); 
-                
-                
-                
+               
+            
                 if(is_array($section) and count($section) > 0) {
                     $_trees = array();
                     foreach($section as $key => $value) {
