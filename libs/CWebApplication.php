@@ -459,8 +459,6 @@ class CWebApplication extends \CApplication {
                 
             }
             
-            
-            
             $section = $_db -> query( "SELECT SectionController as Controller, 
                                                  SectionAction as Action, 
                                                  SectionUrl as url
