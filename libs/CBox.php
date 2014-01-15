@@ -156,7 +156,7 @@ class CBox extends \CApplicationComponent
                     
                     
                 
-                    list($controller) = \init::app()->createController($_run[0].'/'.$_run[1], null, true);
+                    list($controller) = \init::app()->createController($_run[0], null, true);
                     $controller -> layout = false;
                     $method='action'.(string)$_run[1];
                     $_run = $controller->$method();
