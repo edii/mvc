@@ -9,11 +9,17 @@ class HomeController extends \Controller
         private $_auth = false;
         private $_validate = false;
         
-        /**
+//       function __construct($id, $module = null) {
+//           parent::__construct($id, $module);
+//           //$this -> _model = \init::app() -> getModels('auth/users');
+//       }
+
+
+       /**
          * construct
          */
         public function init() {
-            $this -> _model = \init::app() -> getModels('auth/users');
+           $this -> _model = \init::app() -> getModels('auth/users');
         }
         
         /**
@@ -22,13 +28,8 @@ class HomeController extends \Controller
 	public function actionIndex() {
             
             $_session = \init::app() -> getSession() -> all_userdata();
-            $this ->_auth = $this -> _model 
-                            -> getValidate()
-                            -> getSession();
-            
-            
-            
-                    
+            $this ->_auth = $this -> _model -> getValidate() -> getSession();
+           
             
             if($this ->_auth) :
                 $this->_validate = true; 
@@ -128,26 +129,19 @@ class HomeController extends \Controller
         
         
         
-        public function actionDB() {
-            $this->layout( 'column1' );
+        public function actionOwner() {
+            $this->layout( false );
             
-            echo "DB";
-            
-            $this->render('db', array(
-			'dataProvider'=>'Admin',
-            ));
-            
+            $this->render('owner', array(
+                        'validate' => $this -> _model -> getRight(),
+                        '_session' =>  $this -> _model -> getValidate() -> getSession()
+                    ));
+            // echo 'owner';
 
 	}
         
         public function actionTest() {
-            $this->layout( false );
             
-            echo "load test params!";
-            
-            $this->render('test', array(
-			'dataProvider'=>'Admin',
-            ));
            
         }
 }

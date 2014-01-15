@@ -2,7 +2,7 @@
 
 class TreeController extends \Controller
 {
-	public $layout = 'dashboard'; //'column1'
+	public $layout = false; //'column1'
 
 	private $_model;
         
