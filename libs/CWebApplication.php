@@ -132,21 +132,21 @@ class CWebApplication extends \CApplication {
          */
         
         protected function setTreeSection( $_tree ) {
-            if(empty($this->_tree_section)) {
+            if(isset($_tree) and !empty($_tree)) {
                 $this->_tree_section = $_tree;
             }
             return $this;
         }
         
         protected function setTreeSections( $_trees ) {
-            if(empty($this->_tree_sections)) {
+            if(isset($_trees) and !empty($_trees)) {
                 $this->_tree_sections = $_trees;
             }
             return $this;
         }
         
         protected function setTreeParams( $_params ) {
-            if(empty($this->_tree_params)) {
+            if(isset($_params) and !empty($_params)) {
                 $this->_tree_params = $_params;
             }
            return $this;
@@ -307,7 +307,9 @@ class CWebApplication extends \CApplication {
 	/**
 	 * Creates a controller instance based on a route.
 	 */
-	public function createController($route, $owner=null) {
+	public function createController($route, $owner=null, $_box = false) {
+                
+            
                 $this -> parseAlies($route);
                 
                 if($owner===null)
@@ -338,7 +340,9 @@ class CWebApplication extends \CApplication {
                 } else if( _detected == 'admin' and trim($route,'/') !== '' ) {
                     
                         // load section
-                        if($_section = $this->getTreeSection() and is_array($_section) and count($_section) > 0) {
+                        if($_section = $this->getTreeSection() and is_array($_section) and count($_section) > 0 and $_box == false) {
+                            
+                            
                             if(isset($_section['Controller']) and !empty($_section['Controller'])) {
                                 $_sec_action = (isset($_section['Action']) and !empty($_section['Action'])) ? $_section['Action'] : 'index';
                                 $route = $_section['Controller'].'/'.$_sec_action; 
@@ -353,6 +357,8 @@ class CWebApplication extends \CApplication {
                 } else {
                     $route= false; 
                 }
+                
+                
                 
                 
                 
@@ -458,6 +464,8 @@ class CWebApplication extends \CApplication {
                 }
                 
             }
+            
+            
             
             $section = $_db -> query( "SELECT SectionController as Controller, 
                                                  SectionAction as Action, 

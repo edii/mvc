@@ -17,6 +17,7 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
     
     public function init() {
         self::$db = \init::app() -> getDBConnector();
+        
     }
     
     public function attributeNames() {
@@ -27,6 +28,7 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
      * input ( create fields )
      */
     public function getValidate($login = false, $password = false) {
+       
         $this->_users = false;
         
         if($login and $password) {
@@ -55,6 +57,8 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
             endif; 
         }
         
+        
+        
         return $this;
         
     }
@@ -73,7 +77,7 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
         return (is_array($this->_users) and count($this->_users) > 0) ? $this->_users : false;
     }
     
-    protected function getSessionValidate($login = false, $password = false) {
+    public function getSessionValidate($login = false, $password = false) {
         $_session = \init::app() -> getSession() -> all_userdata();
         if($login and $password) {
             $_login = $this->getLogin();
