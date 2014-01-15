@@ -85,6 +85,10 @@ class CWebApplication extends \CApplication {
         /* load model */
         private $_model = false;
 
+        private $_tree_sections = null;
+        private $_tree_section = null;
+        private $_tree_params = false;
+        
 
         /**
 	 * Processes the current request.
@@ -104,6 +108,50 @@ class CWebApplication extends \CApplication {
 		$this->runController($route);
 	}
 
+        /**
+         * Выгрузка дерева Section
+         * return array $_tree_section
+         */
+        
+        public function getTreeSection() {
+            return $this->_tree_section;
+        }
+        
+        public function getTreeSections() {
+            return $this->_tree_sections;
+        }
+        
+        public function getTreeParams() {
+            return $this->_tree_params;
+        }
+        
+        /**
+         * Загрузка дерева Section
+         * input (array) $_tree
+         * return array $_tree_section
+         */
+        
+        protected function setTreeSection( $_tree ) {
+            if(empty($this->_tree_section)) {
+                $this->_tree_section = $_tree;
+            }
+            return $this;
+        }
+        
+        protected function setTreeSections( $_trees ) {
+            if(empty($this->_tree_sections)) {
+                $this->_tree_sections = $_trees;
+            }
+            return $this;
+        }
+        
+        protected function setTreeParams( $_params ) {
+            if(empty($this->_tree_params)) {
+                $this->_tree_params = $_params;
+            }
+           return $this;
+        }
+        
 	/**
 	 * Registers the core application components.
 	 * This method overrides the parent implementation by registering additional core components.
@@ -260,18 +308,53 @@ class CWebApplication extends \CApplication {
 	 * Creates a controller instance based on a route.
 	 */
 	public function createController($route, $owner=null) {
-            
+                $this -> parseAlies($route);
+                
                 if($owner===null)
                     $owner=$this;
                 //var_dump($route);die('stop');
-                if($_section = $this -> parseAlies($route)) {
-                    $route = $_section['Controller'].'/'.$_section['Action']; 
+                if( trim($route,'/') !== '' and _detected == 'front') {
+                    
+                    // load section
+                    if($_section = $this->getTreeSection() and is_array($_section) and count($_section) > 0) {
+                        
+                        if(isset($_section['Controller']) and !empty($_section['Controller'])) {
+                            $_sec_action = (isset($_section['Action']) and !empty($_section['Action'])) ? $_section['Action'] : 'index';
+                            $route = $_section['Controller'].'/'.$_sec_action; 
+                        }
+                        // load params
+                        if($_params = $this->getTreeParams() and isset($route) and !empty($route)) {
+                            $manager=$this->getUrlManager();
+                            $manager->parsePathInfo((string)$_params);
+                        }
+                        
+                        
+                    }    
+                    
+                    
                 } // load DB controller and action
                 else if(($route=trim($route,'/'))==='') {
                     $route = $owner->defaultController;
+                } else if( _detected == 'admin' and trim($route,'/') !== '' ) {
+                    
+                        // load section
+                        if($_section = $this->getTreeSection() and is_array($_section) and count($_section) > 0) {
+                            if(isset($_section['Controller']) and !empty($_section['Controller'])) {
+                                $_sec_action = (isset($_section['Action']) and !empty($_section['Action'])) ? $_section['Action'] : 'index';
+                                $route = $_section['Controller'].'/'.$_sec_action; 
+                            }
+                            // load params
+                            if($_params = $this->getTreeParams() and isset($route) and !empty($route)) {
+                                $manager=$this->getUrlManager();
+                                $manager->parsePathInfo((string)$_params);
+                            }
+                        }   
+                   
                 } else {
                     $route= false; 
                 }
+                
+                
                 
 //                    if(($route=trim($route,'/'))==='')
 //                            $route=$owner->defaultController;
@@ -350,28 +433,70 @@ class CWebApplication extends \CApplication {
          */
         
         protected function parseAlies($route) {
-            
-            
+            $_type = \init::app() -> _getPanel();
+            $_owner_code = \init::app() -> getOwner() -> getOwnerCode();
             $_db = \init::app() -> getDBConnector();
-//             var_dump($route); die('stop');
+            
             if(!strpos($route,'/')){
-                $_route = $route;
+                $_route = $route.'/';
             } else {
-                $_route = explode('/', $route);
-
-                if(is_array($_route) and count($_route) > 0) :
-                    foreach($_route as $_key => $_value):
-                        if(empty($_value) or $_value == '') unset($_route[$_key]);
-                    endforeach;
-                endif;
-                $_route = array_pop( $_route );
+                $_route = $route.'/';
             }
-            if($section = $_db -> query( "SELECT SectionController as Controller, 
-                                                 SectionAction as Action 
-                                          FROM section WHERE SectionAlias LIKE '".  htmlspecialchars(trim($_route))."'" )-> fetchAssoc()) {
-                return $section;
+            
+            // parce url
+            $_tree = explode('/', $_route);
+            if(is_array($_tree) and count($_tree) > 0) {
+                $_arr_tree = array();
+                $_count = count($_tree) - 1;
+                for($i = 0; $i <= $_count; $i++) {
+                   if($i > 0) 
+                    $_arr_tree[] = "'".implode('/', array_slice ($_tree, 0,  $i))."'";
+                }
+                
+                if(is_array($_arr_tree) and count($_arr_tree) > 0) {
+                    $_route = implode(',', $_arr_tree);
+                }
+                
             }
-            return null;
+            
+            
+            
+            $section = $_db -> query( "SELECT SectionController as Controller, 
+                                                 SectionAction as Action, 
+                                                 SectionUrl as url
+                                          FROM section 
+                                          WHERE SectionUrl IN (".$_route.") 
+                                                            AND OwnerID = '".$_owner_code."'
+                                                            AND SectionType = '".$_type."'    
+                                                            AND hidden = 0" ) -> fetchAll(); 
+            
+            
+            
+                if(is_array($section) and count($section) > 0) {
+                    $_trees = array();
+                    foreach($section as $key => $value) {
+                       $_trees[$key] = (array)$value; 
+                    }
+                    $this->setTreeSections($_trees);
+                    
+                    $_tree = array_pop($_trees);
+                    $this->setTreeSection($_tree);
+                    // load params
+                    if($_post = strrpos($route, $_tree['url']) !== false) {
+                        $_start = $_post + strlen($_tree['url']);
+                        $_end = strlen($route);
+                       
+                        $_params = substr($route, $_start, $_end);
+                        $this->setTreeParams( $_params );
+                    }
+                   
+                    return $this;
+                    
+                } else {
+                    return null;
+                }
+                
+            
         }
         
 	/**
@@ -379,8 +504,8 @@ class CWebApplication extends \CApplication {
 	 * @param string $pathInfo path info
 	 * @return string action ID
 	 */
-	protected function parseActionParams($pathInfo)
-	{
+	protected function parseActionParams($pathInfo) {
+            
 		if(($pos=strpos($pathInfo,'/'))!==false)
 		{
 			$manager=$this->getUrlManager();

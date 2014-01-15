@@ -21,10 +21,6 @@ class HomeController extends \Controller
          */
 	public function actionIndex() {
             
-//            echo "<pre>";
-//            var_dump( $_COOKIE );
-//            echo "</pre>"; die('stop');
-            
             $_session = \init::app() -> getSession() -> all_userdata();
             $this ->_auth = $this -> _model 
                             -> getValidate()
