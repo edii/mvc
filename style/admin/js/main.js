@@ -126,10 +126,10 @@ $(document).ready(function(){
 	//------------- Navigation -------------//
 
 	mainNav = $('.mainnav>ul>li');
-	mainNav.find('ul').siblings().addClass('hasUl').append('<span class="hasDrop icon16 icomoon-icon-arrow-down-2"></span>');
-	mainNavLink = mainNav.find('a').not('.sub a');
+	mainNav.find('ul').siblings().addClass('hasUl').append('<span class="hasDrop icon16 icomoon-icon-arrow-down-2 section-item-control-arrow-down"></span>');
+	mainNavLink = mainNav.find('.section-item-control').not('.sub .section-item-control');
 	mainNavLinkAll = mainNav.find('a');
-	mainNavSubLink = mainNav.find('.sub a').not('.sub li .sub a');
+	mainNavSubLink = mainNav.find('.section-item-control-arrow-down').not('.sub li .sub .section-item-control-arrow-down');
 	mainNavCurrent = mainNav.find('a.current');
 
 	/*Auto current system in main navigation */
@@ -194,23 +194,23 @@ $(document).ready(function(){
 	//click magic
 	mainNavLink.click(function(event) {
 		$this = $(this);
-		if($this.hasClass('hasUl')) {
+		if($this.parent().hasClass('hasUl')) {
 			event.preventDefault();
-			if($this.hasClass('drop')) {
-				$(this).siblings('ul.sub').slideUp(250).siblings().toggleClass('drop');
+			if($this.parent().hasClass('drop')) {
+                                $(this).parent().siblings('ul.sub').slideUp(250).siblings().toggleClass('drop');
 			} else {
-				$(this).siblings('ul.sub').slideDown(250).siblings().toggleClass('drop');
+				$(this).parent().siblings('ul.sub').slideDown(250).siblings().toggleClass('drop');
 			}			
 		} 
 	});
 	mainNavSubLink.click(function(event) {
 		$this = $(this);
-		if($this.hasClass('hasUl')) {
+		if($this.parent().hasClass('hasUl')) {
 			event.preventDefault();
-			if($this.hasClass('drop')) {
-				$(this).siblings('ul.sub').slideUp(250).siblings().toggleClass('drop');
+			if($this.parent().hasClass('drop')) {
+				$(this).parent().siblings('ul.sub').slideUp(250).siblings().toggleClass('drop');
 			} else {
-				$(this).siblings('ul.sub').slideDown(250).siblings().toggleClass('drop');
+				$(this).parent().siblings('ul.sub').slideDown(250).siblings().toggleClass('drop');
 			}			
 		} 
 	});
