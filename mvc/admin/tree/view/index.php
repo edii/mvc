@@ -15,7 +15,7 @@
             <?php foreach ($tree as $_items): ?>
                 <li>
                     <div class="section-item">
-                        <a href="<?= $_items['SectionUrl'] ?>">
+                        <a href="/<?= _request_uri ?>/<?= $_items['SectionUrl'] ?>">
                             <span class="icon16 icomoon-icon-stats-up"></span>
                             <?= $_items['SectionName'] ?> 
                         </a>
@@ -26,7 +26,7 @@
                     <?php if(is_array($_items['childs']) and count($_items['childs']) > 0): ?>
                         <ul class="sub">
                         <?php foreach($_items['childs'] as $_child): ?>
-                            <li><a href="<?= $_child['SectionUrl'] ?>"><span class="icon16 icomoon-icon-file"></span><?= $_child['SectionName'] ?></a></li>
+                            <li><a href="/<?= _request_uri ?>/<?= $_child['SectionUrl'] ?>"><span class="icon16 icomoon-icon-file"></span><?= $_child['SectionName'] ?></a></li>
                         <?php endforeach; ?>
                         </ul>    
                     <?php endif; ?>
