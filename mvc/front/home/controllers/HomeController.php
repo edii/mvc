@@ -65,30 +65,8 @@ class HomeController extends \Controller
 	public function actionIndex()
 	{
             
-            // detected owner
-            echo "Owner ";
-            $_owner = \init::app() -> getOwner()-> getOwnerID();
-            echo $_owner;
-            
-            echo "<hr />";
-            
-            //echo "path = ".PATH; die('stop');
-                    
-            //$img = ResizeImages::createImage(PATH.'/style/front/image/sisky.jpg');
-            //$img->cropCenter('4pr', '3pr')->save(PATH.'/style/front/image/crop_image.jpg');
-            
-             echo "layout ---- = ".$this->layout;
-             echo "<hr />";
-            
-            $themes = \init::app()->getTheme( 'home' );
-                   
-            $_gets = $this->getActionParams();
-            
-            $dataProvider = ['blaaa', 'ddddd'];
-            
-            
-            $this->render('index', array(
-			'dataProvider'=>$dataProvider,
-		));
+            echo '<pre>';
+            var_dump($_REQUEST);
+            echo '</pre>';
 	}
 }
