@@ -1,4 +1,5 @@
- <!-- Sidebar .disk-space-widget -->
+<?php if($validate): ?>
+<!-- Sidebar .disk-space-widget -->
  <div class="sidebar-widget">
     <h5 class="title">Disk Space Usage</h5>
     <div class="content">
@@ -12,3 +13,4 @@
 
 </div>
  <!-- End .disk-space-widget -->
+ <?php endif; ?>

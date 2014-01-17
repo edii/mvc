@@ -1,3 +1,4 @@
+<?php if($validate): ?>
 <div class="container-fluid">
 
     <div class="errorContainer">
@@ -15,3 +16,4 @@
     </div>
 
 </div>
+<?php endif; ?>

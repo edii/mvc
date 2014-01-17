@@ -150,7 +150,7 @@ class HomeController extends \Controller
         public function actionOwner() {
             $this->layout( false );
             
-            
+            if(!$this -> _model -> getRight()) $this -> redirect('/'._request_uri.'/home/login');
             // view
             $this->render('owner', array(
                         'listing'   => $this->_owner -> getOwners(),

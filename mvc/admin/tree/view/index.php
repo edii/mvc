@@ -3,7 +3,7 @@
 //    var_dump( $tree );
 //    echo "</pre>";
 ?>
-<?php if(is_array($tree) and count($tree) > 0): ?>
+<?php if(is_array($tree) and count($tree) > 0 and $validate): ?>
 <div class="sidenav">
 
     <div class="sidebar-widget" style="margin: -1px 0 0 0;">

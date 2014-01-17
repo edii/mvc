@@ -1,3 +1,4 @@
+<?php if($validate): ?>
 <!-- Sidebar .site-info-widget -->
 <div class="sidebar-widget">
     <h5 class="title">Right now</h5>
@@ -14,3 +15,4 @@
 
 </div>
 <!-- End .site-info-widget -->
+<?php endif; ?>
