@@ -325,4 +325,12 @@ abstract class CBaseController extends CComponent
         }
         
         
+        /**
+         * getUrl view
+         */
+        public function _getUrl() {
+            $_url = \init::app()->getRequest()->getUrl();
+            return ($_url) ? $_url: null;
+        }
+        
 }

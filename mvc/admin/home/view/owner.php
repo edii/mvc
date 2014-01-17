@@ -53,9 +53,9 @@
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#"><span class="icon-add"></span> Добавить </a></li>    
-                                    <li><a href="#"><span class="icon-pencil"></span> Редактировать </a></li>
-                                    <li><a href="#"><span class="icon-trash"></span> Удалить </a></li>
+                                    <li><a href="<?= $this->_getUrl() ?>/add"><span class="icon-add"></span> Добавить </a></li>    
+                                    <li><a href="<?= $this->_getUrl() ?>/edit"><span class="icon-pencil"></span> Редактировать </a></li>
+                                    <li><a class="delete" href="<?= $this->_getUrl() ?>/delete"><span class="icon-trash"></span> Удалить </a></li>
                                 </ul>
                             </form>
 
@@ -96,8 +96,8 @@
                                         <td class="chChildren"><input type="checkbox" name="checkbox" value="1" class="styled" /></td>
                                         <td>
                                             <div class="controls center">
-                                                <a href="#" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
-                                                <a href="#" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
+                                                <a href="<?= $this->_getUrl() ?>/edit/<?= $_item -> OwnerID ?>" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
+                                                <a class="delete" href="<?= $this->_getUrl() ?>/delete/<?= $_item -> OwnerID ?>" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
                                             </div>
                                         </td>
                                       </tr>
