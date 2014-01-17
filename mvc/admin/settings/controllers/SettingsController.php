@@ -1,8 +1,8 @@
 <?php
 
-class HelloController extends \Controller
+class SettingsController extends \Controller
 {
-	public $layout = 'dashboard'; //'column1'
+	public $layout = 'dashboard';
 
 	private $_model;
         
@@ -16,5 +16,37 @@ class HelloController extends \Controller
 	public function actionIndex() {
             
              $this->render('index');
-	}          
+	}
+        
+        /*
+         * (sidebar left) bandwidth-transfer-widget
+         */
+        public function actionBandwidthTransfer() {
+            
+             $this->render('bandwidth_transfer');
+	}
+        
+        /*
+         * (sidebar left) disk-space-widget
+         */
+        public function actionDiskSpace() {
+            
+             $this->render('disk_space');
+	}
+        
+        /*
+         * (sidebar left) stats-widget
+         */
+        public function actionStats() {
+            
+             $this->render('stats');
+	}
+        
+        /*
+         * (sidebar left) site-info-widget
+         */
+        public function actionSiteInfo() {
+            
+             $this->render('site_info');
+	}
 }
