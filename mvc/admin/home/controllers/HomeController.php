@@ -95,6 +95,20 @@ class HomeController extends \Controller
 
 	}
         
+        /**
+         * controller detected Header
+         * return (array) _session, validate load header 
+         */
+        public function actionHeader() {
+            $this->layout( false );
+            
+            
+            $this->render('header', array(
+                        'validate' => $this -> _model -> getRight(),
+                        '_session' => $this -> _model -> getValidate() -> getSession()
+                    ));
+        }
+        
         /* 
          * controller Login 
          */
