@@ -158,31 +158,15 @@ class CBox extends \CApplicationComponent
                 
                     list($controller) = \init::app()->createController($_run[0], null, true);
                     $controller -> layout = false;
-                    $method='action'.(string)$_run[1];
-                    $_run = $controller->$method();
                     
+                    //$controller->init();
+                    //$method='action'.(string)$_run[1];
+                    //$_run = $controller->$method();
                     
-                    //$this->init();
-                    //var_dump( $url );    
+                    $controller->init();
+                    $controller->createAction((string)$_run[1]) -> run();
                     
-                    //$widget=$this->createWidget($className,$properties);
-                    //$widget->run();
-                    //return $widget;
-                    
-                    //$p = \init::app()->createController( (string)$_run[0] ); // name controllers
-                    //$_controller = $p[0]->createAction((string)$_run[1]) -> run();
-                    //unset($p);
-                    
-                    //$method='action'.$_controller[ $boxID ]->getId();
-                    //$_controller[ $boxID ]->getController()->$method();
-                    
-                    //$_controller[ $boxID ]->getController()->layout = false;
-                    //$_controller[ $boxID ]->run();
-                    //$this->getController()->$method();
-                    
-                     //var_dump( $_controller[ $boxID ]->getController(), $method );
-                     
-                   // $run = $p[0] ->createAction((string)$_run[1]) -> run(); // load action controllers
+                   
                 endif;
             } elseif( is_array( $boxID ) ) {
                 echo "<hr /> box load";
