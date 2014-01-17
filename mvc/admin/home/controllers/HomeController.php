@@ -9,8 +9,7 @@ class HomeController extends \Controller
         private $_auth = false;
         private $_validate = false;
         
-        // owner (model)
-        private $_owner = false;
+        
         
 //       function __construct($id, $module = null) {
 //           parent::__construct($id, $module);
@@ -23,9 +22,6 @@ class HomeController extends \Controller
          */
         public function init() {
            $this -> _model = \init::app() -> getModels('auth/users');
-           
-           if(empty($this -> _owner))
-            $this -> _owner = \init::app() -> getModels('owner/mowner');
         }
         
         /**
@@ -143,23 +139,7 @@ class HomeController extends \Controller
         }
         
         
-        /**
-         * Owner site ( settings globalls elements )
-         */
-        
-        public function actionOwner() {
-            $this->layout( false );
-            
-            if(!$this -> _model -> getRight()) $this -> redirect('/'._request_uri.'/home/login');
-            // view
-            $this->render('owner', array(
-                        'listing'   => $this->_owner -> getOwners(),
-                        'validate'  => $this -> _model -> getRight(),
-                        '_session'  =>  $this -> _model -> getValidate() -> getSession()
-                    ));
 
-	}
-        
         public function actionTest() {
             
            
