@@ -174,6 +174,9 @@
     <!-- Init plugins -->
     <script type="text/javascript" src="/style/admin/js/main.js"></script><!-- Core js functions -->
     <script type="text/javascript" src="/style/admin/js/dashboard.js"></script><!-- Init plugins only for page -->
+    
+    <!-- Error -->
+    <script type="text/javascript" src="/style/admin/js/error.js"></script><!-- Error js functions -->
 
     </body>
 </html>
