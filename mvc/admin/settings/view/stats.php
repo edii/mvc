@@ -1,3 +1,4 @@
+<?php if($validate): ?>
 <!-- Sidebar .stats-widget -->
 <div class="sidebar-widget">
 <h5 class="title">Ad sense stats</h5>
@@ -58,3 +59,4 @@
 
 </div>
 <!-- End .stats-widget -->
+<?php endif; ?>

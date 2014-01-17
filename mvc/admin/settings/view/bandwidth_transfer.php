@@ -1,3 +1,4 @@
+<?php if($validate): ?>
 <!-- Sidebar .bandwidth-transfer-widget -->
 <div class="sidebar-widget">
     <h5 class="title">Monthly Bandwidth Transfer</h5>
@@ -11,3 +12,4 @@
     </div>
 
 </div><!-- End .bandwidth-transfer-widget -->
+<?php endif; ?>

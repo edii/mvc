@@ -23,7 +23,9 @@ class SettingsController extends \Controller
          */
         public function actionBandwidthTransfer() {
             
-             $this->render('bandwidth_transfer');
+             $this->render('bandwidth_transfer', array(
+                 'validate' => $this -> _model -> getRight()
+             ));
 	}
         
         /*
@@ -31,7 +33,9 @@ class SettingsController extends \Controller
          */
         public function actionDiskSpace() {
             
-             $this->render('disk_space');
+             $this->render('disk_space', array(
+                 'validate' => $this -> _model -> getRight()
+             ));
 	}
         
         /*
@@ -39,7 +43,9 @@ class SettingsController extends \Controller
          */
         public function actionStats() {
             
-             $this->render('stats');
+             $this->render('stats', array(
+                 'validate' => $this -> _model -> getRight()
+             ));
 	}
         
         /*
@@ -47,6 +53,8 @@ class SettingsController extends \Controller
          */
         public function actionSiteInfo() {
             
-             $this->render('site_info');
+             $this->render('site_info', array(
+                 'validate' => $this -> _model -> getRight()
+             ));
 	}
 }
