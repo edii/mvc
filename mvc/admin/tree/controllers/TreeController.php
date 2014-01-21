@@ -26,6 +26,7 @@ class TreeController extends \Controller
             
             $this->render('index', array(
                 'tree'      => $_tree,
+                'parent'    => true,
                 'validate'  => $this -> model_validate -> getRight() 
             ));
         }

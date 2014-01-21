@@ -38,8 +38,17 @@ class OwnerController extends \Controller
 
 	}
         
-        public function actionEdit() {
+        public function actionManager() {
             $this->layout( false );
+            
+            $_action = \init::app() -> getParams('action');
+            
+            if(!empty($_action) and isset($_action)) {
+                    echo "<pre>";
+                    var_dump( $_REQUEST );
+                    echo "</pre>";
+            }
+            
             
 //            echo "<pre>";
 //            var_dump( $_REQUEST );
