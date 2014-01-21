@@ -326,6 +326,25 @@ abstract class CBaseController extends CComponent
         
         
         /**
+         * getParams
+         * return (REQUEST) result
+         */
+        public function getParams() {
+            $_res = \init::app()->getRequest()->getParams();
+            return ($_res) ? $_res: null;
+        }
+        
+        /**
+         * getParam 
+         * params $_name
+         * return (GET, POST) result
+         */
+        public function getParam( $_name ) {
+            $_res = \init::app()->getRequest()->getParam( $_name );
+            return ($_res) ? $_res: null;
+        }
+        
+        /**
          * getUrl view
          */
         public function _getUrl() {

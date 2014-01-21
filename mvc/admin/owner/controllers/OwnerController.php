@@ -41,13 +41,32 @@ class OwnerController extends \Controller
         public function actionManager() {
             $this->layout( false );
             
-            $_action = \init::app() -> getParams('action');
-            
-            if(!empty($_action) and isset($_action)) {
-                    echo "<pre>";
-                    var_dump( $_REQUEST );
-                    echo "</pre>";
-            }
+            $_method = \init::app() ->getRequest() -> getParam('method');
+            if(!empty($_method) and isset($_method)) {
+                   if($_method == 'edit') {
+                       $this->render('form',array(
+                            'title'   => 'Редактирование',
+                            'listing'   => $this->_owner -> getOwners(),
+                            'validate'  => $this -> _model -> getRight(),
+                            '_session'  =>  $this -> _model -> getValidate() -> getSession()
+                        ));
+                       
+                       return;
+                   } else if($_method == 'add'){
+                       // add
+                       $this->render('form',array(
+                            'title'   => 'Добавление',
+                            'validate'  => $this -> _model -> getRight(),
+                            '_session'  =>  $this -> _model -> getValidate() -> getSession()
+                        ));
+                       return;
+                   } 
+                   
+                  
+            } 
+               // fatal error ( rediract listings owners )
+            $this ->redirect('/'._request_uri.'/error/404/');
+           
             
             
 //            echo "<pre>";
@@ -55,11 +74,11 @@ class OwnerController extends \Controller
 //            echo "</pre>";
             
             // view
-            $this->render('edit', array(
-                        'listing'   => $this->_owner -> getOwners(),
-                        'validate'  => $this -> _model -> getRight(),
-                        '_session'  =>  $this -> _model -> getValidate() -> getSession()
-                    ));
+//            $this->render('edit', array(
+//                        'listing'   => $this->_owner -> getOwners(),
+//                        'validate'  => $this -> _model -> getRight(),
+//                        '_session'  =>  $this -> _model -> getValidate() -> getSession()
+//                    ));
 
 	}
 }

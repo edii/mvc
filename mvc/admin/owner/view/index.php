@@ -47,19 +47,26 @@
                         <h4>
                             <span class="icon16 icomoon-icon-equalizer-2"></span>
                             <span>Owners controls</span>
+                            
+                             
+                            
                             <form class="box-form right" action="">
+                                <a style="margin-right: 5px;" href="<?= $this->_getUrl() ?>/manager/method/add">Добавить</a> 
+                                
                                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                                     <span class="icon16 icomoon-icon-cog-2"></span>
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="<?= $this->_getUrl() ?>/add"><span class="icon-add"></span> Добавить </a></li>    
-                                    <li><a href="<?= $this->_getUrl() ?>/edit"><span class="icon-pencil"></span> Редактировать </a></li>
-                                    <li><a class="delete" href="<?= $this->_getUrl() ?>/delete"><span class="icon-trash"></span> Удалить </a></li>
+                                    <li><a href="<?= $this->_getUrl() ?>/manager/method/hide"><span class="icon-pencil"></span> Скрыть </a></li>
+                                    <li><a href="<?= $this->_getUrl() ?>/manager/method/show"><span class="icon-pencil"></span> Отобразить </a></li>
+                                    <li><a href="<?= $this->_getUrl() ?>/manager/method/edit"><span class="icon-pencil"></span> Редактировать </a></li>
+                                    <li><a class="delete" href="<?= $this->_getUrl() ?>/manager/method/delete"><span class="icon-trash"></span> Удалить </a></li>
                                 </ul>
                             </form>
-
+                            
                         </h4>
+                        
                         <a href="#" class="minimize"> Минимизация </a>
                     </div>
                     <div class="content noPad">
@@ -96,8 +103,8 @@
                                         <td class="chChildren"><input type="checkbox" name="checkbox" value="1" class="styled" /></td>
                                         <td>
                                             <div class="controls center">
-                                                <a href="<?= $this->_getUrl() ?>/edit/<?= $_item -> OwnerID ?>" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
-                                                <a class="delete" href="<?= $this->_getUrl() ?>/delete/<?= $_item -> OwnerID ?>" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
+                                                <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $_item -> OwnerID ?>" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
+                                                <a class="delete" href="<?= $this->_getUrl() ?>/manager/method/delete/id/<?= $_item -> OwnerID ?>" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
                                             </div>
                                         </td>
                                       </tr>
