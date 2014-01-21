@@ -97,6 +97,14 @@ class CHttpRequest extends \CApplicationComponent
 		return is_array($data)?array_map(array($this,'stripSlashes'),$data):stripslashes($data);
 	}
 
+        
+        /**
+         * retun (array) $_REQUEST
+         */
+        public function getParams() {
+            return $_REQUEST;
+        }
+        
 	/**
 	 * Returns the named GET or POST parameter value.
 	 * If the GET or POST parameter does not exist, the second parameter to this method will be returned.

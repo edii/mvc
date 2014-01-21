@@ -44,22 +44,29 @@ class OwnerController extends \Controller
             $_method = \init::app() ->getRequest() -> getParam('method');
             if(!empty($_method) and isset($_method)) {
                    if($_method == 'edit') {
-                       $this->render('edit',array(
+                       $this->render('form',array(
+                            'title'   => 'Редактирование',
                             'listing'   => $this->_owner -> getOwners(),
                             'validate'  => $this -> _model -> getRight(),
                             '_session'  =>  $this -> _model -> getValidate() -> getSession()
                         ));
+                       
+                       return;
                    } else if($_method == 'add'){
                        // add
-                       $this->render('add',array(
+                       $this->render('form',array(
+                            'title'   => 'Добавление',
                             'validate'  => $this -> _model -> getRight(),
                             '_session'  =>  $this -> _model -> getValidate() -> getSession()
                         ));
+                       return;
                    } 
-            } else {
+                   
+                  
+            } 
                // fatal error ( rediract listings owners )
-               $this ->redirect('/'._request_uri.'/error/404/');
-           }
+            $this ->redirect('/'._request_uri.'/error/404/');
+           
             
             
 //            echo "<pre>";

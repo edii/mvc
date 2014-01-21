@@ -46,14 +46,18 @@
                     <div class="title">
 
                         <h4> 
-                            <span>Text fields</span>
+                            <span><?= $title ?></span>
                         </h4>
 
                     </div>
                     <div class="content">
 
-                        <form class="form-horizontal" action="#">
-
+                        <form class="form-horizontal" action="#" method="POST" >
+                            <?php if((int)$this->getParam('id')): ?>
+                                <input type="hidden" name="id" value="<?= $this->getParam('id') ?>" />
+                            <?php endif; ?>
+                            <input type="hidden" name="method" value="<?= ($this->getParam('method') == 'edit') ? 'edit': 'add' ?>" />
+                            
                             <div class="form-row row-fluid">
                                 <div class="span12">
                                     <div class="row-fluid">
