@@ -49,12 +49,27 @@ class OwnerController extends \Controller
             }
             
             if($_method == 'edit') {
-               $this->render('form',array(
-                    'title'   => 'Редактирование',
-                    'listing'   => $this->_owner -> getOwners(),
-                    'validate'  => $this -> _model -> getRight(),
-                    '_session'  =>  $this -> _model -> getValidate() -> getSession()
-                ));
+               $_id = \init::app() ->getRequest() -> getParam('id'); 
+               if((int)$_id) {
+                   
+                   // update info
+                   $_owner = \init::app() ->getRequest() -> getParam('owner');
+                   if(is_array($_owner) and count($_owner) > 0) {
+                       $this->_owner ->save(true, $_owner);
+                       
+                   } 
+                   
+                   $this->render('form',array(
+                        'title'   => 'Редактирование',
+                        'listing'   => $this->_owner -> getOwnerID($_id),
+                        'validate'  => $this -> _model -> getRight(),
+                        '_session'  =>  $this -> _model -> getValidate() -> getSession()
+                    ));
+               } else {
+                   $_error = true;
+               }
+               
+               
 
             } else if($_method == 'add'){
                // add
