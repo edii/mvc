@@ -44,6 +44,9 @@ class Mowner extends \CDetectedModel { //extends \CDetectedModel
                                                   'OwnerType',  
                                                   'OwnerDomain',
                                                   'OwnerName',
+                                                  'OwnerTitle',
+                                                  'OwnerDescription',
+                                                  'OwnerKeywords',
                                                   'OwnerIsDefault',
                                                   'OwnerImage'));
             $sql ->condition('hidden', 0, '=') 
@@ -69,6 +72,9 @@ class Mowner extends \CDetectedModel { //extends \CDetectedModel
                                                   'OwnerType',  
                                                   'OwnerDomain',
                                                   'OwnerName',
+                                                  'OwnerTitle',
+                                                  'OwnerDescription',
+                                                  'OwnerKeywords',
                                                   'OwnerIsDefault',
                                                   'OwnerImage'));
         $sql ->condition('hidden', 0, '='); 

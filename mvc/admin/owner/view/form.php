@@ -53,16 +53,17 @@
                     <div class="content">
 
                         <form class="form-horizontal" action="" method="POST" >
+                            <input type="hidden" name="method" value="<?= ($this->getParam('method') == 'edit') ? 'edit': 'add' ?>" />
+                            <!-- edit -->
                             <?php if((int)$this->getParam('id')): ?>
                                 <input type="hidden" name="owner[OwnerID]" value="<?= $this->getParam('id') ?>" />
+                                <input type="hidden" name="owner[TimeSaved]" value="<?= date('Y-m-d H:i:s') ?>" />
                             <?php endif; ?>
-                            <input type="hidden" name="method" value="<?= ($this->getParam('method') == 'edit') ? 'edit': 'add' ?>" />
-                            
-                            <?php
-                                //echo "<pre>";
-                                ///var_dump( $listing );
-                                //echo "</pre>"; die('stop');
-                            ?>
+                            <!-- add -->
+                            <?php if($this->getParam('method') == 'add'): ?>
+                                <input type="hidden" name="owner[TimeCreated]" value="<?= date('Y-m-d H:i:s') ?>" />
+                            <?php endif; ?>     
+                                
                             
                             <div class="form-row row-fluid">
                                 <div class="span12">
@@ -72,7 +73,36 @@
                                     </div>
                                 </div>
                             </div>
-
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">OwnerTitle</label>
+                                        <input class="span8" id="normalInput" type="text" name="owner[OwnerTitle]" value="<?= (isset($listing)) ? $listing['OwnerTitle'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>    
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">OwnerDescription</label>
+                                        <input class="span8" id="normalInput" type="text" name="owner[OwnerDescription]" value="<?= (isset($listing)) ? $listing['OwnerDescription'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div> 
+                                
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">OwnerKeywords</label>
+                                        <input class="span8" id="normalInput" type="text" name="owner[OwnerKeywords]" value="<?= (isset($listing)) ? $listing['OwnerKeywords'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>     
+   
+                                
                             
                             <div class="form-actions">
                                <button type="submit" class="btn btn-info">Save changes</button>

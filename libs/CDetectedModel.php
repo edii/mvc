@@ -287,7 +287,7 @@ class CDetectedModel extends \CModel
 	 */
 	public function save( $runValidation=true, $attributes=null ) {
             if(!empty($this->_table_name) and $runValidation ) {
-               if(isset($attributes[ $this->_pk ]) and !empty($attributes[ $this->_pk ])) $this->setIsNewRecord(false); // go update 
+               if(isset($attributes[ $this->_pk ]) and !empty($attributes[ $this->_pk ])) $this->setIsNewRecord(false); // go update
                return $this->getIsNewRecord() ? $this->insert($attributes) : $this->update($attributes);
             }
             
@@ -301,14 +301,17 @@ class CDetectedModel extends \CModel
             
 		if(!$this->getIsNewRecord())
 			throw new CHttpException(404, \init::t('init','The active record cannot be inserted to database because it is not new.'));
-		
+             
                 // insert
-                if(!$attributes[ $this->_pk ] or !isset($attributes[ $this->_pk ])) {
+                if(!isset($attributes[ $this->_pk ]) or empty($attributes[ $this->_pk ])) {
                     $_insert = $_coonected -> insert($this->_table_name, array('target' => 'main')) 
                             -> fields($attributes)
                             -> execute(); 
+                    
                     if(!$_insert)
-                        throw new CHttpException(404,\init::t('init','Fatal error dont insert Owner'));
+                        throw new CHttpException(404,\init::t('init','Fatal error dont insert!'));
+                    
+                    return true;
                 }
                 
 		return false;
@@ -320,14 +323,14 @@ class CDetectedModel extends \CModel
 	public function update($attributes=null) {
                 $_coonected = (self::$db === null) ? $this->getDbConnection(): self::$db;
                 
-                if($_ownerID = (int)$attributes[ $this->_pk ]) {
+                if($_id = (int)$attributes[ $this->_pk ]) {
                     unset( $attributes[ $this->_pk ] );
                     
                     $_update = $_coonected -> update($this->_table_name, array('target' => 'main')) 
                             -> fields($attributes)
-                            -> condition($this->_pk, $_ownerID, '=') -> execute(); 
+                            -> condition($this->_pk, $_id, '=') -> execute(); 
                   if(!$_update) 
-                      throw new CHttpException(404,\init::t('init','Fatal error dont update Owner'));
+                      throw new CHttpException(404,\init::t('init','Fatal error dont update!'));
 
                   return true;
                 } else {
@@ -371,8 +374,21 @@ class CDetectedModel extends \CModel
 	 * @return boolean whether the deletion is successful.
 	 * @throws CException if the record is new
 	 */
-	public function delete()
-	{
+	public function delete($attributes = null) {
+            $_coonected = (self::$db === null) ? $this->getDbConnection(): self::$db;
+                
+            if($_id = (int)$attributes[ $this->_pk ]) {
+                $_delete = $_coonected -> delete($this->_table_name, array('target' => 'main')) 
+                                       -> condition($this->_pk, $_id, '=') -> execute();
+                if(!$_delete) 
+                      throw new CHttpException(404,\init::t('init','Fatal error dont delete!'));
+                
+                return true;
+            }
+            else
+                    return false;
+            
+            
 //		if(!$this->getIsNewRecord())
 //		{
 //			Yii::trace(get_class($this).'.delete()','system.db.ar.CActiveRecord');

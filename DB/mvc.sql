@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 15, 2014 at 11:00 AM
+-- Generation Time: Jan 21, 2014 at 04:04 PM
 -- Server version: 5.5.23
 -- PHP Version: 5.4.11
 
@@ -3479,73 +3479,40 @@ INSERT INTO `note` (`NoteID`, `UserID`, `OwnerID`, `PermAll`, `TimeCreated`, `Ti
 CREATE TABLE IF NOT EXISTS `owner` (
   `OwnerID` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `UserID` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `TimeCreated` datetime NOT NULL,
-  `TimeSaved` datetime NOT NULL,
+  `TimeCreated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `TimeSaved` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `OwnerCode` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `PermAll` tinyint(1) NOT NULL DEFAULT '4',
+  `hidden` tinyint(1) NOT NULL DEFAULT '0',
   `OwnerStatus` tinyint(1) NOT NULL DEFAULT '4',
   `OwnerType` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '',
   `OwnerParentCode` varchar(30) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `OwnerGroup` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `OwnerPaymentType` varchar(30) COLLATE utf8_bin NOT NULL,
-  `OwnerPaymentStatus` varchar(30) COLLATE utf8_bin NOT NULL,
-  `OwnerPaymentTime` datetime NOT NULL,
+  `OwnerPaymentType` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT 'null',
+  `OwnerPaymentStatus` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT 'null',
+  `OwnerPaymentTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `OwnerDomain` varchar(100) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `OwnerName` text CHARACTER SET utf8 NOT NULL,
   `OwnerTitle` text CHARACTER SET utf8 NOT NULL,
   `OwnerIsDefault` char(1) COLLATE utf8_bin NOT NULL DEFAULT 'N',
   `OwnerStyle` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT 'default',
-  `OwnerOptions` text COLLATE utf8_bin NOT NULL,
-  `OwnerFunctions` text COLLATE utf8_bin NOT NULL,
-  `OwnerLocation` int(11) NOT NULL,
-  `OwnerCurrencies` varchar(255) COLLATE utf8_bin NOT NULL,
-  `OwnerCurrency` char(3) COLLATE utf8_bin NOT NULL,
-  `OwnerPriceFormat` varchar(10) COLLATE utf8_bin NOT NULL,
-  `OwnerGMT` int(2) NOT NULL,
-  `OwnerDateFormat` varchar(15) COLLATE utf8_bin NOT NULL,
-  `OwnerTimeFormat` varchar(15) COLLATE utf8_bin NOT NULL,
-  `OwnerDateTimeFormat` varchar(15) COLLATE utf8_bin NOT NULL,
+  `OwnerLocation` int(11) NOT NULL DEFAULT '1',
+  `OwnerCurrencies` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'UAH',
+  `OwnerGMT` int(2) NOT NULL DEFAULT '2',
   `OwnerCategory` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '',
   `OwnerImage` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
   `OwnerIcon` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
   `OwnerImagePreview` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
   `OwnerDescription` text COLLATE utf8_bin NOT NULL,
-  `OwnerFullDescription` text COLLATE utf8_bin NOT NULL,
   `OwnerKeywords` text CHARACTER SET utf8 NOT NULL,
-  `OwnerIntroPage` text COLLATE utf8_bin NOT NULL,
-  `OwnerHeaderCode` text COLLATE utf8_bin NOT NULL,
-  `OwnerFooterCode` text COLLATE utf8_bin NOT NULL,
+  `OwnerIntroPage` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'null',
   `OwnerCSSURL` varchar(200) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `OwnerAdCode1` text COLLATE utf8_bin NOT NULL,
-  `OwnerAdCode2` text COLLATE utf8_bin NOT NULL,
-  `OwnerAdCode3` text COLLATE utf8_bin NOT NULL,
-  `OwnerCounterCode` text COLLATE utf8_bin NOT NULL,
+  `OwnerCounterCode` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'ua',
   `OwnerAdCodeActivation` char(1) COLLATE utf8_bin NOT NULL DEFAULT '',
   `OwnerNumberOfBackLinks` int(11) unsigned NOT NULL DEFAULT '0',
   `OwnerLanguage` varchar(2) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `OwnerMail` varchar(100) COLLATE utf8_bin NOT NULL,
-  `OwnerAdministratorsEmails` varchar(100) COLLATE utf8_bin NOT NULL,
-  `OwnerSupportEmail` varchar(100) COLLATE utf8_bin NOT NULL,
-  `OwnerStyleBackgroundColor` char(7) COLLATE utf8_bin NOT NULL,
-  `OwnerStyleTextColor` char(7) COLLATE utf8_bin NOT NULL,
-  `OwnerStyleLinkColor` char(7) COLLATE utf8_bin NOT NULL,
-  `OwnerStyleTitlesColor` char(7) COLLATE utf8_bin NOT NULL,
-  `OwnerStyleTextFont` varchar(50) COLLATE utf8_bin NOT NULL,
-  `OwnerStyleTextSize` char(5) COLLATE utf8_bin NOT NULL,
-  `OwnerHTML` text COLLATE utf8_bin NOT NULL,
-  `OwnerCSS` text COLLATE utf8_bin NOT NULL,
-  `OwnerMetaTags` text COLLATE utf8_bin NOT NULL,
-  `OwnerURLFormat` varchar(5) COLLATE utf8_bin NOT NULL,
-  `OwnerFavIcon` varchar(255) COLLATE utf8_bin NOT NULL,
-  `OwnerPrintFooter` text COLLATE utf8_bin NOT NULL,
-  `OwnerPrintHeader` text COLLATE utf8_bin NOT NULL,
-  `OwnerPrintLogo` varchar(255) COLLATE utf8_bin NOT NULL,
-  `OwnerCompanyName` text COLLATE utf8_bin NOT NULL,
-  `OwnerAddress` text COLLATE utf8_bin NOT NULL,
-  `OwnerPhone` text COLLATE utf8_bin NOT NULL,
-  `OwnerFax` text COLLATE utf8_bin NOT NULL,
-  `OwnerSystemFunctions` text COLLATE utf8_bin NOT NULL,
-  `OwnerGoogleMapKey` text COLLATE utf8_bin NOT NULL,
+  `OwnerMail` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT 'null',
+  `OwnerAdministratorsEmails` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT 'null',
+  `OwnerSupportEmail` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT 'null',
   PRIMARY KEY (`OwnerID`),
   KEY `OwnerDomain` (`OwnerDomain`),
   KEY `OwnerParentID` (`OwnerParentCode`),
@@ -3555,26 +3522,25 @@ CREATE TABLE IF NOT EXISTS `owner` (
   KEY `OwnerGroup_2` (`OwnerGroup`),
   KEY `OwnerLanguage` (`OwnerLanguage`),
   KEY `OwnerNumberOfBackLinks` (`OwnerNumberOfBackLinks`),
-  KEY `TimeCreated` (`TimeCreated`),
   KEY `OwnerStatus` (`OwnerStatus`),
   KEY `OwnerPaymentType` (`OwnerPaymentType`),
   KEY `OwnerPaymentStatus` (`OwnerPaymentStatus`),
   KEY `OwnerPaymentTime` (`OwnerPaymentTime`),
-  KEY `PermAll` (`PermAll`),
+  KEY `PermAll` (`hidden`),
   KEY `OwnerCode` (`OwnerCode`),
   KEY `UserID` (`UserID`),
   KEY `OwnerType` (`OwnerType`),
-  KEY `TimeSaved` (`TimeSaved`),
   FULLTEXT KEY `OwnerTitle` (`OwnerTitle`),
   FULLTEXT KEY `OwnerKeywords` (`OwnerKeywords`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `owner`
 --
 
-INSERT INTO `owner` (`OwnerID`, `UserID`, `TimeCreated`, `TimeSaved`, `OwnerCode`, `PermAll`, `OwnerStatus`, `OwnerType`, `OwnerParentCode`, `OwnerGroup`, `OwnerPaymentType`, `OwnerPaymentStatus`, `OwnerPaymentTime`, `OwnerDomain`, `OwnerName`, `OwnerTitle`, `OwnerIsDefault`, `OwnerStyle`, `OwnerOptions`, `OwnerFunctions`, `OwnerLocation`, `OwnerCurrencies`, `OwnerCurrency`, `OwnerPriceFormat`, `OwnerGMT`, `OwnerDateFormat`, `OwnerTimeFormat`, `OwnerDateTimeFormat`, `OwnerCategory`, `OwnerImage`, `OwnerIcon`, `OwnerImagePreview`, `OwnerDescription`, `OwnerFullDescription`, `OwnerKeywords`, `OwnerIntroPage`, `OwnerHeaderCode`, `OwnerFooterCode`, `OwnerCSSURL`, `OwnerAdCode1`, `OwnerAdCode2`, `OwnerAdCode3`, `OwnerCounterCode`, `OwnerAdCodeActivation`, `OwnerNumberOfBackLinks`, `OwnerLanguage`, `OwnerMail`, `OwnerAdministratorsEmails`, `OwnerSupportEmail`, `OwnerStyleBackgroundColor`, `OwnerStyleTextColor`, `OwnerStyleLinkColor`, `OwnerStyleTitlesColor`, `OwnerStyleTextFont`, `OwnerStyleTextSize`, `OwnerHTML`, `OwnerCSS`, `OwnerMetaTags`, `OwnerURLFormat`, `OwnerFavIcon`, `OwnerPrintFooter`, `OwnerPrintHeader`, `OwnerPrintLogo`, `OwnerCompanyName`, `OwnerAddress`, `OwnerPhone`, `OwnerFax`, `OwnerSystemFunctions`, `OwnerGoogleMapKey`) VALUES
-(1, 'root', '2010-07-04 21:36:24', '2012-07-25 13:06:12', 'root', 1, 1, 'companysite', '', '', '', '', '0000-00-00 00:00:00', 'mvc.dev:6161', '<ru>lembergcoach</ru><en>lembergcoach</en>', '<ru>lembergcoach</ru><en>lembergcoach</en>', 'N', 'lemberg', '', '', 0, '|UAH|', '', '', 0, '', '', '', '', '', '', '', 0x3c72753e6c656d62657267636f6163683c2f72753e3c656e3e6c656d62657267636f6163683c2f656e3e, '', '<ru>lembergcoach</ru><en>lembergcoach</en>', '', '', '', 'http://', '', '', '', '', '', 0, 'ru', 'edii87shadow@gmail.com', 'edii87shadow@gmail.com', '', '', '', '', '', '', '', '', '', 0x3c72753e6c656d62657267636f6163683c2f72753e3c656e3e6c656d62657267636f6163683c2f656e3e, 'nowww', '', '', '', '', '', '', '', '', '', '');
+INSERT INTO `owner` (`OwnerID`, `UserID`, `TimeCreated`, `TimeSaved`, `OwnerCode`, `hidden`, `OwnerStatus`, `OwnerType`, `OwnerParentCode`, `OwnerGroup`, `OwnerPaymentType`, `OwnerPaymentStatus`, `OwnerPaymentTime`, `OwnerDomain`, `OwnerName`, `OwnerTitle`, `OwnerIsDefault`, `OwnerStyle`, `OwnerLocation`, `OwnerCurrencies`, `OwnerGMT`, `OwnerCategory`, `OwnerImage`, `OwnerIcon`, `OwnerImagePreview`, `OwnerDescription`, `OwnerKeywords`, `OwnerIntroPage`, `OwnerCSSURL`, `OwnerCounterCode`, `OwnerAdCodeActivation`, `OwnerNumberOfBackLinks`, `OwnerLanguage`, `OwnerMail`, `OwnerAdministratorsEmails`, `OwnerSupportEmail`) VALUES
+(1, 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'root', 0, 1, 'companysite', '', '', '', '', '0000-00-00 00:00:00', 'mvc.dev:6161', 'Макс 234234234234', '<ru>lembergcoach</ru><en>lembergcoach</en>', 'N', 'lemberg', 0, '|UAH|', 0, '', '', '', '', 0x3c72753e6c656d62657267636f6163683c2f72753e3c656e3e6c656d62657267636f6163683c2f656e3e, '<ru>lembergcoach</ru><en>lembergcoach</en>', '', 'http://', '', '', 0, 'ru', 'edii87shadow@gmail.com', 'edii87shadow@gmail.com', ''),
+(2, '', '2014-01-21 18:02:25', '0000-00-00 00:00:00', '', 0, 4, '', '', '', 'null', 'null', '0000-00-00 00:00:00', '', 'edii', 'test', 'N', 'default', 1, 'UAH', 2, '', '', '', '', 0x736466736466736466736466, 'sdfsdf sdfsdfsdfsdfsdf', 'null', '', 'ua', '', 0, '', 'null', 'null', 'null');
 
 -- --------------------------------------------------------
 
@@ -5024,6 +4990,7 @@ INSERT INTO `referenceoption` (`ReferenceOptionID`, `OptionCode`, `UserID`, `Own
 CREATE TABLE IF NOT EXISTS `section` (
   `SectionID` int(30) unsigned NOT NULL AUTO_INCREMENT,
   `hidden` int(2) NOT NULL DEFAULT '0',
+  `SectionInMenu` int(2) NOT NULL DEFAULT '0',
   `SectionAlias` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT '',
   `OwnerID` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '',
   `UserID` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -5049,7 +5016,6 @@ CREATE TABLE IF NOT EXISTS `section` (
   `SectionContent` longtext COLLATE utf8_bin NOT NULL,
   `SectionClicks` int(11) NOT NULL DEFAULT '0',
   `SectionViewOptions` varchar(200) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `SectionIsHiddenInMenu` char(1) COLLATE utf8_bin NOT NULL DEFAULT '',
   `SectionController` varchar(255) COLLATE utf8_bin NOT NULL,
   `SectionAction` varchar(255) COLLATE utf8_bin NOT NULL,
   `SectionView` varchar(255) COLLATE utf8_bin NOT NULL,
@@ -5064,7 +5030,6 @@ CREATE TABLE IF NOT EXISTS `section` (
   KEY `ViewID` (`SectionLayout`),
   KEY `SectionPosition` (`SectionPosition`),
   KEY `SectionLanguages` (`SectionLanguages`),
-  KEY `SectionIsHiddenInMenu` (`SectionIsHiddenInMenu`),
   KEY `TimeCreated` (`TimeCreated`),
   KEY `TimeSaved` (`TimeSaved`),
   FULLTEXT KEY `AccessGroups` (`AccessGroups`),
@@ -5074,22 +5039,24 @@ CREATE TABLE IF NOT EXISTS `section` (
   FULLTEXT KEY `SectionContent` (`SectionContent`),
   FULLTEXT KEY `SectionKeywords` (`SectionKeywords`),
   FULLTEXT KEY `SectionDescription` (`SectionDescription`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `section`
 --
 
-INSERT INTO `section` (`SectionID`, `hidden`, `SectionAlias`, `OwnerID`, `UserID`, `TimeCreated`, `TimeSaved`, `SectionType`, `SectionLanguages`, `SectionParentID`, `SectionGroupID`, `SectionLayout`, `SectionBox`, `SectionBoxStyle`, `AccessGroups`, `SectionArguments`, `SectionLink`, `SectionTarget`, `SectionName`, `SectionTitle`, `SectionDescription`, `SectionKeywords`, `SectionPosition`, `SectionIntroContent`, `SectionContent`, `SectionClicks`, `SectionViewOptions`, `SectionIsHiddenInMenu`, `SectionController`, `SectionAction`, `SectionView`, `SectionUrl`, `SectionRout`) VALUES
-(1, 0, 'home', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, 0x686f6d65, NULL, NULL, NULL, NULL, '', '', 0, '', '', 'home', 'index', '', '', ''),
-(2, 0, 'login', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, 0x6c6f67696e, NULL, NULL, NULL, NULL, '', '', 0, '', '', 'home', 'login', '', '', ''),
-(3, 0, 'c1_1', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '1', '', '', '', '', NULL, NULL, NULL, NULL, 0x63315f31, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', '', '', '', ''),
-(4, 0, 'c1_2', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '1', '', '', '', '', NULL, NULL, NULL, NULL, 0x63315f32, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', '', '', '', ''),
-(5, 0, 'c2_1', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '3', '', '', '', '', NULL, NULL, NULL, NULL, 0x63325f31, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', '', '', '', ''),
-(6, 0, 'c2_2', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '3', '', '', '', '', NULL, NULL, NULL, NULL, 0x63325f32, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', '', '', '', ''),
-(7, 0, 'test', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'front', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, 0x74657374, NULL, NULL, NULL, NULL, '', '', 0, '', '', 'hello', 'test', '', 'test', ''),
-(8, 0, 'subcat', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'front', '', '7', '', '', '', '', NULL, NULL, NULL, NULL, 0x737562636174, NULL, NULL, NULL, NULL, '', '', 0, '', '', 'hello', 'subcat', '', 'test/subcat', ''),
-(9, 0, 'subcat2', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'front', '', '8', '', '', '', '', NULL, NULL, NULL, NULL, 0x73756263617432, NULL, NULL, NULL, NULL, '', '', 0, '', '', 'hello', 'subcat2', '', 'test/subcat/subcat2', '');
+INSERT INTO `section` (`SectionID`, `hidden`, `SectionInMenu`, `SectionAlias`, `OwnerID`, `UserID`, `TimeCreated`, `TimeSaved`, `SectionType`, `SectionLanguages`, `SectionParentID`, `SectionGroupID`, `SectionLayout`, `SectionBox`, `SectionBoxStyle`, `AccessGroups`, `SectionArguments`, `SectionLink`, `SectionTarget`, `SectionName`, `SectionTitle`, `SectionDescription`, `SectionKeywords`, `SectionPosition`, `SectionIntroContent`, `SectionContent`, `SectionClicks`, `SectionViewOptions`, `SectionController`, `SectionAction`, `SectionView`, `SectionUrl`, `SectionRout`) VALUES
+(1, 0, 0, 'home', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, 0x686f6d65, NULL, NULL, NULL, NULL, '', '', 0, '', 'home', 'index', '', '', ''),
+(2, 0, 0, 'login', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, 0x6c6f67696e, NULL, NULL, NULL, NULL, '', '', 0, '', 'home', 'login', '', '', ''),
+(3, 0, 0, 'c1_1', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '1', '', '', '', '', NULL, NULL, NULL, NULL, 0x63315f31, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', '', 'home/c1_1', ''),
+(4, 0, 0, 'c1_2', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '1', '', '', '', '', NULL, NULL, NULL, NULL, 0x63315f32, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', '', 'home/c1_2', ''),
+(5, 0, 0, 'c2_1', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '3', '', '', '', '', NULL, NULL, NULL, NULL, 0x63325f31, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', '', 'home/c1_1/c2_1', ''),
+(6, 0, 0, 'c2_2', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '3', '', '', '', '', NULL, NULL, NULL, NULL, 0x63325f32, NULL, NULL, NULL, NULL, '', '', 0, '', '', '', '', 'home/c1_1/c2_2', ''),
+(7, 0, 0, 'test', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'front', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, 0x74657374, NULL, NULL, NULL, NULL, '', '', 0, '', 'hello', 'test', '', 'test', ''),
+(8, 0, 0, 'subcat', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'front', '', '7', '', '', '', '', NULL, NULL, NULL, NULL, 0x737562636174, NULL, NULL, NULL, NULL, '', '', 0, '', 'hello', 'subcat', '', 'test/subcat', ''),
+(9, 0, 0, 'subcat2', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'front', '', '8', '', '', '', '', NULL, NULL, NULL, NULL, 0x73756263617432, NULL, NULL, NULL, NULL, '', '', 0, '', 'hello', 'subcat2', '', 'test/subcat/subcat2', ''),
+(10, 0, 0, 'owner', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, 0x6f776e6572, NULL, NULL, NULL, NULL, '', '', 0, '', 'owner', 'index', '', 'owner', ''),
+(11, 0, 1, 'manager', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '10', '', '', '', '', NULL, NULL, NULL, NULL, 0x4f776e6572206d616e616765722028456469742f41646429, NULL, NULL, NULL, NULL, '', '', 0, '', 'owner', 'manager', '', 'owner/manager', '');
 
 -- --------------------------------------------------------
 
@@ -5189,7 +5156,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('3f79c5d7f98a60314ea6dc94804ca95c', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0', 1389774927, 'a:9:{s:10:"session_id";s:32:"3f79c5d7f98a60314ea6dc94804ca95c";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:72:"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0";s:13:"last_activity";i:1389774927;s:9:"user_data";s:0:"";s:2:"id";s:4:"root";s:5:"login";s:4:"root";s:5:"email";s:16:"jjboun@gmail.com";s:8:"validate";b:1;}');
+('6f022d0a26bcb174dad3d9cba720bdf2', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0', 1390317703, 'a:9:{s:10:"session_id";s:32:"6f022d0a26bcb174dad3d9cba720bdf2";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:72:"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0";s:13:"last_activity";i:1390317703;s:9:"user_data";s:0:"";s:2:"id";s:4:"root";s:5:"login";s:4:"root";s:5:"email";s:16:"jjboun@gmail.com";s:8:"validate";b:1;}');
 
 -- --------------------------------------------------------
 
