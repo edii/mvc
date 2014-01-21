@@ -58,10 +58,10 @@
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="<?= $this->_getUrl() ?>/manager/method/hide"><span class="icon-pencil"></span> Скрыть </a></li>
-                                    <li><a href="<?= $this->_getUrl() ?>/manager/method/show"><span class="icon-pencil"></span> Отобразить </a></li>
-                                    <li><a href="<?= $this->_getUrl() ?>/manager/method/edit"><span class="icon-pencil"></span> Редактировать </a></li>
-                                    <li><a class="delete" href="<?= $this->_getUrl() ?>/manager/method/delete"><span class="icon-trash"></span> Удалить </a></li>
+                                    <li><a href="<?= $this->_getUrl() ?>manager/method/hide"><span class="icon-pencil"></span> Скрыть </a></li>
+                                    <li><a href="<?= $this->_getUrl() ?>manager/method/show"><span class="icon-pencil"></span> Отобразить </a></li>
+                                    <li><a href="<?= $this->_getUrl() ?>manager/method/edit"><span class="icon-pencil"></span> Редактировать </a></li>
+                                    <li><a class="delete" href="<?= $this->_getUrl() ?>manager/method/delete"><span class="icon-trash"></span> Удалить </a></li>
                                 </ul>
                             </form>
                             
@@ -103,8 +103,8 @@
                                         <td class="chChildren"><input type="checkbox" name="checkbox" value="1" class="styled" /></td>
                                         <td>
                                             <div class="controls center">
-                                                <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $_item -> OwnerID ?>" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
-                                                <a class="delete" href="<?= $this->_getUrl() ?>/manager/method/delete/id/<?= $_item -> OwnerID ?>" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
+                                                <a href="<?= $this->_getUrl() ?>manager/method/edit/id/<?= $_item -> OwnerID ?>" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
+                                                <a class="delete" href="<?= $this->_getUrl() ?>manager/method/delete/id/<?= $_item -> OwnerID ?>" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
                                             </div>
                                         </td>
                                       </tr>
