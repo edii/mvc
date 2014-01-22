@@ -2,14 +2,14 @@
     <!-- error fatall or other -->
 <?php else: ?>
 
-<?php /* ?>
+
 <!--Body content-->
 <div id="content" class="clearfix">
     <div class="contentwrapper"><!--Content wrapper-->
 
         <div class="heading">
 
-            <h3>Dashboard</h3>                    
+            <h3>Section</h3>                    
 
             <div class="resBtnSearch">
                 <a href="#"><span class="icon16 icomoon-icon-search-3"></span></a>
@@ -34,11 +34,20 @@
                         <span class="icon16 icomoon-icon-arrow-right-3"></span>
                     </span>
                 </li>
-                <li class="active">Dashboard</li>
+                <li class="active">Section</li>
             </ul>
 
         </div><!-- End .heading-->
         
+        <?php
+        
+        echo '<pre>';
+            var_dump($section_list);
+        echo '</pre>';
+        
+        ?>
+        
+        <?php /* ?>
         <div class="row-fluid">
             <div class="span">
                 <div class="box">
@@ -118,10 +127,10 @@
             </div> <!-- End span -->
             
         </div>
-        
+        <?php */ ?>
 
     </div><!-- End contentwrapper -->
 </div><!-- End #content -->
-<?php */ ?>
+
 
 <?php endif; ?>

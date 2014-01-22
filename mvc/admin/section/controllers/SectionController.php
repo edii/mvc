@@ -21,7 +21,7 @@ class SectionController extends \Controller
             $this->layout( false );
             
             $this->render('index', array(
-                'listing'   => $this -> _msection -> getSections(),
+                'section_list'   => $this -> _msection -> getSections(),
                 'validate'  => $this -> _mauth -> getRight(),
                 '_session'  =>  $this -> _mauth -> getValidate() -> getSession()
             ));
