@@ -4,7 +4,7 @@ class SectionController extends \Controller
 {
 	public $layout = 'dashboard';
 
-	private $_musers;
+	private $_users;
         
         // section (model)
         private $_msection = false;
@@ -12,7 +12,7 @@ class SectionController extends \Controller
          * construct
          */
         public function init() {
-           $this -> _musers = \init::app() -> getModels('auth/users');
+           $this -> _users = \init::app() -> getModels('auth/users');
            if(empty($this -> _msection))
                $this -> _msection = \init::app() -> getModels('section/msection');
         }
@@ -22,8 +22,8 @@ class SectionController extends \Controller
             
             $this->render('index', array(
                 'section_list'   => $this -> _msection -> getSections(),
-                'validate'  => $this -> _musers -> getRight(),
-                '_session'  =>  $this -> _musers -> getValidate() -> getSession()
+                'validate'  => $this -> _users -> getRight(),
+                '_session'  =>  $this -> _users -> getValidate() -> getSession()
             ));
 	}
 }
