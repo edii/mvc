@@ -39,15 +39,6 @@
 
         </div><!-- End .heading-->
         
-        <?php
-        
-        echo '<pre>';
-            var_dump($section_list);
-        echo '</pre>';
-        
-        ?>
-        
-        <?php /* ?>
         <div class="row-fluid">
             <div class="span">
                 <div class="box">
@@ -56,21 +47,21 @@
 
                         <h4>
                             <span class="icon16 icomoon-icon-equalizer-2"></span>
-                            <span>Owners controls</span>
+                            <span>Sections controls</span>
                             
                              
                             
                             <form class="box-form right" action="">
-                                <a style="margin-right: 5px;" href="<?= $this->_getUrl() ?>/manager/method/add">Добавить</a> 
+                                <a style="margin-right: 5px;" href="#">Добавить</a> 
                                 
                                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                                     <span class="icon16 icomoon-icon-cog-2"></span>
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="<?= $this->_getUrl() ?>/manager/method/hide"><span class="icon-pencil"></span> Скрыть </a></li>
-                                    <li><a href="<?= $this->_getUrl() ?>/manager/method/show"><span class="icon-pencil"></span> Отобразить </a></li>
-                                    <li><a class="delete" href="<?= $this->_getUrl() ?>/manager/method/delete"><span class="icon-trash"></span> Удалить </a></li>
+                                    <li><a href="#"><span class="icon-pencil"></span> Скрыть </a></li>
+                                    <li><a href="#"><span class="icon-pencil"></span> Отобразить </a></li>
+                                    <li><a class="delete" href="#"><span class="icon-trash"></span> Удалить </a></li>
                                 </ul>
                             </form>
                             
@@ -84,12 +75,15 @@
                               <tr>
                                 <th>#</th>
                                 <th>TimeCreated</th>
-                                <th>OwnerCode</th>
-                                <th>OwnerType</th>
-                                <th>OwnerDomain</th>
-                                <th>OwnerName</th>
-                                <th>OwnerIsDefault</th>
-                                <th>OwnerImage</th>
+                                <th>Alias</th>
+                                <th>OwnerID</th>
+                                <th>UserID</th>
+                                <th>Type</th>
+                                <th>ParentID</th>
+                                <th>Name</th>
+                                <th>Controller</th>
+                                <th>Action</th>
+                                <th>Url</th>
                                 <th>hidden</th>
                                 
                                  <th id="masterCh" class="ch"><input type="checkbox" name="checkbox" value="all" class="styled" /></th>
@@ -97,23 +91,26 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <?php if(is_array($listing) and count($listing) > 0): ?>
-                                <?php foreach($listing as $_key => $_item): ?>
+                              <?php if(is_array($section_list) and count($section_list) > 0): ?>
+                                <?php foreach($section_list as $_key => $_item): ?>
                                     <tr>
                                         <td><?= ($_key + 1) ?></td>
                                         <td><?= $_item->TimeCreated ?></td>
-                                        <td><?= $_item->OwnerCode ?></td>
-                                        <td><?= $_item->OwnerType ?></td>
-                                        <td><?= $_item->OwnerDomain ?></td>
-                                        <td><?= $_item->OwnerName ?></td>
-                                        <td><?= $_item->OwnerIsDefault ?></td>
-                                        <td><?= $_item->OwnerImage ?></td>
+                                        <td><?= $_item->SectionAlias ?></td>
+                                        <td><?= $_item->OwnerID ?></td>
+                                        <td><?= $_item->UserID ?></td>
+                                        <td><?= $_item->SectionType ?></td>
+                                        <td><?= $_item->SectionParentID ?></td>
+                                        <td><?= $_item->SectionName ?></td>
+                                        <td><?= $_item->SectionController ?></td>
+                                        <td><?= $_item->SectionAction ?></td>
+                                        <td><?= $_item->SectionUrl ?></td>
                                         <td><?= $_item->hidden ?></td>
                                         <td class="chChildren"><input type="checkbox" name="checkbox" value="1" class="styled" /></td>
                                         <td>
                                             <div class="controls center">
-                                                <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $_item -> OwnerID ?>" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
-                                                <a class="delete" href="<?= $this->_getUrl() ?>/manager/method/delete/id/<?= $_item -> OwnerID ?>" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
+                                                <a href="#" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
+                                                <a class="delete" href="#" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
                                             </div>
                                         </td>
                                       </tr>
@@ -127,7 +124,6 @@
             </div> <!-- End span -->
             
         </div>
-        <?php */ ?>
 
     </div><!-- End contentwrapper -->
 </div><!-- End #content -->
