@@ -4,17 +4,17 @@ class OwnerController extends \Controller
 {
 	public $layout = 'dashboard';
 
-	private $_model;
+	private $_users;
         
         // owner (model)
-        private $_owner = false;
+        private $_mowner = false;
         /**
          * construct
          */
         public function init() {
-           $this -> _model = \init::app() -> getModels('auth/users');
-           if(empty($this -> _owner))
-            $this -> _owner = \init::app() -> getModels('owner/mowner');
+           $this -> _users = \init::app() -> getModels('auth/users');
+           if(empty($this -> _mowner))
+            $this -> _mowner = \init::app() -> getModels('owner/mowner');
         }
 	
 	 /**
@@ -25,15 +25,10 @@ class OwnerController extends \Controller
         public function actionIndex() {
             $this->layout( false );
             
-//            echo "<pre>";
-//            var_dump( $_REQUEST );
-//            echo "</pre>";
-            
-            // view
             $this->render('index', array(
-                        'listing'   => $this->_owner -> getOwners(),
-                        'validate'  => $this -> _model -> getRight(),
-                        '_session'  =>  $this -> _model -> getValidate() -> getSession()
+                        'listing'   => $this->_mowner -> getOwners(),
+                        'validate'  => $this -> _users -> getRight(),
+                        '_session'  =>  $this -> _users -> getValidate() -> getSession()
                     ));
 
 	}
@@ -57,7 +52,7 @@ class OwnerController extends \Controller
                     $_error = true;
                  } else {
                      if(is_array($_owner) and count($_owner) > 0) {
-                        $this->_owner ->save(true, $_owner);
+                        $this->_mowner ->save(true, $_owner);
                      }
                  }
                  
@@ -66,7 +61,7 @@ class OwnerController extends \Controller
                 $_title = 'Добавить';
                 if(!(int)$_id) {
                     if(is_array($_owner) and count($_owner) > 0) {
-                        $this->_owner ->save(true, $_owner);
+                        $this->_mowner ->save(true, $_owner);
                      }
                 }
                 
@@ -80,30 +75,13 @@ class OwnerController extends \Controller
             if(!$_error) {   
                 $this->render('form',array(
                     'title'   => $_title,
-                    'listing'   => $this->_owner -> getOwnerID($_id),
-                    'validate'  => $this -> _model -> getRight(),
-                    '_session'  =>  $this -> _model -> getValidate() -> getSession()
+                    'listing'   => $this->_mowner -> getOwnerID($_id),
+                    'validate'  => $this -> _users -> getRight(),
+                    '_session'  =>  $this -> _users -> getValidate() -> getSession()
                 ));
             } else {
                  $this ->redirect('/'._request_uri.'/error/404/');
-            }
-                   
-                  
-            
-               
-           
-            
-            
-//            echo "<pre>";
-//            var_dump( $_REQUEST );
-//            echo "</pre>";
-            
-            // view
-//            $this->render('edit', array(
-//                        'listing'   => $this->_owner -> getOwners(),
-//                        'validate'  => $this -> _model -> getRight(),
-//                        '_session'  =>  $this -> _model -> getValidate() -> getSession()
-//                    ));
+            }                 
 
 	}
 }
