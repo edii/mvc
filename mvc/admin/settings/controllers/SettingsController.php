@@ -4,13 +4,13 @@ class SettingsController extends \Controller
 {
 	public $layout = 'dashboard';
 
-	private $_model;
+	private $_users;
         
         /**
          * construct
          */
         public function init() {
-           $this -> _model = \init::app() -> getModels('auth/users');
+           $this -> _users = \init::app() -> getModels('auth/users');
         }
 	
 	public function actionIndex() {
@@ -24,7 +24,7 @@ class SettingsController extends \Controller
         public function actionBandwidthTransfer() {
             
              $this->render('bandwidth_transfer', array(
-                 'validate' => $this -> _model -> getRight()
+                 'validate' => $this -> _users -> getRight()
              ));
 	}
         
@@ -34,7 +34,7 @@ class SettingsController extends \Controller
         public function actionDiskSpace() {
             
              $this->render('disk_space', array(
-                 'validate' => $this -> _model -> getRight()
+                 'validate' => $this -> _users -> getRight()
              ));
 	}
         
@@ -44,7 +44,7 @@ class SettingsController extends \Controller
         public function actionStats() {
             
              $this->render('stats', array(
-                 'validate' => $this -> _model -> getRight()
+                 'validate' => $this -> _users -> getRight()
              ));
 	}
         
@@ -54,7 +54,7 @@ class SettingsController extends \Controller
         public function actionSiteInfo() {
             
              $this->render('site_info', array(
-                 'validate' => $this -> _model -> getRight()
+                 'validate' => $this -> _users -> getRight()
              ));
 	}
 }

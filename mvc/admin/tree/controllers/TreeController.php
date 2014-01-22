@@ -4,14 +4,14 @@ class TreeController extends \Controller
 {
 	public $layout = false; //'column1'
 
-	private $_model;
-        private $model_validate;
+	private $_mtree;
+        private $_users;
         /**
          * construct
          */
         public function init() {
-            $this -> _model = \init::app() -> getModels('tree/ctree');
-            $this -> model_validate = \init::app() -> getModels('auth/users');
+            $this -> _mtree = \init::app() -> getModels('tree/mtree');
+            $this -> _users = \init::app() -> getModels('auth/users');
         }
 	
         
@@ -21,13 +21,12 @@ class TreeController extends \Controller
          */
         public function actionIndex() {
             $this->layout( false );
-            $_model = \init::app() -> getModels('tree/ctree');
-            $_tree = $_model -> getTree();
+            $_tree = $this -> _mtree -> getTree();
             
             $this->render('index', array(
                 'tree'      => $_tree,
                 'parent'    => true,
-                'validate'  => $this -> model_validate -> getRight() 
+                'validate'  => $this -> _users -> getRight() 
             ));
         }
         

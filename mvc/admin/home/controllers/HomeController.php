@@ -4,7 +4,7 @@ class HomeController extends \Controller
 {
 	public $layout = 'dashboard'; //'column1'
 
-	private $_model;
+	private $_users;
 
         private $_auth = false;
         private $_validate = false;
@@ -21,7 +21,7 @@ class HomeController extends \Controller
          * construct
          */
         public function init() {
-           $this -> _model = \init::app() -> getModels('auth/users');
+           $this -> _users = \init::app() -> getModels('auth/users');
         }
         
         /**
@@ -30,7 +30,7 @@ class HomeController extends \Controller
 	public function actionIndex() {
             
             $_session = \init::app() -> getSession() -> all_userdata();
-            $this ->_auth = $this -> _model -> getValidate() -> getSession();
+            $this ->_auth = $this -> _users -> getValidate() -> getSession();
            
             
             if($this ->_auth) :
@@ -60,7 +60,7 @@ class HomeController extends \Controller
                 if(empty($_data['username'])) $this -> redirect('/'._request_uri.'/home/login', array('error' => true));
                 if(empty($_data['password'])) $this -> redirect('/'._request_uri.'/home/login', array('error' => true));
                 
-                $this-> _auth = $this -> _model 
+                $this-> _auth = $this -> _users 
                             -> getValidate( $_data['username'], $_data['password'] ) 
                             -> setSession();
                 if($this-> _auth) {
@@ -73,7 +73,7 @@ class HomeController extends \Controller
             
             else:  
                 
-                if(!$right = $this -> _model -> getRight()) {
+                if(!$right = $this -> _users -> getRight()) {
                     $this -> redirect('/'._request_uri.'/home/login');
 //                } else if (!isset($this -> _auth['login']) or empty($this -> _auth['login']) 
 //                        and !isset($this -> _auth['password']) or empty($this -> _auth['password'])) {
@@ -106,8 +106,8 @@ class HomeController extends \Controller
             
             
             $this->render('header', array(
-                        'validate' => $this -> _model -> getRight(),
-                        '_session' => $this -> _model -> getValidate() -> getSession()
+                        'validate' => $this -> _users -> getRight(),
+                        '_session' => $this -> _users -> getValidate() -> getSession()
                     ));
         }
         
@@ -131,7 +131,7 @@ class HomeController extends \Controller
                 }
             }
             \init::app() -> getSession()->sess_destroy();
-            if(!$this -> _model->getLogin() and !$this -> _model->getPassword()) :
+            if(!$this -> _users->getLogin() and !$this -> _users->getPassword()) :
                 $this -> redirect('/'._request_uri.'/home/login'); 
             else:
                 throw new \CException(\init::t('init','CSession, not destroy session. try egaine!'));
