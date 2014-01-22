@@ -21,6 +21,7 @@ class SectionController extends \Controller
             $this->layout( false );
             
             $this->render('index', array(
+                'sections_actual' => \init::app()->getTreeSection(),
                 'section_list'   => $this -> _msection -> getSections(),
                 'validate'  => $this -> _users -> getRight(),
                 '_session'  =>  $this -> _users -> getValidate() -> getSession()
