@@ -60,7 +60,6 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="<?= $this->_getUrl() ?>/manager/method/hide"><span class="icon-pencil"></span> Скрыть </a></li>
                                     <li><a href="<?= $this->_getUrl() ?>/manager/method/show"><span class="icon-pencil"></span> Отобразить </a></li>
-                                    <li><a href="<?= $this->_getUrl() ?>/manager/method/edit"><span class="icon-pencil"></span> Редактировать </a></li>
                                     <li><a class="delete" href="<?= $this->_getUrl() ?>/manager/method/delete"><span class="icon-trash"></span> Удалить </a></li>
                                 </ul>
                             </form>

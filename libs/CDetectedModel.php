@@ -21,10 +21,11 @@ class CDetectedModel extends \CModel
 	private $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
 	private $_c;								// query criteria (used by finder only)
-	private $_pk;								// old primary key value
 	private $_alias='t';						// the table alias being used for query
 
-
+        public $_table_name;
+        public $_pk;
+        
 	/**
 	 * Constructor.
 	 * @param string $scenario scenario name. See {@link CModel::scenario} for more details about this parameter.
@@ -207,11 +208,11 @@ class CDetectedModel extends \CModel
 			return self::$db;
 		else
 		{
-			self::$db=\init::app()->getDb();
-			if(self::$db instanceof CDbConnection)
+			self::$db = \init::app() -> getDBConnector();
+			if(is_object(self::$db))
 				return self::$db;
 			else
-				throw new CDbException(\init::t('yii','Active Record requires a "db" CDbConnection application component.'));
+				throw new \CException(\init::t('yii','Active Record requires a "db" CDbConnection application component.'));
 		}
 	}
 
@@ -284,59 +285,34 @@ class CDetectedModel extends \CModel
 	 * Saves the current record.
 	 *
 	 */
-	public function save($runValidation=true,$attributes=null) {
-                
-		if(!$runValidation || $this->validate($attributes)) :
-                        
-                        return $this->getIsNewRecord() ? $this->insert($attributes) : $this->update($attributes);
-		else :
-			return false;
-                endif;
+	public function save( $runValidation=true, $attributes=null ) {
+            if(!empty($this->_table_name) and $runValidation ) {
+               if(isset($attributes[ $this->_pk ]) and !empty($attributes[ $this->_pk ])) $this->setIsNewRecord(false); // go update
+               return $this->getIsNewRecord() ? $this->insert($attributes) : $this->update($attributes);
+            }
+            
 	}
 
         /**
 	 * Inserts a row into the table based on this active record attributes.
 	 */
 	public function insert($attributes=null) {
-            
-                
+                $_coonected = (self::$db === null) ? $this->getDbConnection(): self::$db;
             
 		if(!$this->getIsNewRecord())
-			throw new CDbException(\init::t('yii','The active record cannot be inserted to database because it is not new.'));
-		/*
-                if($this->beforeSave())
-		{
-			\init::trace(get_class($this).'.insert()','system.db.ar.CActiveRecord');
-			$builder=$this->getCommandBuilder();
-			$table=$this->getMetaData()->tableSchema;
-			$command=$builder->createInsertCommand($table,$this->getAttributes($attributes));
-			if($command->execute())
-			{
-				$primaryKey=$table->primaryKey;
-				if($table->sequenceName!==null)
-				{
-					if(is_string($primaryKey) && $this->$primaryKey===null)
-						$this->$primaryKey=$builder->getLastInsertID($table);
-					elseif(is_array($primaryKey))
-					{
-						foreach($primaryKey as $pk)
-						{
-							if($this->$pk===null)
-							{
-								$this->$pk=$builder->getLastInsertID($table);
-								break;
-							}
-						}
-					}
-				}
-				$this->_pk=$this->getPrimaryKey();
-				$this->afterSave();
-				$this->setIsNewRecord(false);
-				$this->setScenario('update');
-				return true;
-			}
-		}
-                */
+			throw new CHttpException(404, \init::t('init','The active record cannot be inserted to database because it is not new.'));
+             
+                // insert
+                if(!isset($attributes[ $this->_pk ]) or empty($attributes[ $this->_pk ])) {
+                    $_insert = $_coonected -> insert($this->_table_name, array('target' => 'main')) 
+                            -> fields($attributes)
+                            -> execute(); 
+                    
+                    if(!$_insert)
+                        throw new CHttpException(404,\init::t('init','Fatal error dont insert!'));
+                    
+                    return true;
+                }
                 
 		return false;
 	}
@@ -345,23 +321,22 @@ class CDetectedModel extends \CModel
 	 * Updates the row represented by this active record.
 	 */
 	public function update($attributes=null) {
-            
-            
-		if($this->getIsNewRecord())
-			throw new CDbException(\init::t('yii','The active record cannot be updated because it is new.'));
-		/*
-                if($this->beforeSave())
-		{
-			\init::trace(get_class($this).'.update()','system.db.ar.CActiveRecord');
-			if($this->_pk===null)
-				$this->_pk=$this->getPrimaryKey();
-			$this->updateByPk($this->getOldPrimaryKey(),$this->getAttributes($attributes));
-			$this->_pk=$this->getPrimaryKey();
-			$this->afterSave();
-			return true;
-		}
-		else */
-			return false;
+                $_coonected = (self::$db === null) ? $this->getDbConnection(): self::$db;
+                
+                if($_id = (int)$attributes[ $this->_pk ]) {
+                    unset( $attributes[ $this->_pk ] );
+                    
+                    $_update = $_coonected -> update($this->_table_name, array('target' => 'main')) 
+                            -> fields($attributes)
+                            -> condition($this->_pk, $_id, '=') -> execute(); 
+                  if(!$_update) 
+                      throw new CHttpException(404,\init::t('init','Fatal error dont update!'));
+
+                  return true;
+                } else {
+                    return false;
+                }
+                
 	}
 
 	/**
@@ -399,22 +374,35 @@ class CDetectedModel extends \CModel
 	 * @return boolean whether the deletion is successful.
 	 * @throws CException if the record is new
 	 */
-	public function delete()
-	{
-		if(!$this->getIsNewRecord())
-		{
-			Yii::trace(get_class($this).'.delete()','system.db.ar.CActiveRecord');
-			if($this->beforeDelete())
-			{
-				$result=$this->deleteByPk($this->getPrimaryKey())>0;
-				$this->afterDelete();
-				return $result;
-			}
-			else
-				return false;
-		}
-		else
-			throw new CDbException(\init::t('yii','The active record cannot be deleted because it is new.'));
+	public function delete($attributes = null) {
+            $_coonected = (self::$db === null) ? $this->getDbConnection(): self::$db;
+                
+            if($_id = (int)$attributes[ $this->_pk ]) {
+                $_delete = $_coonected -> delete($this->_table_name, array('target' => 'main')) 
+                                       -> condition($this->_pk, $_id, '=') -> execute();
+                if(!$_delete) 
+                      throw new CHttpException(404,\init::t('init','Fatal error dont delete!'));
+                
+                return true;
+            }
+            else
+                    return false;
+            
+            
+//		if(!$this->getIsNewRecord())
+//		{
+//			Yii::trace(get_class($this).'.delete()','system.db.ar.CActiveRecord');
+//			if($this->beforeDelete())
+//			{
+//				$result=$this->deleteByPk($this->getPrimaryKey())>0;
+//				$this->afterDelete();
+//				return $result;
+//			}
+//			else
+//				return false;
+//		}
+//		else
+//			throw new CDbException(\init::t('yii','The active record cannot be deleted because it is new.'));
 	}
 
 	/**
