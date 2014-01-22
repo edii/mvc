@@ -10,7 +10,7 @@ class TreeController extends \Controller
          * construct
          */
         public function init() {
-            $this -> _model = \init::app() -> getModels('tree/ctree');
+            $this -> _model = \init::app() -> getModels('tree/mtree');
             $this -> model_validate = \init::app() -> getModels('auth/users');
         }
 	
@@ -21,8 +21,7 @@ class TreeController extends \Controller
          */
         public function actionIndex() {
             $this->layout( false );
-            $_model = \init::app() -> getModels('tree/ctree');
-            $_tree = $_model -> getTree();
+            $_tree = $this -> _model -> getTree();
             
             $this->render('index', array(
                 'tree'      => $_tree,

@@ -9,7 +9,6 @@ class Mowner extends \CDetectedModel { //extends \CDetectedModel
     public static $db;
     public $_table_name = 'owner';
     
-    private $_mod_page = false; // admin or front
     private $_mod_access = true; // true or false
     private $_type; // type panel
 
@@ -97,38 +96,30 @@ class Mowner extends \CDetectedModel { //extends \CDetectedModel
     }
     
     
-//    public function update($attributes = NULL) {
-//           echo "<pre>";
-//           var_dump( $attributes );
-//           echo "</pre>";
-//           die('stop');
-//        
-//    }
-    
-    //public function save($runValidation=true, $attributes = NULL) {
+    /*
+     * Example User Save, Delete, Update
+     */
+    /* public function save($runValidation=true, $attributes = NULL) {
         
         
-//        if($runValidation and is_array($attributes)) {
-//            if($_ownerID = (int)$attributes['OwnerID']) {
-//               $_date['OwnerName'] = (string)$attributes['OwnerName'];  
-//                
-//              // update  
-//              $_update = self::$db -> update($this->_tableName, array('target' => 'main')) 
-//                        -> fields($_date)
-//                        ->condition('OwnerID', $_ownerID, '='); 
-//              if(!$_update -> execute()) 
-//                  throw new CHttpException(404,\init::t('init','Fatal error dont update Owner'));
-//              //die('update');
-//              
-//            } else {
-//                // insert
-//                $attributes['OwnerID'] = null;
-//                
-//                
-//            }
-//        }
-    //}
-    
-    public function delete($attributes = NULL) {
-    }
+        if($runValidation and is_array($attributes)) {
+            if($_ownerID = (int)$attributes['OwnerID']) {
+               $_date['OwnerName'] = (string)$attributes['OwnerName'];  
+                
+              // update  
+              $_update = self::$db -> update($this->_tableName, array('target' => 'main')) 
+                        -> fields($_date)
+                        ->condition('OwnerID', $_ownerID, '='); 
+              if(!$_update -> execute()) 
+                  throw new CHttpException(404,\init::t('init','Fatal error dont update Owner'));
+              //die('update');
+              
+            } else {
+                // insert
+                $attributes['OwnerID'] = null;
+                
+                
+            }
+        }
+    } */
 }

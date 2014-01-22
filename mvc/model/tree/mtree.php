@@ -4,7 +4,7 @@
  * model Input
  */
 
-class Ctree extends \CDetectedModel { //extends \CDetectedModel 
+class Mtree extends \CDetectedModel { //extends \CDetectedModel 
     
     public static $db;
     private $_tableName = 'section';
