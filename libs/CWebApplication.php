@@ -176,6 +176,11 @@ class CWebApplication extends \CApplication {
                             'class' => 'CSpace',
                         ),
                     
+                        // detected tree
+                        'tree' => array(
+                            'class' => 'CTree',
+                        ),
+                    
 			'assetManager'=>array(
                             'class'=>'CAssetManager',
 			),
@@ -196,6 +201,13 @@ class CWebApplication extends \CApplication {
 
 		$this->setComponents($components);
 	}
+        
+        /**
+         * return CTree (array)
+         */
+        public function getCTree() {
+            return $this->getComponent( 'tree' );
+        }
         
         /**
          * return CSpace DS

@@ -111,8 +111,5 @@ class Mtree extends \CDetectedModel { //extends \CDetectedModel
         
     }
     
-    public function update($attributes = NULL) {
-    }
-    
-    
+   
 }
