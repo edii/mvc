@@ -550,28 +550,13 @@ class Base
                 // create layout
                 'COwner'                  => '/libs/COwner.php',
                 
-                // generate content view layout
-                /*
-                'CContentDecorator'     => '/libs/CContentDecorator.php',
-                'CContentDecorator'     => '/libs/CContentDecorator.php',
-                'CFilterWidget'         => '/libs/CFilterWidget.php', 
-                'CWidgetFactory'         => '/libs/CWidgetFactory.php', 
-                'COutputProcessor'         => '/libs/COutputProcessor.php',
-                'CWidget'               => '/libs/CWidget.php',
-                */
+                // CSpace
+                'CSpace'                  => '/libs/CSpace.php',  
+                
             
                 // core class
                 'CApplicationComponent' => '/framework/base/CApplicationComponent.php',
                 'CApplication'          => '/framework/base/CApplication.php',
-            
-                
-            
-                // database CI
-                /*
-                 'CI_DB_active_record'   => '/libs/database/DB_active_rec.php',
-                 'CI_DB_driver'          => '/libs/database/DB_driver.php',
-                 'CI_DB_result'          => '/libs/database/DB_result.php',
-                 */
             
                 // drupal
                 'DatabaseConnection'        => '/libs/database/database.php',
