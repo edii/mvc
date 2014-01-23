@@ -71,11 +71,11 @@ class Msection extends \CDetectedModel { //extends \CDetectedModel
                                                   'SectionRout'));
             $sql ->condition('hidden', 0, '=') 
                  ->condition('SectionID', (int)$_id, '='); 
-            $_section = $sql -> execute()->fetchAssoc(); 
+            $_sections = $sql -> execute()->fetchAssoc(); 
             
         } 
          
-        return $_section;
+        return $_sections;
     }
     
     /**

@@ -56,20 +56,20 @@
                             <input type="hidden" name="method" value="<?= ($this->getParam('method') == 'edit') ? 'edit': 'add' ?>" />
                             <!-- edit -->
                             <?php if((int)$this->getParam('id')): ?>
-                                <input type="hidden" name="owner[OwnerID]" value="<?= $this->getParam('id') ?>" />
-                                <input type="hidden" name="owner[TimeSaved]" value="<?= date('Y-m-d H:i:s') ?>" />
+                                <input type="hidden" name="section[SectionID]" value="<?= $this->getParam('id') ?>" />
+                                <input type="hidden" name="section[TimeSaved]" value="<?= date('Y-m-d H:i:s') ?>" />
                             <?php endif; ?>
                             <!-- add -->
                             <?php if($this->getParam('method') == 'add'): ?>
-                                <input type="hidden" name="owner[TimeCreated]" value="<?= date('Y-m-d H:i:s') ?>" />
+                                <input type="hidden" name="section[TimeCreated]" value="<?= date('Y-m-d H:i:s') ?>" />
                             <?php endif; ?>     
                                 
                             
                             <div class="form-row row-fluid">
                                 <div class="span12">
                                     <div class="row-fluid">
-                                        <label class="form-label span4" for="normal">OwnerName</label>
-                                        <input class="span8" id="normalInput" type="text" name="owner[OwnerName]" value="<?= (isset($listing)) ? $listing['OwnerName'] : '' ?>" />
+                                        <label class="form-label span4" for="normal">SectionAlias</label>
+                                        <input class="span8" id="normalInput" type="text" name="section[SectionAlias]" value="<?= (isset($listing)) ? $listing['SectionAlias'] : '' ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -77,8 +77,8 @@
                             <div class="form-row row-fluid">
                                 <div class="span12">
                                     <div class="row-fluid">
-                                        <label class="form-label span4" for="normal">OwnerTitle</label>
-                                        <input class="span8" id="normalInput" type="text" name="owner[OwnerTitle]" value="<?= (isset($listing)) ? $listing['OwnerTitle'] : '' ?>" />
+                                        <label class="form-label span4" for="normal">OwnerID</label>
+                                        <input class="span8" id="normalInput" type="text" name="section[OwnerID]" value="<?= (isset($listing)) ? $listing['OwnerID'] : '' ?>" />
                                     </div>
                                 </div>
                             </div>    
@@ -86,8 +86,8 @@
                             <div class="form-row row-fluid">
                                 <div class="span12">
                                     <div class="row-fluid">
-                                        <label class="form-label span4" for="normal">OwnerDescription</label>
-                                        <input class="span8" id="normalInput" type="text" name="owner[OwnerDescription]" value="<?= (isset($listing)) ? $listing['OwnerDescription'] : '' ?>" />
+                                        <label class="form-label span4" for="normal">UserID</label>
+                                        <input class="span8" id="normalInput" type="text" name="section[UserID]" value="<?= (isset($listing)) ? $listing['UserID'] : '' ?>" />
                                     </div>
                                 </div>
                             </div> 
@@ -96,14 +96,73 @@
                             <div class="form-row row-fluid">
                                 <div class="span12">
                                     <div class="row-fluid">
-                                        <label class="form-label span4" for="normal">OwnerKeywords</label>
-                                        <input class="span8" id="normalInput" type="text" name="owner[OwnerKeywords]" value="<?= (isset($listing)) ? $listing['OwnerKeywords'] : '' ?>" />
+                                        <label class="form-label span4" for="normal">SectionType</label>
+                                        <input class="span8" id="normalInput" type="text" name="section[SectionType]" value="<?= (isset($listing)) ? $listing['SectionType'] : '' ?>" />
                                     </div>
                                 </div>
-                            </div>     
-   
+                            </div>
                                 
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">SectionParentID</label>
+                                        <input class="span8" id="normalInput" type="text" name="section[SectionParentID]" value="<?= (isset($listing)) ? $listing['SectionParentID'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                                
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">SectionName</label>
+                                        <input class="span8" id="normalInput" type="text" name="section[SectionName]" value="<?= (isset($listing)) ? $listing['SectionName'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                                
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">SectionController</label>
+                                        <input class="span8" id="normalInput" type="text" name="section[SectionController]" value="<?= (isset($listing)) ? $listing['SectionController'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                                
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">SectionAction</label>
+                                        <input class="span8" id="normalInput" type="text" name="section[SectionAction]" value="<?= (isset($listing)) ? $listing['SectionAction'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                                
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">SectionUrl</label>
+                                        <input class="span8" id="normalInput" type="text" name="section[SectionUrl]" value="<?= (isset($listing)) ? $listing['SectionUrl'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>
                             
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">hidden</label>
+                                        <input class="span8" id="normalInput" type="text" name="section[hidden]" value="<?= (isset($listing)) ? $listing['hidden'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                             
+        
                             <div class="form-actions">
                                <button type="submit" class="btn btn-info">Save changes</button>
                                <button type="button" class="btn">Cancel</button>
