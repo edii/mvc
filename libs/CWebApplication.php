@@ -164,34 +164,45 @@ class CWebApplication extends \CApplication {
 		$components=array(
                         // detected session
 			'session'=>array(
-				'class'=>'CSession',
+                            'class'=>'CSession',
 			),
                          // detected boxes
 			'CBox'=>array(
-				'class'=>'CBox',
+                            'class'=>'CBox',
 			),
                     
+                        // detected space
+                        'space' => array(
+                            'class' => 'CSpace',
+                        ),
                     
 			'assetManager'=>array(
-				'class'=>'CAssetManager',
+                            'class'=>'CAssetManager',
 			),
 			'user'=>array(
-				'class'=>'CWebUser',
+                            'class'=>'CWebUser',
 			),
 			'themeManager'=>array(
-				'class'=>'CThemeManager',
+                            'class'=>'CThemeManager',
 			),
 			'authManager'=>array(
-				'class'=>'CPhpAuthManager',
+                            'class'=>'CPhpAuthManager',
 			),
 			'clientScript'=>array(
-				'class'=>'CClientScript',
+                            'class'=>'CClientScript',
 			),
                        
 		);
 
 		$this->setComponents($components);
 	}
+        
+        /**
+         * return CSpace DS
+         */
+        public function getCSpace() {
+            return $this->getComponent( 'space' );
+        }
 
 	/**
 	 * @return IAuthManager the authorization manager component

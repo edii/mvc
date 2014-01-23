@@ -32,11 +32,23 @@ class SettingsController extends \Controller
          * (sidebar left) disk-space-widget
          */
         public function actionDiskSpace() {
+            $_result = array();
             
+            $_obj = \init::app() -> getCSpace();
+            if(is_object($_obj)) {
+                $_result['total'] = $_obj::getConvertBytes($_obj -> getTotalSpace());
+                $_result['free'] = $_obj::getConvertBytes($_obj -> getFreeSpace());
+                
+                $_p = (($_obj -> getTotalSpace() - $_obj -> getFreeSpace()) / $_obj -> getTotalSpace()) * 100;
+                $_result['parcent'] = ceil($_p); 
+            }
+           
              $this->render('disk_space', array(
-                 'validate' => $this -> _users -> getRight()
+                 'validate' => $this -> _users -> getRight(),
+                 '_space' => $_result
              ));
 	}
+        
         
         /*
          * (sidebar left) stats-widget
