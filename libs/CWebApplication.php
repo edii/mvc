@@ -467,9 +467,12 @@ class CWebApplication extends \CApplication {
             
             
             
-            $section = $_db -> query( "SELECT SectionController as Controller, 
+            $section = $_db -> query( "SELECT SectionId, 
+                                                 SectionController as Controller, 
                                                  SectionAction as Action, 
-                                                 SectionUrl as url
+                                                 SectionUrl as url,
+                                                 Sectionname as name
+                                                 
                                           FROM section 
                                           WHERE SectionUrl IN (".$_route.") 
                                                             AND OwnerID = '".$_owner_code."'

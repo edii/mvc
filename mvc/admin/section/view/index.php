@@ -9,7 +9,7 @@
 
         <div class="heading">
 
-            <h3>Section</h3>                    
+            <h3><?= $sections_actual['name'] ?></h3>                    
 
             <div class="resBtnSearch">
                 <a href="#"><span class="icon16 icomoon-icon-search-3"></span></a>
@@ -34,7 +34,7 @@
                         <span class="icon16 icomoon-icon-arrow-right-3"></span>
                     </span>
                 </li>
-                <li class="active">Section</li>
+                <li class="active"><?= $sections_actual['name'] ?></li>
             </ul>
 
         </div><!-- End .heading-->

@@ -26,6 +26,7 @@ class OwnerController extends \Controller
             $this->layout( false );
             
             $this->render('index', array(
+                        'sections_actual' => \init::app()->getTreeSection(),
                         'listing'   => $this->_mowner -> getOwners(),
                         'validate'  => $this -> _users -> getRight(),
                         '_session'  =>  $this -> _users -> getValidate() -> getSession()
