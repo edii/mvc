@@ -7,7 +7,7 @@
     }
     foreach($childs_list as $_key => $_item): ?>
         <tr>
-            <td><?= $_nbsp ?><a href="#">drag</a><?= $lavel ?></td>
+            <td><?= $_nbsp ?><a href="#"><div class="handle"></div> <?= $lavel ?>  </a></td>
             <td><?= $_item['TimeCreated'] ?></td>
             <td><?= $_item['SectionAlias'] ?></td>
             <td><?= $_item['UserID'] ?></td>

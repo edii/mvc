@@ -3442,3 +3442,21 @@ body.rtl .support-section .sendMsg {margin-right: 0;}
 	.loginContainer {width: 180px;margin-left: -100px;}
 	.ui-datepicker{ max-width: 180px;}
 }
+
+/* tree */
+div.iteration {
+    float: left;
+    height: 1.7em;
+    margin: -0.4em 0.2em -0.4em -0.4em;
+    padding: 0.42em 0 0.42em 0.6em;
+    width: 20px;
+}
+
+
+a.tabledrag-handle .handle {
+    background: url("../../misc/draggable.png") no-repeat scroll 6px 9px rgba(0, 0, 0, 0);
+    height: 13px;
+    margin: -0.4em 0.5em;
+    padding: 0.42em 0.5em;
+    width: 13px;
+}
