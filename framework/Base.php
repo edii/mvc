@@ -553,7 +553,9 @@ class Base
                 // CSpace
                 'CSpace'                  => '/libs/CSpace.php',  
                 
-            
+                // CTree
+                'CTree'                  => '/libs/CTree.php',
+                
                 // core class
                 'CApplicationComponent' => '/framework/base/CApplicationComponent.php',
                 'CApplication'          => '/framework/base/CApplication.php',

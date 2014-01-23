@@ -69,14 +69,16 @@
                         
                         <a href="#" class="minimize"> Минимизация </a>
                     </div>
+                    
                     <div class="content noPad">
+                        
+                        
                         <table class="table table-bordered" id="checkAll">
                             <thead>
                               <tr>
                                 <th>#</th>
                                 <th>TimeCreated</th>
                                 <th>Alias</th>
-                                <th>OwnerID</th>
                                 <th>UserID</th>
                                 <th>Type</th>
                                 <th>ParentID</th>
@@ -91,21 +93,24 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <?php if(is_array($section_list) and count($section_list) > 0): ?>
-                                <?php foreach($section_list as $_key => $_item): ?>
+                              <?php 
+                              // var_dump($section_list); die('stop');
+                              if(is_array($section_list) and count($section_list) > 0): ?>
+                                <?php 
+                                $lavel = 1;
+                                foreach($section_list as $_key => $_item): ?>
                                     <tr>
-                                        <td><?= ($_key + 1) ?></td>
-                                        <td><?= $_item->TimeCreated ?></td>
-                                        <td><?= $_item->SectionAlias ?></td>
-                                        <td><?= $_item->OwnerID ?></td>
-                                        <td><?= $_item->UserID ?></td>
-                                        <td><?= $_item->SectionType ?></td>
-                                        <td><?= $_item->SectionParentID ?></td>
-                                        <td><?= $_item->SectionName ?></td>
-                                        <td><?= $_item->SectionController ?></td>
-                                        <td><?= $_item->SectionAction ?></td>
-                                        <td><?= $_item->SectionUrl ?></td>
-                                        <td><?= $_item->hidden ?></td>
+                                        <td><?= $lavel ?></td>
+                                        <td><?= $_item['TimeCreated'] ?></td>
+                                        <td><?= $_item['SectionAlias'] ?></td>
+                                        <td><?= $_item['UserID'] ?></td>
+                                        <td><?= $_item['SectionType'] ?></td>
+                                        <td><?= $_item['SectionParentID'] ?></td>
+                                        <td><?= $_item['SectionName'] ?></td>
+                                        <td><?= $_item['SectionController'] ?></td>
+                                        <td><?= $_item['SectionAction'] ?></td>
+                                        <td><?= $_item['SectionUrl'] ?></td>
+                                        <td><?= $_item['hidden'] ?></td>
                                         <td class="chChildren"><input type="checkbox" name="checkbox" value="1" class="styled" /></td>
                                         <td>
                                             <div class="controls center">
@@ -114,10 +119,21 @@
                                             </div>
                                         </td>
                                       </tr>
+                                      
+                                      <?php
+                                      // childs
+                                      if(isset($_item['childs']) and !empty($_item['childs'])) :
+                                          $this -> renderView('childs', array('childs_list' => $_item['childs'], 'lavel' => $lavel));
+                                      endif; 
+                                      ?>
+                                      
                                 <?php endforeach; ?>
                               <?php endif; ?>  
                             </tbody>
                         </table>
+                        
+                        
+                        
                     </div>
 
                 </div><!-- End .box -->

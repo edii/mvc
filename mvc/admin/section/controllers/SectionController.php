@@ -20,11 +20,20 @@ class SectionController extends \Controller
         public function actionIndex() {
             $this->layout( false );
             
+            $_items = array();
+            $_sections = $this -> _msection -> getSections();
+            if(is_array($_sections) and count($_sections) > 0) {
+                foreach($_sections as $_key => $_element) :
+                    $_items[$_key] = (array)$_element;
+                endforeach;
+            }
+            
+            $_tree = \init::app() -> getCTree()-> set( $_items, array('id' => 'SectionID', 'p_id' => 'SectionParentID') ) -> get();
+            
             $this->render('index', array(
                 'sections_actual' => \init::app()->getTreeSection(),
-                'section_list'   => $this -> _msection -> getSections(),
-                'validate'  => $this -> _users -> getRight(),
-                '_session'  =>  $this -> _users -> getValidate() -> getSession()
+                'section_list'   => $_tree,
+                'validate'  => $this -> _users -> getRight()
             ));
 	}
         
