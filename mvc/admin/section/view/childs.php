@@ -1,10 +1,13 @@
 <?php if(is_array($childs_list) and count($childs_list) > 0): ?>
     <?php 
     $lavel += 1;
-    
+    $_nbsp = '';
+    for($i = 0; $i < $lavel; $i++) {
+        $_nbsp .= '<div class="iteration">-</div>';
+    }
     foreach($childs_list as $_key => $_item): ?>
         <tr>
-            <td><?= $lavel ?></td>
+            <td><?= $_nbsp ?><a href="#">drag</a><?= $lavel ?></td>
             <td><?= $_item['TimeCreated'] ?></td>
             <td><?= $_item['SectionAlias'] ?></td>
             <td><?= $_item['UserID'] ?></td>

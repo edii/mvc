@@ -100,7 +100,7 @@
                                 $lavel = 1;
                                 foreach($section_list as $_key => $_item): ?>
                                     <tr>
-                                        <td><?= $lavel ?></td>
+                                        <td><a href="#">drag</a><?= $lavel ?></td>
                                         <td><?= $_item['TimeCreated'] ?></td>
                                         <td><?= $_item['SectionAlias'] ?></td>
                                         <td><?= $_item['UserID'] ?></td>
