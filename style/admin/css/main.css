@@ -3449,12 +3449,12 @@ div.iteration {
     height: 1.7em;
     margin: -0.4em 0.2em -0.4em -0.4em;
     padding: 0.42em 0 0.42em 0.6em;
-    width: 20px;
+    width: 1px;
 }
 
 
 a.tabledrag .handle {
-    background: url("../../misc/draggable.png") no-repeat scroll 6px 9px rgba(0, 0, 0, 0);
+    background: url("/style/admin/image/draggable.png") no-repeat scroll 6px 9px rgba(0, 0, 0, 0);
     height: 13px;
     margin: -0.4em 0.5em;
     padding: 0.42em 0.5em;
