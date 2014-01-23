@@ -47,14 +47,15 @@ class OwnerController extends \Controller
             }
             
             if($_method == 'edit' or $_method == 'add') {
-                 $_title = 'Редактирование';
-                 
+                
                  if(!(int)$_id) {
+                     // insert
                      $_title = 'Добавить';
                      if(is_array($_owner) and count($_owner) > 0) {
                         $this->_mowner ->save(true, $_owner);
                      }
                  } else {
+                     // update
                      $_title = 'Редактирование';
                      if(is_array($_owner) and count($_owner) > 0) {
                         $this->_mowner ->save(true, $_owner);
