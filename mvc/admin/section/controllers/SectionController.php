@@ -43,7 +43,7 @@ class SectionController extends \Controller
             $_error = false;
             $_id = \init::app() ->getRequest() -> getParam('id'); 
             $_method = \init::app() ->getRequest() -> getParam('method');
-            $_section = \init::app() ->getRequest() -> getParam('sections');
+            $_section = \init::app() ->getRequest() -> getParam('section');
             if(empty($_method) or !isset($_method)) {
                 // fatal error ( rediract listings owners )
                $_error = true;
@@ -62,11 +62,11 @@ class SectionController extends \Controller
                  
             } else if($_method == 'add'){
                 // add
-                $_title = 'Добавить';
+                $_title = 'Добавить';               
                 if(!(int)$_id) {
                     if(is_array($_section) and count($_section) > 0) {
                         $this->_msection ->save(true, $_section);
-                     }
+                    }
                 }
                 
             } else {
