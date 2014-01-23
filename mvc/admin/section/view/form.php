@@ -116,6 +116,26 @@
                             <div class="form-row row-fluid">
                                 <div class="span12">
                                     <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">SectionIntroContent</label>
+                                        <input class="span8" id="normalInput" type="text" name="section[SectionIntroContent]" value="<?= (isset($listing)) ? $listing['SectionIntroContent'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                                
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">SectionContent</label>
+                                        <input class="span8" id="normalInput" type="text" name="section[SectionContent]" value="<?= (isset($listing)) ? $listing['SectionContent'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                                
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
                                         <label class="form-label span4" for="normal">SectionName</label>
                                         <input class="span8" id="normalInput" type="text" name="section[SectionName]" value="<?= (isset($listing)) ? $listing['SectionName'] : '' ?>" />
                                     </div>
