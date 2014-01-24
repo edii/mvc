@@ -3487,7 +3487,6 @@ div.iteration {
     border-radius: 2px;
     position: relative;
     width: 100%;
-    
     background-color: rgba(0, 0, 0, 0);
     border-spacing: 0;
     max-width: 100%;
@@ -3525,12 +3524,12 @@ div.iteration {
     vertical-align: bottom;
     line-height: 20px;
     padding: 8px;
-    width: 84px;
+    width: 85px;
 }
 
 
 .sortable li.placeholder {
-    display: block;
+    
     height: 37px;
     content: "";
     background-color: #FBF9EE;
