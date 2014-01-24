@@ -3527,6 +3527,18 @@ div.iteration {
     width: 85px;
 }
 
+.sortable ul.subcat-section .hidden {
+    display: none;
+}
+
+.sortable ul.subcat-section .show {
+    display: block;
+}
+
+.sortable ul.subcat-section {
+    margin: 0px;
+    padding: 0px;
+}
 
 .sortable li.placeholder {
     height: 37px;

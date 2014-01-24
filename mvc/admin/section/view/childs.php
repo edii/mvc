@@ -1,5 +1,5 @@
 <?php if(is_array($childs_list) and count($childs_list) > 0): ?>
-   <ul>
+   <ul class="subcat-section hidden">
     <?php 
     $lavel += 1;
     $_nbsp = '';
@@ -18,9 +18,9 @@
             <div class="item-sorttable"><?= $_item['SectionController'] ?></div>
             <div class="item-sorttable"><?= $_item['SectionAction'] ?></div>
             <div class="item-sorttable"><?= $_item['SectionUrl'] ?></div>
-            <div class="item-sorttable"><?= $_item['hidden'] ?></div>
+ 
             <div class="item-sorttable" class="chChildren"><input type="checkbox" name="checkbox" value="1" class="styled" /></div>
-            <div class="item-sorttable">
+            <div class="item-sorttable"><div class="item-sorttable"><?= $_item['hidden'] ?></div>
                 <div class="controls center">
                     <a href="#" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
                     <a class="delete" href="#" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>

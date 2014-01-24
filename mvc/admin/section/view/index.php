@@ -73,7 +73,7 @@
                     <div class="content noPad clearfix">
                         
                         
-                        <ul class="sortable clearfix">
+                        <ul class="sortable section clearfix">
                             <li id="head">
                                 <div class="item-sorttable">#</div>
                                 <div class="item-sorttable">TimeCreated</div>
@@ -85,8 +85,7 @@
                                 <div class="item-sorttable">Controller</div>
                                 <div class="item-sorttable">Action</div>
                                 <div class="item-sorttable">Url</div>
-                                <div class="item-sorttable">hidden</div>
-                                
+                              
                                 <div id="masterCh" class="item-sorttable ch"><input type="checkbox" name="checkbox" value="all" class="styled" /></div>
                                 <div class="item-sorttable">Actions</div>
                             </li>
@@ -108,7 +107,7 @@
                                         <div class="item-sorttable"><?= $_item['SectionController'] ?></div>
                                         <div class="item-sorttable"><?= $_item['SectionAction'] ?></div>
                                         <div class="item-sorttable"><?= $_item['SectionUrl'] ?></div>
-                                        <div class="item-sorttable"><?= $_item['hidden'] ?></div>
+                                        
                                         <div class="item-sorttable" class="chChildren"><input type="checkbox" name="checkbox" value="1" class="styled" /></div>
                                         <div class="item-sorttable">
                                             <div class="controls center">
