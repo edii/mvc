@@ -3518,13 +3518,11 @@ div.iteration {
     border-top-left-radius: 2px;
 }
 .sortable #head .item-sorttable, .sortable #custom .item-sorttable {
-   
-    float: left;
     text-align: left;
     vertical-align: bottom;
     line-height: 20px;
     padding: 8px;
-    width: 85px;
+    width: 100px;
 }
 
 .sortable ul.subcat-section .hidden {
@@ -3547,6 +3545,19 @@ div.iteration {
     border: 1px solid #FCEFA1;
     color: #363636;
 }
+
+.sortable li .ch {
+    width: 50px;
+}
+
+.sortable li .action {
+    width: 50px;
+}
+
+.left {
+    float: left;
+}
+
 
 /*.sortable tr.placeholder {
     background: none repeat scroll 0 0 #FF0000;

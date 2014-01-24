@@ -75,17 +75,17 @@
                         
                         <ul class="sortable section clearfix">
                             <li id="head">
-                                <div class="item-sorttable">#</div>
-                                <div class="item-sorttable">TimeCreated</div>
-                                <div class="item-sorttable">Alias</div>
-                                <div class="item-sorttable">UserID</div>
-                                <div class="item-sorttable">Type</div>
-                                <div class="item-sorttable">Name</div>
-                                <div class="item-sorttable">Controller</div>
-                                <div class="item-sorttable">Action</div>
+                                <div class="item-sorttable left">#</div>
+                                <div class="item-sorttable left">TimeCreated</div>
+                                <div class="item-sorttable left">Alias</div>
+                                <div class="item-sorttable left">UserID</div>
+                                <div class="item-sorttable left">Type</div>
+                                <div class="item-sorttable left">Name</div>
+                                <div class="item-sorttable left">Controller</div>
+                                <div class="item-sorttable left">Action</div>
                               
-                                <div id="masterCh" class="item-sorttable ch"><input type="checkbox" name="checkbox" value="all" class="styled" /></div>
-                                <div class="item-sorttable">Actions</div>
+                                <div id="masterCh" class="item-sorttable ch left"><input type="checkbox" name="checkbox" value="all" class="styled" /></div>
+                                <div class="action right">Actions</div>
                             </li>
                            
                                 <?php 
@@ -95,17 +95,17 @@
                                 $lavel = 1;
                                 foreach($section_list as $_key => $_item): ?>
                                     <li id="custom">
-                                        <div class="item-sorttable"><a class="tabledrag" href="#"><?= $lavel ?></a></div>
-                                        <div class="item-sorttable"><?= $_item['TimeCreated'] ?></div>
-                                        <div class="item-sorttable"><?= $_item['SectionAlias'] ?></div>
-                                        <div class="item-sorttable"><?= $_item['UserID'] ?></div>
-                                        <div class="item-sorttable"><?= $_item['SectionType'] ?></div>
-                                        <div class="item-sorttable"><?= $_item['SectionName'] ?></div>
-                                        <div class="item-sorttable"><?= $_item['SectionController'] ?></div>
-                                        <div class="item-sorttable"><?= $_item['SectionAction'] ?></div>
+                                        <div class="item-sorttable left"><a class="tabledrag" href="#"><?= $lavel ?></a></div>
+                                        <div class="item-sorttable left"><?= $_item['TimeCreated'] ?></div>
+                                        <div class="item-sorttable left"><?= $_item['SectionAlias'] ?></div>
+                                        <div class="item-sorttable left"><?= $_item['UserID'] ?></div>
+                                        <div class="item-sorttable left"><?= $_item['SectionType'] ?></div>
+                                        <div class="item-sorttable left"><?= $_item['SectionName'] ?></div>
+                                        <div class="item-sorttable left"><?= $_item['SectionController'] ?></div>
+                                        <div class="item-sorttable left"><?= $_item['SectionAction'] ?></div>
                                         
-                                        <div class="item-sorttable" class="chChildren"><input type="checkbox" name="checkbox" value="1" class="styled" /></div>
-                                        <div class="item-sorttable">
+                                        <div class="item-sorttable ch Children left"><input type="checkbox" name="checkbox" value="1" class="styled" /></div>
+                                        <div class="action right">
                                             <div class="controls center">
                                                 <a href="#" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
                                                 <a class="delete" href="#" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
