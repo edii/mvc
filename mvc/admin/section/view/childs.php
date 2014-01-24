@@ -13,11 +13,9 @@
             <div class="item-sorttable"><?= $_item['SectionAlias'] ?></div>
             <div class="item-sorttable"><?= $_item['UserID'] ?></div>
             <div class="item-sorttable"><?= $_item['SectionType'] ?></div>
-            <div class="item-sorttable"><?= $_item['SectionParentID'] ?></div>
             <div class="item-sorttable"><?= $_item['SectionName'] ?></div>
             <div class="item-sorttable"><?= $_item['SectionController'] ?></div>
             <div class="item-sorttable"><?= $_item['SectionAction'] ?></div>
-            <div class="item-sorttable"><?= $_item['SectionUrl'] ?></div>
  
             <div class="item-sorttable" class="chChildren"><input type="checkbox" name="checkbox" value="1" class="styled" /></div>
             <div class="item-sorttable"><div class="item-sorttable"><?= $_item['hidden'] ?></div>
