@@ -1,4 +1,5 @@
 <?php if(is_array($childs_list) and count($childs_list) > 0): ?>
+   <ul>
     <?php 
     $lavel += 1;
     $_nbsp = '';
@@ -34,4 +35,5 @@
           endif; ?>
 
     <?php endforeach; ?>
+   </ul>      
   <?php endif; ?> 

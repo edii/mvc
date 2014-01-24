@@ -3505,7 +3505,7 @@ div.iteration {
 }
 
 .sortable li:last-child {
-    border-bottom: 1px solid #C4C4C4;
+/*    border-bottom: 1px solid #C4C4C4;*/
 }
 
 .sortable #head {
@@ -3529,7 +3529,6 @@ div.iteration {
 
 
 .sortable li.placeholder {
-    
     height: 37px;
     content: "";
     background-color: #FBF9EE;

@@ -73,7 +73,7 @@
                     <div class="content noPad clearfix">
                         
                         
-                        <ul class="sortable">
+                        <ul class="sortable clearfix">
                             <li id="head">
                                 <div class="item-sorttable">#</div>
                                 <div class="item-sorttable">TimeCreated</div>
@@ -116,7 +116,7 @@
                                                 <a class="delete" href="#" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
                                             </div>
                                         </div>
-                                      </li>
+                                      
                                       
                                       <?php
                                       // childs
@@ -125,6 +125,8 @@
                                       endif; 
                                       ?>
                                       
+                                    </li>  
+                                        
                                 <?php endforeach; ?>
                               <?php endif; ?>  
                             
