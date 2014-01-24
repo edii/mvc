@@ -45,6 +45,8 @@ $(window).load(function(){
 $(document).ready(function(){ 	
     
          $( ".sortable" ).sortable({
+            items: 'li:not(#head)', 
+            cancel: "li:not(#custom)", 
             placeholder: "placeholder"
         });
         $( ".sortable" ).disableSelection();
