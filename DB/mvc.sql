@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 21, 2014 at 04:04 PM
+-- Generation Time: Jan 24, 2014 at 11:47 AM
 -- Server version: 5.5.23
 -- PHP Version: 5.4.11
 
@@ -3532,7 +3532,7 @@ CREATE TABLE IF NOT EXISTS `owner` (
   KEY `OwnerType` (`OwnerType`),
   FULLTEXT KEY `OwnerTitle` (`OwnerTitle`),
   FULLTEXT KEY `OwnerKeywords` (`OwnerKeywords`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `owner`
@@ -3540,7 +3540,8 @@ CREATE TABLE IF NOT EXISTS `owner` (
 
 INSERT INTO `owner` (`OwnerID`, `UserID`, `TimeCreated`, `TimeSaved`, `OwnerCode`, `hidden`, `OwnerStatus`, `OwnerType`, `OwnerParentCode`, `OwnerGroup`, `OwnerPaymentType`, `OwnerPaymentStatus`, `OwnerPaymentTime`, `OwnerDomain`, `OwnerName`, `OwnerTitle`, `OwnerIsDefault`, `OwnerStyle`, `OwnerLocation`, `OwnerCurrencies`, `OwnerGMT`, `OwnerCategory`, `OwnerImage`, `OwnerIcon`, `OwnerImagePreview`, `OwnerDescription`, `OwnerKeywords`, `OwnerIntroPage`, `OwnerCSSURL`, `OwnerCounterCode`, `OwnerAdCodeActivation`, `OwnerNumberOfBackLinks`, `OwnerLanguage`, `OwnerMail`, `OwnerAdministratorsEmails`, `OwnerSupportEmail`) VALUES
 (1, 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'root', 0, 1, 'companysite', '', '', '', '', '0000-00-00 00:00:00', 'mvc.dev:6161', 'Макс 234234234234', '<ru>lembergcoach</ru><en>lembergcoach</en>', 'N', 'lemberg', 0, '|UAH|', 0, '', '', '', '', 0x3c72753e6c656d62657267636f6163683c2f72753e3c656e3e6c656d62657267636f6163683c2f656e3e, '<ru>lembergcoach</ru><en>lembergcoach</en>', '', 'http://', '', '', 0, 'ru', 'edii87shadow@gmail.com', 'edii87shadow@gmail.com', ''),
-(2, '', '2014-01-21 18:02:25', '0000-00-00 00:00:00', '', 0, 4, '', '', '', 'null', 'null', '0000-00-00 00:00:00', '', 'edii', 'test', 'N', 'default', 1, 'UAH', 2, '', '', '', '', 0x736466736466736466736466, 'sdfsdf sdfsdfsdfsdfsdf', 'null', '', 'ua', '', 0, '', 'null', 'null', 'null');
+(2, '', '2014-01-21 18:02:25', '0000-00-00 00:00:00', '', 0, 4, '', '', '', 'null', 'null', '0000-00-00 00:00:00', '', 'edii', 'test', 'N', 'default', 1, 'UAH', 2, '', '', '', '', 0x736466736466736466736466, 'sdfsdf sdfsdfsdfsdfsdf', 'null', '', 'ua', '', 0, '', 'null', 'null', 'null'),
+(3, '', '2014-01-21 18:08:39', '0000-00-00 00:00:00', '', 0, 4, '', '', '', 'null', 'null', '0000-00-00 00:00:00', '', 'maks', 'maks', 'N', 'default', 1, 'UAH', 2, '', '', '', '', 0x6d616b73, 'maks', 'null', '', 'ua', '', 0, '', 'null', 'null', 'null');
 
 -- --------------------------------------------------------
 
@@ -5016,11 +5017,11 @@ CREATE TABLE IF NOT EXISTS `section` (
   `SectionContent` longtext COLLATE utf8_bin NOT NULL,
   `SectionClicks` int(11) NOT NULL DEFAULT '0',
   `SectionViewOptions` varchar(200) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `SectionController` varchar(255) COLLATE utf8_bin NOT NULL,
-  `SectionAction` varchar(255) COLLATE utf8_bin NOT NULL,
-  `SectionView` varchar(255) COLLATE utf8_bin NOT NULL,
-  `SectionUrl` varchar(255) COLLATE utf8_bin NOT NULL,
-  `SectionRout` varchar(255) COLLATE utf8_bin NOT NULL,
+  `SectionController` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'home',
+  `SectionAction` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'static',
+  `SectionView` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'index',
+  `SectionUrl` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '/',
+  `SectionRout` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`SectionID`),
   KEY `SectionAlias` (`SectionAlias`),
   KEY `OwnerID` (`OwnerID`),
@@ -5039,7 +5040,7 @@ CREATE TABLE IF NOT EXISTS `section` (
   FULLTEXT KEY `SectionContent` (`SectionContent`),
   FULLTEXT KEY `SectionKeywords` (`SectionKeywords`),
   FULLTEXT KEY `SectionDescription` (`SectionDescription`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `section`
@@ -5056,7 +5057,9 @@ INSERT INTO `section` (`SectionID`, `hidden`, `SectionInMenu`, `SectionAlias`, `
 (8, 0, 0, 'subcat', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'front', '', '7', '', '', '', '', NULL, NULL, NULL, NULL, 0x737562636174, NULL, NULL, NULL, NULL, '', '', 0, '', 'hello', 'subcat', '', 'test/subcat', ''),
 (9, 0, 0, 'subcat2', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'front', '', '8', '', '', '', '', NULL, NULL, NULL, NULL, 0x73756263617432, NULL, NULL, NULL, NULL, '', '', 0, '', 'hello', 'subcat2', '', 'test/subcat/subcat2', ''),
 (10, 0, 0, 'owner', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, 0x6f776e6572, NULL, NULL, NULL, NULL, '', '', 0, '', 'owner', 'index', '', 'owner', ''),
-(11, 0, 1, 'manager', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '10', '', '', '', '', NULL, NULL, NULL, NULL, 0x4f776e6572206d616e616765722028456469742f41646429, NULL, NULL, NULL, NULL, '', '', 0, '', 'owner', 'manager', '', 'owner/manager', '');
+(11, 0, 1, 'manager', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '10', '', '', '', '', NULL, NULL, NULL, NULL, 0x4f776e6572206d616e616765722028456469742f41646429, NULL, NULL, NULL, NULL, '', '', 0, '', 'owner', 'manager', '', 'owner/manager', ''),
+(12, 0, 0, 'section', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, 0x53656374696f6e, NULL, NULL, NULL, NULL, '', '', 0, '', 'section', 'index', '', 'section', ''),
+(13, 0, 0, 'manager_s', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '12', '', '', '', '', NULL, NULL, NULL, NULL, 0x53656374696f6e73206d616e616765722028456469742f41646429, NULL, NULL, NULL, NULL, '', '', 0, '', 'section', 'manager_s', '', 'section/manager_s', '');
 
 -- --------------------------------------------------------
 
@@ -5156,7 +5159,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('6f022d0a26bcb174dad3d9cba720bdf2', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0', 1390317703, 'a:9:{s:10:"session_id";s:32:"6f022d0a26bcb174dad3d9cba720bdf2";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:72:"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0";s:13:"last_activity";i:1390317703;s:9:"user_data";s:0:"";s:2:"id";s:4:"root";s:5:"login";s:4:"root";s:5:"email";s:16:"jjboun@gmail.com";s:8:"validate";b:1;}');
+('9391ac7152b57a4656077374c6432173', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0', 1390560865, 'a:9:{s:10:"session_id";s:32:"9391ac7152b57a4656077374c6432173";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:72:"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0";s:13:"last_activity";i:1390560865;s:9:"user_data";s:0:"";s:2:"id";s:4:"root";s:5:"login";s:4:"root";s:5:"email";s:16:"jjboun@gmail.com";s:8:"validate";b:1;}');
 
 -- --------------------------------------------------------
 
