@@ -3444,6 +3444,32 @@ body.rtl .support-section .sendMsg {margin-right: 0;}
 }
 
 /* tree */
+
+/* --------------------clear float -------------------- */
+* html .clearfix {
+	height: 1%; /* IE5-6 */
+}
+
+.clearfix {
+	display: inline-block; /* IE7xhtml*/
+}
+
+html[xmlns] .clearfix { /* O */
+	display: block;  
+}
+
+.clear {
+	clear: both;
+}
+
+.clearfix:after, .clear:after{ /* FF, O, etc. */
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
 div.iteration {
     float: left;
     height: 1.7em;
@@ -3452,11 +3478,87 @@ div.iteration {
     width: 1px;
 }
 
-
-a.tabledrag .handle {
-    background: url("/style/admin/image/draggable.png") no-repeat scroll 6px 9px rgba(0, 0, 0, 0);
-    height: 13px;
-    margin: -0.4em 0.5em;
-    padding: 0.42em 0.5em;
-    width: 13px;
+.sortable {
+    border: 1px solid rgba(0, 0, 0, 0);
+    margin-bottom: 0;
+    margin-left: -1px;
+    margin-top: -1px;
+    border-collapse: collapse;
+    border-radius: 2px;
+    position: relative;
+    width: 100%;
+    
+    background-color: rgba(0, 0, 0, 0);
+    border-spacing: 0;
+    max-width: 100%;
 }
+
+.sortable li {
+    border-top: 1px solid #C4C4C4;
+    list-style: none;
+    background-color: #FAFAFA;
+    box-shadow: 0 1px 0 #FFFFFF;
+    width: 100%;
+    float: left;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+.sortable li:last-child {
+    border-bottom: 1px solid #C4C4C4;
+}
+
+.sortable #head {
+    box-shadow: 0 1px 0 #FFFFFF;
+    background: -moz-linear-gradient(center top , #FFFFFF 1%, #F3F3F3 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 1px 0 #FFFFFF;
+}
+
+.sortable #head .item-sorttable {
+    border-top-left-radius: 2px;
+}
+.sortable #head .item-sorttable, .sortable #custom .item-sorttable {
+   
+    float: left;
+    text-align: left;
+    vertical-align: bottom;
+    line-height: 20px;
+    padding: 8px;
+    width: 84px;
+}
+
+
+.sortable li.placeholder {
+    display: block;
+    height: 37px;
+    content: "";
+    background-color: #FBF9EE;
+    border: 1px solid #FCEFA1;
+    color: #363636;
+}
+
+/*.sortable tr.placeholder {
+    background: none repeat scroll 0 0 #FF0000;
+    border: medium none;
+    display: block;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+.sortable tr.placeholder:before {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: rgba(0, 0, 0, 0) -moz-use-text-color rgba(0, 0, 0, 0) #FF0000;
+    border-image: none;
+    border-style: solid none solid solid;
+    border-width: 5px medium 5px 5px;
+    content: "";
+    height: 0;
+    left: -5px;
+    margin-top: -5px;
+    position: absolute;
+    width: 0;
+}*/

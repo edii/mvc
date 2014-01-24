@@ -43,6 +43,14 @@ $(window).load(function(){
 
 // document ready function
 $(document).ready(function(){ 	
+    
+         $( ".sortable" ).sortable({
+            placeholder: "placeholder"
+        });
+        $( ".sortable" ).disableSelection();
+    
+        
+    
 
 	//------------- Switcher code ( Remove it in production site ) -------------//
 	(function(){
