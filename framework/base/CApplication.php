@@ -416,7 +416,16 @@ abstract class CApplication extends \CModule
 		if($language===$srcLanguage) {
 			return $srcFile;
                 }        
-		$desiredFile=dirname($srcFile).DS.$language.DS.basename($srcFile);
+                
+                //if(is_array($language) and count($language) > 0) {
+                    //$desiredFile=dirname($srcFile).DS.$language[0]->lang_code.DS.basename($srcFile);
+                //}
+                
+                // $desiredFile=dirname($srcFile).DS.$language.DS.basename($srcFile);
+		$desiredFile=dirname($srcFile).DS.basename($srcFile);
+                
+                //echo $desiredFile; 
+                //die('stop');
                  
 		return is_file($desiredFile) ? $desiredFile : $srcFile;
 	}

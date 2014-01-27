@@ -8,6 +8,7 @@ class SectionController extends \Controller
         
         // section (model)
         private $_msection = false;
+        
         /**
          * construct
          */
@@ -18,6 +19,7 @@ class SectionController extends \Controller
         }
         
         public function actionIndex() {
+           
             $this->layout( false );
             
             $_items = array();
@@ -89,4 +91,6 @@ class SectionController extends \Controller
             }                 
 
 	}
+
+        
 }
