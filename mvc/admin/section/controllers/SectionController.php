@@ -19,7 +19,7 @@ class SectionController extends \Controller
         }
         
         public function actionIndex() {
-            
+           
             $this->layout( false );
             
             $_items = array();
