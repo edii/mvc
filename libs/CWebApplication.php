@@ -89,6 +89,8 @@ class CWebApplication extends \CApplication {
         private $_tree_section = null;
         private $_tree_params = false;
         
+        /* language */
+        private $_language;
 
         /**
 	 * Processes the current request.
@@ -125,6 +127,10 @@ class CWebApplication extends \CApplication {
             return $this->_tree_params;
         }
         
+        public function getLanguage() {
+            return $this->_language;
+        }
+        
         /**
          * Загрузка дерева Section
          * input (array) $_tree
@@ -148,6 +154,13 @@ class CWebApplication extends \CApplication {
         protected function setTreeParams( $_params ) {
             if(isset($_params) and !empty($_params)) {
                 $this->_tree_params = $_params;
+            }
+           return $this;
+        }
+        
+        public function setLanguage( $_language ) {
+            if(isset($_language) and !empty($_language)) {
+                $this->_language = $_language;
             }
            return $this;
         }
@@ -331,7 +344,21 @@ class CWebApplication extends \CApplication {
 	 * Creates a controller instance based on a route.
 	 */
 	public function createController($route, $owner=null, $_box = false) {
-                
+                // detected language
+                $_l_code = false;
+                if($_tree_route = explode('/', $route) and is_array($_tree_route) and count($_tree_route) > 0) {
+                    \init::app()->setLanguage( $this->getLangs($_tree_route[0]) );
+                    
+                    if($_lang = \init::app()->getLanguage() and is_array($_lang) and count($_lang) > 0) {
+                        if($_lang[0]->lang_code == $_tree_route[0]) {
+                            array_shift($_tree_route);
+                            $route = implode('/', $_tree_route);
+                        }
+                            
+                    }
+                            
+                } 
+                // end
             
                 $this -> parseAlies($route);
                 
@@ -342,7 +369,7 @@ class CWebApplication extends \CApplication {
                     
                     // load section
                     if($_section = $this->getTreeSection() and is_array($_section) and count($_section) > 0) {
-                        
+                        // echo "FRONT BLAAAAAAAAAA"; die('stop');
                         if(isset($_section['Controller']) and !empty($_section['Controller'])) {
                             $_sec_action = (isset($_section['Action']) and !empty($_section['Action'])) ? $_section['Action'] : 'index';
                             $route = $_section['Controller'].'/'.$_sec_action; 
@@ -477,6 +504,7 @@ class CWebApplication extends \CApplication {
             if(is_array($_tree) and count($_tree) > 0) {
                 $_arr_tree = array();
                 $_count = count($_tree) - 1;
+                
                 for($i = 0; $i <= $_count; $i++) {
                    if($i > 0) 
                     $_arr_tree[] = "'".implode('/', array_slice ($_tree, 0,  $i))."'";
@@ -529,6 +557,53 @@ class CWebApplication extends \CApplication {
                 }
                 
             
+        }
+        
+        
+        protected function getLangs( $_code = false ) {
+            $_db = \init::app() -> getDBConnector();
+           
+            $_code_lang = htmlspecialchars(stripslashes(trim($_code)));
+            if($_settings = \init::app() -> getSettings() and is_array($_settings)) {
+                $_lang = $_settings['lang'];
+                if(!$_code) $_code_lang = $_lang;
+            } 
+            
+            $_where = "";
+            if($_code_lang) {
+                $_where .= " AND `LanguageCode` = '".$_code_lang."'";
+            } else {
+                 $_where .= " AND `LanguageIsDefault` = 1";
+            }
+            
+            
+            $_q_lang = $_db -> query( "SELECT `LanguageID` as `lang_id`, 
+                                                  `LanguageCode` as `lang_code`, 
+                                                  `LanguageName` as `lang_name`, 
+                                                  `LanguageIsDefault` as `lang_def`, 
+                                                  `LanguageIcon` as `lang_icon`,
+                                                  `LanguageIconActive` as `lang_icon_active`,
+                                                  `LanguagePosition` as `lang_pos`,
+                                                  `LanguageLocale` as `lang_locale`
+                                          FROM `language` 
+                                          WHERE `LanguageID` <> 0 AND `hidden` = 0 ". $_where) -> fetchAll();
+            
+            if(is_array($_q_lang) and count($_q_lang) >0 ) {
+                $db_lang = $_q_lang;
+            } else {
+                return $_db -> query( "SELECT `LanguageID` as `lang_id`, 
+                                                  `LanguageCode` as `lang_code`, 
+                                                  `LanguageName` as `lang_name`, 
+                                                  `LanguageIsDefault` as `lang_def`, 
+                                                  `LanguageIcon` as `lang_icon`,
+                                                  `LanguageIconActive` as `lang_icon_active`,
+                                                  `LanguagePosition` as `lang_pos`,
+                                                  `LanguageLocale` as `lang_locale`
+                                          FROM `language` 
+                                          WHERE `LanguageID` <> 0 AND `hidden` = 0 AND `LanguageIsDefault` = 1 ORDER BY LanguageID ASC LIMIT 1") -> fetchAll();
+            }
+            
+            return $db_lang;
         }
         
 	/**

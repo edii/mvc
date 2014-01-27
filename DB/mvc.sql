@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 24, 2014 at 11:47 AM
+-- Generation Time: Jan 27, 2014 at 01:34 PM
 -- Server version: 5.5.23
 -- PHP Version: 5.4.11
 
@@ -3298,18 +3298,18 @@ INSERT INTO `langfield` (`LangFieldID`, `TimeSaved`, `Code`, `UserID`, `OwnerID`
 
 CREATE TABLE IF NOT EXISTS `language` (
   `LanguageID` int(8) NOT NULL AUTO_INCREMENT,
-  `PermAll` tinyint(1) NOT NULL DEFAULT '0',
+  `hidden` int(1) NOT NULL DEFAULT '0',
+  `LanguageIsDefault` int(2) NOT NULL DEFAULT '0',
   `LanguageCode` varchar(2) COLLATE utf8_bin NOT NULL DEFAULT '',
   `LanguageName` text COLLATE utf8_bin NOT NULL,
-  `LanguageIsDefault` char(1) COLLATE utf8_bin NOT NULL DEFAULT '',
   `LanguageIcon` varchar(200) COLLATE utf8_bin NOT NULL DEFAULT '',
   `LanguageIconActive` varchar(200) COLLATE utf8_bin NOT NULL DEFAULT '',
   `LanguagePosition` int(5) NOT NULL DEFAULT '0',
-  `LanguageTranslationType` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `LanguageLocale` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT 'ru_ru',
   PRIMARY KEY (`LanguageID`),
   UNIQUE KEY `LanguageCode` (`LanguageCode`),
   KEY `LanguageCode_2` (`LanguageCode`),
-  KEY `PermAll` (`PermAll`),
+  KEY `PermAll` (`hidden`),
   KEY `LanguagePosition` (`LanguagePosition`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=35 ;
 
@@ -3317,9 +3317,9 @@ CREATE TABLE IF NOT EXISTS `language` (
 -- Dumping data for table `language`
 --
 
-INSERT INTO `language` (`LanguageID`, `PermAll`, `LanguageCode`, `LanguageName`, `LanguageIsDefault`, `LanguageIcon`, `LanguageIconActive`, `LanguagePosition`, `LanguageTranslationType`) VALUES
-(6, 1, 'ru', 0x3c72753ed0a0d183d181d181d0bad0b8d0b93c2f72753e3c656e3ed0a0d183d181d181d0bad0b8d0b93c2f656e3e, 'Y', '', '', 2, 'manually'),
-(34, 1, 'en', 0x3c72753ed090d0bdd0b3d0bbd0b8d0b9d181d0bad0b8d0b93c2f72753e3c656e3ed090d0bdd0b3d0bbd0b8d0b9d181d0bad0b8d0b93c2f656e3e, 'Y', '', '', 4, 'manually');
+INSERT INTO `language` (`LanguageID`, `hidden`, `LanguageIsDefault`, `LanguageCode`, `LanguageName`, `LanguageIcon`, `LanguageIconActive`, `LanguagePosition`, `LanguageLocale`) VALUES
+(6, 0, 1, 'ru', 0x3c72753ed0a0d183d181d181d0bad0b8d0b93c2f72753e3c656e3ed0a0d183d181d181d0bad0b8d0b93c2f656e3e, '', '', 2, 'manually'),
+(34, 0, 0, 'en', 0x3c72753ed090d0bdd0b3d0bbd0b8d0b9d181d0bad0b8d0b93c2f72753e3c656e3ed090d0bdd0b3d0bbd0b8d0b9d181d0bad0b8d0b93c2f656e3e, '', '', 4, 'manually');
 
 -- --------------------------------------------------------
 
@@ -5159,7 +5159,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('9391ac7152b57a4656077374c6432173', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0', 1390560865, 'a:9:{s:10:"session_id";s:32:"9391ac7152b57a4656077374c6432173";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:72:"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0";s:13:"last_activity";i:1390560865;s:9:"user_data";s:0:"";s:2:"id";s:4:"root";s:5:"login";s:4:"root";s:5:"email";s:16:"jjboun@gmail.com";s:8:"validate";b:1;}');
+('4960adbac086b5e7230662d2ad55ed90', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0', 1390824692, 'a:9:{s:10:"session_id";s:32:"4960adbac086b5e7230662d2ad55ed90";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:72:"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0";s:13:"last_activity";i:1390824692;s:9:"user_data";s:0:"";s:2:"id";s:4:"root";s:5:"login";s:4:"root";s:5:"email";s:16:"jjboun@gmail.com";s:8:"validate";b:1;}');
 
 -- --------------------------------------------------------
 
