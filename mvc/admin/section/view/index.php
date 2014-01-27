@@ -75,17 +75,17 @@
                         
                         <ul class="sortable section clearfix">
                             <li id="head">
-                                <div class="item-sorttable left">#</div>
-                                <div class="item-sorttable left">TimeCreated</div>
-                                <div class="item-sorttable left">Alias</div>
-                                <div class="item-sorttable left">UserID</div>
-                                <div class="item-sorttable left">Type</div>
-                                <div class="item-sorttable left">Name</div>
-                                <div class="item-sorttable left">Controller</div>
-                                <div class="item-sorttable left">Action</div>
+                                <div class="item-sorttable w-20 left font-bold">#</div>
+                                <div class="item-sorttable w-100 left font-bold">TimeCreated</div>
+                                <div class="item-sorttable w-100 left font-bold">Alias</div>
+                                <div class="item-sorttable w-100 left font-bold">UserID</div>
+                                <div class="item-sorttable w-100 left font-bold">Type</div>
+                                <div class="item-sorttable w-100 left font-bold">Name</div>
+                                <div class="item-sorttable w-100 left font-bold">Controller</div>
+                                <div class="item-sorttable w-100 left font-bold">Action</div>
                               
-                                <div id="masterCh" class="item-sorttable ch left"><input type="checkbox" name="checkbox" value="all" class="styled" /></div>
-                                <div class="action right">Actions</div>
+                                <div id="masterCh" class="item-sorttable ch left font-bold"><input type="checkbox" name="checkbox" value="all" class="styled" /></div>
+                                <div class="w-50 action right font-bold">Actions</div>
                             </li>
                            
                                 <?php 
@@ -95,14 +95,14 @@
                                 $lavel = 1;
                                 foreach($section_list as $_key => $_item): ?>
                                     <li id="custom">
-                                        <div class="item-sorttable left"><a class="tabledrag" href="#"><?= $lavel ?></a></div>
-                                        <div class="item-sorttable left"><?= $_item['TimeCreated'] ?></div>
-                                        <div class="item-sorttable left"><?= $_item['SectionAlias'] ?></div>
-                                        <div class="item-sorttable left"><?= $_item['UserID'] ?></div>
-                                        <div class="item-sorttable left"><?= $_item['SectionType'] ?></div>
-                                        <div class="item-sorttable left"><?= $_item['SectionName'] ?></div>
-                                        <div class="item-sorttable left"><?= $_item['SectionController'] ?></div>
-                                        <div class="item-sorttable left"><?= $_item['SectionAction'] ?></div>
+                                        <div class="item-sorttable w-20 left"><a class="tabledrag" href="#"><?= $lavel ?></a></div>
+                                        <div class="item-sorttable w-100 left"><?= $_item['TimeCreated'] ?></div>
+                                        <div class="item-sorttable w-100 left"><?= $_item['SectionAlias'] ?></div>
+                                        <div class="item-sorttable w-100 left"><?= $_item['UserID'] ?></div>
+                                        <div class="item-sorttable w-100 left"><?= $_item['SectionType'] ?></div>
+                                        <div class="item-sorttable w-100 left"><?= $_item['SectionName'] ?></div>
+                                        <div class="item-sorttable w-100 left"><?= $_item['SectionController'] ?></div>
+                                        <div class="item-sorttable w-100 left"><?= $_item['SectionAction'] ?></div>
                                         
                                         <div class="item-sorttable ch Children left"><input type="checkbox" name="checkbox" value="1" class="styled" /></div>
                                         <div class="action right">
