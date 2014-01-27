@@ -2,7 +2,7 @@
     <!-- error fatall or other -->
 <?php else: ?>
 
-
+        
 <!--Body content-->
 <div id="content" class="clearfix">
     <div class="contentwrapper"><!--Content wrapper-->
@@ -70,55 +70,48 @@
                         <a href="#" class="minimize"> Минимизация </a>
                     </div>
                     
-                    <div class="content noPad">
+                    <div class="content noPad clearfix">
                         
                         
-                        <table class="table table-bordered" id="checkAll">
-                            <thead>
-                              <tr>
-                                <th>#</th>
-                                <th>TimeCreated</th>
-                                <th>Alias</th>
-                                <th>UserID</th>
-                                <th>Type</th>
-                                <th>ParentID</th>
-                                <th>Name</th>
-                                <th>Controller</th>
-                                <th>Action</th>
-                                <th>Url</th>
-                                <th>hidden</th>
-                                
-                                 <th id="masterCh" class="ch"><input type="checkbox" name="checkbox" value="all" class="styled" /></th>
-                                <th>Actions</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php 
+                        <ul class="sortable section clearfix">
+                            <li id="head">
+                                <div class="item-sorttable left">#</div>
+                                <div class="item-sorttable left">TimeCreated</div>
+                                <div class="item-sorttable left">Alias</div>
+                                <div class="item-sorttable left">UserID</div>
+                                <div class="item-sorttable left">Type</div>
+                                <div class="item-sorttable left">Name</div>
+                                <div class="item-sorttable left">Controller</div>
+                                <div class="item-sorttable left">Action</div>
+                              
+                                <div id="masterCh" class="item-sorttable ch left"><input type="checkbox" name="checkbox" value="all" class="styled" /></div>
+                                <div class="action right">Actions</div>
+                            </li>
+                           
+                                <?php 
                               // var_dump($section_list); die('stop');
                               if(is_array($section_list) and count($section_list) > 0): ?>
                                 <?php 
                                 $lavel = 1;
                                 foreach($section_list as $_key => $_item): ?>
-                                    <tr>
-                                        <td><a class="tabledrag" href="#"><div class="handle"></div><?= $lavel ?></a></td>
-                                        <td><?= $_item['TimeCreated'] ?></td>
-                                        <td><?= $_item['SectionAlias'] ?></td>
-                                        <td><?= $_item['UserID'] ?></td>
-                                        <td><?= $_item['SectionType'] ?></td>
-                                        <td><?= $_item['SectionParentID'] ?></td>
-                                        <td><?= $_item['SectionName'] ?></td>
-                                        <td><?= $_item['SectionController'] ?></td>
-                                        <td><?= $_item['SectionAction'] ?></td>
-                                        <td><?= $_item['SectionUrl'] ?></td>
-                                        <td><?= $_item['hidden'] ?></td>
-                                        <td class="chChildren"><input type="checkbox" name="checkbox" value="1" class="styled" /></td>
-                                        <td>
+                                    <li id="custom">
+                                        <div class="item-sorttable left"><a class="tabledrag" href="#"><?= $lavel ?></a></div>
+                                        <div class="item-sorttable left"><?= $_item['TimeCreated'] ?></div>
+                                        <div class="item-sorttable left"><?= $_item['SectionAlias'] ?></div>
+                                        <div class="item-sorttable left"><?= $_item['UserID'] ?></div>
+                                        <div class="item-sorttable left"><?= $_item['SectionType'] ?></div>
+                                        <div class="item-sorttable left"><?= $_item['SectionName'] ?></div>
+                                        <div class="item-sorttable left"><?= $_item['SectionController'] ?></div>
+                                        <div class="item-sorttable left"><?= $_item['SectionAction'] ?></div>
+                                        
+                                        <div class="item-sorttable ch Children left"><input type="checkbox" name="checkbox" value="1" class="styled" /></div>
+                                        <div class="action right">
                                             <div class="controls center">
                                                 <a href="#" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
                                                 <a class="delete" href="#" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
                                             </div>
-                                        </td>
-                                      </tr>
+                                        </div>
+                                      
                                       
                                       <?php
                                       // childs
@@ -127,11 +120,12 @@
                                       endif; 
                                       ?>
                                       
+                                    </li>  
+                                        
                                 <?php endforeach; ?>
                               <?php endif; ?>  
-                            </tbody>
-                        </table>
-                        
+                            
+                        </ul>
                         
                         
                     </div>

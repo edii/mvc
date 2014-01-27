@@ -43,6 +43,16 @@ $(window).load(function(){
 
 // document ready function
 $(document).ready(function(){ 	
+    
+         $( ".sortable" ).sortable({
+            items: 'li:not(#head)', 
+            cancel: "li:not(#custom)", 
+            placeholder: "placeholder"
+        });
+        $( ".sortable" ).disableSelection();
+    
+        
+    
 
 	//------------- Switcher code ( Remove it in production site ) -------------//
 	(function(){
