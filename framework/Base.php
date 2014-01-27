@@ -555,6 +555,9 @@ class Base
                 
                 // CTree
                 'CTree'                  => '/libs/CTree.php',
+            
+                // CLanguage
+                'CLanguage'                  => '/libs/CLanguage.php',
                 
                 // core class
                 'CApplicationComponent' => '/framework/base/CApplicationComponent.php',

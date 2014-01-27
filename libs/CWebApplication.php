@@ -127,9 +127,9 @@ class CWebApplication extends \CApplication {
             return $this->_tree_params;
         }
         
-        public function getLanguage() {
-            return $this->_language;
-        }
+//        public function getLanguage() {
+//            return $this->_language;
+//        }
         
         /**
          * Загрузка дерева Section
@@ -158,12 +158,12 @@ class CWebApplication extends \CApplication {
            return $this;
         }
         
-        public function setLanguage( $_language ) {
-            if(isset($_language) and !empty($_language)) {
-                $this->_language = $_language;
-            }
-           return $this;
-        }
+//        public function setLanguage( $_language ) {
+//            if(isset($_language) and !empty($_language)) {
+//                $this->_language = $_language;
+//            }
+//           return $this;
+//        }
         
 	/**
 	 * Registers the core application components.
@@ -194,6 +194,11 @@ class CWebApplication extends \CApplication {
                             'class' => 'CTree',
                         ),
                     
+                        // detected language
+                        'language' => array(
+                            'class' => 'CLanguage',
+                        ),
+                    
 			'assetManager'=>array(
                             'class'=>'CAssetManager',
 			),
@@ -214,6 +219,13 @@ class CWebApplication extends \CApplication {
 
 		$this->setComponents($components);
 	}
+        
+        /**
+         * return CLanguage (array)
+         */
+        public function getCLanguage() {
+            return $this->getComponent( 'language' );
+        }
         
         /**
          * return CTree (array)
