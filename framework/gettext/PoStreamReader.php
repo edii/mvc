@@ -5,12 +5,12 @@
  * Contains \Drupal\Component\Gettext\PoStreamReader.
  */
 
-namespace Drupal\Component\Gettext;
+namespace framework\gettext;
 
-use Drupal\Component\Gettext\PoReaderInterface;
-use Drupal\Component\Gettext\PoStreamInterface;
-use Drupal\Component\Gettext\PoHeader;
-use Drupal\Component\Utility\String;
+use framework\gettext\PoReaderInterface;
+use framework\gettext\PoStreamInterface;
+use framework\gettext\PoHeader;
+use framework\gettext\String;
 
 /**
  * Implements Gettext PO stream reader.

@@ -5,9 +5,9 @@
  * Definition of Drupal\Component\Gettext\PoMetadataInterface.
  */
 
-namespace Drupal\Component\Gettext;
+namespace framework\gettext;
 
-use Drupal\Component\Gettext\PoHeader;
+use framework\gettext\PoHeader;
 
 /**
  * Methods required for both reader and writer implementations.

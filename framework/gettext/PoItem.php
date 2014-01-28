@@ -5,7 +5,7 @@
  * Definition of Drupal\Component\Gettext\PoItem.
  */
 
-namespace Drupal\Component\Gettext;
+namespace framework\gettext;
 
 /**
  * PoItem handles one translation.

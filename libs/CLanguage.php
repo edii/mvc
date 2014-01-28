@@ -11,8 +11,8 @@ class CLanguage extends \CApplicationComponent
 {
        private static $db; 
     
-       private $_languages = false;
-       private $_language = false;
+       private $_languages;
+       private $_language;
        private $_defaultlang;
         
 	/**
