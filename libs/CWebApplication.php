@@ -107,6 +107,15 @@ class CWebApplication extends \CApplication {
 		}
 		else
 			$route=$this->getUrlManager()->parseUrl($this->getRequest());
+                
+                /* detected language and delete route url */
+                if($_langs = explode('/', $route) and is_array($_langs) and count($_langs) > 0) {
+                    if(\init::app() -> getCLanguage() -> issetLanguage( (string)$_langs[0] ))
+                        unset($_langs[0]);
+                    
+                    $route=  implode('/', $_langs);
+                }
+                
 		$this->runController($route);
 	}
 
@@ -127,9 +136,9 @@ class CWebApplication extends \CApplication {
             return $this->_tree_params;
         }
         
-        public function getLanguage() {
-            return $this->_language;
-        }
+//        public function getLanguage() {
+//            return $this->_language;
+//        }
         
         /**
          * Загрузка дерева Section
@@ -158,12 +167,12 @@ class CWebApplication extends \CApplication {
            return $this;
         }
         
-        public function setLanguage( $_language ) {
-            if(isset($_language) and !empty($_language)) {
-                $this->_language = $_language;
-            }
-           return $this;
-        }
+//        public function setLanguage( $_language ) {
+//            if(isset($_language) and !empty($_language)) {
+//                $this->_language = $_language;
+//            }
+//           return $this;
+//        }
         
 	/**
 	 * Registers the core application components.
@@ -194,6 +203,11 @@ class CWebApplication extends \CApplication {
                             'class' => 'CTree',
                         ),
                     
+                        // detected language
+                        'language' => array(
+                            'class' => 'CLanguage',
+                        ),
+                    
 			'assetManager'=>array(
                             'class'=>'CAssetManager',
 			),
@@ -214,6 +228,13 @@ class CWebApplication extends \CApplication {
 
 		$this->setComponents($components);
 	}
+        
+        /**
+         * return CLanguage (array)
+         */
+        public function getCLanguage() {
+            return $this->getComponent( 'language' );
+        }
         
         /**
          * return CTree (array)
@@ -345,19 +366,19 @@ class CWebApplication extends \CApplication {
 	 */
 	public function createController($route, $owner=null, $_box = false) {
                 // detected language
-                $_l_code = false;
-                if($_tree_route = explode('/', $route) and is_array($_tree_route) and count($_tree_route) > 0) {
-                    \init::app()->setLanguage( $this->getLangs($_tree_route[0]) );
-                    
-                    if($_lang = \init::app()->getLanguage() and is_array($_lang) and count($_lang) > 0) {
-                        if($_lang[0]->lang_code == $_tree_route[0]) {
-                            array_shift($_tree_route);
-                            $route = implode('/', $_tree_route);
-                        }
-                            
-                    }
-                            
-                } 
+//                $_l_code = false;
+//                if($_tree_route = explode('/', $route) and is_array($_tree_route) and count($_tree_route) > 0) {
+//                    \init::app()->setLanguage( $this->getLangs($_tree_route[0]) );
+//                    
+//                    if($_lang = \init::app()->getLanguage() and is_array($_lang) and count($_lang) > 0) {
+//                        if($_lang[0]->lang_code == $_tree_route[0]) {
+//                            array_shift($_tree_route);
+//                            $route = implode('/', $_tree_route);
+//                        }
+//                            
+//                    }
+//                            
+//                } 
                 // end
             
                 $this -> parseAlies($route);

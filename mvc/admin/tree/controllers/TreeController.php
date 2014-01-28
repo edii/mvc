@@ -20,6 +20,11 @@ class TreeController extends \Controller
          * return array
          */
         public function actionIndex() {
+            
+            echo "<pre>";
+            var_dump( \init::app() -> getLanguage() );
+            echo "</pre>";
+            
             $this->layout( false );
             $_tree = $this -> _mtree -> getTree();
             
