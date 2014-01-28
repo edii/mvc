@@ -1,9 +1,5 @@
 <?php
 $_class = (!isset($parent) and !$parent) ? 'sub': '';
-
-//    echo "<pre>";
-//    var_dump( $tree );
-//    echo "</pre>";
 ?>
 <?php if(is_array($tree) and count($tree) > 0 and $validate): ?>
 <div class="sidenav">

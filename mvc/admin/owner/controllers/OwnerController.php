@@ -81,4 +81,13 @@ class OwnerController extends \Controller
             }                 
 
 	}
+        
+        public function actionDelete(){
+            $this->layout( false );
+     
+            $_id = \init::app() ->getRequest() -> getParam('id');
+            $this -> _mowner -> delete(array('OwnerID' => $_id));
+            
+            $this ->redirect('/'._request_uri.'/owner/');
+        }
 }
