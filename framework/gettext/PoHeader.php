@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Definition of Drupal\Component\Gettext\PoHeader
+ * Definition of framework\gettext
  */
 
-namespace Drupal\Component\Gettext;
+namespace framework\gettext;
 
 /**
  * Gettext PO header handler.

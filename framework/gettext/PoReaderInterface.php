@@ -5,9 +5,9 @@
  * Definition of Drupal\Component\Gettext\PoReaderInterface.
  */
 
-namespace Drupal\Component\Gettext;
+namespace framework\gettext;
 
-use Drupal\Component\Gettext\PoMetadataInterface;
+use framework\gettext\PoMetadataInterface;
 
 /**
  * Shared interface definition for all Gettext PO Readers.

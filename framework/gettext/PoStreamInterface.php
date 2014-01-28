@@ -5,7 +5,7 @@
  * Definition of Drupal\Component\Gettext\PoStreamInterface.
  */
 
-namespace Drupal\Component\Gettext;
+namespace framework\gettext;
 
 /**
  * Common functions for file/stream based PO readers/writers.

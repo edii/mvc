@@ -5,13 +5,13 @@
  * Definition of Drupal\Component\Gettext\PoStreamWriter.
  */
 
-namespace Drupal\Component\Gettext;
+namespace framework\gettext;
 
-use Drupal\Component\Gettext\PoHeader;
-use Drupal\Component\Gettext\PoItem;
-use Drupal\Component\Gettext\PoReaderInterface;
-use Drupal\Component\Gettext\PoWriterInterface;
-use Drupal\Component\Gettext\PoStreamInterface;
+use framework\gettext\PoHeader;
+use framework\gettext\PoItem;
+use framework\gettext\PoReaderInterface;
+use framework\gettext\PoWriterInterface;
+use framework\gettext\PoStreamInterface;
 
 /**
  * Defines a Gettext PO stream writer.
