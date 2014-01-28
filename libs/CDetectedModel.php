@@ -376,7 +376,7 @@ class CDetectedModel extends \CModel
 	 */
 	public function delete($attributes = null) {
             $_coonected = (self::$db === null) ? $this->getDbConnection(): self::$db;
-                
+                            
             if($_id = (int)$attributes[ $this->_pk ]) {
                 $_delete = $_coonected -> delete($this->_table_name, array('target' => 'main')) 
                                        -> condition($this->_pk, $_id, '=') -> execute();
@@ -386,23 +386,7 @@ class CDetectedModel extends \CModel
                 return true;
             }
             else
-                    return false;
-            
-            
-//		if(!$this->getIsNewRecord())
-//		{
-//			Yii::trace(get_class($this).'.delete()','system.db.ar.CActiveRecord');
-//			if($this->beforeDelete())
-//			{
-//				$result=$this->deleteByPk($this->getPrimaryKey())>0;
-//				$this->afterDelete();
-//				return $result;
-//			}
-//			else
-//				return false;
-//		}
-//		else
-//			throw new CDbException(\init::t('yii','The active record cannot be deleted because it is new.'));
+                return false;
 	}
 
 	/**

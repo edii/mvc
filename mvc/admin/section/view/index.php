@@ -52,7 +52,7 @@
                              
                             
                             <form class="box-form right" action="">
-                                <a style="margin-right: 5px;" href="<?= $this->_getUrl() ?>/manager_s/method/add">Добавить</a> 
+                                <a style="margin-right: 5px;" href="<?= $this->_getUrl() ?>/manager/method/add">Добавить</a> 
                                 
                                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                                     <span class="icon16 icomoon-icon-cog-2"></span>
@@ -107,8 +107,8 @@
                                         <div class="item-sorttable ch Children left"><input type="checkbox" name="checkbox" value="1" class="styled" /></div>
                                         <div class="action right">
                                             <div class="controls center">
-                                                <a href="#" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
-                                                <a class="delete" href="#" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
+                                                <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $_item['SectionID'] ?>" title="Редактировать Section" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
+                                                <a class="delete" href="<?= $this->_getUrl() ?>/delete/id/<?= $_item['SectionID'] ?>" title="Удалить Section" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
                                             </div>
                                         </div>
                                       

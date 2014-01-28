@@ -19,10 +19,7 @@ class SectionController extends \Controller
         }
         
         public function actionIndex() {
-           
-            echo "<pre>";
-            var_dump( \init::app() -> getLanguage() );
-            echo "</pre>";
+            $_lang = \init::app() -> getLanguage();
             
             $this->layout( false );
             
@@ -39,11 +36,12 @@ class SectionController extends \Controller
             $this->render('index', array(
                 'sections_actual' => \init::app()->getTreeSection(),
                 'section_list'   => $_tree,
-                'validate'  => $this -> _users -> getRight()
+                'validate'  => $this -> _users -> getRight(),
+                '_lang' => $_lang
             ));
 	}
         
-        public function actionManager_s() {
+        public function actionManager() {
             $this->layout( false );
             
             $_error = false;
@@ -96,5 +94,13 @@ class SectionController extends \Controller
 
 	}
 
+        public function actionDelete(){
+            $this->layout( false );
+     
+            $_id = \init::app() ->getRequest() -> getParam('id');
+            $this -> _msection -> delete(array('SectionID' => $_id));
+            
+            $this ->redirect('/'._request_uri.'/section/');
+        }
         
 }

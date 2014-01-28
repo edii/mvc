@@ -102,8 +102,8 @@
                                         <td class="chChildren"><input type="checkbox" name="checkbox" value="1" class="styled" /></td>
                                         <td>
                                             <div class="controls center">
-                                                <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $_item -> OwnerID ?>" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
-                                                <a class="delete" href="<?= $this->_getUrl() ?>/manager/method/delete/id/<?= $_item -> OwnerID ?>" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
+                                                <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $_item -> OwnerID ?>" title="Редактировать Owner" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
+                                                <a class="delete" href="<?= $this->_getUrl() ?>/delete/id/<?= $_item -> OwnerID ?>" title="Удалить Owner" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
                                             </div>
                                         </td>
                                       </tr>
