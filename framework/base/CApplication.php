@@ -30,9 +30,9 @@ abstract class CApplication extends \CModule
 	private $_stateChanged;
 	private $_ended=false;
 	private $_language;
+        private $_languages;
 	private $_homeUrl;
 
-        
         private $_settings;
         private $_ftp;
         private $_mail;
@@ -351,7 +351,24 @@ abstract class CApplication extends \CModule
 	 * Defaults to the {@link sourceLanguage source language}.
 	 */
 	public function getLanguage() {
+                $_language = \init::app() -> getCLanguage() -> getLanguage();
+                if(is_array($_language) and count($_language) > 0) {
+                    $this->_language = $_language;
+                }
 		return $this->_language===null ? $this->sourceLanguage : $this->_language;
+	}
+        
+        /**
+	 * Returns the languages that the user is using and the application should be targeted to.
+	 * @return string the languages that the user is using and the application should be targeted to.
+	 * Defaults to the {@link sourceLanguage source language}.
+	 */
+	public function getLanguages() {
+                $_languages = \init::app() -> getCLanguage() -> getLanguages();
+                if(is_array($_languages) and count($_languages) > 0) {
+                    $this->_languages = $_languages;
+                }
+		return $this->_languages===null ? null : $this->_languages;
 	}
 
 	/**
@@ -366,7 +383,7 @@ abstract class CApplication extends \CModule
 	 * If it is null, the {@link sourceLanguage} will be used.
 	 */
 	public function setLanguage($language) {
-		$this->_language = $language;
+		$this->_language = \init::app() -> getCLanguage() -> setLanguage( $language );
 	}
 
 	/**

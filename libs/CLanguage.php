@@ -101,7 +101,7 @@ class CLanguage extends \CApplicationComponent
         
         protected function setLanguages() {
             if(empty( $this -> _languages )) {
-                $this -> _languages = self::$db -> query( "SELECT `LanguageID` as `lang_id`, 
+                $query = self::$db -> query( "SELECT `LanguageID` as `lang_id`, 
                                                                   `LanguageCode` as `lang_code`, 
                                                                   `LanguageName` as `lang_name`, 
                                                                   `LanguageIsDefault` as `lang_def`, 
@@ -111,6 +111,13 @@ class CLanguage extends \CApplicationComponent
                                                                   `LanguageLocale` as `lang_locale`
                                                           FROM `language` 
                                                           WHERE `LanguageID` <> 0 AND `hidden` = 0") -> fetchAll();
+                
+                
+                if(is_array($query) and count($query) > 0) {
+                    foreach($query as $_item):
+                        $this -> _languages[$_item -> lang_code] = (array)$_item;
+                    endforeach;
+                }
             }
             return $this -> _languages;
         }
@@ -120,11 +127,7 @@ class CLanguage extends \CApplicationComponent
             if(!empty($code)) {
                 $_all_langs = $this ->getLanguages();
                 
-                if(!is_array($_all_langs) and count($_all_langs) <= 0) return $this -> _defaultlang;
-                
-                foreach($_all_langs as $_lang) {
-                    $_all_langs[$lang -> lang_code] = (array)$_lang; 
-                }
+                if(!is_array($_all_langs) or count($_all_langs) <= 0) return $this -> _defaultlang;
                 
                 if($this ->issetLanguage($code)) {
                     $_res = $_all_langs[ $code ];

@@ -38,6 +38,8 @@ class CBox extends \CApplicationComponent
 		$this->_basePath =   $basePath;
                 
                 $this-> _loadWebDefinitions(); // load WebDefinitions
+                
+                
 	}
         
         public function init() {

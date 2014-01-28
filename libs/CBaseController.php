@@ -124,7 +124,7 @@ abstract class CBaseController extends CComponent
 	 * and the widget object will be returned. This parameter is available since version 1.1.2.
 	 * @return mixed the widget instance when $captureOutput is false, or the widget output when $captureOutput is true.
 	 */
-	public function box($className,$properties=array(),$captureOutput=false)
+	public function box( $className, $properties=array(), $captureOutput=false )
 	{
 		if($captureOutput)
 		{
