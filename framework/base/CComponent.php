@@ -390,7 +390,7 @@ class CComponent
 			return $this->_e[$name];
 		}
 		else
-			throw new CException(init::t('init','Event "{class}.{event}" is not defined.',
+			throw new \CException(\init::t('init','Event "{class}.{event}" is not defined.',
 				array('{class}'=>get_class($this), '{event}'=>$name)));
 	}
 
