@@ -5,9 +5,6 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\i18n;
-
-use yii\base\Event;
 
 /**
  * MissingTranslationEvent represents the parameter for the [[MessageSource::missingTranslation]] event.
@@ -15,7 +12,7 @@ use yii\base\Event;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class MissingTranslationEvent extends Event
+class MissingTranslationEvent extends \CEvent
 {
 	/**
 	 * @var string the message to be translated. An event handler may overwrite this property

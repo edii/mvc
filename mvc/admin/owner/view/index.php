@@ -71,7 +71,7 @@
                     <div class="content noPad">
                         <?php
                             echo "go lang";
-                            // echo $this->lang('sort');
+                            echo $this->lang('sort');
                         ?>
                         
                         <table class="table table-bordered" id="checkAll">
