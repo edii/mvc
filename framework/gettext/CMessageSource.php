@@ -97,9 +97,9 @@ class CMessageSource extends \CComponent
 	 * @param string $language the target language
 	 * @return string the translated message
 	 */
-	protected function translateMessage($category, $message, $language)
+	protected function translateMessage( $category, $message, $language )
 	{
-                $key = $language;
+                $key = $language. '/' . $category;
                 if (!isset($this->_messages[$key])) {
                     $this->_messages[$key] = $this->loadMessages($category, $language);
                 }
@@ -107,14 +107,13 @@ class CMessageSource extends \CComponent
                 if (isset($this->_messages[$key][$category]) && $this->_messages[$key][$category] !== '') {
                         return $this->_messages[$key][$category];
                 } elseif ($this->hasEventHandlers('missingTranslation')) {
-                        // fatal error fix
-//			$event = new MissingTranslationEvent(array(
-//				'category' => $category,
-//				'message' => $message,
-//				'language' => $language,
-//			));
-//			$this->trigger(self::EVENT_MISSING_TRANSLATION, $event);
-//			return $this->_messages[$key] = $event->message;
+			$event = new MissingTranslationEvent(array(
+				'category' => $category,
+				'message' => $message,
+				'language' => $language,
+			));
+			$this->trigger(self::EVENT_MISSING_TRANSLATION, $event);
+			return $this->_messages[$key] = $event->message;
 		} else {
 			return $message;
 		}
