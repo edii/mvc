@@ -101,25 +101,25 @@ class CMessageSource extends \CComponent
 	{
                 
             
-//		$key = $language . '/' . $category;
-//		if (!isset($this->_messages[$key])) {
-//			$this->_messages[$key] = $this->loadMessages($category, $language);
-//		}
-//                
-//                var_dump( $this->_messages ); die('stop');
-//                
-//		if (isset($this->_messages[$key][$message]) && $this->_messages[$key][$message] !== '') {
-//			return $this->_messages[$key][$message];
-//		} elseif ($this->hasEventHandlers('missingTranslation')) {
-//			$event = new MissingTranslationEvent(array(
-//				'category' => $category,
-//				'message' => $message,
-//				'language' => $language,
-//			));
-//			$this->trigger(self::EVENT_MISSING_TRANSLATION, $event);
-//			return $this->_messages[$key] = $event->message;
-//		} else {
-//			return $message;
-//		}
+		$key = $language . '/' . $category;
+		if (!isset($this->_messages[$key])) {
+			$this->_messages[$key] = $this->loadMessages($category, $language);
+		}
+                
+                var_dump( $this->_messages ); die('stop');
+                
+		if (isset($this->_messages[$key][$message]) && $this->_messages[$key][$message] !== '') {
+			return $this->_messages[$key][$message];
+		} elseif ($this->hasEventHandlers('missingTranslation')) {
+			$event = new MissingTranslationEvent(array(
+				'category' => $category,
+				'message' => $message,
+				'language' => $language,
+			));
+			$this->trigger(self::EVENT_MISSING_TRANSLATION, $event);
+			return $this->_messages[$key] = $event->message;
+		} else {
+			return $message;
+		}
 	}
 }
