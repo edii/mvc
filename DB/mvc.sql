@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Час створення: Січ 28 2014 р., 17:09
+-- Час створення: Січ 29 2014 р., 17:40
 -- Версія сервера: 5.5.23
 -- Версія PHP: 5.4.21
 
@@ -116,6 +116,37 @@ CREATE TABLE IF NOT EXISTS `cache` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблиці `cats`
+--
+
+CREATE TABLE IF NOT EXISTS `cats` (
+  `CatsID` int(11) NOT NULL AUTO_INCREMENT,
+  `cats_parent_id` int(11) NOT NULL,
+  `cats_name` varchar(255) NOT NULL,
+  `cats_desc` varchar(255) NOT NULL,
+  `lang_id` int(11) NOT NULL,
+  `cats_url` varchar(255) NOT NULL,
+  `guid` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  PRIMARY KEY (`CatsID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `cats_post_count`
+--
+
+CREATE TABLE IF NOT EXISTS `cats_post_count` (
+  `CatsPostID` int(11) NOT NULL AUTO_INCREMENT,
+  `cats_id` int(11) NOT NULL,
+  `count_post` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`CatsPostID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблиці `click`
 --
 
@@ -135,6 +166,20 @@ CREATE TABLE IF NOT EXISTS `click` (
   KEY `ClickSessionID` (`ClickSessionID`),
   KEY `IPCreated` (`IPCreated`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `group_user`
+--
+
+CREATE TABLE IF NOT EXISTS `group_user` (
+  `GroupUserID` int(11) NOT NULL AUTO_INCREMENT,
+  `gu_name` varchar(255) NOT NULL,
+  `gu_desc` varchar(255) NOT NULL,
+  `lang_id` int(11) NOT NULL,
+  PRIMARY KEY (`GroupUserID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -3857,6 +3902,35 @@ INSERT INTO `pageboxes` (`PageBoxesID`, `OwnerID`, `UserID`, `TimeCreated`, `Tim
 -- --------------------------------------------------------
 
 --
+-- Структура таблиці `post`
+--
+
+CREATE TABLE IF NOT EXISTS `post` (
+  `PostID` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `post_author` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `lang_id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `post_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `post_date_gmt` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `post_description` longtext NOT NULL,
+  `post_intro` varchar(200) NOT NULL DEFAULT '',
+  `post_title` text NOT NULL,
+  `post_excerpt` text NOT NULL,
+  `post_status` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `post_name` varchar(200) NOT NULL DEFAULT '',
+  `to_ping` text NOT NULL,
+  `pinged` text NOT NULL,
+  `post_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `post_modified_gmt` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `post_parent` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `guid` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `post_type` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `comment_count` bigint(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`PostID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблиці `reference`
 --
 
@@ -5158,7 +5232,12 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('c6783179aeb5719f9bf35b22fce2b1ce', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.76 Safari/537.36', 1390915855, 'a:9:{s:10:"session_id";s:32:"c6783179aeb5719f9bf35b22fce2b1ce";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:108:"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.76 Safari/537.36";s:13:"last_activity";i:1390915855;s:9:"user_data";s:0:"";s:2:"id";s:4:"root";s:5:"login";s:4:"root";s:5:"email";s:16:"jjboun@gmail.com";s:8:"validate";b:1;}');
+('3813a83f0b4b7aaefb37d1ba7d68ccc3', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0', 1391004010, ''),
+('5b21a66a33253312e61aa74e4b394670', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0', 1391006814, 'a:9:{s:10:"session_id";s:32:"5b21a66a33253312e61aa74e4b394670";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:72:"Mozilla/5.0 (Windows NT 6.3; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0";s:13:"last_activity";i:1391006814;s:9:"user_data";s:0:"";s:2:"id";s:4:"root";s:5:"login";s:4:"root";s:5:"email";s:16:"jjboun@gmail.com";s:8:"validate";b:1;}'),
+('827bb1dc3489bd8054b67f44b86d17db', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0', 1391007037, 'a:9:{s:10:"session_id";s:32:"827bb1dc3489bd8054b67f44b86d17db";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:72:"Mozilla/5.0 (Windows NT 6.3; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0";s:13:"last_activity";i:1391007037;s:9:"user_data";s:0:"";s:2:"id";s:4:"root";s:5:"login";s:4:"root";s:5:"email";s:16:"jjboun@gmail.com";s:8:"validate";b:1;}'),
+('e2cd18179ae74ef3628d0d5c68a1af5a', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.102 Safari/537.36', 1391008371, 'a:9:{s:10:"session_id";s:32:"e2cd18179ae74ef3628d0d5c68a1af5a";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:109:"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.102 Safari/537.36";s:13:"last_activity";i:1391008371;s:9:"user_data";s:0:"";s:2:"id";s:4:"root";s:5:"login";s:4:"root";s:5:"email";s:16:"jjboun@gmail.com";s:8:"validate";b:1;}'),
+('f3c581b2e2a3bc1666a2ba4a9bc3c0cb', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.76 Safari/537.36', 1391000929, 'a:9:{s:10:"session_id";s:32:"f3c581b2e2a3bc1666a2ba4a9bc3c0cb";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:108:"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.76 Safari/537.36";s:13:"last_activity";i:1391000929;s:9:"user_data";s:0:"";s:2:"id";s:4:"root";s:5:"login";s:4:"root";s:5:"email";s:16:"jjboun@gmail.com";s:8:"validate";b:1;}'),
+('fc638f87327bffc3b67a72ffcef6a76e', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0', 1391004191, '');
 
 -- --------------------------------------------------------
 
@@ -5472,6 +5551,20 @@ CREATE TABLE IF NOT EXISTS `stylesetting` (
 
 INSERT INTO `stylesetting` (`StyleSettingID`, `OwnerID`, `UserID`, `TimeCreated`, `TimeSaved`, `StyleCode`, `StyleSettingVariableName`, `StyleSettingValue`, `StyleSettingName`, `StyleSettingValueType`, `StyleSettingValueOptions`, `StyleSettingType`, `StyleSettingReference`, `StyleSettingPosition`, `StyleSettingDescription`) VALUES
 ('1136548044200805241119073x1111', 'root', 'root', '2008-05-24 11:19:07', '2008-05-24 11:19:07', '', 'StyleLayout', NULL, '<en>Style layout</en><fr>Style layout</fr>', 'char', '', 'editable', '', 1, '');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `types`
+--
+
+CREATE TABLE IF NOT EXISTS `types` (
+  `TypesID` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  PRIMARY KEY (`TypesID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
