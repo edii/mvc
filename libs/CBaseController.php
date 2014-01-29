@@ -356,9 +356,15 @@ abstract class CBaseController extends CComponent
          * translte language
          */
         public function lang( $string ) {
-            $_gettext = new CGettextMessageSource();
-            $_language = $_gettext -> translate('sort', false, 'ru_ru');
-
+            //echo "string = ".$string;
+            // die('lang');
+//            $_gettext = new CGettextMessageSource();
+//            $_language = $_gettext -> translate('sort', false, 'ru_ru');
+//            return $_language; 
+//            echo "<pre>";
+//            var_dump( $_language );
+//            echo "</pre>";
+//            die('stop');
         }
         
 }

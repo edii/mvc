@@ -43,6 +43,10 @@ class HelloController extends \Controller
         }
         /* end */
         
+        public function actionTest1($tt = "BLAAAAAAAAA") {
+            echo "action Test1".$tt;
+        }
+        
         
         public function actionDB() {
             $this->layout( 'column1' );
