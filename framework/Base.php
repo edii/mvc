@@ -647,6 +647,7 @@ class Base
                 'CGettextPoFile'              => '/framework/gettext/CGettextPoFile.php',
                 'CMessageSource'            => '/framework/gettext/CMessageSource.php',
                 'CGettextMessageSource'              => '/framework/gettext/CGettextMessageSource.php',
+                'CMissingTranslationEvent'              => '/framework/gettext/CMissingTranslationEvent.php',
             
                 // create script params
                 'CClientScript' => '/libs/CClientScript.php',
