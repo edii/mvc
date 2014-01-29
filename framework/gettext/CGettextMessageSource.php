@@ -41,7 +41,7 @@ class CGettextMessageSource extends \CMessageSource
 	/**
 	 * @var boolean
 	 */
-	public $useMoFile = false; // true or false
+	public $useMoFile = true; // true or false
 	/**
 	 * @var boolean
 	 */
@@ -74,11 +74,7 @@ class CGettextMessageSource extends \CMessageSource
 				$gettextFile = new CGettextPoFile();
 			}
                         
-                        
-                        
 			$messages = $gettextFile->load($messageFile, $category);
-                        
-                        // var_dump( $messages ); die('po'); 
                         
 			if (!is_array($messages)) {
 				$messages = array();
