@@ -599,11 +599,11 @@ class Base
 		'CErrorHandler'         => '/framework/base/CErrorHandler.php',
                 'CHttpException'        => '/framework/base/CHttpException.php',
                 // view error source
-//                 'CPhpMessageSource'     => '/framework/language/CPhpMessageSource.php',
-//                 'CMessageSource'     => '/framework/language/CMessageSource.php',
+                 'CPhpMessageSource'     => '/framework/language/CPhpMessageSource.php',
+                 'CMessageSource'     => '/framework/language/CMessageSource.php',
             
-                'CPhpMessageSource'     => '/framework/i18n/CPhpMessageSource.php',
-                'CMessageSource'        => '/framework/i18n/CMessageSource.php',
+//                'CPhpMessageSource'     => '/framework/i18n/CPhpMessageSource.php',
+//                'CMessageSource'        => '/framework/i18n/CMessageSource.php',
             
                 'CHtml'                 => '/libs/helpers/CHtml.php',
                 'CMap'                  => '/libs/collections/CMap.php',
@@ -642,12 +642,12 @@ class Base
 		'CViewRenderer'         => '/libs/renderers/CViewRenderer.php',
             
                 // gettext
-//                'CGettextFile'              => '/framework/gettext/CGettextFile.php',
-//                'CGettextMoFile'              => '/framework/gettext/CGettextMoFile.php',
-//                'CGettextPoFile'              => '/framework/gettext/CGettextPoFile.php',
-//                'CMessageSource'            => '/framework/gettext/CMessageSource.php',
-//                'CGettextMessageSource'              => '/framework/gettext/CGettextMessageSource.php',
-                // 'CMissingTranslationEvent'              => '/framework/gettext/CMissingTranslationEvent.php',
+                'CGettextFile'              => '/framework/gettext/CGettextFile.php',
+                'CGettextMoFile'              => '/framework/gettext/CGettextMoFile.php',
+                'CGettextPoFile'              => '/framework/gettext/CGettextPoFile.php',
+                'CMessageSource'            => '/framework/gettext/CMessageSource.php',
+                'CGettextMessageSource'              => '/framework/gettext/CGettextMessageSource.php',
+                'CMissingTranslationEvent'              => '/framework/gettext/CMissingTranslationEvent.php',
             
                 // create script params
                 'CClientScript' => '/libs/CClientScript.php',
