@@ -1,10 +1,15 @@
 <?php
 
-	$boxesDefinition['cms.manageCmsCategories'] = [
-            'name'      =>  'Manage categories',
-            'type'      =>  'admin',
-            'module'    =>  'cms',
-            'method'    =>  'manageCmsCategories',
-            'template'  =>  'manageCmsCategories',
+	$boxesDefinition['home.index'] = [
+            'name'      =>  'Section box index',
+            'action'    =>  'index',
+            'template'  =>  'index',
+            'params'    =>  ''
+        ];
+        
+        $boxesDefinition['home.header'] = [
+            'name'      =>  'section box header',
+            'action'    =>  'header',
+            'template'  =>  'index',
             'params'    =>  ''
         ];

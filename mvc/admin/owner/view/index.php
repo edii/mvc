@@ -70,7 +70,6 @@
                     </div>
                     <div class="content noPad">
                         <?php
-                            echo "go lang";
                             echo $this->lang('sort');
                         ?>
                         
