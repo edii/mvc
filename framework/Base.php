@@ -30,7 +30,7 @@ class Base
 	 */
 	public static function getVersion()
 	{
-		return '1.1.13';
+		return '1.0';
 	}
 
 	/**
@@ -585,8 +585,6 @@ class Base
 		'CModelEvent'           => '/framework/base/CModelEvent.php',
                 'CDetectedModel'        => '/libs/CDetectedModel.php',
 		'CModule'               => '/framework/base/CModule.php',
-            
-            
                 'CComponent'            => '/framework/base/CComponent.php',
             
                 // session
@@ -601,8 +599,12 @@ class Base
 		'CErrorHandler'         => '/framework/base/CErrorHandler.php',
                 'CHttpException'        => '/framework/base/CHttpException.php',
                 // view error source
-                'CPhpMessageSource'     => '/framework/i18n/CPhpMessageSource.php',
-                'CMessageSource'        => '/framework/i18n/CMessageSource.php',
+                 'CPhpMessageSource'     => '/framework/language/CPhpMessageSource.php',
+                 'CMessageSource'     => '/framework/language/CMessageSource.php',
+            
+                //'CPhpMessageSource'     => '/framework/i18n/CPhpMessageSource.php',
+                //'CMessageSource'        => '/framework/i18n/CMessageSource.php',
+            
                 'CHtml'                 => '/libs/helpers/CHtml.php',
                 'CMap'                  => '/libs/collections/CMap.php',
 		'CMapIterator'          => '/libs/collections/CMapIterator.php',
@@ -639,15 +641,19 @@ class Base
                 'CPradoViewRenderer'    => '/libs/renderers/CPradoViewRenderer.php',
 		'CViewRenderer'         => '/libs/renderers/CViewRenderer.php',
             
+                // gettext
+                'CGettextFile'              => '/framework/gettext/CGettextFile.php',
+                'CGettextMoFile'              => '/framework/gettext/CGettextMoFile.php',
+                'CGettextPoFile'              => '/framework/gettext/CGettextPoFile.php',
+                'CMessageSource'            => '/framework/gettext/CMessageSource.php',
+                'CGettextMessageSource'              => '/framework/gettext/CGettextMessageSource.php',
+            
                 // create script params
                 'CClientScript' => '/libs/CClientScript.php',
-            
             
                 // create layout
                 'CBox'                  => '/libs/CBox.php',
                 'CBoxLayout'            => '/libs/CBoxLayout.php',
-               // 'CTheme'                => '/libs/CTheme.php',
-               // 'CThemeManager'         => '/libs/CThemeManager.php',
             
                 // Resize Images
                 //'ResizeImages'           => '/framework/imagetoolkit/AcImage.php',

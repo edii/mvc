@@ -386,6 +386,9 @@ abstract class CApplication extends \CModule
 		$this->_language = \init::app() -> getCLanguage() -> setLanguage( $language );
 	}
 
+        
+        
+        
 	/**
 	 * Returns the time zone used by this application.
 	 * This is a simple wrapper of PHP function date_default_timezone_get().
@@ -908,7 +911,7 @@ abstract class CApplication extends \CModule
 
 			try
 			{
-				init::import('CErrorEvent',true);
+				\init::import('CErrorEvent',true);
 				$event=new CErrorEvent($this,$code,$message,$file,$line);
 				$this->onError($event);
 				if(!$event->handled)

@@ -1,4 +1,5 @@
 <?php
+
 abstract class CModel extends \CComponent implements IteratorAggregate, ArrayAccess {
 	private $_errors=array();	// attribute name => array of errors
 	private $_validators;  		// validators
