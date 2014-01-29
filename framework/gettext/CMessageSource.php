@@ -107,7 +107,7 @@ class CMessageSource extends \CComponent
                 if (isset($this->_messages[$key][$category]) && $this->_messages[$key][$category] !== '') {
                         return $this->_messages[$key][$category];
                 } elseif ($this->hasEventHandler('missingTranslation')) {
-			$event = new MissingTranslationEvent(array(
+			$event = new CMissingTranslationEvent(array(
 				'category' => $category,
 				'message' => $message,
 				'language' => $language,

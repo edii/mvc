@@ -10,6 +10,15 @@ class CComponent
 {
 	private $_e;
 	private $_m;
+        
+        /**
+	 * @var array the attached event handlers (event name => handlers)
+	 */
+	private $_events;
+	/**
+	 * @var Behavior[] the attached behaviors (behavior name => behavior)
+	 */
+	private $_behaviors;
 
 	/**
 	 * Returns a property value, an event handler list or a behavior based on its name.
@@ -529,6 +538,37 @@ class CComponent
 			return call_user_func_array($_expression_, $_data_);
 		}
 	}
+        
+        
+        /**
+	 * Triggers an event.
+	 * This method represents the happening of an event. It invokes
+	 * all attached handlers for the event.
+	 * @param string $name the event name
+	 * @param Event $event the event parameter. If not set, a default [[Event]] object will be created.
+	 */
+	public function trigger($name, $event = null)
+	{
+		$this->ensureBehaviors();
+		if (!empty($this->_events[$name])) {
+			if ($event === null) {
+				$event = new CEvent;
+			}
+			if ($event->sender === null) {
+				$event->sender = $this;
+			}
+			$event->handled = false;
+			$event->name = $name;
+			foreach ($this->_events[$name] as $handler) {
+				$event->data = $handler[1];
+				call_user_func($handler[0], $event);
+				// stop further handling if the event is handled
+				if ($event instanceof CEvent && $event->handled) {
+					return;
+				}
+			}
+		}
+	}
 }
 
 
@@ -561,6 +601,9 @@ class CEvent extends \CComponent
 	 * @since 1.1.7
 	 */
 	public $params;
+        
+        public $name;
+        public $data;
 
 	/**
 	 * Constructor.
