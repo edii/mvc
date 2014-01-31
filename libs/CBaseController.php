@@ -356,21 +356,21 @@ abstract class CBaseController extends CComponent
          * translte language
          */
         public function lang( $string ) {
-//            $_lang = \init::app() -> getLanguage();
-//            if(is_array($_lang) and count($_lang) > 0) {
-//                $_lang_code = false;
-//                foreach($_lang as $_item) :
-//                    if(isset($_item['lang_locale']))
-//                        $_lang_code = $_item['lang_locale'];    
-//                endforeach;
-//                
-//                if(!$_lang_code) return null;
-//                $string = trim( \CHtml::encode( $string ) );
-//                $_gettext = new CGettextMessageSource();
-//                $_language = $_gettext -> translate($string, false, (string)$_lang_code);
-//                return $_language; 
-//            } else
-//                return null;
+            $_lang = \init::app() -> getLanguage();
+            if(is_array($_lang) and count($_lang) > 0) {
+                $_lang_code = false;
+                foreach($_lang as $_item) :
+                    if(isset($_item['lang_locale']))
+                        $_lang_code = $_item['lang_locale'];    
+                endforeach;
+                
+                if(!$_lang_code) return null;
+                $string = trim( \CHtml::encode( $string ) );
+                $_gettext = new CGettextMessageSource();
+                $_language = $_gettext -> translate($string, false, (string)$_lang_code);
+                return $_language; 
+            } else
+                return null;
         }
         
 }
