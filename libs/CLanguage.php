@@ -48,10 +48,10 @@ class CLanguage extends \CApplicationComponent
 	}
         
         /* load memcached */
-        protected function getMamcache() {
-            $_memcache = \init::app() -> getMemcaches();
-            return $_memcache -> getMemcache();
-        }
+//        protected function getMamcache() {
+//            $_memcache = \init::app() -> getMemcaches();
+//            return $_memcache -> getMemcache();
+//        }
         
         public function issetLanguage($code) {
             if(!empty($code) and in_array($code, array_keys( $this->_languages )))
