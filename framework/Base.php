@@ -642,11 +642,11 @@ class Base
 		'CViewRenderer'         => '/libs/renderers/CViewRenderer.php',
             
                 // gettext
-//                'CGettextFile'              => '/framework/gettext/CGettextFile.php',
-//                'CGettextMoFile'              => '/framework/gettext/CGettextMoFile.php',
-//                'CGettextPoFile'              => '/framework/gettext/CGettextPoFile.php',
-//                'CGettextMessageSource'              => '/framework/gettext/CGettextMessageSource.php',
-//                'CMissingTranslationEvent'              => '/framework/gettext/CMissingTranslationEvent.php',
+                'CGettextFile'              => '/framework/gettext/CGettextFile.php',
+                'CGettextMoFile'              => '/framework/gettext/CGettextMoFile.php',
+                'CGettextPoFile'              => '/framework/gettext/CGettextPoFile.php',
+                'CGettextMessageSource'              => '/framework/gettext/CGettextMessageSource.php',
+                'CMissingTranslationEvent'              => '/framework/gettext/CMissingTranslationEvent.php',
             
                 // create script params
                 'CClientScript' => '/libs/CClientScript.php',
