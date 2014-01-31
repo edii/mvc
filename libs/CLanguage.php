@@ -104,7 +104,7 @@ class CLanguage extends \CApplicationComponent
                                                                 AND LanguageIsDefault = 1 ORDER BY LanguageID ASC LIMIT 1") -> fetchAll();
                 if(is_array($_query ) and count($_query) > 0) {
                     foreach($_query as $_lang) :
-                        $_key_mem = $_lang->lang_code.'_'.$_lang->lang_id;
+                        // $_key_mem = $_lang->lang_code.'_'.$_lang->lang_id;
                         
                         // load chached
                         //$this -> _memcache -> setValue( $_key_mem, (array)$_lang, $this -> _memcache_time );

@@ -587,10 +587,10 @@ abstract class CApplication extends \CModule
 	 * Returns the cache component.
 	 * @return CCache the cache application component. Null if the component is not enabled.
 	 */
-//	public function getCache()
-//	{
-//		return $this->getComponent('cache');
-//	}
+	public function getCache()
+	{
+		return $this->getComponent('cache');
+	}
 
 	/**
 	 * Returns the core message translations component.
