@@ -5,28 +5,29 @@
  * @license http://www.yiiframework.com/license/
  */
 
-// namespace framework\gettext;
-
-
-/**
- * GettextMessageSource represents a message source that is based on GNU Gettext.
- *
- * Each GettextMessageSource instance represents the message tranlations
- * for a single domain. And each message category represents a message context
- * in Gettext. Translated messages are stored as either a MO or PO file,
- * depending on the [[useMoFile]] property value.
- *
- * All translations are saved under the [[basePath]] directory.
- *
- * Translations in one language are kept as MO or PO files under an individual
- * subdirectory whose name is the language ID. The file name is specified via
- * [[catalog]] property, which defaults to 'messages'.
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @since 2.0
- */
-class CGettextMessageSource extends \CMessageSource
+class CGettextMessageSource extends \CComponent
 {
+        // extends \CMessageSource
+    
+        /**
+	 * @event MissingTranslationEvent an event that is triggered when a message translation is not found.
+	 */
+	const EVENT_MISSING_TRANSLATION = 'missingTranslation';
+
+	/**
+	 * @var boolean whether to force message translation when the source and target languages are the same.
+	 * Defaults to false, meaning translation is only performed when source and target languages are different.
+	 */
+	public $forceTranslation = false;
+	/**
+	 * @var string the language that the original messages are in. If not set, it will use the value of
+	 * [[\yii\base\Application::sourceLanguage]].
+	 */
+	public $sourceLanguage;
+
+	private $_messages = array();
+
+    
 	const MO_FILE_EXT = '.mo';
 	const PO_FILE_EXT = '.po';
 
@@ -47,6 +48,17 @@ class CGettextMessageSource extends \CMessageSource
 	 */
 	public $useBigEndian = false;
 
+        /**
+	 * Initializes this component.
+	 */
+	public function init()
+	{
+		parent::init();
+		if ($this->sourceLanguage === null) {
+			$this->sourceLanguage = \init::app()->sourceLanguage;
+		}
+	}
+        
 	/**
 	 * Loads the message translation for the specified language and category.
 	 * Child classes should override this method to return the message translations of
@@ -85,4 +97,83 @@ class CGettextMessageSource extends \CMessageSource
 			return array();
 		}
 	}
+        
+        public function translate($category, $message, $language)
+	{
+                
+            
+		if ($this->forceTranslation || $language !== $this->sourceLanguage) {
+			return $this->translateMessage($category, $message, $language);
+		} else {
+			return $message;
+		}
+	}
+
+	/**
+	 * Translates the specified message.
+	 * If the message is not found, a [[missingTranslation]] event will be triggered
+	 * and the original message will be returned.
+	 * @param string $category the category that the message belongs to
+	 * @param string $message the message to be translated
+	 * @param string $language the target language
+	 * @return string the translated message
+	 */
+	protected function translateMessage( $category, $message, $language )
+	{
+                $key = $language. '/' . $category;
+                if (!isset($this->_messages[$key])) {
+                    $this->_messages[$key] = $this->loadMessages($category, $language);
+                }
+            
+                if (isset($this->_messages[$key][$category]) && $this->_messages[$key][$category] !== '') {
+                        return $this->_messages[$key][$category];
+                } elseif ($this->hasEventHandler('missingTranslation')) {
+			$event = new CMissingTranslationEvent(array(
+				'category' => $category,
+				'message' => $message,
+				'language' => $language,
+			));
+			$this->trigger(self::EVENT_MISSING_TRANSLATION, $event);
+			return $this->_messages[$key] = $event->message;
+		} else {
+			return $message;
+		}
+                
+                
+                
+//                elseif ($this->hasEventHandlers('missingTranslation')) {
+//			$event = new MissingTranslationEvent(array(
+//				'category' => $category,
+//				'message' => $message,
+//				'language' => $language,
+//			));
+//			$this->trigger(self::EVENT_MISSING_TRANSLATION, $event);
+//			return $this->_messages[$key] = $event->message;
+//		} else {
+//			return $message;
+//		}
+                
+            
+//		$key = $language . '/' . $category;
+//		if (!isset($this->_messages[$key])) {
+//			$this->_messages[$key] = $this->loadMessages($category, $language);
+//		}
+//                
+//                var_dump( $this->_messages ); die('stop');
+//                
+//		if (isset($this->_messages[$key][$message]) && $this->_messages[$key][$message] !== '') {
+//			return $this->_messages[$key][$message];
+//		} elseif ($this->hasEventHandlers('missingTranslation')) {
+//			$event = new MissingTranslationEvent(array(
+//				'category' => $category,
+//				'message' => $message,
+//				'language' => $language,
+//			));
+//			$this->trigger(self::EVENT_MISSING_TRANSLATION, $event);
+//			return $this->_messages[$key] = $event->message;
+//		} else {
+//			return $message;
+//		}
+	}
+        
 }
