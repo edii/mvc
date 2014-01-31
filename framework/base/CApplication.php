@@ -574,14 +574,23 @@ abstract class CApplication extends \CModule
 		return $this->getComponent('statePersister');
 	}
 
+        /**
+	 * Returns the cache component.
+	 * @return CCache the cache application component. Null if the component is not enabled.
+	 */
+//	public function getMemcaches()
+//	{
+//		return $this->getComponent('memcache');
+//	}
+        
 	/**
 	 * Returns the cache component.
 	 * @return CCache the cache application component. Null if the component is not enabled.
 	 */
-	public function getCache()
-	{
-		return $this->getComponent('cache');
-	}
+//	public function getCache()
+//	{
+//		return $this->getComponent('cache');
+//	}
 
 	/**
 	 * Returns the core message translations component.
@@ -1064,6 +1073,15 @@ abstract class CApplication extends \CModule
 				'language'=>'en_us',
 				'basePath'=>PATH.DIRECTORY_SEPARATOR.'messages',
 			),
+                    
+//                        'cache' => array(
+//                                'class' => 'CCache'
+//                        ),
+                    
+//                        'memcache' => array(
+//                                'class' => 'CMemCache'
+//                        ),
+                    
 			//'db'=>array(
 				//'class'=>'CDbConnection',
 			//),
@@ -1096,6 +1114,8 @@ abstract class CApplication extends \CModule
                         'owner' => array(
                                 'class' => 'COwner'
                         ),
+                    
+                    
                     
 		);
 

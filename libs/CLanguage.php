@@ -15,11 +15,17 @@ class CLanguage extends \CApplicationComponent
        private $_language;
        private $_defaultlang;
         
+       private $_memcache;
+       private $_memcache_time = 8600;
+       
 	/**
 	 * Constructor.
 	 */
 	public function __construct($name = false,$basePath = false,$baseUrl = false) {
+                // $this -> _memcache = $this -> getMamcache();
 		self::$db = \init::app() -> getDBConnector();
+                
+                
                 $this -> setLanguages();
                 $this -> setDefaultLang();
                 
@@ -41,6 +47,11 @@ class CLanguage extends \CApplicationComponent
 	{
 	}
         
+        /* load memcached */
+        protected function getMamcache() {
+            $_memcache = \init::app() -> getMemcaches();
+            return $_memcache -> getMemcache();
+        }
         
         public function issetLanguage($code) {
             if(!empty($code) and in_array($code, array_keys( $this->_languages )))
@@ -76,6 +87,9 @@ class CLanguage extends \CApplicationComponent
         protected function setDefaultLang() {
             
             if(empty( $this ->_defaultlang )) {
+                
+                //$_cahced = $this-> _memcache -> getValues();
+                
                 $_query = self::$db -> query( "SELECT `LanguageID` as `lang_id`, 
                                                                   `LanguageCode` as `lang_code`, 
                                                                   `LanguageName` as `lang_name`, 
@@ -90,6 +104,11 @@ class CLanguage extends \CApplicationComponent
                                                                 AND LanguageIsDefault = 1 ORDER BY LanguageID ASC LIMIT 1") -> fetchAll();
                 if(is_array($_query ) and count($_query) > 0) {
                     foreach($_query as $_lang) :
+                        $_key_mem = $_lang->lang_code.'_'.$_lang->lang_id;
+                        
+                        // load chached
+                        //$this -> _memcache -> setValue( $_key_mem, (array)$_lang, $this -> _memcache_time );
+                        
                         $this ->_defaultlang[ $_lang->lang_code ] = (array)$_lang;
                     endforeach;
                 }
