@@ -546,7 +546,11 @@ class Base
 	 * PLEASE RUN 'build autoload' COMMAND TO UPDATE THIS ARRAY.
 	 */
 	private static $_coreClasses = array(
-                
+                // load memcached
+//                'CCache'                  => '/libs/memcache/CCache.php',
+//                'CMemCache'                  => '/libs/memcache/CMemCache.php',
+//                'CMemCacheServer'                  => '/libs/memcache/CMemCacheServer.php',
+            
                 // create layout
                 'COwner'                  => '/libs/COwner.php',
                 

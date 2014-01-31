@@ -4,7 +4,7 @@
  * CMemcached class.
  */
 
-class CMemcached {
+class Memcache extends CComponent {
 	const OPT_HASH;
 	
 	const OPT_HASH_DEFAULT;
@@ -285,8 +285,8 @@ class CMemcached {
 
 }
 
-class MemcachedException extends \Exception {
-
-	function __construct( $errmsg = "", $errcode  = 0 ) {}
-
-}
+//class MemcachedException extends \Exception {
+//
+//	function __construct( $errmsg = "", $errcode  = 0 ) {}
+//
+//}
