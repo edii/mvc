@@ -64,4 +64,32 @@ class Mpost extends \CDetectedModel { //extends \CDetectedModel
         return $_posts;
     }
     
+    public function getPost() {
+
+        $sql = self::$db -> select( $this->_table_name , 'post', array('target' => 'main'))
+                     -> fields('post', array('PostID',
+                                              'cats_id',
+                                              'post_author',
+                                              'lang_id',
+                                              'post_date',
+                                              'post_date_gmt',  
+                                              'post_description',
+                                              'post_intro',
+                                              'post_title',
+                                              'post_excerpt',
+                                              'post_status',
+                                              'post_name',
+                                              'to_ping',
+                                              'pinged',
+                                              'post_modified',
+                                              'post_modified_gmt',
+                                              'post_parent',
+                                              'guid',
+                                              'post_type',
+                                              'comment_count'));
+        $_posts = $sql -> execute()->fetchAll(); 
+         
+        return $_posts;
+    }
+    
 }

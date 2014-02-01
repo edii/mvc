@@ -108,6 +108,24 @@
                                         <input class="span8" id="normalInput" type="text" name="cats[type]" value="<?= (isset($listing)) ? $listing['type'] : '' ?>" />
                                     </div>
                                 </div>
+                            </div>
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">lang_id</label>
+                                        <input class="span8" id="normalInput" type="text" name="cats[lang_id]" value="<?= (isset($listing)) ? $listing['lang_id'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">guid</label>
+                                        <input class="span8" id="normalInput" type="text" name="cats[guid]" value="<?= (isset($listing)) ? $listing['guid'] : '' ?>" />
+                                    </div>
+                                </div>
                             </div> 
    
                                 
