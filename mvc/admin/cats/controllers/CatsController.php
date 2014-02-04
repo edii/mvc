@@ -1,31 +1,37 @@
 <?php
 
-class PostController extends \Controller
+class CatsController extends \Controller
 {
 	public $layout = 'dashboard';
 
 	private $_users;
         
         // owner (model)
-        private $_mpost = false;
+        private $_mcats = false;
         /**
          * construct
          */
         public function init() {
            $this -> _users = \init::app() -> getModels('auth/users');
-           if(empty($this -> _mpost))
-                $this -> _mpost = \init::app() -> getModels('post/mpost');
+           if(empty($this -> _mcats))
+            $this -> _mcats = \init::app() -> getModels('cats/mcats');
         }
-            
+	
+	 /**
+         * Cats site
+         * load listing
+         */
+        
         public function actionIndex() {
             $this->layout( false );
             
             $this->render('index', array(
                         'sections_actual' => \init::app()->getTreeSection(),
-                        'listing'   => $this->_mpost -> getPost(),
+                        'listing'   => $this->_mcats -> getCats(),
                         'validate'  => $this -> _users -> getRight(),
                         '_session'  =>  $this -> _users -> getValidate() -> getSession()
                     ));
+
 	}
         
         public function actionManager() {
@@ -34,7 +40,7 @@ class PostController extends \Controller
             $_error = false;
             $_id = \init::app() ->getRequest() -> getParam('id'); 
             $_method = \init::app() ->getRequest() -> getParam('method');
-            $_post = \init::app() ->getRequest() -> getParam('post');
+            $_cats = \init::app() ->getRequest() -> getParam('cats');
             if(empty($_method) or !isset($_method)) {
                 // fatal error ( rediract listings owners )
                $_error = true;
@@ -46,8 +52,8 @@ class PostController extends \Controller
                  if(!(int)$_id) {
                     $_error = true;
                  } else {
-                     if(is_array($_post) and count($_post) > 0) {
-                        $this->_mpost ->save(true, $_post);
+                     if(is_array($_cats) and count($_cats) > 0) {
+                        $this->_mcats ->save(true, $_cats);
                      }
                  }
                  
@@ -55,8 +61,8 @@ class PostController extends \Controller
                 // add
                 $_title = 'Добавить';               
                 if(!(int)$_id) {
-                    if(is_array($_post) and count($_post) > 0) {
-                        $this->_mpost ->save(true, $_post);
+                    if(is_array($_cats) and count($_cats) > 0) {
+                        $this->_mcats ->save(true, $_cats);
                     }
                 }
                 
@@ -71,7 +77,7 @@ class PostController extends \Controller
                 $this->render('form',array(
                     'title'   => $_title,
                     'sections_actual' => \init::app()->getTreeSection(),
-                    'listing'   => $this->_mpost -> getPostID($_id),
+                    'listing'   => $this->_mcats -> getCatsID($_id),
                     'validate'  => $this -> _users -> getRight(),
                     '_session'  =>  $this -> _users -> getValidate() -> getSession()
                 ));
@@ -85,8 +91,9 @@ class PostController extends \Controller
             $this->layout( false );
      
             $_id = \init::app() ->getRequest() -> getParam('id');
-            $this -> _mpost -> delete(array('PostID' => $_id));
+            $this -> _mcats -> delete(array('CatsID' => $_id));
             
-            $this ->redirect('/'._request_uri.'/post/');
+            $this ->redirect('/'._request_uri.'/cats/');
         }
+        
 }
