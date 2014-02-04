@@ -73,7 +73,7 @@ abstract class CCache extends \CComponent
 	 */
 	public function init()
 	{
-		parent::init();
+		// parent::init();
 		if ($this->keyPrefix === null) {
 			$this->keyPrefix = substr(md5(\init::app()->id), 0, 5);
 		} elseif (!ctype_alnum($this->keyPrefix)) {
