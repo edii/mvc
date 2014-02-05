@@ -578,19 +578,19 @@ abstract class CApplication extends \CModule
 	 * Returns the cache component.
 	 * @return CCache the cache application component. Null if the component is not enabled.
 	 */
-//	public function getMemcaches()
-//	{
-//		return $this->getComponent('memcache');
-//	}
+	public function getMemcaches()
+	{
+		return $this->getComponent('memcache');
+	}
         
 	/**
 	 * Returns the cache component.
 	 * @return CCache the cache application component. Null if the component is not enabled.
 	 */
-	public function getCache()
-	{
-		return $this->getComponent('cache');
-	}
+//	public function getCache()
+//	{
+//		return $this->getComponent('cache');
+//	}
 
 	/**
 	 * Returns the core message translations component.
@@ -1078,9 +1078,9 @@ abstract class CApplication extends \CModule
 //                                'class' => 'CCache'
 //                        ),
                     
-//                        'memcache' => array(
-//                                'class' => 'CMemCache'
-//                        ),
+                        'memcache' => array(
+                                'class' => 'CMemCache'
+                        ),
                     
 			//'db'=>array(
 				//'class'=>'CDbConnection',

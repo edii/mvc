@@ -83,14 +83,17 @@ class Mowner extends \CDetectedModel { //extends \CDetectedModel
         
         /* memcached test */
         $_key = 'owner_cache';
-        $_cache = new CMemCache;
-            $_cache -> init();
+        //$_cache = new CMemCache;
+          //  $_cache -> init();
+        
+        $_cache = \init::app() -> getMemcaches();
             
         
             
         if(!$_res = $_cache ->getValues($_key)) :
-            $_cache -> setValue($_key, $_owners, 86000);
-            $_owners = $_cache -> getValues($_key);
+            $_owners = false;
+           // $_cache -> setValue($_key, $_owners, 86000);
+           // $_owners = $_cache -> getValues($_key);
         else :
             $_owners = $_cache -> getValues($_key);
         endif;

@@ -547,9 +547,9 @@ class Base
 	 */
 	private static $_coreClasses = array(
                 // load memcached
-                'CCache'                  => '/libs/memcache/CCache.php',
-                'CMemCache'                  => '/libs/memcache/CMemCache.php',
-                'CMemCacheServer'                  => '/libs/memcache/CMemCacheServer.php',
+                'CCache'                => '/libs/memcache/CCache.php',
+                'CMemCache'             => '/libs/memcache/CMemCache.php',
+                'CMemCacheServer'       => '/libs/memcache/CMemCacheServer.php',
             
                 // create layout
                 'COwner'                  => '/libs/COwner.php',

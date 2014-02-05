@@ -65,7 +65,7 @@ class CMemCache extends \CCache
 	 * If false, [memcache](http://pecl.php.net/package/memcache) will be used.
 	 * Defaults to false.
 	 */
-	public $useMemcached = false;
+	public $useMemcached = false; // true or false
 	/**
 	 * @var \Memcache|\Memcached the Memcache instance
 	 */
@@ -129,11 +129,13 @@ class CMemCache extends \CCache
 	{
 		if ($this->_cache === null) {
 			$extension = $this->useMemcached ? 'memcached' : 'memcache';
-			if (!extension_loaded($extension)) {
+                       
+                            if (!extension_loaded($extension)) {
 				throw new \CException(\init::t('init',"{class} MemCache requires PHP $extension extension to be loaded.",
                                                 array('{class}'=> get_class($this))));
-                            //InvalidConfigException("MemCache requires PHP $extension extension to be loaded.");
-			}
+                            } 
+                        
+			
 			$this->_cache = $this->useMemcached ? new \Memcached : new \Memcache;
 		}
 		return $this->_cache;
