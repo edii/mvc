@@ -950,7 +950,7 @@ class CHtml
 		$error = $model->getFirstError($attribute);
 		$tag = isset($options['tag']) ? $options['tag'] : 'div';
 		unset($options['tag']);
-		return Html::tag($tag, Html::encode($error), $options);
+		return \CHtml::tag($tag, \CHtml::encode($error), $options);
 	}
 
 	/**
@@ -1445,7 +1445,7 @@ class CHtml
 	 * @param array $options the options to be modified.
 	 * @param string $class the CSS class to be added
 	 */
-	public static function addCssClass(&$options, $class)
+	public static function addCssClass($options, $class)
 	{
 		if (isset($options['class'])) {
 			$classes = ' ' . $options['class'] . ' ';
@@ -1462,7 +1462,7 @@ class CHtml
 	 * @param array $options the options to be modified.
 	 * @param string $class the CSS class to be removed
 	 */
-	public static function removeCssClass(&$options, $class)
+	public static function removeCssClass($options, $class)
 	{
 		if (isset($options['class'])) {
 			$classes = array_unique(preg_split('/\s+/', $options['class'] . ' ' . $class, -1, PREG_SPLIT_NO_EMPTY));
@@ -1522,9 +1522,9 @@ class CHtml
 		$attribute = $matches[2];
 		$index = $matches[3];
 		if ($index === '') {
-			return $model->$attribute;
+			return $model[$attribute];
 		} else {
-			$value = $model->$attribute;
+			$value = $model[$attribute];
 			foreach (explode('][', trim($index, '[]')) as $id) {
 				if ((is_array($value) || $value instanceof \ArrayAccess) && isset($value[$id])) {
 					$value = $value[$id];
@@ -1553,7 +1553,7 @@ class CHtml
 	 */
 	public static function getInputName($model, $attribute)
 	{
-		$formName = $model->formName();
+		$formName = $model['formName'];
 		if (!preg_match('/(^|.*\])(\w+)(\[.*|$)/', $attribute, $matches)) {
 			throw new InvalidParamException('Attribute name must contain word characters only.');
 		}
