@@ -106,6 +106,20 @@
                             <div class="form-row row-fluid">
                                 <div class="span12">
                                     <div class="row-fluid">
+                                        
+                                        <?php
+                                            $_listOptions = array(
+                                                0 => array('t1' => 'test1'),
+                                                1 => array('t2' => 'test2'),
+                                                2 => array('t3' => 'test3'),
+                                            );
+                                            
+                                            $htmlOptions['empty'] = 'default';
+                                            
+                                            echo \CHtml::dropDownList('test[]', 't3', $_listOptions, $htmlOptions);
+                                            
+                                        ?>
+                                        
                                         <label class="form-label span4" for="normal">SectionParentID</label>
                                         <input class="span8" id="normalInput" type="text" name="section[SectionParentID]" value="<?= (isset($listing)) ? $listing['SectionParentID'] : '' ?>" />
                                     </div>

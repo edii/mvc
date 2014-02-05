@@ -4,7 +4,7 @@ namespace framework;
 class Base
 {
 	/**
-	 * @var array class map used by the Yii autoloading mechanism.
+	 * @var array class map used by the autoloading mechanism.
 	 * The array keys are the class names and the array values are the corresponding class file paths.
 	 * @since 1.1.5
 	 */
@@ -12,7 +12,7 @@ class Base
 	/**
 	 * @var boolean whether to rely on PHP include path to autoload class files. Defaults to true.
 	 * You may set this to be false if your hosting environment doesn't allow changing the PHP
-	 * include path, or if you want to append additional autoloaders to the default Yii autoloader.
+	 * include path, or if you want to append additional autoloaders to the default autoloader.
 	 * @since 1.1.8
 	 */
 	public static $enableIncludePath=true;
@@ -26,7 +26,7 @@ class Base
 
 
 	/**
-	 * @return string the version of Yii framework
+	 * @return string the version
 	 */
 	public static function getVersion()
 	{

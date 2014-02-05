@@ -583,6 +583,7 @@ abstract class CApplication extends \CModule
 	public function getMemcaches()
 	{
                 if (!extension_loaded("memcache")) {
+                        throw new \CException(\init::t('init','memcache not installed. Skipping.'));
 			// $this->markTestSkipped("memcache not installed. Skipping.");
                        // this fatal error ( not connected memcached! )
 		}
