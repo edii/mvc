@@ -91,7 +91,6 @@ class Mowner extends \CDetectedModel { //extends \CDetectedModel
         
             
         if(!$_res = $_cache ->getValues($_key)) :
-            // $_owners = false;
             $_cache -> setValue($_key, $_owners, 86000);
             $_owners = $_cache -> getValues($_key);
         else :
