@@ -88,8 +88,6 @@ class Mowner extends \CDetectedModel { //extends \CDetectedModel
         
         $_cache = \init::app() -> getMemcaches();
             
-        
-            
         if(!$_res = $_cache ->getValues($_key)) :
             $_cache -> setValue($_key, $_owners, 86000);
             $_owners = $_cache -> getValues($_key);

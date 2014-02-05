@@ -20,6 +20,8 @@ abstract class CApplication extends \CModule
 	 * the language that the messages and view files are in. Defaults to 'en_us' (US English).
 	 */
 	public $sourceLanguage='en_us';
+        
+        private $_cacheInstance = null;
 
 	private $_id;
 	private $_basePath;
@@ -580,7 +582,17 @@ abstract class CApplication extends \CModule
 	 */
 	public function getMemcaches()
 	{
-		return $this->getComponent('memcache');
+                if (!extension_loaded("memcache")) {
+			// $this->markTestSkipped("memcache not installed. Skipping.");
+                       // this fatal error ( not connected memcached! )
+		}
+
+		if ($this->_cacheInstance === null) {
+			$this->_cacheInstance = $this->getComponent('memcache');
+		}
+		return $this->_cacheInstance;
+            
+		return $this->_cacheInstance;
 	}
         
 	/**
