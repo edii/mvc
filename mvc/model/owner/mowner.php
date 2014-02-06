@@ -82,8 +82,7 @@ class Mowner extends \CDetectedModel { //extends \CDetectedModel
         
         
         /* memcached test */
-        $_cache = \init::app() -> getMemcaches();
-            
+        $_cache = \init::app() -> getMemcaches();        
         if(is_object($_cache)) {
             $_res = false;
             $_key = 'owner_cache';
