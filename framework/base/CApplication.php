@@ -21,7 +21,7 @@ abstract class CApplication extends \CModule
 	 */
 	public $sourceLanguage='en_us';
         
-        private $_cacheInstance = false; // true or false
+        private $_cacheInstance = true; // true or false
 
 	private $_id;
 	private $_basePath;
@@ -583,7 +583,7 @@ abstract class CApplication extends \CModule
 	public function getMemcaches()
 	{
                 
-		if ($this->_cacheInstance != false) {
+		if ($this->_cacheInstance === true) {
                         if (!extension_loaded("memcache")) {
                             throw new \CException(\init::t('init','memcache not installed. Skipping.'));
                             // $this->markTestSkipped("memcache not installed. Skipping.");
