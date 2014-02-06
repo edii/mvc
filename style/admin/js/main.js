@@ -43,6 +43,7 @@ $(window).load(function(){
 
 // document ready function
 $(document).ready(function(){ 	
+        /* sortable */
     
          $( ".sortable" ).sortable({
             items: 'li:not(#head)', 
@@ -51,7 +52,15 @@ $(document).ready(function(){
         });
         $( ".sortable" ).disableSelection();
     
-        
+        /* get subcat */
+        jQuery(document).on('click', '.sortable span.open-subcat', function(){
+            var _sub_ul = $(this).parent().parent().find('ul.subcat-section');
+            if(_sub_ul.is(':visible')) {
+               _sub_ul.removeClass('show').addClass('hidden'); 
+            } else {
+                _sub_ul.removeClass('hidden').addClass('show'); 
+            }
+        });
     
 
 	//------------- Switcher code ( Remove it in production site ) -------------//
