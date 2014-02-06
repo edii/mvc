@@ -79,18 +79,22 @@ class Mowner extends \CDetectedModel { //extends \CDetectedModel
         $sql ->condition('hidden', 0, '='); 
         $_owners = $sql -> execute()->fetchAll(); 
         
-        /*
-         * 'TimeCreated',
-                                                  'OwnerCode',
-                                                  'hidden',
-                                                  'OwnerType',  
-                                                  'OwnerDomain',
-                                                  'OwnerName',
-                                                  'OwnerIsDefault',
-                                                  'OwnerImage'
-         */
         
-        // var_dump( $_owners );
+        
+        /* memcached test */
+        $_cache = \init::app() -> getMemcaches();
+            
+        if(is_object($_cache)) {
+            $_res = false;
+            $_key = 'owner_cache';
+            if(!$_res = $_cache ->getValues($_key)) :
+                $_cache -> setValue($_key, $_owners, 86000);
+                $_owners = $_cache -> getValues($_key);
+            else :
+                $_owners = $_cache -> getValues($_key);
+            endif;
+        } 
+        /* end */
         
         return $_owners;
     }

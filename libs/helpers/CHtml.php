@@ -1,347 +1,262 @@
 <?php
 /**
- * CHtml class file.
+ * BaseHtml provides concrete implementation for [[Html]].
+ *
+ * Do not use BaseHtml. Use [[Html]] instead.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2011 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
-
-
-/**
- * CHtml is a static class that provides a collection of helper methods for creating HTML views.
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @package system.web.helpers
- * @since 1.0
+ * @since 2.0
  */
 class CHtml
 {
-	const ID_PREFIX='yt';
 	/**
-	 * @var string the CSS class for displaying error summaries (see {@link errorSummary}).
+	 * @var array list of void elements (element name => 1)
+	 * @see http://www.w3.org/TR/html-markup/syntax.html#void-element
 	 */
-	public static $errorSummaryCss='errorSummary';
+	public static $voidElements = array(
+		'area' => 1,
+		'base' => 1,
+		'br' => 1,
+		'col' => 1,
+		'command' => 1,
+		'embed' => 1,
+		'hr' => 1,
+		'img' => 1,
+		'input' => 1,
+		'keygen' => 1,
+		'link' => 1,
+		'meta' => 1,
+		'param' => 1,
+		'source' => 1,
+		'track' => 1,
+		'wbr' => 1,
+	);
 	/**
-	 * @var string the CSS class for displaying error messages (see {@link error}).
+	 * @var array the preferred order of attributes in a tag. This mainly affects the order of the attributes
+	 * that are rendered by [[renderTagAttributes()]].
 	 */
-	public static $errorMessageCss='errorMessage';
-	/**
-	 * @var string the CSS class for highlighting error inputs. Form inputs will be appended
-	 * with this CSS class if they have input errors.
-	 */
-	public static $errorCss='error';
-	/**
-	 * @var string the tag name for the error container tag. Defaults to 'div'.
-	 * @since 1.1.13
-	 */
-	public static $errorContainerTag='div';
-	/**
-	 * @var string the CSS class for required labels. Defaults to 'required'.
-	 * @see label
-	 */
-	public static $requiredCss='required';
-	/**
-	 * @var string the HTML code to be prepended to the required label.
-	 * @see label
-	 */
-	public static $beforeRequiredLabel='';
-	/**
-	 * @var string the HTML code to be appended to the required label.
-	 * @see label
-	 */
-	public static $afterRequiredLabel=' <span class="required">*</span>';
-	/**
-	 * @var integer the counter for generating automatic input field names.
-	 */
-	public static $count=0;
-	/**
-	 * Sets the default style for attaching jQuery event handlers.
-	 *
-	 * If set to true (default), event handlers are delegated.
-	 * Event handlers are attached to the document body and can process events
-	 * from descendant elements that are added to the document at a later time.
-	 *
-	 * If set to false, event handlers are directly bound.
-	 * Event handlers are attached directly to the DOM element, that must already exist
-	 * on the page. Elements injected into the page at a later time will not be processed.
-	 *
-	 * You can override this setting for a particular element by setting the htmlOptions delegate attribute
-	 * (see {@link clientChange}).
-	 *
-	 * For more information about attaching jQuery event handler see {@link http://api.jquery.com/on/}
-	 * @since 1.1.9
-	 * @see clientChange
-	 */
-	public static $liveEvents=true;
-	/**
-	 * @var boolean whether to close single tags. Defaults to true. Can be set to false for HTML5.
-	 * @since 1.1.13
-	 */
-	public static $closeSingleTags=true;
-	/**
-	 * @var boolean whether to render special attributes value. Defaults to true. Can be set to false for HTML5.
-	 * @since 1.1.13
-	 */
-	public static $renderSpecialAttributesValue=true;
+	public static $attributeOrder = array(
+		'type',
+		'id',
+		'class',
+		'name',
+		'value',
+
+		'href',
+		'src',
+		'action',
+		'method',
+
+		'selected',
+		'checked',
+		'readonly',
+		'disabled',
+		'multiple',
+
+		'size',
+		'maxlength',
+		'width',
+		'height',
+		'rows',
+		'cols',
+
+		'alt',
+		'title',
+		'rel',
+		'media',
+	);
 
 	/**
 	 * Encodes special characters into HTML entities.
-	 * The {@link CApplication::charset application charset} will be used for encoding.
-	 * @param string $text data to be encoded
-	 * @return string the encoded data
+	 * The [[yii\base\Application::charset|application charset]] will be used for encoding.
+	 * @param string $content the content to be encoded
+	 * @param boolean $doubleEncode whether to encode HTML entities in `$content`. If false,
+	 * HTML entities in `$content` will not be further encoded.
+	 * @return string the encoded content
+	 * @see decode
 	 * @see http://www.php.net/manual/en/function.htmlspecialchars.php
 	 */
-	public static function encode($text)
+	public static function encode($content, $doubleEncode = true)
 	{
-		return htmlspecialchars($text,ENT_QUOTES,\init::app()->charset);
+		return htmlspecialchars($content, ENT_QUOTES, \init::app()->charset, $doubleEncode);
 	}
 
 	/**
 	 * Decodes special HTML entities back to the corresponding characters.
-	 * This is the opposite of {@link encode()}.
-	 * @param string $text data to be decoded
-	 * @return string the decoded data
+	 * This is the opposite of [[encode()]].
+	 * @param string $content the content to be decoded
+	 * @return string the decoded content
+	 * @see encode
 	 * @see http://www.php.net/manual/en/function.htmlspecialchars-decode.php
-	 * @since 1.1.8
 	 */
-	public static function decode($text)
+	public static function decode($content)
 	{
-		return htmlspecialchars_decode($text,ENT_QUOTES);
+		return htmlspecialchars_decode($content, ENT_QUOTES);
 	}
 
 	/**
-	 * Encodes special characters in an array of strings into HTML entities.
-	 * Both the array keys and values will be encoded if needed.
-	 * If a value is an array, this method will also encode it recursively.
-	 * The {@link CApplication::charset application charset} will be used for encoding.
-	 * @param array $data data to be encoded
-	 * @return array the encoded data
-	 * @see http://www.php.net/manual/en/function.htmlspecialchars.php
+	 * Generates a complete HTML tag.
+	 * @param string $name the tag name
+	 * @param string $content the content to be enclosed between the start and end tags. It will not be HTML-encoded.
+	 * If this is coming from end users, you should consider [[encode()]] it to prevent XSS attacks.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * @return string the generated HTML tag
+	 * @see beginTag
+	 * @see endTag
 	 */
-	public static function encodeArray($data)
+	public static function tag($name, $content = '', $options = array())
 	{
-		$d=array();
-		foreach($data as $key=>$value)
-		{
-			if(is_string($key))
-				$key=htmlspecialchars($key,ENT_QUOTES,\init::app()->charset);
-			if(is_string($value))
-				$value=htmlspecialchars($value,ENT_QUOTES,\init::app()->charset);
-			elseif(is_array($value))
-				$value=self::encodeArray($value);
-			$d[$key]=$value;
-		}
-		return $d;
+		$html = "<$name" . static::renderTagAttributes($options) . '>';
+		return isset(static::$voidElements[strtolower($name)]) ? $html : "$html$content</$name>";
 	}
 
 	/**
-	 * Generates an HTML element.
-	 * @param string $tag the tag name
-	 * @param array $htmlOptions the element attributes. The values will be HTML-encoded using {@link encode()}.
-	 * If an 'encode' attribute is given and its value is false,
-	 * the rest of the attribute values will NOT be HTML-encoded.
-	 * Since version 1.1.5, attributes whose value is null will not be rendered.
-	 * @param mixed $content the content to be enclosed between open and close element tags. It will not be HTML-encoded.
-	 * If false, it means there is no body content.
-	 * @param boolean $closeTag whether to generate the close tag.
-	 * @return string the generated HTML element tag
+	 * Generates a start tag.
+	 * @param string $name the tag name
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * @return string the generated start tag
+	 * @see endTag
+	 * @see tag
 	 */
-	public static function tag($tag,$htmlOptions=array(),$content=false,$closeTag=true)
+	public static function beginTag($name, $options = array())
 	{
-		$html='<' . $tag . self::renderAttributes($htmlOptions);
-		if($content===false)
-			return $closeTag && self::$closeSingleTags ? $html.' />' : $html.'>';
-		else
-			return $closeTag ? $html.'>'.$content.'</'.$tag.'>' : $html.'>'.$content;
+		return "<$name" . static::renderTagAttributes($options) . '>';
 	}
 
 	/**
-	 * Generates an open HTML element.
-	 * @param string $tag the tag name
-	 * @param array $htmlOptions the element attributes. The values will be HTML-encoded using {@link encode()}.
-	 * If an 'encode' attribute is given and its value is false,
-	 * the rest of the attribute values will NOT be HTML-encoded.
-	 * Since version 1.1.5, attributes whose value is null will not be rendered.
-	 * @return string the generated HTML element tag
+	 * Generates an end tag.
+	 * @param string $name the tag name
+	 * @return string the generated end tag
+	 * @see beginTag
+	 * @see tag
 	 */
-	public static function openTag($tag,$htmlOptions=array())
+	public static function endTag($name)
 	{
-		return '<' . $tag . self::renderAttributes($htmlOptions) . '>';
+		return "</$name>";
 	}
 
 	/**
-	 * Generates a close HTML element.
-	 * @param string $tag the tag name
-	 * @return string the generated HTML element tag
+	 * Generates a style tag.
+	 * @param string $content the style content
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * If the options does not contain "type", a "type" attribute with value "text/css" will be used.
+	 * @return string the generated style tag
 	 */
-	public static function closeTag($tag)
+	public static function style($content, $options = array())
 	{
-		return '</'.$tag.'>';
+		return static::tag('style', $content, $options);
 	}
 
 	/**
-	 * Encloses the given string within a CDATA tag.
-	 * @param string $text the string to be enclosed
-	 * @return string the CDATA tag with the enclosed content.
+	 * Generates a script tag.
+	 * @param string $content the script content
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * If the options does not contain "type", a "type" attribute with value "text/javascript" will be rendered.
+	 * @return string the generated script tag
 	 */
-	public static function cdata($text)
+	public static function script($content, $options = array())
 	{
-		return '<![CDATA[' . $text . ']]>';
+		return static::tag('script', $content, $options);
 	}
 
 	/**
-	 * Generates a meta tag that can be inserted in the head section of HTML page.
-	 * @param string $content content attribute of the meta tag
-	 * @param string $name name attribute of the meta tag. If null, the attribute will not be generated
-	 * @param string $httpEquiv http-equiv attribute of the meta tag. If null, the attribute will not be generated
-	 * @param array $options other options in name-value pairs (e.g. 'scheme', 'lang')
-	 * @return string the generated meta tag
-	 */
-	public static function metaTag($content,$name=null,$httpEquiv=null,$options=array())
-	{
-		if($name!==null)
-			$options['name']=$name;
-		if($httpEquiv!==null)
-			$options['http-equiv']=$httpEquiv;
-		$options['content']=$content;
-		return self::tag('meta',$options);
-	}
-
-	/**
-	 * Generates a link tag that can be inserted in the head section of HTML page.
-	 * Do not confuse this method with {@link link()}. The latter generates a hyperlink.
-	 * @param string $relation rel attribute of the link tag. If null, the attribute will not be generated.
-	 * @param string $type type attribute of the link tag. If null, the attribute will not be generated.
-	 * @param string $href href attribute of the link tag. If null, the attribute will not be generated.
-	 * @param string $media media attribute of the link tag. If null, the attribute will not be generated.
-	 * @param array $options other options in name-value pairs
+	 * Generates a link tag that refers to an external CSS file.
+	 * @param array|string $url the URL of the external CSS file. This parameter will be processed by [[url()]].
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
 	 * @return string the generated link tag
+	 * @see url
 	 */
-	public static function linkTag($relation=null,$type=null,$href=null,$media=null,$options=array())
+	public static function cssFile($url, $options = array())
 	{
-		if($relation!==null)
-			$options['rel']=$relation;
-		if($type!==null)
-			$options['type']=$type;
-		if($href!==null)
-			$options['href']=$href;
-		if($media!==null)
-			$options['media']=$media;
-		return self::tag('link',$options);
+		$options['rel'] = 'stylesheet';
+		$options['href'] = static::url($url);
+		return static::tag('link', '', $options);
 	}
 
 	/**
-	 * Encloses the given CSS content with a CSS tag.
-	 * @param string $text the CSS content
-	 * @param string $media the media that this CSS should apply to.
-	 * @return string the CSS properly enclosed
+	 * Generates a script tag that refers to an external JavaScript file.
+	 * @param string $url the URL of the external JavaScript file. This parameter will be processed by [[url()]].
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * @return string the generated script tag
+	 * @see url
 	 */
-	public static function css($text,$media='')
+	public static function jsFile($url, $options = array())
 	{
-		if($media!=='')
-			$media=' media="'.$media.'"';
-		return "<style type=\"text/css\"{$media}>\n/*<![CDATA[*/\n{$text}\n/*]]>*/\n</style>";
+		$options['src'] = static::url($url);
+		return static::tag('script', '', $options);
 	}
 
 	/**
-	 * Registers a 'refresh' meta tag.
-	 * This method can be invoked anywhere in a view. It will register a 'refresh'
-	 * meta tag with {@link CClientScript} so that the page can be refreshed in
-	 * the specified seconds.
-	 * @param integer $seconds the number of seconds to wait before refreshing the page
-	 * @param string $url the URL to which the page should be redirected to. If empty, it means the current page.
-	 * @since 1.1.1
-	 */
-	public static function refresh($seconds, $url='')
-	{
-		$content="$seconds";
-		if($url!=='')
-			$content.=';'.self::normalizeUrl($url);
-		\init::app()->clientScript->registerMetaTag($content,null,'refresh');
-	}
-
-	/**
-	 * Links to the specified CSS file.
-	 * @param string $url the CSS URL
-	 * @param string $media the media that this CSS should apply to.
-	 * @return string the CSS link.
-	 */
-	public static function cssFile($url,$media='')
-	{
-		return CHtml::linkTag('stylesheet','text/css',$url,$media!=='' ? $media : null);
-	}
-
-	/**
-	 * Encloses the given JavaScript within a script tag.
-	 * @param string $text the JavaScript to be enclosed
-	 * @return string the enclosed JavaScript
-	 */
-	public static function script($text)
-	{
-		return "<script type=\"text/javascript\">\n/*<![CDATA[*/\n{$text}\n/*]]>*/\n</script>";
-	}
-
-	/**
-	 * Includes a JavaScript file.
-	 * @param string $url URL for the JavaScript file
-	 * @return string the JavaScript file tag
-	 */
-	public static function scriptFile($url)
-	{
-		return '<script type="text/javascript" src="'.self::encode($url).'"></script>';
-	}
-
-	/**
-	 * Generates an opening form tag.
-	 * This is a shortcut to {@link beginForm}.
-	 * @param mixed $action the form action URL (see {@link normalizeUrl} for details about this parameter.)
-	 * @param string $method form method (e.g. post, get)
-	 * @param array $htmlOptions additional HTML attributes (see {@link tag}).
-	 * @return string the generated form tag.
-	 */
-	public static function form($action='',$method='post',$htmlOptions=array())
-	{
-		return self::beginForm($action,$method,$htmlOptions);
-	}
-
-	/**
-	 * Generates an opening form tag.
-	 * Note, only the open tag is generated. A close tag should be placed manually
-	 * at the end of the form.
-	 * @param mixed $action the form action URL (see {@link normalizeUrl} for details about this parameter.)
-	 * @param string $method form method (e.g. post, get)
-	 * @param array $htmlOptions additional HTML attributes (see {@link tag}).
-	 * @return string the generated form tag.
+	 * Generates a form start tag.
+	 * @param array|string $action the form action URL. This parameter will be processed by [[url()]].
+	 * @param string $method the form submission method, such as "post", "get", "put", "delete" (case-insensitive).
+	 * Since most browsers only support "post" and "get", if other methods are given, they will
+	 * be simulated using "post", and a hidden input will be added which contains the actual method type.
+	 * See [[\yii\web\Request::restVar]] for more details.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * @return string the generated form start tag.
 	 * @see endForm
 	 */
-	public static function beginForm($action='',$method='post',$htmlOptions=array())
+	public static function beginForm($action = '', $method = 'post', $options = array())
 	{
-		$htmlOptions['action']=$url=self::normalizeUrl($action);
-		$htmlOptions['method']=$method;
-		$form=self::tag('form',$htmlOptions,false,false);
-		$hiddens=array();
-		if(!strcasecmp($method,'get') && ($pos=strpos($url,'?'))!==false)
-		{
-			foreach(explode('&',substr($url,$pos+1)) as $pair)
-			{
-				if(($pos=strpos($pair,'='))!==false)
-					$hiddens[]=self::hiddenField(urldecode(substr($pair,0,$pos)),urldecode(substr($pair,$pos+1)),array('id'=>false));
-				else
-					$hiddens[]=self::hiddenField(urldecode($pair),'',array('id'=>false));
+		$action = static::url($action);
+
+		$hiddenInputs = array();
+
+		$request = \init::app()->getRequest();
+		if ($request instanceof Request) {
+			if (strcasecmp($method, 'get') && strcasecmp($method, 'post')) {
+				// simulate PUT, DELETE, etc. via POST
+				$hiddenInputs[] = static::hiddenInput($request->restVar, $method);
+				$method = 'post';
+			}
+			if ($request->enableCsrfValidation && !strcasecmp($method, 'post')) {
+				$hiddenInputs[] = static::hiddenInput($request->csrfVar, $request->getCsrfToken());
 			}
 		}
-		$request=\init::app()->request;
-		if($request->enableCsrfValidation && !strcasecmp($method,'post'))
-			$hiddens[]=self::hiddenField($request->csrfTokenName,$request->getCsrfToken(),array('id'=>false));
-		if($hiddens!==array())
-			$form.="\n".self::tag('div',array('style'=>'display:none'),implode("\n",$hiddens));
+
+		if (!strcasecmp($method, 'get') && ($pos = strpos($action, '?')) !== false) {
+			// query parameters in the action are ignored for GET method
+			// we use hidden fields to add them back
+			foreach (explode('&', substr($action, $pos + 1)) as $pair) {
+				if (($pos1 = strpos($pair, '=')) !== false) {
+					$hiddenInputs[] = static::hiddenInput(
+						urldecode(substr($pair, 0, $pos1)),
+						urldecode(substr($pair, $pos1 + 1))
+					);
+				} else {
+					$hiddenInputs[] = static::hiddenInput(urldecode($pair), '');
+				}
+			}
+			$action = substr($action, 0, $pos);
+		}
+
+		$options['action'] = $action;
+		$options['method'] = $method;
+		$form = static::beginTag('form', $options);
+		if (!empty($hiddenInputs)) {
+			$form .= "\n" . implode("\n", $hiddenInputs);
+		}
+
 		return $form;
 	}
 
 	/**
-	 * Generates a closing form tag.
+	 * Generates a form end tag.
 	 * @return string the generated tag
 	 * @see beginForm
 	 */
@@ -351,1991 +266,1322 @@ class CHtml
 	}
 
 	/**
-	 * Generates a stateful form tag.
-	 * A stateful form tag is similar to {@link form} except that it renders an additional
-	 * hidden field for storing persistent page states. You should use this method to generate
-	 * a form tag if you want to access persistent page states when the form is submitted.
-	 * @param mixed $action the form action URL (see {@link normalizeUrl} for details about this parameter.)
-	 * @param string $method form method (e.g. post, get)
-	 * @param array $htmlOptions additional HTML attributes (see {@link tag}).
-	 * @return string the generated form tag.
-	 */
-	public static function statefulForm($action='',$method='post',$htmlOptions=array())
-	{
-		return self::form($action,$method,$htmlOptions)."\n".
-			self::tag('div',array('style'=>'display:none'),self::pageStateField(''));
-	}
-
-	/**
-	 * Generates a hidden field for storing persistent page states.
-	 * This method is internally used by {@link statefulForm}.
-	 * @param string $value the persistent page states in serialized format
-	 * @return string the generated hidden field
-	 */
-	public static function pageStateField($value)
-	{
-		return '<input type="hidden" name="'.\CController::STATE_INPUT_NAME.'" value="'.$value.'" />';
-	}
-
-	/**
 	 * Generates a hyperlink tag.
-	 * @param string $text link body. It will NOT be HTML-encoded. Therefore you can pass in HTML code such as an image tag.
-	 * @param mixed $url a URL or an action route that can be used to create a URL.
-	 * See {@link normalizeUrl} for more details about how to specify this parameter.
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @param string $text link body. It will NOT be HTML-encoded. Therefore you can pass in HTML code
+	 * such as an image tag. If this is coming from end users, you should consider [[encode()]]
+	 * it to prevent XSS attacks.
+	 * @param array|string|null $url the URL for the hyperlink tag. This parameter will be processed by [[url()]]
+	 * and will be used for the "href" attribute of the tag. If this parameter is null, the "href" attribute
+	 * will not be generated.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
 	 * @return string the generated hyperlink
-	 * @see normalizeUrl
-	 * @see clientChange
+	 * @see url
 	 */
-	public static function link($text,$url='#',$htmlOptions=array())
+	public static function a($text, $url = null, $options = array())
 	{
-		if($url!=='')
-			$htmlOptions['href']=self::normalizeUrl($url);
-		self::clientChange('click',$htmlOptions);
-		return self::tag('a',$htmlOptions,$text);
+		if ($url !== null) {
+			$options['href'] = static::url($url);
+		}
+		return static::tag('a', $text, $options);
 	}
 
 	/**
-	 * Generates a mailto link.
-	 * @param string $text link body. It will NOT be HTML-encoded. Therefore you can pass in HTML code such as an image tag.
-	 * @param string $email email address. If this is empty, the first parameter (link body) will be treated as the email address.
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * Generates a mailto hyperlink.
+	 * @param string $text link body. It will NOT be HTML-encoded. Therefore you can pass in HTML code
+	 * such as an image tag. If this is coming from end users, you should consider [[encode()]]
+	 * it to prevent XSS attacks.
+	 * @param string $email email address. If this is null, the first parameter (link body) will be treated
+	 * as the email address and used.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
 	 * @return string the generated mailto link
-	 * @see clientChange
 	 */
-	public static function mailto($text,$email='',$htmlOptions=array())
+	public static function mailto($text, $email = null, $options = array())
 	{
-		if($email==='')
-			$email=$text;
-		return self::link($text,'mailto:'.$email,$htmlOptions);
+		$options['href'] = 'mailto:' . ($email === null ? $text : $email);
+		return static::tag('a', $text, $options);
 	}
 
 	/**
 	 * Generates an image tag.
-	 * @param string $src the image URL
-	 * @param string $alt the alternative text display
-	 * @param array $htmlOptions additional HTML attributes (see {@link tag}).
+	 * @param string $src the image URL. This parameter will be processed by [[url()]].
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
 	 * @return string the generated image tag
 	 */
-	public static function image($src,$alt='',$htmlOptions=array())
+	public static function img($src, $options = array())
 	{
-		$htmlOptions['src']=$src;
-		$htmlOptions['alt']=$alt;
-		return self::tag('img',$htmlOptions);
-	}
-
-	/**
-	 * Generates a button.
-	 * @param string $label the button label
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated button tag
-	 * @see clientChange
-	 */
-	public static function button($label='button',$htmlOptions=array())
-	{
-		if(!isset($htmlOptions['name']))
-		{
-			if(!array_key_exists('name',$htmlOptions))
-				$htmlOptions['name']=self::ID_PREFIX.self::$count++;
+		$options['src'] = static::url($src);
+		if (!isset($options['alt'])) {
+			$options['alt'] = '';
 		}
-		if(!isset($htmlOptions['type']))
-			$htmlOptions['type']='button';
-		if(!isset($htmlOptions['value']))
-			$htmlOptions['value']=$label;
-		self::clientChange('click',$htmlOptions);
-		return self::tag('input',$htmlOptions);
-	}
-
-	/**
-	 * Generates a button using HTML button tag.
-	 * This method is similar to {@link button} except that it generates a 'button'
-	 * tag instead of 'input' tag.
-	 * @param string $label the button label. Note that this value will be directly inserted in the button element
-	 * without being HTML-encoded.
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated button tag
-	 * @see clientChange
-	 */
-	public static function htmlButton($label='button',$htmlOptions=array())
-	{
-		if(!isset($htmlOptions['name']))
-			$htmlOptions['name']=self::ID_PREFIX.self::$count++;
-		if(!isset($htmlOptions['type']))
-			$htmlOptions['type']='button';
-		self::clientChange('click',$htmlOptions);
-		return self::tag('button',$htmlOptions,$label);
-	}
-
-	/**
-	 * Generates a submit button.
-	 * @param string $label the button label
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated button tag
-	 * @see clientChange
-	 */
-	public static function submitButton($label='submit',$htmlOptions=array())
-	{
-		$htmlOptions['type']='submit';
-		return self::button($label,$htmlOptions);
-	}
-
-	/**
-	 * Generates a reset button.
-	 * @param string $label the button label
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated button tag
-	 * @see clientChange
-	 */
-	public static function resetButton($label='reset',$htmlOptions=array())
-	{
-		$htmlOptions['type']='reset';
-		return self::button($label,$htmlOptions);
-	}
-
-	/**
-	 * Generates an image submit button.
-	 * @param string $src the image URL
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated button tag
-	 * @see clientChange
-	 */
-	public static function imageButton($src,$htmlOptions=array())
-	{
-		$htmlOptions['src']=$src;
-		$htmlOptions['type']='image';
-		return self::button('submit',$htmlOptions);
-	}
-
-	/**
-	 * Generates a link submit button.
-	 * @param string $label the button label
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated button tag
-	 * @see clientChange
-	 */
-	public static function linkButton($label='submit',$htmlOptions=array())
-	{
-		if(!isset($htmlOptions['submit']))
-			$htmlOptions['submit']=isset($htmlOptions['href']) ? $htmlOptions['href'] : '';
-		return self::link($label,'#',$htmlOptions);
+		return static::tag('img', '', $options);
 	}
 
 	/**
 	 * Generates a label tag.
-	 * @param string $label label text. Note, you should HTML-encode the text if needed.
+	 * @param string $content label text. It will NOT be HTML-encoded. Therefore you can pass in HTML code
+	 * such as an image tag. If this is is coming from end users, you should [[encode()]]
+	 * it to prevent XSS attacks.
 	 * @param string $for the ID of the HTML element that this label is associated with.
-	 * If this is false, the 'for' attribute for the label tag will not be rendered.
-	 * @param array $htmlOptions additional HTML attributes.
-	 * The following HTML option is recognized:
-	 * <ul>
-	 * <li>required: if this is set and is true, the label will be styled
-	 * with CSS class 'required' (customizable with CHtml::$requiredCss),
-	 * and be decorated with {@link CHtml::beforeRequiredLabel} and
-	 * {@link CHtml::afterRequiredLabel}.</li>
-	 * </ul>
+	 * If this is null, the "for" attribute will not be generated.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
 	 * @return string the generated label tag
 	 */
-	public static function label($label,$for,$htmlOptions=array())
+	public static function label($content, $for = null, $options = array())
 	{
-		if($for===false)
-			unset($htmlOptions['for']);
-		else
-			$htmlOptions['for']=$for;
-		if(isset($htmlOptions['required']))
-		{
-			if($htmlOptions['required'])
-			{
-				if(isset($htmlOptions['class']))
-					$htmlOptions['class'].=' '.self::$requiredCss;
-				else
-					$htmlOptions['class']=self::$requiredCss;
-				$label=self::$beforeRequiredLabel.$label.self::$afterRequiredLabel;
-			}
-			unset($htmlOptions['required']);
-		}
-		return self::tag('label',$htmlOptions,$label);
+		$options['for'] = $for;
+		return static::tag('label', $content, $options);
 	}
 
 	/**
-	 * Generates a text field input.
-	 * @param string $name the input name
-	 * @param string $value the input value
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated input field
-	 * @see clientChange
-	 * @see inputField
+	 * Generates a button tag.
+	 * @param string $content the content enclosed within the button tag. It will NOT be HTML-encoded.
+	 * Therefore you can pass in HTML code such as an image tag. If this is is coming from end users,
+	 * you should consider [[encode()]] it to prevent XSS attacks.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * @return string the generated button tag
 	 */
-	public static function textField($name,$value='',$htmlOptions=array())
+	public static function button($content = 'Button', $options = array())
 	{
-		self::clientChange('change',$htmlOptions);
-		return self::inputField('text',$name,$value,$htmlOptions);
+		return static::tag('button', $content, $options);
 	}
 
 	/**
-	 * Generates a hidden input.
-	 * @param string $name the input name
-	 * @param string $value the input value
-	 * @param array $htmlOptions additional HTML attributes (see {@link tag}).
-	 * @return string the generated input field
-	 * @see inputField
+	 * Generates a submit button tag.
+	 * @param string $content the content enclosed within the button tag. It will NOT be HTML-encoded.
+	 * Therefore you can pass in HTML code such as an image tag. If this is is coming from end users,
+	 * you should consider [[encode()]] it to prevent XSS attacks.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * @return string the generated submit button tag
 	 */
-	public static function hiddenField($name,$value='',$htmlOptions=array())
+	public static function submitButton($content = 'Submit', $options = array())
 	{
-		return self::inputField('hidden',$name,$value,$htmlOptions);
+		$options['type'] = 'submit';
+		return static::button($content, $options);
 	}
 
 	/**
-	 * Generates a password field input.
-	 * @param string $name the input name
-	 * @param string $value the input value
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated input field
-	 * @see clientChange
-	 * @see inputField
+	 * Generates a reset button tag.
+	 * @param string $content the content enclosed within the button tag. It will NOT be HTML-encoded.
+	 * Therefore you can pass in HTML code such as an image tag. If this is is coming from end users,
+	 * you should consider [[encode()]] it to prevent XSS attacks.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * @return string the generated reset button tag
 	 */
-	public static function passwordField($name,$value='',$htmlOptions=array())
+	public static function resetButton($content = 'Reset', $options = array())
 	{
-		self::clientChange('change',$htmlOptions);
-		return self::inputField('password',$name,$value,$htmlOptions);
+		$options['type'] = 'reset';
+		return static::button($content, $options);
 	}
 
 	/**
-	 * Generates a file input.
-	 * Note, you have to set the enclosing form's 'enctype' attribute to be 'multipart/form-data'.
-	 * After the form is submitted, the uploaded file information can be obtained via $_FILES[$name] (see
-	 * PHP documentation).
-	 * @param string $name the input name
-	 * @param string $value the input value
-	 * @param array $htmlOptions additional HTML attributes (see {@link tag}).
-	 * @return string the generated input field
-	 * @see inputField
+	 * Generates an input type of the given type.
+	 * @param string $type the type attribute.
+	 * @param string $name the name attribute. If it is null, the name attribute will not be generated.
+	 * @param string $value the value attribute. If it is null, the value attribute will not be generated.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * @return string the generated input tag
 	 */
-	public static function fileField($name,$value='',$htmlOptions=array())
+	public static function input($type, $name = null, $value = null, $options = array())
 	{
-		return self::inputField('file',$name,$value,$htmlOptions);
+		$options['type'] = $type;
+		$options['name'] = $name;
+		$options['value'] = $value === null ? null : (string)$value;
+		return static::tag('input', '', $options);
+	}
+
+	/**
+	 * Generates an input button.
+	 * @param string $label the value attribute. If it is null, the value attribute will not be generated.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * @return string the generated button tag
+	 */
+	public static function buttonInput($label = 'Button', $options = array())
+	{
+		$options['type'] = 'button';
+		$options['value'] = $label;
+		return static::tag('input', '', $options);
+	}
+
+	/**
+	 * Generates a submit input button.
+	 * @param string $label the value attribute. If it is null, the value attribute will not be generated.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * @return string the generated button tag
+	 */
+	public static function submitInput($label = 'Submit', $options = array())
+	{
+		$options['type'] = 'submit';
+		$options['value'] = $label;
+		return static::tag('input', '', $options);
+	}
+
+	/**
+	 * Generates a reset input button.
+	 * @param string $label the value attribute. If it is null, the value attribute will not be generated.
+	 * @param array $options the attributes of the button tag. The values will be HTML-encoded using [[encode()]].
+	 * Attributes whose value is null will be ignored and not put in the tag returned.
+	 * @return string the generated button tag
+	 */
+	public static function resetInput($label = 'Reset', $options = array())
+	{
+		$options['type'] = 'reset';
+		$options['value'] = $label;
+		return static::tag('input', '', $options);
+	}
+
+	/**
+	 * Generates a text input field.
+	 * @param string $name the name attribute.
+	 * @param string $value the value attribute. If it is null, the value attribute will not be generated.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * @return string the generated button tag
+	 */
+	public static function textInput($name, $value = null, $options = array())
+	{
+		return static::input('text', $name, $value, $options);
+	}
+
+	/**
+	 * Generates a hidden input field.
+	 * @param string $name the name attribute.
+	 * @param string $value the value attribute. If it is null, the value attribute will not be generated.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * @return string the generated button tag
+	 */
+	public static function hiddenInput($name, $value = null, $options = array())
+	{
+		return static::input('hidden', $name, $value, $options);
+	}
+
+	/**
+	 * Generates a password input field.
+	 * @param string $name the name attribute.
+	 * @param string $value the value attribute. If it is null, the value attribute will not be generated.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * @return string the generated button tag
+	 */
+	public static function passwordInput($name, $value = null, $options = array())
+	{
+		return static::input('password', $name, $value, $options);
+	}
+
+	/**
+	 * Generates a file input field.
+	 * To use a file input field, you should set the enclosing form's "enctype" attribute to
+	 * be "multipart/form-data". After the form is submitted, the uploaded file information
+	 * can be obtained via $_FILES[$name] (see PHP documentation).
+	 * @param string $name the name attribute.
+	 * @param string $value the value attribute. If it is null, the value attribute will not be generated.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * @return string the generated button tag
+	 */
+	public static function fileInput($name, $value = null, $options = array())
+	{
+		return static::input('file', $name, $value, $options);
 	}
 
 	/**
 	 * Generates a text area input.
 	 * @param string $name the input name
-	 * @param string $value the input value
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated text area
-	 * @see clientChange
-	 * @see inputField
+	 * @param string $value the input value. Note that it will be encoded using [[encode()]].
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * @return string the generated text area tag
 	 */
-	public static function textArea($name,$value='',$htmlOptions=array())
+	public static function textarea($name, $value = '', $options = array())
 	{
-		$htmlOptions['name']=$name;
-		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=self::getIdByName($name);
-		elseif($htmlOptions['id']===false)
-			unset($htmlOptions['id']);
-		self::clientChange('change',$htmlOptions);
-		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $value : self::encode($value));
+		$options['name'] = $name;
+		return static::tag('textarea', static::encode($value), $options);
 	}
 
 	/**
-	 * Generates a radio button.
-	 * @param string $name the input name
-	 * @param boolean $checked whether the radio button is checked
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * Since version 1.1.2, a special option named 'uncheckValue' is available that can be used to specify
-	 * the value returned when the radio button is not checked. When set, a hidden field is rendered so that
-	 * when the radio button is not checked, we can still obtain the posted uncheck value.
-	 * If 'uncheckValue' is not set or set to NULL, the hidden field will not be rendered.
-	 * @return string the generated radio button
-	 * @see clientChange
-	 * @see inputField
+	 * Generates a radio button input.
+	 * @param string $name the name attribute.
+	 * @param boolean $checked whether the radio button should be checked.
+	 * @param array $options the tag options in terms of name-value pairs. The following options are specially handled:
+	 *
+	 * - uncheck: string, the value associated with the uncheck state of the radio button. When this attribute
+	 *   is present, a hidden input will be generated so that if the radio button is not checked and is submitted,
+	 *   the value of this attribute will still be submitted to the server via the hidden input.
+	 * - label: string, a label displayed next to the radio button.  It will NOT be HTML-encoded. Therefore you can pass
+	 *   in HTML code such as an image tag. If this is is coming from end users, you should [[encode()]] it to prevent XSS attacks.
+	 *   When this option is specified, the radio button will be enclosed by a label tag.
+	 * - labelOptions: array, the HTML attributes for the label tag. This is only used when the "label" option is specified.
+	 *
+	 * The rest of the options will be rendered as the attributes of the resulting tag. The values will
+	 * be HTML-encoded using [[encode()]]. If a value is null, the corresponding attribute will not be rendered.
+	 *
+	 * @return string the generated radio button tag
 	 */
-	public static function radioButton($name,$checked=false,$htmlOptions=array())
+	public static function radio($name, $checked = false, $options = array())
 	{
-		if($checked)
-			$htmlOptions['checked']='checked';
-		else
-			unset($htmlOptions['checked']);
-		$value=isset($htmlOptions['value']) ? $htmlOptions['value'] : 1;
-		self::clientChange('click',$htmlOptions);
-
-		if(array_key_exists('uncheckValue',$htmlOptions))
-		{
-			$uncheck=$htmlOptions['uncheckValue'];
-			unset($htmlOptions['uncheckValue']);
-		}
-		else
-			$uncheck=null;
-
-		if($uncheck!==null)
-		{
+		$options['checked'] = (boolean)$checked;
+		$value = array_key_exists('value', $options) ? $options['value'] : '1';
+		if (isset($options['uncheck'])) {
 			// add a hidden field so that if the radio button is not selected, it still submits a value
-			if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
-				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
-			else
-				$uncheckOptions=array('id'=>false);
-			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
+			$hidden = static::hiddenInput($name, $options['uncheck']);
+			unset($options['uncheck']);
+		} else {
+			$hidden = '';
 		}
-		else
-			$hidden='';
-
-		// add a hidden field so that if the radio button is not selected, it still submits a value
-		return $hidden . self::inputField('radio',$name,$value,$htmlOptions);
+		if (isset($options['label'])) {
+			$label = $options['label'];
+			$labelOptions = isset($options['labelOptions']) ? $options['labelOptions'] : array();
+			unset($options['label'], $options['labelOptions']);
+			$content = static::label(static::input('radio', $name, $value, $options) . ' ' . $label, null, $labelOptions);
+			return $hidden . static::tag('div', $content, array('class' => 'radio'));
+		} else {
+			return $hidden . static::input('radio', $name, $value, $options);
+		}
 	}
 
 	/**
-	 * Generates a check box.
-	 * @param string $name the input name
-	 * @param boolean $checked whether the check box is checked
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * Since version 1.1.2, a special option named 'uncheckValue' is available that can be used to specify
-	 * the value returned when the checkbox is not checked. When set, a hidden field is rendered so that
-	 * when the checkbox is not checked, we can still obtain the posted uncheck value.
-	 * If 'uncheckValue' is not set or set to NULL, the hidden field will not be rendered.
-	 * @return string the generated check box
-	 * @see clientChange
-	 * @see inputField
+	 * Generates a checkbox input.
+	 * @param string $name the name attribute.
+	 * @param boolean $checked whether the checkbox should be checked.
+	 * @param array $options the tag options in terms of name-value pairs. The following options are specially handled:
+	 *
+	 * - uncheck: string, the value associated with the uncheck state of the checkbox. When this attribute
+	 *   is present, a hidden input will be generated so that if the checkbox is not checked and is submitted,
+	 *   the value of this attribute will still be submitted to the server via the hidden input.
+	 * - label: string, a label displayed next to the checkbox.  It will NOT be HTML-encoded. Therefore you can pass
+	 *   in HTML code such as an image tag. If this is is coming from end users, you should [[encode()]] it to prevent XSS attacks.
+	 *   When this option is specified, the checkbox will be enclosed by a label tag.
+	 * - labelOptions: array, the HTML attributes for the label tag. This is only used when the "label" option is specified.
+	 *
+	 * The rest of the options will be rendered as the attributes of the resulting tag. The values will
+	 * be HTML-encoded using [[encode()]]. If a value is null, the corresponding attribute will not be rendered.
+	 *
+	 * @return string the generated checkbox tag
 	 */
-	public static function checkBox($name,$checked=false,$htmlOptions=array())
+	public static function checkbox($name, $checked = false, $options = array())
 	{
-		if($checked)
-			$htmlOptions['checked']='checked';
-		else
-			unset($htmlOptions['checked']);
-		$value=isset($htmlOptions['value']) ? $htmlOptions['value'] : 1;
-		self::clientChange('click',$htmlOptions);
-
-		if(array_key_exists('uncheckValue',$htmlOptions))
-		{
-			$uncheck=$htmlOptions['uncheckValue'];
-			unset($htmlOptions['uncheckValue']);
+		$options['checked'] = (boolean)$checked;
+		$value = array_key_exists('value', $options) ? $options['value'] : '1';
+		if (isset($options['uncheck'])) {
+			// add a hidden field so that if the checkbox is not selected, it still submits a value
+			$hidden = static::hiddenInput($name, $options['uncheck']);
+			unset($options['uncheck']);
+		} else {
+			$hidden = '';
 		}
-		else
-			$uncheck=null;
-
-		if($uncheck!==null)
-		{
-			// add a hidden field so that if the check box is not checked, it still submits a value
-			if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
-				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
-			else
-				$uncheckOptions=array('id'=>false);
-			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
+		if (isset($options['label'])) {
+			$label = $options['label'];
+			$labelOptions = isset($options['labelOptions']) ? $options['labelOptions'] : array();
+			unset($options['label'], $options['labelOptions']);
+			$content = static::label(static::input('checkbox', $name, $value, $options) . ' ' . $label, null, $labelOptions);
+			return $hidden . static::tag('div', $content, array('class' => 'checkbox'));
+		} else {
+			return $hidden . static::input('checkbox', $name, $value, $options);
 		}
-		else
-			$hidden='';
-
-		// add a hidden field so that if the check box is not checked, it still submits a value
-		return $hidden . self::inputField('checkbox',$name,$value,$htmlOptions);
 	}
 
 	/**
-	 * Generates a drop down list.
+	 * Generates a drop-down list.
 	 * @param string $name the input name
-	 * @param string $select the selected value
-	 * @param array $data data for generating the list options (value=>display).
-	 * You may use {@link listData} to generate this data.
-	 * Please refer to {@link listOptions} on how this data is used to generate the list options.
-	 * Note, the values and labels will be automatically HTML-encoded by this method.
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are recognized. See {@link clientChange} and {@link tag} for more details.
-	 * In addition, the following options are also supported specifically for dropdown list:
-	 * <ul>
-	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true.</li>
-	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty. Note, the prompt text will NOT be HTML-encoded.</li>
-	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
-	 * The 'empty' option can also be an array of value-label pairs.
-	 * Each pair will be used to render a list option at the beginning. Note, the text label will NOT be HTML-encoded.</li>
-	 * <li>options: array, specifies additional attributes for each OPTION tag.
-	 *     The array keys must be the option values, and the array values are the extra
-	 *     OPTION tag attributes in the name-value pairs. For example,
-	 * <pre>
-	 *     array(
-	 *         'value1'=>array('disabled'=>true, 'label'=>'value 1'),
-	 *         'value2'=>array('label'=>'value 2'),
-	 *     );
-	 * </pre>
-	 * </li>
-	 * </ul>
-	 * Since 1.1.13, a special option named 'unselectValue' is available. It can be used to set the value
-	 * that will be returned when no option is selected in multiple mode. When set, a hidden field is
-	 * rendered so that if no option is selected in multiple mode, we can still obtain the posted
-	 * unselect value. If 'unselectValue' is not set or set to NULL, the hidden field will not be rendered.
-	 * @return string the generated drop down list
-	 * @see clientChange
-	 * @see inputField
-	 * @see listData
+	 * @param string $selection the selected value
+	 * @param array $items the option data items. The array keys are option values, and the array values
+	 * are the corresponding option labels. The array can also be nested (i.e. some array values are arrays too).
+	 * For each sub-array, an option group will be generated whose label is the key associated with the sub-array.
+	 * If you have a list of data models, you may convert them into the format described above using
+	 * [[\yii\helpers\ArrayHelper::map()]].
+	 *
+	 * Note, the values and labels will be automatically HTML-encoded by this method, and the blank spaces in
+	 * the labels will also be HTML-encoded.
+	 * @param array $options the tag options in terms of name-value pairs. The following options are specially handled:
+	 *
+	 * - prompt: string, a prompt text to be displayed as the first option;
+	 * - options: array, the attributes for the select option tags. The array keys must be valid option values,
+	 *   and the array values are the extra attributes for the corresponding option tags. For example,
+	 *
+	 * ~~~
+	 * array(
+	 *     'value1' => array('disabled' => true),
+	 *     'value2' => array('label' => 'value 2'),
+	 * );
+	 * ~~~
+	 *
+	 * - groups: array, the attributes for the optgroup tags. The structure of this is similar to that of 'options',
+	 *   except that the array keys represent the optgroup labels specified in $items.
+	 *
+	 * The rest of the options will be rendered as the attributes of the resulting tag. The values will
+	 * be HTML-encoded using [[encode()]]. If a value is null, the corresponding attribute will not be rendered.
+	 *
+	 * @return string the generated drop-down list tag
 	 */
-	public static function dropDownList($name,$select,$data,$htmlOptions=array())
+	public static function dropDownList($name, $selection = null, $items = array(), $options = array())
 	{
-		$htmlOptions['name']=$name;
-
-		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=self::getIdByName($name);
-		elseif($htmlOptions['id']===false)
-			unset($htmlOptions['id']);
-
-		self::clientChange('change',$htmlOptions);
-		$options="\n".self::listOptions($select,$data,$htmlOptions);
-		$hidden='';
-
-		if(isset($htmlOptions['multiple']))
-		{
-			if(substr($htmlOptions['name'],-2)!=='[]')
-				$htmlOptions['name'].='[]';
-
-			if(isset($htmlOptions['unselectValue']))
-			{
-				$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
-				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
-				unset($htmlOptions['unselectValue']);
-			}
-		}
-		// add a hidden field so that if the option is not selected, it still submits a value
-		return $hidden . self::tag('select',$htmlOptions,$options);
+		$options['name'] = $name;
+		$selectOptions = static::renderSelectOptions($selection, $items, $options);
+		return static::tag('select', "\n" . $selectOptions . "\n", $options);
 	}
 
 	/**
 	 * Generates a list box.
 	 * @param string $name the input name
-	 * @param mixed $select the selected value(s). This can be either a string for single selection or an array for multiple selections.
-	 * @param array $data data for generating the list options (value=>display)
-	 * You may use {@link listData} to generate this data.
-	 * Please refer to {@link listOptions} on how this data is used to generate the list options.
-	 * Note, the values and labels will be automatically HTML-encoded by this method.
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized. See {@link clientChange} and {@link tag} for more details.
-	 * In addition, the following options are also supported specifically for list box:
-	 * <ul>
-	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true.</li>
-	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty. Note, the prompt text will NOT be HTML-encoded.</li>
-	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
-	 * The 'empty' option can also be an array of value-label pairs.
-	 * Each pair will be used to render a list option at the beginning. Note, the text label will NOT be HTML-encoded.</li>
-	 * <li>options: array, specifies additional attributes for each OPTION tag.
-	 *     The array keys must be the option values, and the array values are the extra
-	 *     OPTION tag attributes in the name-value pairs. For example,
-	 * <pre>
-	 *     array(
-	 *         'value1'=>array('disabled'=>true, 'label'=>'value 1'),
-	 *         'value2'=>array('label'=>'value 2'),
-	 *     );
-	 * </pre>
-	 * </li>
-	 * </ul>
-	 * @return string the generated list box
-	 * @see clientChange
-	 * @see inputField
-	 * @see listData
+	 * @param string|array $selection the selected value(s)
+	 * @param array $items the option data items. The array keys are option values, and the array values
+	 * are the corresponding option labels. The array can also be nested (i.e. some array values are arrays too).
+	 * For each sub-array, an option group will be generated whose label is the key associated with the sub-array.
+	 * If you have a list of data models, you may convert them into the format described above using
+	 * [[\yii\helpers\ArrayHelper::map()]].
+	 *
+	 * Note, the values and labels will be automatically HTML-encoded by this method, and the blank spaces in
+	 * the labels will also be HTML-encoded.
+	 * @param array $options the tag options in terms of name-value pairs. The following options are specially handled:
+	 *
+	 * - prompt: string, a prompt text to be displayed as the first option;
+	 * - options: array, the attributes for the select option tags. The array keys must be valid option values,
+	 *   and the array values are the extra attributes for the corresponding option tags. For example,
+	 *
+	 * ~~~
+	 * array(
+	 *     'value1' => array('disabled' => true),
+	 *     'value2' => array('label' => 'value 2'),
+	 * );
+	 * ~~~
+	 *
+	 * - groups: array, the attributes for the optgroup tags. The structure of this is similar to that of 'options',
+	 *   except that the array keys represent the optgroup labels specified in $items.
+	 * - unselect: string, the value that will be submitted when no option is selected.
+	 *   When this attribute is set, a hidden field will be generated so that if no option is selected in multiple
+	 *   mode, we can still obtain the posted unselect value.
+	 *
+	 * The rest of the options will be rendered as the attributes of the resulting tag. The values will
+	 * be HTML-encoded using [[encode()]]. If a value is null, the corresponding attribute will not be rendered.
+	 *
+	 * @return string the generated list box tag
 	 */
-	public static function listBox($name,$select,$data,$htmlOptions=array())
+	public static function listBox($name, $selection = null, $items = array(), $options = array())
 	{
-		if(!isset($htmlOptions['size']))
-			$htmlOptions['size']=4;
-		if(isset($htmlOptions['multiple']))
-		{
-			if(substr($name,-2)!=='[]')
-				$name.='[]';
+		if (!isset($options['size'])) {
+			$options['size'] = 4;
 		}
-		return self::dropDownList($name,$select,$data,$htmlOptions);
+		if (!empty($options['multiple']) && substr($name, -2) !== '[]') {
+			$name .= '[]';
+		}
+		$options['name'] = $name;
+		if (isset($options['unselect'])) {
+			// add a hidden field so that if the list box has no option being selected, it still submits a value
+			if (substr($name, -2) === '[]') {
+				$name = substr($name, 0, -2);
+			}
+			$hidden = static::hiddenInput($name, $options['unselect']);
+			unset($options['unselect']);
+		} else {
+			$hidden = '';
+		}
+		$selectOptions = static::renderSelectOptions($selection, $items, $options);
+		return $hidden . static::tag('select', "\n" . $selectOptions . "\n", $options);
 	}
 
 	/**
-	 * Generates a check box list.
-	 * A check box list allows multiple selection, like {@link listBox}.
-	 * As a result, the corresponding POST value is an array.
-	 * @param string $name name of the check box list. You can use this name to retrieve
-	 * the selected value(s) once the form is submitted.
-	 * @param mixed $select selection of the check boxes. This can be either a string
-	 * for single selection or an array for multiple selections.
-	 * @param array $data value-label pairs used to generate the check box list.
-	 * Note, the values will be automatically HTML-encoded, while the labels will not.
-	 * @param array $htmlOptions addtional HTML options. The options will be applied to
-	 * each checkbox input. The following special options are recognized:
-	 * <ul>
-	 * <li>template: string, specifies how each checkbox is rendered. Defaults
-	 * to "{input} {label}", where "{input}" will be replaced by the generated
-	 * check box input tag while "{label}" be replaced by the corresponding check box label.</li>
-	 * <li>separator: string, specifies the string that separates the generated check boxes.</li>
-	 * <li>checkAll: string, specifies the label for the "check all" checkbox.
-	 * If this option is specified, a 'check all' checkbox will be displayed. Clicking on
-	 * this checkbox will cause all checkboxes checked or unchecked.</li>
-	 * <li>checkAllLast: boolean, specifies whether the 'check all' checkbox should be
-	 * displayed at the end of the checkbox list. If this option is not set (default)
-	 * or is false, the 'check all' checkbox will be displayed at the beginning of
-	 * the checkbox list.</li>
-	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
-	 * for every label tag in the list.</li>
-	 * <li>container: string, specifies the checkboxes enclosing tag. Defaults to 'span'.
-	 * If the value is an empty string, no enclosing tag will be generated</li>
-	 * <li>baseID: string, specifies the base ID prefix to be used for checkboxes in the list.
-	 * This option is available since version 1.1.13.</li>
-	 * </ul>
-	 * @return string the generated check box list
+	 * Generates a list of checkboxes.
+	 * A checkbox list allows multiple selection, like [[listBox()]].
+	 * As a result, the corresponding submitted value is an array.
+	 * @param string $name the name attribute of each checkbox.
+	 * @param string|array $selection the selected value(s).
+	 * @param array $items the data item used to generate the checkboxes.
+	 * The array keys are the labels, while the array values are the corresponding checkbox values.
+	 * @param array $options options (name => config) for the checkbox list container tag.
+	 * The following options are specially handled:
+	 *
+	 * - tag: string, the tag name of the container element.
+	 * - unselect: string, the value that should be submitted when none of the checkboxes is selected.
+	 *   By setting this option, a hidden input will be generated.
+	 * - encode: boolean, whether to HTML-encode the checkbox labels. Defaults to true.
+	 *   This option is ignored if `item` option is set.
+	 * - separator: string, the HTML code that separates items.
+	 * - item: callable, a callback that can be used to customize the generation of the HTML code
+	 *   corresponding to a single item in $items. The signature of this callback must be:
+	 *
+	 * ~~~
+	 * function ($index, $label, $name, $checked, $value)
+	 * ~~~
+	 *
+	 * where $index is the zero-based index of the checkbox in the whole list; $label
+	 * is the label for the checkbox; and $name, $value and $checked represent the name,
+	 * value and the checked status of the checkbox input, respectively.
+	 * @return string the generated checkbox list
 	 */
-	public static function checkBoxList($name,$select,$data,$htmlOptions=array())
+	public static function checkboxList($name, $selection = null, $items = array(), $options = array())
 	{
-		$template=isset($htmlOptions['template'])?$htmlOptions['template']:'{input} {label}';
-		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:"<br/>\n";
-		$container=isset($htmlOptions['container'])?$htmlOptions['container']:'span';
-		unset($htmlOptions['template'],$htmlOptions['separator'],$htmlOptions['container']);
-
-		if(substr($name,-2)!=='[]')
-			$name.='[]';
-
-		if(isset($htmlOptions['checkAll']))
-		{
-			$checkAllLabel=$htmlOptions['checkAll'];
-			$checkAllLast=isset($htmlOptions['checkAllLast']) && $htmlOptions['checkAllLast'];
-		}
-		unset($htmlOptions['checkAll'],$htmlOptions['checkAllLast']);
-
-		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
-		unset($htmlOptions['labelOptions']);
-
-		$items=array();
-		$baseID=isset($htmlOptions['baseID']) ? $htmlOptions['baseID'] : self::getIdByName($name);
-		unset($htmlOptions['baseID']);
-		$id=0;
-		$checkAll=true;
-
-		foreach($data as $value=>$label)
-		{
-			$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
-			$checkAll=$checkAll && $checked;
-			$htmlOptions['value']=$value;
-			$htmlOptions['id']=$baseID.'_'.$id++;
-			$option=self::checkBox($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id'],$labelOptions);
-			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+		if (substr($name, -2) !== '[]') {
+			$name .= '[]';
 		}
 
-		if(isset($checkAllLabel))
-		{
-			$htmlOptions['value']=1;
-			$htmlOptions['id']=$id=$baseID.'_all';
-			$option=self::checkBox($id,$checkAll,$htmlOptions);
-			$label=self::label($checkAllLabel,$id,$labelOptions);
-			$item=strtr($template,array('{input}'=>$option,'{label}'=>$label));
-			if($checkAllLast)
-				$items[]=$item;
-			else
-				array_unshift($items,$item);
-			$name=strtr($name,array('['=>'\\[',']'=>'\\]'));
-			$js=<<<EOD
-jQuery('#$id').click(function() {
-	jQuery("input[name='$name']").prop('checked', this.checked);
-});
-jQuery("input[name='$name']").click(function() {
-	jQuery('#$id').prop('checked', !jQuery("input[name='$name']:not(:checked)").length);
-});
-jQuery('#$id').prop('checked', !jQuery("input[name='$name']:not(:checked)").length);
-EOD;
-			$cs=\init::app()->getClientScript();
-			$cs->registerCoreScript('jquery');
-			$cs->registerScript($id,$js);
+		$formatter = isset($options['item']) ? $options['item'] : null;
+		$encode = !isset($options['encode']) || $options['encode'];
+		$lines = array();
+		$index = 0;
+		foreach ($items as $value => $label) {
+			$checked = $selection !== null &&
+				(!is_array($selection) && !strcmp($value, $selection)
+					|| is_array($selection) && in_array($value, $selection));
+			if ($formatter !== null) {
+				$lines[] = call_user_func($formatter, $index, $label, $name, $checked, $value);
+			} else {
+				$lines[] = static::checkbox($name, $checked, array(
+					'value' => $value,
+					'label' => $encode ? static::encode($label) : $label,
+				));
+			}
+			$index++;
 		}
 
-		if(empty($container))
-			return implode($separator,$items);
-		else
-			return self::tag($container,array('id'=>$baseID),implode($separator,$items));
+		if (isset($options['unselect'])) {
+			// add a hidden field so that if the list box has no option being selected, it still submits a value
+			$name2 = substr($name, -2) === '[]' ? substr($name, 0, -2) : $name;
+			$hidden = static::hiddenInput($name2, $options['unselect']);
+		} else {
+			$hidden = '';
+		}
+		$separator = isset($options['separator']) ? $options['separator'] : "\n";
+
+		$tag = isset($options['tag']) ? $options['tag'] : 'div';
+		unset($options['tag'], $options['unselect'], $options['encode'], $options['separator'], $options['item']);
+
+		return $hidden . static::tag($tag, implode($separator, $lines), $options);
 	}
 
 	/**
-	 * Generates a radio button list.
-	 * A radio button list is like a {@link checkBoxList check box list}, except that
-	 * it only allows single selection.
-	 * @param string $name name of the radio button list. You can use this name to retrieve
-	 * the selected value(s) once the form is submitted.
-	 * @param string $select selection of the radio buttons.
-	 * @param array $data value-label pairs used to generate the radio button list.
-	 * Note, the values will be automatically HTML-encoded, while the labels will not.
-	 * @param array $htmlOptions addtional HTML options. The options will be applied to
-	 * each radio button input. The following special options are recognized:
-	 * <ul>
-	 * <li>template: string, specifies how each radio button is rendered. Defaults
-	 * to "{input} {label}", where "{input}" will be replaced by the generated
-	 * radio button input tag while "{label}" will be replaced by the corresponding radio button label.</li>
-	 * <li>separator: string, specifies the string that separates the generated radio buttons. Defaults to new line (<br/>).</li>
-	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
-	 * for every label tag in the list.</li>
-	 * <li>container: string, specifies the radio buttons enclosing tag. Defaults to 'span'.
-	 * If the value is an empty string, no enclosing tag will be generated</li>
-	 * <li>baseID: string, specifies the base ID prefix to be used for radio buttons in the list.
-	 * This option is available since version 1.1.13.</li>
-	 * </ul>
+	 * Generates a list of radio buttons.
+	 * A radio button list is like a checkbox list, except that it only allows single selection.
+	 * @param string $name the name attribute of each radio button.
+	 * @param string|array $selection the selected value(s).
+	 * @param array $items the data item used to generate the radio buttons.
+	 * The array keys are the labels, while the array values are the corresponding radio button values.
+	 * @param array $options options (name => config) for the radio button list. The following options are supported:
+	 *
+	 * - unselect: string, the value that should be submitted when none of the radio buttons is selected.
+	 *   By setting this option, a hidden input will be generated.
+	 * - encode: boolean, whether to HTML-encode the checkbox labels. Defaults to true.
+	 *   This option is ignored if `item` option is set.
+	 * - separator: string, the HTML code that separates items.
+	 * - item: callable, a callback that can be used to customize the generation of the HTML code
+	 *   corresponding to a single item in $items. The signature of this callback must be:
+	 *
+	 * ~~~
+	 * function ($index, $label, $name, $checked, $value)
+	 * ~~~
+	 *
+	 * where $index is the zero-based index of the radio button in the whole list; $label
+	 * is the label for the radio button; and $name, $value and $checked represent the name,
+	 * value and the checked status of the radio button input, respectively.
 	 * @return string the generated radio button list
 	 */
-	public static function radioButtonList($name,$select,$data,$htmlOptions=array())
+	public static function radioList($name, $selection = null, $items = array(), $options = array())
 	{
-		$template=isset($htmlOptions['template'])?$htmlOptions['template']:'{input} {label}';
-		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:"<br/>\n";
-		$container=isset($htmlOptions['container'])?$htmlOptions['container']:'span';
-		unset($htmlOptions['template'],$htmlOptions['separator'],$htmlOptions['container']);
-
-		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
-		unset($htmlOptions['labelOptions']);
-
-		$items=array();
-		$baseID=isset($htmlOptions['baseID']) ? $htmlOptions['baseID'] : self::getIdByName($name);
-		unset($htmlOptions['baseID']);
-		$id=0;
-		foreach($data as $value=>$label)
-		{
-			$checked=!strcmp($value,$select);
-			$htmlOptions['value']=$value;
-			$htmlOptions['id']=$baseID.'_'.$id++;
-			$option=self::radioButton($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id'],$labelOptions);
-			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+		$encode = !isset($options['encode']) || $options['encode'];
+		$formatter = isset($options['item']) ? $options['item'] : null;
+		$lines = array();
+		$index = 0;
+		foreach ($items as $value => $label) {
+			$checked = $selection !== null &&
+				(!is_array($selection) && !strcmp($value, $selection)
+					|| is_array($selection) && in_array($value, $selection));
+			if ($formatter !== null) {
+				$lines[] = call_user_func($formatter, $index, $label, $name, $checked, $value);
+			} else {
+				$lines[] = static::radio($name, $checked, array(
+					'value' => $value,
+					'label' => $encode ? static::encode($label) : $label,
+				));
+			}
+			$index++;
 		}
-		if(empty($container))
-			return implode($separator,$items);
-		else
-			return self::tag($container,array('id'=>$baseID),implode($separator,$items));
-	}
 
-	/**
-	 * Generates a link that can initiate AJAX requests.
-	 * @param string $text the link body (it will NOT be HTML-encoded.)
-	 * @param mixed $url the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
-	 * @param array $ajaxOptions AJAX options (see {@link ajax})
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated link
-	 * @see normalizeUrl
-	 * @see ajax
-	 */
-	public static function ajaxLink($text,$url,$ajaxOptions=array(),$htmlOptions=array())
-	{
-		if(!isset($htmlOptions['href']))
-			$htmlOptions['href']='#';
-		$ajaxOptions['url']=$url;
-		$htmlOptions['ajax']=$ajaxOptions;
-		self::clientChange('click',$htmlOptions);
-		return self::tag('a',$htmlOptions,$text);
-	}
-
-	/**
-	 * Generates a push button that can initiate AJAX requests.
-	 * @param string $label the button label
-	 * @param mixed $url the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
-	 * @param array $ajaxOptions AJAX options (see {@link ajax})
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated button
-	 */
-	public static function ajaxButton($label,$url,$ajaxOptions=array(),$htmlOptions=array())
-	{
-		$ajaxOptions['url']=$url;
-		$htmlOptions['ajax']=$ajaxOptions;
-		return self::button($label,$htmlOptions);
-	}
-
-	/**
-	 * Generates a push button that can submit the current form in POST method.
-	 * @param string $label the button label
-	 * @param mixed $url the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
-	 * @param array $ajaxOptions AJAX options (see {@link ajax})
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated button
-	 */
-	public static function ajaxSubmitButton($label,$url,$ajaxOptions=array(),$htmlOptions=array())
-	{
-		$ajaxOptions['type']='POST';
-		$htmlOptions['type']='submit';
-		return self::ajaxButton($label,$url,$ajaxOptions,$htmlOptions);
-	}
-
-	/**
-	 * Generates the JavaScript that initiates an AJAX request.
-	 * @param array $options AJAX options. The valid options are specified in the jQuery ajax documentation.
-	 * The following special options are added for convenience:
-	 * <ul>
-	 * <li>update: string, specifies the selector whose HTML content should be replaced
-	 *   by the AJAX request result.</li>
-	 * <li>replace: string, specifies the selector whose target should be replaced
-	 *   by the AJAX request result.</li>
-	 * </ul>
-	 * Note, if you specify the 'success' option, the above options will be ignored.
-	 * @return string the generated JavaScript
-	 * @see http://docs.jquery.com/Ajax/jQuery.ajax#options
-	 */
-	public static function ajax($options)
-	{
-		\init::app()->getClientScript()->registerCoreScript('jquery');
-		if(!isset($options['url']))
-			$options['url']=new CJavaScriptExpression('location.href');
-		else
-			$options['url']=self::normalizeUrl($options['url']);
-		if(!isset($options['cache']))
-			$options['cache']=false;
-		if(!isset($options['data']) && isset($options['type']))
-			$options['data']=new \CJavaScriptExpression('jQuery(this).parents("form").serialize()');
-		foreach(array('beforeSend','complete','error','success') as $name)
-		{
-			if(isset($options[$name]) && !($options[$name] instanceof \CJavaScriptExpression))
-				$options[$name]=new \CJavaScriptExpression($options[$name]);
+		$separator = isset($options['separator']) ? $options['separator'] : "\n";
+		if (isset($options['unselect'])) {
+			// add a hidden field so that if the list box has no option being selected, it still submits a value
+			$hidden = static::hiddenInput($name, $options['unselect']);
+		} else {
+			$hidden = '';
 		}
-		if(isset($options['update']))
-		{
-			if(!isset($options['success']))
-				$options['success']=new \CJavaScriptExpression('function(html){jQuery("'.$options['update'].'").html(html)}');
-			unset($options['update']);
-		}
-		if(isset($options['replace']))
-		{
-			if(!isset($options['success']))
-				$options['success']=new \CJavaScriptExpression('function(html){jQuery("'.$options['replace'].'").replaceWith(html)}');
-			unset($options['replace']);
-		}
-		return 'jQuery.ajax('.\CJavaScript::encode($options).');';
+
+		$tag = isset($options['tag']) ? $options['tag'] : 'div';
+		unset($options['tag'], $options['unselect'], $options['encode'], $options['separator'], $options['item']);
+
+		return $hidden . static::tag($tag, implode($separator, $lines), $options);
 	}
 
 	/**
-	 * Generates the URL for the published assets.
-	 * @param string $path the path of the asset to be published
-	 * @param boolean $hashByName whether the published directory should be named as the hashed basename.
-	 * If false, the name will be the hashed dirname of the path being published.
-	 * Defaults to false. Set true if the path being published is shared among
-	 * different extensions.
-	 * @return string the asset URL
+	 * Generates an unordered list.
+	 * @param array|\Traversable $items the items for generating the list. Each item generates a single list item.
+	 * Note that items will be automatically HTML encoded if `$options['encode']` is not set or true.
+	 * @param array $options options (name => config) for the radio button list. The following options are supported:
+	 *
+	 * - encode: boolean, whether to HTML-encode the items. Defaults to true.
+	 *   This option is ignored if the `item` option is specified.
+	 * - itemOptions: array, the HTML attributes for the `li` tags. This option is ignored if the `item` option is specified.
+	 * - item: callable, a callback that is used to generate each individual list item.
+	 *   The signature of this callback must be:
+	 *
+	 * ~~~
+	 * function ($item, $index)
+	 * ~~~
+	 *
+	 * where $index is the array key corresponding to `$item` in `$items`. The callback should return
+	 * the whole list item tag.
+	 *
+	 * @return string the generated unordered list. An empty string is returned if `$items` is empty.
 	 */
-	public static function asset($path,$hashByName=false)
+	public static function ul($items, $options = array())
 	{
-		return \init::app()->getAssetManager()->publish($path,$hashByName);
+		if (empty($items)) {
+			return '';
+		}
+		$tag = isset($options['tag']) ? $options['tag'] : 'ul';
+		$encode = !isset($options['encode']) || $options['encode'];
+		$formatter = isset($options['item']) ? $options['item'] : null;
+		$itemOptions = isset($options['itemOptions']) ? $options['itemOptions'] : array();
+		unset($options['tag'], $options['encode'], $options['item'], $options['itemOptions']);
+		$results = array();
+		foreach ($items as $index => $item) {
+			if ($formatter !== null) {
+				$results[] = call_user_func($formatter, $item, $index);
+			} else {
+				$results[] = static::tag('li', $encode ? static::encode($item) : $item, $itemOptions);
+			}
+		}
+		return static::tag($tag, "\n" . implode("\n", $results) . "\n", $options);
+	}
+
+	/**
+	 * Generates an ordered list.
+	 * @param array|\Traversable $items the items for generating the list. Each item generates a single list item.
+	 * Note that items will be automatically HTML encoded if `$options['encode']` is not set or true.
+	 * @param array $options options (name => config) for the radio button list. The following options are supported:
+	 *
+	 * - encode: boolean, whether to HTML-encode the items. Defaults to true.
+	 *   This option is ignored if the `item` option is specified.
+	 * - itemOptions: array, the HTML attributes for the `li` tags. This option is ignored if the `item` option is specified.
+	 * - item: callable, a callback that is used to generate each individual list item.
+	 *   The signature of this callback must be:
+	 *
+	 * ~~~
+	 * function ($item, $index)
+	 * ~~~
+	 *
+	 * where $index is the array key corresponding to `$item` in `$items`. The callback should return
+	 * the whole list item tag.
+	 *
+	 * @return string the generated ordered list. An empty string is returned if `$items` is empty.
+	 */
+	public static function ol($items, $options = array())
+	{
+		$options['tag'] = 'ol';
+		return static::ul($items, $options);
+	}
+
+	/**
+	 * Generates a label tag for the given model attribute.
+	 * The label text is the label associated with the attribute, obtained via [[Model::getAttributeLabel()]].
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+	 * about attribute expression.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * If a value is null, the corresponding attribute will not be rendered.
+	 * The following options are specially handled:
+	 *
+	 * - label: this specifies the label to be displayed. Note that this will NOT be [[encoded()]].
+	 *   If this is not set, [[Model::getAttributeLabel()]] will be called to get the label for display
+	 *   (after encoding).
+	 *
+	 * @return string the generated label tag
+	 */
+	public static function activeLabel($model, $attribute, $options = array())
+	{
+		$attribute = static::getAttributeName($attribute);
+		$label = isset($options['label']) ? $options['label'] : static::encode($model->getAttributeLabel($attribute));
+		$for = array_key_exists('for', $options) ? $options['for'] : static::getInputId($model, $attribute);
+		unset($options['label'], $options['for']);
+		return static::label($label, $for, $options);
+	}
+
+	/**
+	 * Generates a tag that contains the first validation error of the specified model attribute.
+	 * Note that even if there is no validation error, this method will still return an empty error tag.
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+	 * about attribute expression.
+	 * @param array $options the tag options in terms of name-value pairs. The values will be HTML-encoded
+	 * using [[encode()]]. If a value is null, the corresponding attribute will not be rendered.
+	 *
+	 * The following options are specially handled:
+	 *
+	 * - tag: this specifies the tag name. If not set, "div" will be used.
+	 *
+	 * @return string the generated label tag
+	 */
+	public static function error($model, $attribute, $options = array())
+	{
+		$attribute = static::getAttributeName($attribute);
+		$error = $model->getFirstError($attribute);
+		$tag = isset($options['tag']) ? $options['tag'] : 'div';
+		unset($options['tag']);
+		return \CHtml::tag($tag, \CHtml::encode($error), $options);
+	}
+
+	/**
+	 * Generates an input tag for the given model attribute.
+	 * This method will generate the "name" and "value" tag attributes automatically for the model attribute
+	 * unless they are explicitly specified in `$options`.
+	 * @param string $type the input type (e.g. 'text', 'password')
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+	 * about attribute expression.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * @return string the generated input tag
+	 */
+	public static function activeInput($type, $model, $attribute, $options = array())
+	{
+		$name = isset($options['name']) ? $options['name'] : static::getInputName($model, $attribute);
+		$value = isset($options['value']) ? $options['value'] : static::getAttributeValue($model, $attribute);
+		if (!array_key_exists('id', $options)) {
+			$options['id'] = static::getInputId($model, $attribute);
+		}
+		return static::input($type, $name, $value, $options);
+	}
+
+	/**
+	 * Generates a text input tag for the given model attribute.
+	 * This method will generate the "name" and "value" tag attributes automatically for the model attribute
+	 * unless they are explicitly specified in `$options`.
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+	 * about attribute expression.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * @return string the generated input tag
+	 */
+	public static function activeTextInput($model, $attribute, $options = array())
+	{
+		return static::activeInput('text', $model, $attribute, $options);
+	}
+
+	/**
+	 * Generates a hidden input tag for the given model attribute.
+	 * This method will generate the "name" and "value" tag attributes automatically for the model attribute
+	 * unless they are explicitly specified in `$options`.
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+	 * about attribute expression.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * @return string the generated input tag
+	 */
+	public static function activeHiddenInput($model, $attribute, $options = array())
+	{
+		return static::activeInput('hidden', $model, $attribute, $options);
+	}
+
+	/**
+	 * Generates a password input tag for the given model attribute.
+	 * This method will generate the "name" and "value" tag attributes automatically for the model attribute
+	 * unless they are explicitly specified in `$options`.
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+	 * about attribute expression.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * @return string the generated input tag
+	 */
+	public static function activePasswordInput($model, $attribute, $options = array())
+	{
+		return static::activeInput('password', $model, $attribute, $options);
+	}
+
+	/**
+	 * Generates a file input tag for the given model attribute.
+	 * This method will generate the "name" and "value" tag attributes automatically for the model attribute
+	 * unless they are explicitly specified in `$options`.
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+	 * about attribute expression.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * @return string the generated input tag
+	 */
+	public static function activeFileInput($model, $attribute, $options = array())
+	{
+		// add a hidden field so that if a model only has a file field, we can
+		// still use isset($_POST[$modelClass]) to detect if the input is submitted
+		return static::activeHiddenInput($model, $attribute, array('id' => null, 'value' => ''))
+			. static::activeInput('file', $model, $attribute, $options);
+	}
+
+	/**
+	 * Generates a textarea tag for the given model attribute.
+	 * The model attribute value will be used as the content in the textarea.
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+	 * about attribute expression.
+	 * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+	 * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+	 * @return string the generated textarea tag
+	 */
+	public static function activeTextarea($model, $attribute, $options = array())
+	{
+		$name = static::getInputName($model, $attribute);
+		$value = static::getAttributeValue($model, $attribute);
+		if (!array_key_exists('id', $options)) {
+			$options['id'] = static::getInputId($model, $attribute);
+		}
+		return static::textarea($name, $value, $options);
+	}
+
+	/**
+	 * Generates a radio button tag for the given model attribute.
+	 * This method will generate the "checked" tag attribute according to the model attribute value.
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+	 * about attribute expression.
+	 * @param array $options the tag options in terms of name-value pairs. The following options are specially handled:
+	 *
+	 * - uncheck: string, the value associated with the uncheck state of the radio button. If not set,
+	 *   it will take the default value '0'. This method will render a hidden input so that if the radio button
+	 *   is not checked and is submitted, the value of this attribute will still be submitted to the server
+	 *   via the hidden input.
+	 * - label: string, a label displayed next to the radio button.  It will NOT be HTML-encoded. Therefore you can pass
+	 *   in HTML code such as an image tag. If this is is coming from end users, you should [[encode()]] it to prevent XSS attacks.
+	 *   When this option is specified, the radio button will be enclosed by a label tag.
+	 * - labelOptions: array, the HTML attributes for the label tag. This is only used when the "label" option is specified.
+	 *
+	 * The rest of the options will be rendered as the attributes of the resulting tag. The values will
+	 * be HTML-encoded using [[encode()]]. If a value is null, the corresponding attribute will not be rendered.
+	 *
+	 * @return string the generated radio button tag
+	 */
+	public static function activeRadio($model, $attribute, $options = array())
+	{
+		$name = isset($options['name']) ? $options['name'] : static::getInputName($model, $attribute);
+		$checked = static::getAttributeValue($model, $attribute);
+		if (!array_key_exists('uncheck', $options)) {
+			$options['uncheck'] = '0';
+		}
+		if (!array_key_exists('id', $options)) {
+			$options['id'] = static::getInputId($model, $attribute);
+		}
+		return static::radio($name, $checked, $options);
+	}
+
+	/**
+	 * Generates a checkbox tag for the given model attribute.
+	 * This method will generate the "checked" tag attribute according to the model attribute value.
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+	 * about attribute expression.
+	 * @param array $options the tag options in terms of name-value pairs. The following options are specially handled:
+	 *
+	 * - uncheck: string, the value associated with the uncheck state of the radio button. If not set,
+	 *   it will take the default value '0'. This method will render a hidden input so that if the radio button
+	 *   is not checked and is submitted, the value of this attribute will still be submitted to the server
+	 *   via the hidden input.
+	 * - label: string, a label displayed next to the checkbox.  It will NOT be HTML-encoded. Therefore you can pass
+	 *   in HTML code such as an image tag. If this is is coming from end users, you should [[encode()]] it to prevent XSS attacks.
+	 *   When this option is specified, the checkbox will be enclosed by a label tag.
+	 * - labelOptions: array, the HTML attributes for the label tag. This is only used when the "label" option is specified.
+	 *
+	 * The rest of the options will be rendered as the attributes of the resulting tag. The values will
+	 * be HTML-encoded using [[encode()]]. If a value is null, the corresponding attribute will not be rendered.
+	 *
+	 * @return string the generated checkbox tag
+	 */
+	public static function activeCheckbox($model, $attribute, $options = array())
+	{
+		$name = isset($options['name']) ? $options['name'] : static::getInputName($model, $attribute);
+		$checked = static::getAttributeValue($model, $attribute);
+		if (!array_key_exists('uncheck', $options)) {
+			$options['uncheck'] = '0';
+		}
+		if (!array_key_exists('id', $options)) {
+			$options['id'] = static::getInputId($model, $attribute);
+		}
+		return static::checkbox($name, $checked, $options);
+	}
+
+	/**
+	 * Generates a drop-down list for the given model attribute.
+	 * The selection of the drop-down list is taken from the value of the model attribute.
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+	 * about attribute expression.
+	 * @param array $items the option data items. The array keys are option values, and the array values
+	 * are the corresponding option labels. The array can also be nested (i.e. some array values are arrays too).
+	 * For each sub-array, an option group will be generated whose label is the key associated with the sub-array.
+	 * If you have a list of data models, you may convert them into the format described above using
+	 * [[\yii\helpers\ArrayHelper::map()]].
+	 *
+	 * Note, the values and labels will be automatically HTML-encoded by this method, and the blank spaces in
+	 * the labels will also be HTML-encoded.
+	 * @param array $options the tag options in terms of name-value pairs. The following options are specially handled:
+	 *
+	 * - prompt: string, a prompt text to be displayed as the first option;
+	 * - options: array, the attributes for the select option tags. The array keys must be valid option values,
+	 *   and the array values are the extra attributes for the corresponding option tags. For example,
+	 *
+	 * ~~~
+	 * array(
+	 *     'value1' => array('disabled' => true),
+	 *     'value2' => array('label' => 'value 2'),
+	 * );
+	 * ~~~
+	 *
+	 * - groups: array, the attributes for the optgroup tags. The structure of this is similar to that of 'options',
+	 *   except that the array keys represent the optgroup labels specified in $items.
+	 *
+	 * The rest of the options will be rendered as the attributes of the resulting tag. The values will
+	 * be HTML-encoded using [[encode()]]. If a value is null, the corresponding attribute will not be rendered.
+	 *
+	 * @return string the generated drop-down list tag
+	 */
+	public static function activeDropDownList($model, $attribute, $items, $options = array())
+	{
+		$name = isset($options['name']) ? $options['name'] : static::getInputName($model, $attribute);
+		$checked = static::getAttributeValue($model, $attribute);
+		if (!array_key_exists('id', $options)) {
+			$options['id'] = static::getInputId($model, $attribute);
+		}
+		return static::dropDownList($name, $checked, $items, $options);
+	}
+
+	/**
+	 * Generates a list box.
+	 * The selection of the list box is taken from the value of the model attribute.
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+	 * about attribute expression.
+	 * @param array $items the option data items. The array keys are option values, and the array values
+	 * are the corresponding option labels. The array can also be nested (i.e. some array values are arrays too).
+	 * For each sub-array, an option group will be generated whose label is the key associated with the sub-array.
+	 * If you have a list of data models, you may convert them into the format described above using
+	 * [[\yii\helpers\ArrayHelper::map()]].
+	 *
+	 * Note, the values and labels will be automatically HTML-encoded by this method, and the blank spaces in
+	 * the labels will also be HTML-encoded.
+	 * @param array $options the tag options in terms of name-value pairs. The following options are specially handled:
+	 *
+	 * - prompt: string, a prompt text to be displayed as the first option;
+	 * - options: array, the attributes for the select option tags. The array keys must be valid option values,
+	 *   and the array values are the extra attributes for the corresponding option tags. For example,
+	 *
+	 * ~~~
+	 * array(
+	 *     'value1' => array('disabled' => true),
+	 *     'value2' => array('label' => 'value 2'),
+	 * );
+	 * ~~~
+	 *
+	 * - groups: array, the attributes for the optgroup tags. The structure of this is similar to that of 'options',
+	 *   except that the array keys represent the optgroup labels specified in $items.
+	 * - unselect: string, the value that will be submitted when no option is selected.
+	 *   When this attribute is set, a hidden field will be generated so that if no option is selected in multiple
+	 *   mode, we can still obtain the posted unselect value.
+	 *
+	 * The rest of the options will be rendered as the attributes of the resulting tag. The values will
+	 * be HTML-encoded using [[encode()]]. If a value is null, the corresponding attribute will not be rendered.
+	 *
+	 * @return string the generated list box tag
+	 */
+	public static function activeListBox($model, $attribute, $items, $options = array())
+	{
+		$name = isset($options['name']) ? $options['name'] : static::getInputName($model, $attribute);
+		$checked = static::getAttributeValue($model, $attribute);
+		if (!array_key_exists('unselect', $options)) {
+			$options['unselect'] = '0';
+		}
+		if (!array_key_exists('id', $options)) {
+			$options['id'] = static::getInputId($model, $attribute);
+		}
+		return static::listBox($name, $checked, $items, $options);
+	}
+
+	/**
+	 * Generates a list of checkboxes.
+	 * A checkbox list allows multiple selection, like [[listBox()]].
+	 * As a result, the corresponding submitted value is an array.
+	 * The selection of the checkbox list is taken from the value of the model attribute.
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+	 * about attribute expression.
+	 * @param array $items the data item used to generate the checkboxes.
+	 * The array keys are the labels, while the array values are the corresponding checkbox values.
+	 * Note that the labels will NOT be HTML-encoded, while the values will.
+	 * @param array $options options (name => config) for the checkbox list. The following options are specially handled:
+	 *
+	 * - unselect: string, the value that should be submitted when none of the checkboxes is selected.
+	 *   By setting this option, a hidden input will be generated.
+	 * - separator: string, the HTML code that separates items.
+	 * - item: callable, a callback that can be used to customize the generation of the HTML code
+	 *   corresponding to a single item in $items. The signature of this callback must be:
+	 *
+	 * ~~~
+	 * function ($index, $label, $name, $checked, $value)
+	 * ~~~
+	 *
+	 * where $index is the zero-based index of the checkbox in the whole list; $label
+	 * is the label for the checkbox; and $name, $value and $checked represent the name,
+	 * value and the checked status of the checkbox input.
+	 * @return string the generated checkbox list
+	 */
+	public static function activeCheckboxList($model, $attribute, $items, $options = array())
+	{
+		$name = isset($options['name']) ? $options['name'] : static::getInputName($model, $attribute);
+		$checked = static::getAttributeValue($model, $attribute);
+		if (!array_key_exists('unselect', $options)) {
+			$options['unselect'] = '0';
+		}
+		if (!array_key_exists('id', $options)) {
+			$options['id'] = static::getInputId($model, $attribute);
+		}
+		return static::checkboxList($name, $checked, $items, $options);
+	}
+
+	/**
+	 * Generates a list of radio buttons.
+	 * A radio button list is like a checkbox list, except that it only allows single selection.
+	 * The selection of the radio buttons is taken from the value of the model attribute.
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for the format
+	 * about attribute expression.
+	 * @param array $items the data item used to generate the radio buttons.
+	 * The array keys are the labels, while the array values are the corresponding radio button values.
+	 * Note that the labels will NOT be HTML-encoded, while the values will.
+	 * @param array $options options (name => config) for the radio button list. The following options are specially handled:
+	 *
+	 * - unselect: string, the value that should be submitted when none of the radio buttons is selected.
+	 *   By setting this option, a hidden input will be generated.
+	 * - separator: string, the HTML code that separates items.
+	 * - item: callable, a callback that can be used to customize the generation of the HTML code
+	 *   corresponding to a single item in $items. The signature of this callback must be:
+	 *
+	 * ~~~
+	 * function ($index, $label, $name, $checked, $value)
+	 * ~~~
+	 *
+	 * where $index is the zero-based index of the radio button in the whole list; $label
+	 * is the label for the radio button; and $name, $value and $checked represent the name,
+	 * value and the checked status of the radio button input.
+	 * @return string the generated radio button list
+	 */
+	public static function activeRadioList($model, $attribute, $items, $options = array())
+	{
+		$name = isset($options['name']) ? $options['name'] : static::getInputName($model, $attribute);
+		$checked = static::getAttributeValue($model, $attribute);
+		if (!array_key_exists('unselect', $options)) {
+			$options['unselect'] = '0';
+		}
+		if (!array_key_exists('id', $options)) {
+			$options['id'] = static::getInputId($model, $attribute);
+		}
+		return static::radioList($name, $checked, $items, $options);
+	}
+
+	/**
+	 * Renders the option tags that can be used by [[dropDownList()]] and [[listBox()]].
+	 * @param string|array $selection the selected value(s). This can be either a string for single selection
+	 * or an array for multiple selections.
+	 * @param array $items the option data items. The array keys are option values, and the array values
+	 * are the corresponding option labels. The array can also be nested (i.e. some array values are arrays too).
+	 * For each sub-array, an option group will be generated whose label is the key associated with the sub-array.
+	 * If you have a list of data models, you may convert them into the format described above using
+	 * [[\yii\helpers\ArrayHelper::map()]].
+	 *
+	 * Note, the values and labels will be automatically HTML-encoded by this method, and the blank spaces in
+	 * the labels will also be HTML-encoded.
+	 * @param array $tagOptions the $options parameter that is passed to the [[dropDownList()]] or [[listBox()]] call.
+	 * This method will take out these elements, if any: "prompt", "options" and "groups". See more details
+	 * in [[dropDownList()]] for the explanation of these elements.
+	 *
+	 * @return string the generated list options
+	 */
+	public static function renderSelectOptions($selection, $items, $tagOptions = array())
+	{
+		$lines = array();
+		if (isset($tagOptions['prompt'])) {
+			$prompt = str_replace(' ', '&nbsp;', static::encode($tagOptions['prompt']));
+			$lines[] = static::tag('option', $prompt, array('value' => ''));
+		}
+
+		$options = isset($tagOptions['options']) ? $tagOptions['options'] : array();
+		$groups = isset($tagOptions['groups']) ? $tagOptions['groups'] : array();
+		unset($tagOptions['prompt'], $tagOptions['options'], $tagOptions['groups']);
+
+		foreach ($items as $key => $value) {
+			if (is_array($value)) {
+				$groupAttrs = isset($groups[$key]) ? $groups[$key] : array();
+				$groupAttrs['label'] = $key;
+				$attrs = array('options' => $options, 'groups' => $groups);
+				$content = static::renderSelectOptions($selection, $value, $attrs);
+				$lines[] = static::tag('optgroup', "\n" . $content . "\n", $groupAttrs);
+			} else {
+				$attrs = isset($options[$key]) ? $options[$key] : array();
+				$attrs['value'] = (string)$key;
+				$attrs['selected'] = $selection !== null &&
+						(!is_array($selection) && !strcmp($key, $selection)
+						|| is_array($selection) && in_array($key, $selection));
+				$lines[] = static::tag('option', str_replace(' ', '&nbsp;', static::encode($value)), $attrs);
+			}
+		}
+
+		return implode("\n", $lines);
+	}
+
+	/**
+	 * Renders the HTML tag attributes.
+	 * Attributes whose values are of boolean type will be treated as
+	 * [boolean attributes](http://www.w3.org/TR/html5/infrastructure.html#boolean-attributes).
+	 * And attributes whose values are null will not be rendered.
+	 * @param array $attributes attributes to be rendered. The attribute values will be HTML-encoded using [[encode()]].
+	 * @return string the rendering result. If the attributes are not empty, they will be rendered
+	 * into a string with a leading white space (so that it can be directly appended to the tag name
+	 * in a tag. If there is no attribute, an empty string will be returned.
+	 */
+	public static function renderTagAttributes($attributes)
+	{
+		if (count($attributes) > 1) {
+			$sorted = array();
+			foreach (static::$attributeOrder as $name) {
+				if (isset($attributes[$name])) {
+					$sorted[$name] = $attributes[$name];
+				}
+			}
+			$attributes = array_merge($sorted, $attributes);
+		}
+
+		$html = '';
+		foreach ($attributes as $name => $value) {
+			if (is_bool($value)) {
+				if ($value) {
+					$html .= " $name";
+				}
+			} elseif ($value !== null) {
+				$html .= " $name=\"" . static::encode($value) . '"';
+			}
+		}
+		return $html;
 	}
 
 	/**
 	 * Normalizes the input parameter to be a valid URL.
 	 *
-	 * If the input parameter is an empty string, the currently requested URL will be returned.
+	 * If the input parameter
 	 *
-	 * If the input parameter is a non-empty string, it is treated as a valid URL and will
-	 * be returned without any change.
+	 * - is an empty string: the currently requested URL will be returned;
+	 * - is a non-empty string: it will first be processed by [[Yii::getAlias()]]. If the result
+	 *   is an absolute URL, it will be returned without any change further; Otherwise, the result
+	 *   will be prefixed with [[\yii\web\Request::baseUrl]] and returned.
+	 * - is an array: the first array element is considered a route, while the rest of the name-value
+	 *   pairs are treated as the parameters to be used for URL creation using [[\yii\web\Controller::createUrl()]].
+	 *   For example: `array('post/index', 'page' => 2)`, `array('index')`.
+	 *   In case there is no controller, [[\yii\web\UrlManager::createUrl()]] will be used.
 	 *
-	 * If the input parameter is an array, it is treated as a controller route and a list of
-	 * GET parameters, and the {@link CController::createUrl} method will be invoked to
-	 * create a URL. In this case, the first array element refers to the controller route,
-	 * and the rest key-value pairs refer to the additional GET parameters for the URL.
-	 * For example, <code>array('post/list', 'page'=>3)</code> may be used to generate the URL
-	 * <code>/index.php?r=post/list&page=3</code>.
-	 *
-	 * @param mixed $url the parameter to be used to generate a valid URL
+	 * @param array|string $url the parameter to be used to generate a valid URL
 	 * @return string the normalized URL
+	 * @throws InvalidParamException if the parameter is invalid.
 	 */
-	public static function normalizeUrl($url)
+	public static function url($url)
 	{
-		if(is_array($url))
-		{
-			if(isset($url[0]))
-			{
-				if(($c=\init::app()->getController())!==null)
-					$url=$c->createUrl($url[0],array_splice($url,1));
-				else
-					$url=\init::app()->createUrl($url[0],array_splice($url,1));
-			}
-			else
-				$url='';
-		}
-		return $url==='' ? \init::app()->getRequest()->getUrl() : $url;
-	}
-
-	/**
-	 * Generates an input HTML tag.
-	 * This method generates an input HTML tag based on the given input name and value.
-	 * @param string $type the input type (e.g. 'text', 'radio')
-	 * @param string $name the input name
-	 * @param string $value the input value
-	 * @param array $htmlOptions additional HTML attributes for the HTML tag (see {@link tag}).
-	 * @return string the generated input tag
-	 */
-	protected static function inputField($type,$name,$value,$htmlOptions)
-	{
-		$htmlOptions['type']=$type;
-		$htmlOptions['value']=$value;
-		$htmlOptions['name']=$name;
-		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=self::getIdByName($name);
-		elseif($htmlOptions['id']===false)
-			unset($htmlOptions['id']);
-		return self::tag('input',$htmlOptions);
-	}
-
-	/**
-	 * Generates a label tag for a model attribute.
-	 * The label text is the attribute label and the label is associated with
-	 * the input for the attribute (see {@link CModel::getAttributeLabel}.
-	 * If the attribute has input error, the label's CSS class will be appended with {@link errorCss}.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes. The following special options are recognized:
-	 * <ul>
-	 * <li>required: if this is set and is true, the label will be styled
-	 * with CSS class 'required' (customizable with CHtml::$requiredCss),
-	 * and be decorated with {@link CHtml::beforeRequiredLabel} and
-	 * {@link CHtml::afterRequiredLabel}.</li>
-	 * <li>label: this specifies the label to be displayed. If this is not set,
-	 * {@link CModel::getAttributeLabel} will be called to get the label for display.
-	 * If the label is specified as false, no label will be rendered.</li>
-	 * </ul>
-	 * @return string the generated label tag
-	 */
-	public static function activeLabel($model,$attribute,$htmlOptions=array())
-	{
-		if(isset($htmlOptions['for']))
-		{
-			$for=$htmlOptions['for'];
-			unset($htmlOptions['for']);
-		}
-		else
-			$for=self::getIdByName(self::resolveName($model,$attribute));
-		if(isset($htmlOptions['label']))
-		{
-			if(($label=$htmlOptions['label'])===false)
-				return '';
-			unset($htmlOptions['label']);
-		}
-		else
-			$label=$model->getAttributeLabel($attribute);
-		if($model->hasErrors($attribute))
-			self::addErrorCss($htmlOptions);
-		return self::label($label,$for,$htmlOptions);
-	}
-
-	/**
-	 * Generates a label tag for a model attribute.
-	 * This is an enhanced version of {@link activeLabel}. It will render additional
-	 * CSS class and mark when the attribute is required.
-	 * In particular, it calls {@link CModel::isAttributeRequired} to determine
-	 * if the attribute is required.
-	 * If so, it will add a CSS class {@link CHtml::requiredCss} to the label,
-	 * and decorate the label with {@link CHtml::beforeRequiredLabel} and
-	 * {@link CHtml::afterRequiredLabel}.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes.
-	 * @return string the generated label tag
-	 */
-	public static function activeLabelEx($model,$attribute,$htmlOptions=array())
-	{
-		$realAttribute=$attribute;
-		self::resolveName($model,$attribute); // strip off square brackets if any
-		$htmlOptions['required']=$model->isAttributeRequired($attribute);
-		return self::activeLabel($model,$realAttribute,$htmlOptions);
-	}
-
-	/**
-	 * Generates a text field input for a model attribute.
-	 * If the attribute has input error, the input field's CSS class will
-	 * be appended with {@link errorCss}.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated input field
-	 * @see clientChange
-	 * @see activeInputField
-	 */
-	public static function activeTextField($model,$attribute,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		self::clientChange('change',$htmlOptions);
-		return self::activeInputField('text',$model,$attribute,$htmlOptions);
-	}
-
-	/**
-	 * Generates a url field input for a model attribute.
-	 * If the attribute has input error, the input field's CSS class will
-	 * be appended with {@link errorCss}.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated input field
-	 * @see clientChange
-	 * @see activeInputField
-	 * @since 1.1.11
-	 */
-	public static function activeUrlField($model,$attribute,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		self::clientChange('change',$htmlOptions);
-		return self::activeInputField('url',$model,$attribute,$htmlOptions);
-	}
-
-	/**
-	 * Generates an email field input for a model attribute.
-	 * If the attribute has input error, the input field's CSS class will
-	 * be appended with {@link errorCss}.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated input field
-	 * @see clientChange
-	 * @see activeInputField
-	 * @since 1.1.11
-	 */
-	public static function activeEmailField($model,$attribute,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		self::clientChange('change',$htmlOptions);
-		return self::activeInputField('email',$model,$attribute,$htmlOptions);
-	}
-
-	/**
-	 * Generates a number field input for a model attribute.
-	 * If the attribute has input error, the input field's CSS class will
-	 * be appended with {@link errorCss}.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated input field
-	 * @see clientChange
-	 * @see activeInputField
-	 * @since 1.1.11
-	 */
-	public static function activeNumberField($model,$attribute,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		self::clientChange('change',$htmlOptions);
-		return self::activeInputField('number',$model,$attribute,$htmlOptions);
-	}
-
-	/**
-	 * Generates a range field input for a model attribute.
-	 * If the attribute has input error, the input field's CSS class will
-	 * be appended with {@link errorCss}.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated input field
-	 * @see clientChange
-	 * @see activeInputField
-	 * @since 1.1.11
-	 */
-	public static function activeRangeField($model,$attribute,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		self::clientChange('change',$htmlOptions);
-		return self::activeInputField('range',$model,$attribute,$htmlOptions);
-	}
-
-	/**
-	 * Generates a date field input for a model attribute.
-	 * If the attribute has input error, the input field's CSS class will
-	 * be appended with {@link errorCss}.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated input field
-	 * @see clientChange
-	 * @see activeInputField
-	 * @since 1.1.11
-	 */
-	public static function activeDateField($model,$attribute,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		self::clientChange('change',$htmlOptions);
-		return self::activeInputField('date',$model,$attribute,$htmlOptions);
-	}
-
-
-	/**
-	 * Generates a hidden input for a model attribute.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes.
-	 * @return string the generated input field
-	 * @see activeInputField
-	 */
-	public static function activeHiddenField($model,$attribute,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		return self::activeInputField('hidden',$model,$attribute,$htmlOptions);
-	}
-
-	/**
-	 * Generates a password field input for a model attribute.
-	 * If the attribute has input error, the input field's CSS class will
-	 * be appended with {@link errorCss}.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated input field
-	 * @see clientChange
-	 * @see activeInputField
-	 */
-	public static function activePasswordField($model,$attribute,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		self::clientChange('change',$htmlOptions);
-		return self::activeInputField('password',$model,$attribute,$htmlOptions);
-	}
-
-	/**
-	 * Generates a text area input for a model attribute.
-	 * If the attribute has input error, the input field's CSS class will
-	 * be appended with {@link errorCss}.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * @return string the generated text area
-	 * @see clientChange
-	 */
-	public static function activeTextArea($model,$attribute,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		self::clientChange('change',$htmlOptions);
-		if($model->hasErrors($attribute))
-			self::addErrorCss($htmlOptions);
-		if(isset($htmlOptions['value']))
-		{
-			$text=$htmlOptions['value'];
-			unset($htmlOptions['value']);
-		}
-		else
-			$text=self::resolveValue($model,$attribute);
-		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $text : self::encode($text));
-	}
-
-	/**
-	 * Generates a file input for a model attribute.
-	 * Note, you have to set the enclosing form's 'enctype' attribute to be 'multipart/form-data'.
-	 * After the form is submitted, the uploaded file information can be obtained via $_FILES (see
-	 * PHP documentation).
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes (see {@link tag}).
-	 * @return string the generated input field
-	 * @see activeInputField
-	 */
-	public static function activeFileField($model,$attribute,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		// add a hidden field so that if a model only has a file field, we can
-		// still use isset($_POST[$modelClass]) to detect if the input is submitted
-		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
-		return self::hiddenField($htmlOptions['name'],'',$hiddenOptions)
-			. self::activeInputField('file',$model,$attribute,$htmlOptions);
-	}
-
-	/**
-	 * Generates a radio button for a model attribute.
-	 * If the attribute has input error, the input field's CSS class will
-	 * be appended with {@link errorCss}.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * A special option named 'uncheckValue' is available that can be used to specify
-	 * the value returned when the radio button is not checked. By default, this value is '0'.
-	 * Internally, a hidden field is rendered so that when the radio button is not checked,
-	 * we can still obtain the posted uncheck value.
-	 * If 'uncheckValue' is set as NULL, the hidden field will not be rendered.
-	 * @return string the generated radio button
-	 * @see clientChange
-	 * @see activeInputField
-	 */
-	public static function activeRadioButton($model,$attribute,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		if(!isset($htmlOptions['value']))
-			$htmlOptions['value']=1;
-		if(!isset($htmlOptions['checked']) && self::resolveValue($model,$attribute)==$htmlOptions['value'])
-			$htmlOptions['checked']='checked';
-		self::clientChange('click',$htmlOptions);
-
-		if(array_key_exists('uncheckValue',$htmlOptions))
-		{
-			$uncheck=$htmlOptions['uncheckValue'];
-			unset($htmlOptions['uncheckValue']);
-		}
-		else
-			$uncheck='0';
-
-		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
-		$hidden=$uncheck!==null ? self::hiddenField($htmlOptions['name'],$uncheck,$hiddenOptions) : '';
-
-		// add a hidden field so that if the radio button is not selected, it still submits a value
-		return $hidden . self::activeInputField('radio',$model,$attribute,$htmlOptions);
-	}
-
-	/**
-	 * Generates a check box for a model attribute.
-	 * The attribute is assumed to take either true or false value.
-	 * If the attribute has input error, the input field's CSS class will
-	 * be appended with {@link errorCss}.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
-	 * A special option named 'uncheckValue' is available that can be used to specify
-	 * the value returned when the checkbox is not checked. By default, this value is '0'.
-	 * Internally, a hidden field is rendered so that when the checkbox is not checked,
-	 * we can still obtain the posted uncheck value.
-	 * If 'uncheckValue' is set as NULL, the hidden field will not be rendered.
-	 * @return string the generated check box
-	 * @see clientChange
-	 * @see activeInputField
-	 */
-	public static function activeCheckBox($model,$attribute,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		if(!isset($htmlOptions['value']))
-			$htmlOptions['value']=1;
-		if(!isset($htmlOptions['checked']) && self::resolveValue($model,$attribute)==$htmlOptions['value'])
-			$htmlOptions['checked']='checked';
-		self::clientChange('click',$htmlOptions);
-
-		if(array_key_exists('uncheckValue',$htmlOptions))
-		{
-			$uncheck=$htmlOptions['uncheckValue'];
-			unset($htmlOptions['uncheckValue']);
-		}
-		else
-			$uncheck='0';
-
-		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
-		$hidden=$uncheck!==null ? self::hiddenField($htmlOptions['name'],$uncheck,$hiddenOptions) : '';
-
-		return $hidden . self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
-	}
-
-	/**
-	 * Generates a drop down list for a model attribute.
-	 * If the attribute has input error, the input field's CSS class will
-	 * be appended with {@link errorCss}.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $data data for generating the list options (value=>display)
-	 * You may use {@link listData} to generate this data.
-	 * Please refer to {@link listOptions} on how this data is used to generate the list options.
-	 * Note, the values and labels will be automatically HTML-encoded by this method.
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are recognized. See {@link clientChange} and {@link tag} for more details.
-	 * In addition, the following options are also supported:
-	 * <ul>
-	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true.</li>
-	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.  Note, the prompt text will NOT be HTML-encoded.</li>
-	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
-	 * The 'empty' option can also be an array of value-label pairs.
-	 * Each pair will be used to render a list option at the beginning. Note, the text label will NOT be HTML-encoded.</li>
-	 * <li>options: array, specifies additional attributes for each OPTION tag.
-	 *     The array keys must be the option values, and the array values are the extra
-	 *     OPTION tag attributes in the name-value pairs. For example,
-	 * <pre>
-	 *     array(
-	 *         'value1'=>array('disabled'=>true, 'label'=>'value 1'),
-	 *         'value2'=>array('label'=>'value 2'),
-	 *     );
-	 * </pre>
-	 * </li>
-	 * </ul>
-	 * Since 1.1.13, a special option named 'unselectValue' is available. It can be used to set the value
-	 * that will be returned when no option is selected in multiple mode. When set, a hidden field is
-	 * rendered so that if no option is selected in multiple mode, we can still obtain the posted
-	 * unselect value. If 'unselectValue' is not set or set to NULL, the hidden field will not be rendered.
-	 * @return string the generated drop down list
-	 * @see clientChange
-	 * @see listData
-	 */
-	public static function activeDropDownList($model,$attribute,$data,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		$selection=self::resolveValue($model,$attribute);
-		$options="\n".self::listOptions($selection,$data,$htmlOptions);
-		self::clientChange('change',$htmlOptions);
-
-		if($model->hasErrors($attribute))
-			self::addErrorCss($htmlOptions);
-
-		$hidden='';
-		if(isset($htmlOptions['multiple']))
-		{
-			if(substr($htmlOptions['name'],-2)!=='[]')
-				$htmlOptions['name'].='[]';
-
-			if(isset($htmlOptions['unselectValue']))
-			{
-				$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
-				$hidden=self::hiddenField(substr($htmlOptions['name'],0,-2),$htmlOptions['unselectValue'],$hiddenOptions);
-				unset($htmlOptions['unselectValue']);
-			}
-		}
-		return $hidden . self::tag('select',$htmlOptions,$options);
-	}
-
-	/**
-	 * Generates a list box for a model attribute.
-	 * The model attribute value is used as the selection.
-	 * If the attribute has input error, the input field's CSS class will
-	 * be appended with {@link errorCss}.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $data data for generating the list options (value=>display)
-	 * You may use {@link listData} to generate this data.
-	 * Please refer to {@link listOptions} on how this data is used to generate the list options.
-	 * Note, the values and labels will be automatically HTML-encoded by this method.
-	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are recognized. See {@link clientChange} and {@link tag} for more details.
-	 * In addition, the following options are also supported:
-	 * <ul>
-	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true.</li>
-	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty. Note, the prompt text will NOT be HTML-encoded.</li>
-	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
-	 * The 'empty' option can also be an array of value-label pairs.
-	 * Each pair will be used to render a list option at the beginning. Note, the text label will NOT be HTML-encoded.</li>
-	 * <li>options: array, specifies additional attributes for each OPTION tag.
-	 *     The array keys must be the option values, and the array values are the extra
-	 *     OPTION tag attributes in the name-value pairs. For example,
-	 * <pre>
-	 *     array(
-	 *         'value1'=>array('disabled'=>true, 'label'=>'value 1'),
-	 *         'value2'=>array('label'=>'value 2'),
-	 *     );
-	 * </pre>
-	 * </li>
-	 * </ul>
-	 * @return string the generated list box
-	 * @see clientChange
-	 * @see listData
-	 */
-	public static function activeListBox($model,$attribute,$data,$htmlOptions=array())
-	{
-		if(!isset($htmlOptions['size']))
-			$htmlOptions['size']=4;
-		return self::activeDropDownList($model,$attribute,$data,$htmlOptions);
-	}
-
-	/**
-	 * Generates a check box list for a model attribute.
-	 * The model attribute value is used as the selection.
-	 * If the attribute has input error, the input field's CSS class will
-	 * be appended with {@link errorCss}.
-	 * Note that a check box list allows multiple selection, like {@link listBox}.
-	 * As a result, the corresponding POST value is an array. In case no selection
-	 * is made, the corresponding POST value is an empty string.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $data value-label pairs used to generate the check box list.
-	 * Note, the values will be automatically HTML-encoded, while the labels will not.
-	 * @param array $htmlOptions addtional HTML options. The options will be applied to
-	 * each checkbox input. The following special options are recognized:
-	 * <ul>
-	 * <li>template: string, specifies how each checkbox is rendered. Defaults
-	 * to "{input} {label}", where "{input}" will be replaced by the generated
-	 * check box input tag while "{label}" will be replaced by the corresponding check box label.</li>
-	 * <li>separator: string, specifies the string that separates the generated check boxes.</li>
-	 * <li>checkAll: string, specifies the label for the "check all" checkbox.
-	 * If this option is specified, a 'check all' checkbox will be displayed. Clicking on
-	 * this checkbox will cause all checkboxes checked or unchecked.</li>
-	 * <li>checkAllLast: boolean, specifies whether the 'check all' checkbox should be
-	 * displayed at the end of the checkbox list. If this option is not set (default)
-	 * or is false, the 'check all' checkbox will be displayed at the beginning of
-	 * the checkbox list.</li>
-	 * <li>encode: boolean, specifies whether to encode HTML-encode tag attributes and values. Defaults to true.</li>
-	 * </ul>
-	 * Since 1.1.7, a special option named 'uncheckValue' is available. It can be used to set the value
-	 * that will be returned when the checkbox is not checked. By default, this value is ''.
-	 * Internally, a hidden field is rendered so when the checkbox is not checked, we can still
-	 * obtain the value. If 'uncheckValue' is set to NULL, there will be no hidden field rendered.
-	 * @return string the generated check box list
-	 * @see checkBoxList
-	 */
-	public static function activeCheckBoxList($model,$attribute,$data,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		$selection=self::resolveValue($model,$attribute);
-		if($model->hasErrors($attribute))
-			self::addErrorCss($htmlOptions);
-		$name=$htmlOptions['name'];
-		unset($htmlOptions['name']);
-
-		if(array_key_exists('uncheckValue',$htmlOptions))
-		{
-			$uncheck=$htmlOptions['uncheckValue'];
-			unset($htmlOptions['uncheckValue']);
-		}
-		else
-			$uncheck='';
-
-		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
-		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$hiddenOptions) : '';
-
-		return $hidden . self::checkBoxList($name,$selection,$data,$htmlOptions);
-	}
-
-	/**
-	 * Generates a radio button list for a model attribute.
-	 * The model attribute value is used as the selection.
-	 * If the attribute has input error, the input field's CSS class will
-	 * be appended with {@link errorCss}.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $data value-label pairs used to generate the radio button list.
-	 * Note, the values will be automatically HTML-encoded, while the labels will not.
-	 * @param array $htmlOptions addtional HTML options. The options will be applied to
-	 * each radio button input. The following special options are recognized:
-	 * <ul>
-	 * <li>template: string, specifies how each radio button is rendered. Defaults
-	 * to "{input} {label}", where "{input}" will be replaced by the generated
-	 * radio button input tag while "{label}" will be replaced by the corresponding radio button label.</li>
-	 * <li>separator: string, specifies the string that separates the generated radio buttons. Defaults to new line (<br/>).</li>
-	 * <li>encode: boolean, specifies whether to encode HTML-encode tag attributes and values. Defaults to true.</li>
-	 * </ul>
-	 * Since version 1.1.7, a special option named 'uncheckValue' is available that can be used to specify the value
-	 * returned when the radio button is not checked. By default, this value is ''. Internally, a hidden field is
-	 * rendered so that when the radio button is not checked, we can still obtain the posted uncheck value.
-	 * If 'uncheckValue' is set as NULL, the hidden field will not be rendered.
-	 * @return string the generated radio button list
-	 * @see radioButtonList
-	 */
-	public static function activeRadioButtonList($model,$attribute,$data,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		$selection=self::resolveValue($model,$attribute);
-		if($model->hasErrors($attribute))
-			self::addErrorCss($htmlOptions);
-		$name=$htmlOptions['name'];
-		unset($htmlOptions['name']);
-
-		if(array_key_exists('uncheckValue',$htmlOptions))
-		{
-			$uncheck=$htmlOptions['uncheckValue'];
-			unset($htmlOptions['uncheckValue']);
-		}
-		else
-			$uncheck='';
-
-		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
-		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$hiddenOptions) : '';
-
-		return $hidden . self::radioButtonList($name,$selection,$data,$htmlOptions);
-	}
-
-	/**
-	 * Displays a summary of validation errors for one or several models.
-	 * @param mixed $model the models whose input errors are to be displayed. This can be either
-	 * a single model or an array of models.
-	 * @param string $header a piece of HTML code that appears in front of the errors
-	 * @param string $footer a piece of HTML code that appears at the end of the errors
-	 * @param array $htmlOptions additional HTML attributes to be rendered in the container div tag.
-	 * A special option named 'firstError' is recognized, which when set true, will
-	 * make the error summary to show only the first error message of each attribute.
-	 * If this is not set or is false, all error messages will be displayed.
-	 * This option has been available since version 1.1.3.
-	 * @return string the error summary. Empty if no errors are found.
-	 * @see CModel::getErrors
-	 * @see errorSummaryCss
-	 */
-	public static function errorSummary($model,$header=null,$footer=null,$htmlOptions=array())
-	{
-		$content='';
-		if(!is_array($model))
-			$model=array($model);
-		if(isset($htmlOptions['firstError']))
-		{
-			$firstError=$htmlOptions['firstError'];
-			unset($htmlOptions['firstError']);
-		}
-		else
-			$firstError=false;
-		foreach($model as $m)
-		{
-			foreach($m->getErrors() as $errors)
-			{
-				foreach($errors as $error)
-				{
-					if($error!='')
-						$content.="<li>$error</li>\n";
-					if($firstError)
-						break;
+		if (is_array($url)) {
+			if (isset($url[0])) {
+				$route = $url[0];
+				$params = array_splice($url, 1);
+				if (\init::app()->controller instanceof CBaseController) {
+					return \init::app()->controller->createUrl($route, $params);
+				} else {
+					return \init::app()->getUrlManager()->createUrl($route, $params);
 				}
+			} else {
+				// throw new InvalidParamException('The array specifying a URL must contain at least one element.');
+                                // fatal error
+			}
+		} elseif ($url === '') {
+			return \init::app()->getRequest()->getUrl();
+		} else {
+			$url = \init::getAlias($url);
+			if ($url !== '' && ($url[0] === '/' || $url[0] === '#' || strpos($url, '://'))) {
+				return $url;
+			} else {
+				return \init::app()->getRequest()->getBaseUrl() . '/' . $url;
 			}
 		}
-		if($content!=='')
-		{
-			if($header===null)
-				$header='<p>'.\init::t('init','Please fix the following input errors:').'</p>';
-			if(!isset($htmlOptions['class']))
-				$htmlOptions['class']=self::$errorSummaryCss;
-			return self::tag('div',$htmlOptions,$header."\n<ul>\n$content</ul>".$footer);
-		}
-		else
-			return '';
 	}
 
 	/**
-	 * Displays the first validation error for a model attribute.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute name
-	 * @param array $htmlOptions additional HTML attributes to be rendered in the container tag.
-	 * @return string the error display. Empty if no errors are found.
-	 * @see CModel::getErrors
-	 * @see errorMessageCss
-	 * @see $errorContainerTag
+	 * Adds a CSS class to the specified options.
+	 * If the CSS class is already in the options, it will not be added again.
+	 * @param array $options the options to be modified.
+	 * @param string $class the CSS class to be added
 	 */
-	public static function error($model,$attribute,$htmlOptions=array())
+	public static function addCssClass($options, $class)
 	{
-		self::resolveName($model,$attribute); // turn [a][b]attr into attr
-		$error=$model->getError($attribute);
-		if($error!='')
-		{
-			if(!isset($htmlOptions['class']))
-				$htmlOptions['class']=self::$errorMessageCss;
-			return self::tag(self::$errorContainerTag,$htmlOptions,$error);
+		if (isset($options['class'])) {
+			$classes = ' ' . $options['class'] . ' ';
+			if (($pos = strpos($classes, ' ' . $class . ' ')) === false) {
+				$options['class'] .= ' ' . $class;
+			}
+		} else {
+			$options['class'] = $class;
 		}
-		else
-			return '';
 	}
 
 	/**
-	 * Generates the data suitable for list-based HTML elements.
-	 * The generated data can be used in {@link dropDownList}, {@link listBox}, {@link checkBoxList},
-	 * {@link radioButtonList}, and their active-versions (such as {@link activeDropDownList}).
-	 * Note, this method does not HTML-encode the generated data. You may call {@link encodeArray} to
-	 * encode it if needed.
-	 * Please refer to the {@link value} method on how to specify value field, text field and group field.
-	 * You can also pass anonymous functions as second, third and fourth arguments which calculates
-	 * text field value (PHP 5.3+ only) since 1.1.13. Your anonymous function should receive one argument,
-	 * which is the model, the current &lt;option&gt; tag is generated from.
+	 * Removes a CSS class from the specified options.
+	 * @param array $options the options to be modified.
+	 * @param string $class the CSS class to be removed
+	 */
+	public static function removeCssClass($options, $class)
+	{
+		if (isset($options['class'])) {
+			$classes = array_unique(preg_split('/\s+/', $options['class'] . ' ' . $class, -1, PREG_SPLIT_NO_EMPTY));
+			if (($index = array_search($class, $classes)) !== false) {
+				unset($classes[$index]);
+			}
+			if (empty($classes)) {
+				unset($options['class']);
+			} else {
+				$options['class'] = implode(' ', $classes);
+			}
+		}
+	}
+
+	/**
+	 * Returns the real attribute name from the given attribute expression.
 	 *
-	 * <pre>
-	 * CHtml::listData($posts,'id',function($post) {
-	 * 	return CHtml::encode($post->title);
-	 * });
-	 * </pre>
+	 * An attribute expression is an attribute name prefixed and/or suffixed with array indexes.
+	 * It is mainly used in tabular data input and/or input of array type. Below are some examples:
 	 *
-	 * @param array $models a list of model objects. This parameter
-	 * can also be an array of associative arrays (e.g. results of {@link CDbCommand::queryAll}).
-	 * @param mixed $valueField the attribute name or anonymous function (PHP 5.3+) for list option values
-	 * @param mixed $textField the attribute name or anonymous function (PHP 5.3+) for list option texts
-	 * @param mixed $groupField the attribute name or anonymous function (PHP 5.3+) for list option group names. If empty, no group will be generated.
-	 * @return array the list data that can be used in {@link dropDownList}, {@link listBox}, etc.
-	 */
-	public static function listData($models,$valueField,$textField,$groupField='')
-	{
-		$listData=array();
-		if($groupField==='')
-		{
-			foreach($models as $model)
-			{
-				$value=self::value($model,$valueField);
-				$text=self::value($model,$textField);
-				$listData[$value]=$text;
-			}
-		}
-		else
-		{
-			foreach($models as $model)
-			{
-				$group=self::value($model,$groupField);
-				$value=self::value($model,$valueField);
-				$text=self::value($model,$textField);
-				if($group===null)
-					$listData[$value]=$text;
-				else
-					$listData[$group][$value]=$text;
-			}
-		}
-		return $listData;
-	}
-
-	/**
-	 * Evaluates the value of the specified attribute for the given model.
-	 * The attribute name can be given in a dot syntax. For example, if the attribute
-	 * is "author.firstName", this method will return the value of "$model->author->firstName".
-	 * A default value (passed as the last parameter) will be returned if the attribute does
-	 * not exist or is broken in the middle (e.g. $model->author is null).
-	 * The model can be either an object or an array. If the latter, the attribute is treated
-	 * as a key of the array. For the example of "author.firstName", if would mean the array value
-	 * "$model['author']['firstName']".
+	 * - `[0]content` is used in tabular data input to represent the "content" attribute
+	 *   for the first model in tabular input;
+	 * - `dates[0]` represents the first array element of the "dates" attribute;
+	 * - `[0]dates[0]` represents the first array element of the "dates" attribute
+	 *   for the first model in tabular input.
 	 *
-	 * Anonymous function could also be used for attribute calculation since 1.1.13
-	 * ($attribute parameter; PHP 5.3+ only) as follows:
-	 * <pre>
-	 * $taskClosedSecondsAgo=CHtml::value($closedTask,function($model) {
-	 * 	return time()-$model->closed_at;
-	 * });
-	 * </pre>
-	 * Your anonymous function should receive one argument, which is the model, the current
-	 * value is calculated from. This feature could be used together with the {@link listData}.
-	 * Please refer to its documentation for more details.
+	 * If `$attribute` has neither prefix nor suffix, it will be returned back without change.
+	 * @param string $attribute the attribute name or expression
+	 * @return string the attribute name without prefix and suffix.
+	 * @throws InvalidParamException if the attribute name contains non-word characters.
+	 */
+	public static function getAttributeName($attribute)
+	{
+		if (preg_match('/(^|.*\])(\w+)(\[.*|$)/', $attribute, $matches)) {
+			return $matches[2];
+		} else {
+			throw new InvalidParamException('Attribute name must contain word characters only.');
+		}
+	}
+
+	/**
+	 * Returns the value of the specified attribute name or expression.
 	 *
-	 * @param mixed $model the model. This can be either an object or an array.
-	 * @param mixed $attribute the attribute name (use dot to concatenate multiple attributes)
-	 * or anonymous function (PHP 5.3+). Remember that functions created by "create_function"
-	 * are not supported by this method. Also note that numeric value is meaningless when
-	 * first parameter is object typed.
-	 * @param mixed $defaultValue the default value to return when the attribute does not exist.
-	 * @return mixed the attribute value.
+	 * For an attribute expression like `[0]dates[0]`, this method will return the value of `$model->dates[0]`.
+	 * See [[getAttributeName()]] for more details about attribute expression.
+	 *
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression
+	 * @return mixed the corresponding attribute value
+	 * @throws InvalidParamException if the attribute name contains non-word characters.
 	 */
-	public static function value($model,$attribute,$defaultValue=null)
+	public static function getAttributeValue($model, $attribute)
 	{
-		if(is_scalar($attribute) || $attribute===null)
-			foreach(explode('.',$attribute) as $name)
-			{
-				if(is_object($model) && isset($model->$name))
-					$model=$model->$name;
-				elseif(is_array($model) && isset($model[$name]))
-					$model=$model[$name];
-				else
-					return $defaultValue;
-			}
-		else
-			return \call_user_func($attribute,$model);
-
-		return $model;
-	}
-
-	/**
-	 * Generates a valid HTML ID based on name.
-	 * @param string $name name from which to generate HTML ID
-	 * @return string the ID generated based on name.
-	 */
-	public static function getIdByName($name)
-	{
-		return str_replace(array('[]', '][', '[', ']', ' '), array('', '_', '_', '', '_'), $name);
-	}
-
-	/**
-	 * Generates input field ID for a model attribute.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @return string the generated input field ID
-	 */
-	public static function activeId($model,$attribute)
-	{
-		return self::getIdByName(self::activeName($model,$attribute));
-	}
-
-	/**
-	 * Generates input field name for a model attribute.
-	 * Unlike {@link resolveName}, this method does NOT modify the attribute name.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @return string the generated input field name
-	 */
-	public static function activeName($model,$attribute)
-	{
-		$a=$attribute; // because the attribute name may be changed by resolveName
-		return self::resolveName($model,$a);
-	}
-
-	/**
-	 * Generates an input HTML tag for a model attribute.
-	 * This method generates an input HTML tag based on the given data model and attribute.
-	 * If the attribute has input error, the input field's CSS class will
-	 * be appended with {@link errorCss}.
-	 * This enables highlighting the incorrect input.
-	 * @param string $type the input type (e.g. 'text', 'radio')
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions additional HTML attributes for the HTML tag
-	 * @return string the generated input tag
-	 */
-	protected static function activeInputField($type,$model,$attribute,$htmlOptions)
-	{
-		$htmlOptions['type']=$type;
-		if($type==='text' || $type==='password')
-		{
-			if(!isset($htmlOptions['maxlength']))
-			{
-				foreach($model->getValidators($attribute) as $validator)
-				{
-					if($validator instanceof CStringValidator && $validator->max!==null)
-					{
-						$htmlOptions['maxlength']=$validator->max;
-						break;
-					}
-				}
-			}
-			elseif($htmlOptions['maxlength']===false)
-				unset($htmlOptions['maxlength']);
+		if (!preg_match('/(^|.*\])(\w+)(\[.*|$)/', $attribute, $matches)) {
+			throw new InvalidParamException('Attribute name must contain word characters only.');
 		}
-
-		if($type==='file')
-			unset($htmlOptions['value']);
-		elseif(!isset($htmlOptions['value']))
-			$htmlOptions['value']=self::resolveValue($model,$attribute);
-		if($model->hasErrors($attribute))
-			self::addErrorCss($htmlOptions);
-		return self::tag('input',$htmlOptions);
-	}
-
-	/**
-	 * Generates the list options.
-	 * @param mixed $selection the selected value(s). This can be either a string for single selection or an array for multiple selections.
-	 * @param array $listData the option data (see {@link listData})
-	 * @param array $htmlOptions additional HTML attributes. The following two special attributes are recognized:
-	 * <ul>
-	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true.</li>
-	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty. Note, the prompt text will NOT be HTML-encoded.</li>
-	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
-	 * The 'empty' option can also be an array of value-label pairs.
-	 * Each pair will be used to render a list option at the beginning. Note, the text label will NOT be HTML-encoded.</li>
-	 * <li>options: array, specifies additional attributes for each OPTION tag.
-	 *     The array keys must be the option values, and the array values are the extra
-	 *     OPTION tag attributes in the name-value pairs. For example,
-	 * <pre>
-	 *     array(
-	 *         'value1'=>array('disabled'=>true, 'label'=>'value 1'),
-	 *         'value2'=>array('label'=>'value 2'),
-	 *     );
-	 * </pre>
-	 * </li>
-	 * <li>key: string, specifies the name of key attribute of the selection object(s).
-	 * This is used when the selection is represented in terms of objects. In this case,
-	 * the property named by the key option of the objects will be treated as the actual selection value.
-	 * This option defaults to 'primaryKey', meaning using the 'primaryKey' property value of the objects in the selection.
-	 * This option has been available since version 1.1.3.</li>
-	 * </ul>
-	 * @return string the generated list options
-	 */
-	public static function listOptions($selection,$listData,&$htmlOptions)
-	{
-		$raw=isset($htmlOptions['encode']) && !$htmlOptions['encode'];
-		$content='';
-		if(isset($htmlOptions['prompt']))
-		{
-			$content.='<option value="">'.strtr($htmlOptions['prompt'],array('<'=>'&lt;', '>'=>'&gt;'))."</option>\n";
-			unset($htmlOptions['prompt']);
-		}
-		if(isset($htmlOptions['empty']))
-		{
-			if(!is_array($htmlOptions['empty']))
-				$htmlOptions['empty']=array(''=>$htmlOptions['empty']);
-			foreach($htmlOptions['empty'] as $value=>$label)
-				$content.='<option value="'.self::encode($value).'">'.strtr($label,array('<'=>'&lt;', '>'=>'&gt;'))."</option>\n";
-			unset($htmlOptions['empty']);
-		}
-
-		if(isset($htmlOptions['options']))
-		{
-			$options=$htmlOptions['options'];
-			unset($htmlOptions['options']);
-		}
-		else
-			$options=array();
-
-		$key=isset($htmlOptions['key']) ? $htmlOptions['key'] : 'primaryKey';
-		if(is_array($selection))
-		{
-			foreach($selection as $i=>$item)
-			{
-				if(is_object($item))
-					$selection[$i]=$item->$key;
-			}
-		}
-		elseif(is_object($selection))
-			$selection=$selection->$key;
-
-		foreach($listData as $key=>$value)
-		{
-			if(is_array($value))
-			{
-				$content.='<optgroup label="'.($raw?$key : self::encode($key))."\">\n";
-				$dummy=array('options'=>$options);
-				if(isset($htmlOptions['encode']))
-					$dummy['encode']=$htmlOptions['encode'];
-				$content.=self::listOptions($selection,$value,$dummy);
-				$content.='</optgroup>'."\n";
-			}
-			else
-			{
-				$attributes=array('value'=>(string)$key, 'encode'=>!$raw);
-				if(!is_array($selection) && !strcmp($key,$selection) || is_array($selection) && in_array($key,$selection))
-					$attributes['selected']='selected';
-				if(isset($options[$key]))
-					$attributes=array_merge($attributes,$options[$key]);
-				$content.=self::tag('option',$attributes,$raw?(string)$value : self::encode((string)$value))."\n";
-			}
-		}
-
-		unset($htmlOptions['key']);
-
-		return $content;
-	}
-
-	/**
-	 * Generates the JavaScript with the specified client changes.
-	 * @param string $event event name (without 'on')
-	 * @param array $htmlOptions HTML attributes which may contain the following special attributes
-	 * specifying the client change behaviors:
-	 * <ul>
-	 * <li>submit: string, specifies the URL to submit to. If the current element has a parent form, that form will be
-	 * submitted, and if 'submit' is non-empty its value will replace the form's URL. If there is no parent form the
-	 * data listed in 'params' will be submitted instead (via POST method), to the URL in 'submit' or the currently
-	 * requested URL if 'submit' is empty. Please note that if the 'csrf' setting is true, the CSRF token will be
-	 * included in the params too.</li>
-	 * <li>params: array, name-value pairs that should be submitted together with the form. This is only used when 'submit' option is specified.</li>
-	 * <li>csrf: boolean, whether a CSRF token should be automatically included in 'params' when {@link CHttpRequest::enableCsrfValidation} is true. Defaults to false.
-	 * You may want to set this to be true if there is no enclosing form around this element.
-	 * This option is meaningful only when 'submit' option is set.</li>
-	 * <li>return: boolean, the return value of the javascript. Defaults to false, meaning that the execution of
-	 * javascript would not cause the default behavior of the event.</li>
-	 * <li>confirm: string, specifies the message that should show in a pop-up confirmation dialog.</li>
-	 * <li>ajax: array, specifies the AJAX options (see {@link ajax}).</li>
-	 * <li>live: boolean, whether the event handler should be delegated or directly bound.
-	 * If not set, {@link liveEvents} will be used. This option has been available since version 1.1.11.</li>
-	 * </ul>
-	 * This parameter has been available since version 1.1.1.
-	 */
-	protected static function clientChange($event,&$htmlOptions)
-	{
-		if(!isset($htmlOptions['submit']) && !isset($htmlOptions['confirm']) && !isset($htmlOptions['ajax']))
-			return;
-
-		if(isset($htmlOptions['live']))
-		{
-			$live=$htmlOptions['live'];
-			unset($htmlOptions['live']);
-		}
-		else
-			$live = self::$liveEvents;
-
-		if(isset($htmlOptions['return']) && $htmlOptions['return'])
-			$return='return true';
-		else
-			$return='return false';
-
-		if(isset($htmlOptions['on'.$event]))
-		{
-			$handler=trim($htmlOptions['on'.$event],';').';';
-			unset($htmlOptions['on'.$event]);
-		}
-		else
-			$handler='';
-
-		if(isset($htmlOptions['id']))
-			$id=$htmlOptions['id'];
-		else
-			$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$count++;
-
-		$cs=\init::app()->getClientScript();
-		$cs->registerCoreScript('jquery');
-
-		if(isset($htmlOptions['submit']))
-		{
-			$cs->registerCoreScript('init');
-			$request=\init::app()->getRequest();
-			if($request->enableCsrfValidation && isset($htmlOptions['csrf']) && $htmlOptions['csrf'])
-				$htmlOptions['params'][$request->csrfTokenName]=$request->getCsrfToken();
-			if(isset($htmlOptions['params']))
-				$params=\CJavaScript::encode($htmlOptions['params']);
-			else
-				$params='{}';
-			if($htmlOptions['submit']!=='')
-				$url=\CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']));
-			else
-				$url='';
-			$handler.="jQuery.init.submitForm(this,'$url',$params);{$return};";
-		}
-
-		if(isset($htmlOptions['ajax']))
-			$handler.=self::ajax($htmlOptions['ajax'])."{$return};";
-
-		if(isset($htmlOptions['confirm']))
-		{
-			$confirm='confirm(\''.\CJavaScript::quote($htmlOptions['confirm']).'\')';
-			if($handler!=='')
-				$handler="if($confirm) {".$handler."} else return false;";
-			else
-				$handler="return $confirm;";
-		}
-
-		if($live)
-			$cs->registerScript('init.CHtml.#' . $id, "jQuery('body').on('$event','#$id',function(){{$handler}});");
-		else
-			$cs->registerScript('init.CHtml.#' . $id, "jQuery('#$id').on('$event', function(){{$handler}});");
-		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return'],$htmlOptions['csrf']);
-	}
-
-	/**
-	 * Generates input name and ID for a model attribute.
-	 * This method will update the HTML options by setting appropriate 'name' and 'id' attributes.
-	 * This method may also modify the attribute name if the name
-	 * contains square brackets (mainly used in tabular input).
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @param array $htmlOptions the HTML options
-	 */
-	public static function resolveNameID($model,&$attribute,&$htmlOptions)
-	{
-		if(!isset($htmlOptions['name']))
-			$htmlOptions['name']=self::resolveName($model,$attribute);
-		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=self::getIdByName($htmlOptions['name']);
-		elseif($htmlOptions['id']===false)
-			unset($htmlOptions['id']);
-	}
-
-	/**
-	 * Generates input name for a model attribute.
-	 * Note, the attribute name may be modified after calling this method if the name
-	 * contains square brackets (mainly used in tabular input) before the real attribute name.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute
-	 * @return string the input name
-	 */
-	public static function resolveName($model,&$attribute)
-	{
-		if(($pos=strpos($attribute,'['))!==false)
-		{
-			if($pos!==0)  // e.g. name[a][b]
-				return get_class($model).'['.substr($attribute,0,$pos).']'.substr($attribute,$pos);
-			if(($pos=strrpos($attribute,']'))!==false && $pos!==strlen($attribute)-1)  // e.g. [a][b]name
-			{
-				$sub=substr($attribute,0,$pos+1);
-				$attribute=substr($attribute,$pos+1);
-				return get_class($model).$sub.'['.$attribute.']';
-			}
-			if(preg_match('/\](\w+\[.*)$/',$attribute,$matches))
-			{
-				$name=get_class($model).'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
-				$attribute=$matches[1];
-				return $name;
-			}
-		}
-		return get_class($model).'['.$attribute.']';
-	}
-
-	/**
-	 * Evaluates the attribute value of the model.
-	 * This method can recognize the attribute name written in array format.
-	 * For example, if the attribute name is 'name[a][b]', the value "$model->name['a']['b']" will be returned.
-	 * @param CModel $model the data model
-	 * @param string $attribute the attribute name
-	 * @return mixed the attribute value
-	 * @since 1.1.3
-	 */
-	public static function resolveValue($model,$attribute)
-	{
-		if(($pos=strpos($attribute,'['))!==false)
-		{
-			if($pos===0) // [a]name[b][c], should ignore [a]
-			{
-				if(preg_match('/\](\w+(\[.+)?)/',$attribute,$matches))
-					$attribute=$matches[1]; // we get: name[b][c]
-				if(($pos=strpos($attribute,'['))===false)
-					return $model->$attribute;
-			}
-			$name=substr($attribute,0,$pos);
-			$value=$model->$name;
-			foreach(explode('][',rtrim(substr($attribute,$pos+1),']')) as $id)
-			{
-				if((is_array($value) || $value instanceof ArrayAccess) && isset($value[$id]))
-					$value=$value[$id];
-				else
+		$attribute = $matches[2];
+		$index = $matches[3];
+		if ($index === '') {
+			return $model[$attribute];
+		} else {
+			$value = $model[$attribute];
+			foreach (explode('][', trim($index, '[]')) as $id) {
+				if ((is_array($value) || $value instanceof \ArrayAccess) && isset($value[$id])) {
+					$value = $value[$id];
+				} else {
 					return null;
+				}
 			}
 			return $value;
 		}
-		else
-			return $model->$attribute;
 	}
 
 	/**
-	 * Appends {@link errorCss} to the 'class' attribute.
-	 * @param array $htmlOptions HTML options to be modified
+	 * Generates an appropriate input name for the specified attribute name or expression.
+	 *
+	 * This method generates a name that can be used as the input name to collect user input
+	 * for the specified attribute. The name is generated according to the [[Model::formName|form name]]
+	 * of the model and the given attribute name. For example, if the form name of the `Post` model
+	 * is `Post`, then the input name generated for the `content` attribute would be `Post[content]`.
+	 *
+	 * See [[getAttributeName()]] for explanation of attribute expression.
+	 *
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression
+	 * @return string the generated input name
+	 * @throws InvalidParamException if the attribute name contains non-word characters.
 	 */
-	protected static function addErrorCss(&$htmlOptions)
+	public static function getInputName($model, $attribute)
 	{
-		if(empty(self::$errorCss))
-			return;
-
-		if(isset($htmlOptions['class']))
-			$htmlOptions['class'].=' '.self::$errorCss;
-		else
-			$htmlOptions['class']=self::$errorCss;
+		$formName = $model['formName'];
+		if (!preg_match('/(^|.*\])(\w+)(\[.*|$)/', $attribute, $matches)) {
+			throw new InvalidParamException('Attribute name must contain word characters only.');
+		}
+		$prefix = $matches[1];
+		$attribute = $matches[2];
+		$suffix = $matches[3];
+		if ($formName === '' && $prefix === '') {
+			return $attribute . $suffix;
+		} elseif ($formName !== '') {
+			return $formName . $prefix . "[$attribute]" . $suffix;
+		} else {
+			throw new InvalidParamException(get_class($model) . '::formName() cannot be empty for tabular inputs.');
+		}
 	}
 
 	/**
-	 * Renders the HTML tag attributes.
-	 * Since version 1.1.5, attributes whose value is null will not be rendered.
-	 * Special attributes, such as 'checked', 'disabled', 'readonly', will be rendered
-	 * properly based on their corresponding boolean value.
-	 * @param array $htmlOptions attributes to be rendered
-	 * @return string the rendering result
+	 * Generates an appropriate input ID for the specified attribute name or expression.
+	 *
+	 * This method converts the result [[getInputName()]] into a valid input ID.
+	 * For example, if [[getInputName()]] returns `Post[content]`, this method will return `post-content`.
+	 * @param Model $model the model object
+	 * @param string $attribute the attribute name or expression. See [[getAttributeName()]] for explanation of attribute expression.
+	 * @return string the generated input ID
+	 * @throws InvalidParamException if the attribute name contains non-word characters.
 	 */
-	public static function renderAttributes($htmlOptions)
+	public static function getInputId($model, $attribute)
 	{
-		static $specialAttributes=array(
-			'async'=>1,
-			'autofocus'=>1,
-			'autoplay'=>1,
-			'checked'=>1,
-			'controls'=>1,
-			'declare'=>1,
-			'default'=>1,
-			'defer'=>1,
-			'disabled'=>1,
-			'formnovalidate'=>1,
-			'hidden'=>1,
-			'ismap'=>1,
-			'loop'=>1,
-			'multiple'=>1,
-			'muted'=>1,
-			'nohref'=>1,
-			'noresize'=>1,
-			'novalidate'=>1,
-			'open'=>1,
-			'readonly'=>1,
-			'required'=>1,
-			'reversed'=>1,
-			'scoped'=>1,
-			'seamless'=>1,
-			'selected'=>1,
-			'typemustmatch'=>1,
-		);
-
-		if($htmlOptions===array())
-			return '';
-
-		$html='';
-		if(isset($htmlOptions['encode']))
-		{
-			$raw=!$htmlOptions['encode'];
-			unset($htmlOptions['encode']);
-		}
-		else
-			$raw=false;
-
-		foreach($htmlOptions as $name=>$value)
-		{
-			if(isset($specialAttributes[$name]))
-			{
-				if($value)
-				{
-					$html .= ' ' . $name;
-					if(self::$renderSpecialAttributesValue)
-						$html .= '="' . $name . '"';
-				}
-			}
-			elseif($value!==null)
-				$html .= ' ' . $name . '="' . ($raw ? $value : self::encode($value)) . '"';
-		}
-
-		return $html;
+		$name = strtolower(static::getInputName($model, $attribute));
+		return str_replace(array('[]', '][', '[', ']', ' '), array('', '-', '-', '', '-'), $name);
 	}
 }

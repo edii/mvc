@@ -20,6 +20,8 @@ abstract class CApplication extends \CModule
 	 * the language that the messages and view files are in. Defaults to 'en_us' (US English).
 	 */
 	public $sourceLanguage='en_us';
+        
+        private $_cacheInstance = null;
 
 	private $_id;
 	private $_basePath;
@@ -578,19 +580,30 @@ abstract class CApplication extends \CModule
 	 * Returns the cache component.
 	 * @return CCache the cache application component. Null if the component is not enabled.
 	 */
-//	public function getMemcaches()
-//	{
-//		return $this->getComponent('memcache');
-//	}
+	public function getMemcaches()
+	{
+                if (!extension_loaded("memcache")) {
+                        throw new \CException(\init::t('init','memcache not installed. Skipping.'));
+			// $this->markTestSkipped("memcache not installed. Skipping.");
+                       // this fatal error ( not connected memcached! )
+		}
+
+		if ($this->_cacheInstance === null) {
+			$this->_cacheInstance = $this->getComponent('memcache');
+		}
+		return $this->_cacheInstance;
+            
+		return $this->_cacheInstance;
+	}
         
 	/**
 	 * Returns the cache component.
 	 * @return CCache the cache application component. Null if the component is not enabled.
 	 */
-	public function getCache()
-	{
-		return $this->getComponent('cache');
-	}
+//	public function getCache()
+//	{
+//		return $this->getComponent('cache');
+//	}
 
 	/**
 	 * Returns the core message translations component.
@@ -1078,9 +1091,9 @@ abstract class CApplication extends \CModule
 //                                'class' => 'CCache'
 //                        ),
                     
-//                        'memcache' => array(
-//                                'class' => 'CMemCache'
-//                        ),
+                        'memcache' => array(
+                                'class' => 'CMemCache'
+                        ),
                     
 			//'db'=>array(
 				//'class'=>'CDbConnection',

@@ -65,7 +65,7 @@ class CMemCache extends \CCache
 	 * If false, [memcache](http://pecl.php.net/package/memcache) will be used.
 	 * Defaults to false.
 	 */
-	public $useMemcached = false;
+	public $useMemcached = false; // true or false
 	/**
 	 * @var \Memcache|\Memcached the Memcache instance
 	 */
@@ -129,11 +129,13 @@ class CMemCache extends \CCache
 	{
 		if ($this->_cache === null) {
 			$extension = $this->useMemcached ? 'memcached' : 'memcache';
-			if (!extension_loaded($extension)) {
+                       
+                            if (!extension_loaded($extension)) {
 				throw new \CException(\init::t('init',"{class} MemCache requires PHP $extension extension to be loaded.",
                                                 array('{class}'=> get_class($this))));
-                            //InvalidConfigException("MemCache requires PHP $extension extension to be loaded.");
-			}
+                            } 
+                        
+			
 			$this->_cache = $this->useMemcached ? new \Memcached : new \Memcache;
 		}
 		return $this->_cache;
@@ -166,7 +168,7 @@ class CMemCache extends \CCache
 	 * @param string $key a unique key identifying the cached value
 	 * @return string|boolean the value stored in cache, false if the value is not in the cache or expired.
 	 */
-	protected function getValue($key)
+	public function getValue($key)
 	{
 		return $this->_cache->get($key);
 	}
@@ -176,7 +178,7 @@ class CMemCache extends \CCache
 	 * @param array $keys a list of keys identifying the cached values
 	 * @return array a list of cached values indexed by the keys
 	 */
-	protected function getValues($keys)
+	public function getValues($keys)
 	{
 		return $this->useMemcached ? $this->_cache->getMulti($keys) : $this->_cache->get($keys);
 	}
@@ -190,7 +192,7 @@ class CMemCache extends \CCache
 	 * @param integer $expire the number of seconds in which the cached value will expire. 0 means never expire.
 	 * @return boolean true if the value is successfully stored into cache, false otherwise
 	 */
-	protected function setValue($key, $value, $expire)
+	public function setValue($key, $value, $expire)
 	{
 		if ($expire > 0) {
 			$expire += time();
@@ -210,7 +212,7 @@ class CMemCache extends \CCache
 	 * @param integer $expire the number of seconds in which the cached value will expire. 0 means never expire.
 	 * @return boolean true if the value is successfully stored into cache, false otherwise
 	 */
-	protected function addValue($key, $value, $expire)
+	public function addValue($key, $value, $expire)
 	{
 		if ($expire > 0) {
 			$expire += time();
@@ -227,7 +229,7 @@ class CMemCache extends \CCache
 	 * @param string $key the key of the value to be deleted
 	 * @return boolean if no error happens during deletion
 	 */
-	protected function deleteValue($key)
+	public function deleteValue($key)
 	{
 		return $this->_cache->delete($key, 0);
 	}
@@ -237,7 +239,7 @@ class CMemCache extends \CCache
 	 * This is the implementation of the method declared in the parent class.
 	 * @return boolean whether the flush operation was successful.
 	 */
-	protected function flushValues()
+	public function flushValues()
 	{
 		return $this->_cache->flush();
 	}

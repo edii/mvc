@@ -106,6 +106,24 @@
                             <div class="form-row row-fluid">
                                 <div class="span12">
                                     <div class="row-fluid">
+                                        
+                                        <?php
+//                                            $_listOptions = array(
+//                                                0 => array('t1' => 'test1'),
+//                                                1 => array('t2' => 'test2'),
+//                                                2 => array('t3' => 'test3'),
+//                                            );
+                                        
+                                        $_listOptions = array(
+                                              'value1' => array('disabled' => true),
+                                              'value2' => array('label' => 'value 2'),
+                                         );
+                                            
+                                           
+                                            // echo \CHtml::dropDownList('test[]', 't3', $_listOptions);
+                                            echo \CHtml::activeDropDownList(array('formName' => 'section', 't3' => true), 't3', $_listOptions);
+                                        ?>
+                                        
                                         <label class="form-label span4" for="normal">SectionParentID</label>
                                         <input class="span8" id="normalInput" type="text" name="section[SectionParentID]" value="<?= (isset($listing)) ? $listing['SectionParentID'] : '' ?>" />
                                     </div>
