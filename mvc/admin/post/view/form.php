@@ -8,7 +8,7 @@
 
         <div class="heading">
 
-            <h3>Dashboard</h3>                    
+            <h3><?= $sections_actual['name'] ?></h3>                    
 
             <div class="resBtnSearch">
                 <a href="#"><span class="icon16 icomoon-icon-search-3"></span></a>
@@ -33,7 +33,7 @@
                         <span class="icon16 icomoon-icon-arrow-right-3"></span>
                     </span>
                 </li>
-                <li class="active">Dashboard</li>
+                <li class="active"><?= $sections_actual['name'] ?></li>
             </ul>
 
         </div><!-- End .heading-->
@@ -68,8 +68,8 @@
                             <div class="form-row row-fluid">
                                 <div class="span12">
                                     <div class="row-fluid">
-                                        <label class="form-label span4" for="normal">cats_parent_id</label>
-                                        <input class="span8" id="normalInput" type="text" name="cats[cats_parent_id]" value="<?= (isset($listing)) ? $listing['cats_parent_id'] : '' ?>" />
+                                        <label class="form-label span4" for="normal">lang_id</label>
+                                        <input class="span8" id="normalInput" name="post[lang_id]" value="<?= (isset($listing)) ? $listing['lang_id'] : '' ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -77,8 +77,8 @@
                             <div class="form-row row-fluid">
                                 <div class="span12">
                                     <div class="row-fluid">
-                                        <label class="form-label span4" for="normal">cats_name</label>
-                                        <input class="span8" id="normalInput" type="text" name="cats[cats_name]" value="<?= (isset($listing)) ? $listing['cats_name'] : '' ?>" />
+                                        <label class="form-label span4" for="normal">post_description</label>
+                                        <textarea class="span8 elastic" id="textarea1" name="post[post_description]" rows="3"><?= (isset($listing)) ? $listing['post_description'] : '' ?></textarea>
                                     </div>
                                 </div>
                             </div>    
@@ -86,8 +86,8 @@
                             <div class="form-row row-fluid">
                                 <div class="span12">
                                     <div class="row-fluid">
-                                        <label class="form-label span4" for="normal">cats_desc</label>
-                                        <input class="span8" id="normalInput" type="text" name="cats[cats_desc]" value="<?= (isset($listing)) ? $listing['cats_desc'] : '' ?>" />
+                                        <label class="form-label span4" for="normal">post_intro</label>
+                                        <textarea class="span8 elastic" id="textarea2" name="post[post_intro]" rows="3"><?= (isset($listing)) ? $listing['post_intro'] : '' ?></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -95,8 +95,8 @@
                             <div class="form-row row-fluid">
                                 <div class="span12">
                                     <div class="row-fluid">
-                                        <label class="form-label span4" for="normal">cats_url</label>
-                                        <input class="span8" id="normalInput" type="text" name="cats[cats_url]" value="<?= (isset($listing)) ? $listing['cats_url'] : '' ?>" />
+                                        <label class="form-label span4" for="normal">post_title</label>
+                                        <input class="span8" id="normalInput" type="text" name="post[post_title]" value="<?= (isset($listing)) ? $listing['post_title'] : '' ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -104,8 +104,8 @@
                             <div class="form-row row-fluid">
                                 <div class="span12">
                                     <div class="row-fluid">
-                                        <label class="form-label span4" for="normal">type</label>
-                                        <input class="span8" id="normalInput" type="text" name="cats[type]" value="<?= (isset($listing)) ? $listing['type'] : '' ?>" />
+                                        <label class="form-label span4" for="normal">post_status</label>
+                                        <input class="span8" id="normalInput" type="text" name="post[post_status]" value="<?= (isset($listing)) ? $listing['post_status'] : '' ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -113,8 +113,53 @@
                             <div class="form-row row-fluid">
                                 <div class="span12">
                                     <div class="row-fluid">
-                                        <label class="form-label span4" for="normal">lang_id</label>
-                                        <input class="span8" id="normalInput" type="text" name="cats[lang_id]" value="<?= (isset($listing)) ? $listing['lang_id'] : '' ?>" />
+                                        <label class="form-label span4" for="normal">post_name</label>
+                                        <input class="span8" id="normalInput" type="text" name="post[post_name]" value="<?= (isset($listing)) ? $listing['post_name'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">post_excerpt</label>
+                                        <input class="span8" id="normalInput" type="text" name="post[post_excerpt]" value="<?= (isset($listing)) ? $listing['post_excerpt'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">to_ping</label>
+                                        <input class="span8" id="normalInput" type="text" name="post[to_ping]" value="<?= (isset($listing)) ? $listing['to_ping'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">pinged</label>
+                                        <input class="span8" id="normalInput" type="text" name="post[pinged]" value="<?= (isset($listing)) ? $listing['pinged'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">post_type</label>
+                                        <input class="span8" id="normalInput" type="text" name="post[post_type]" value="<?= (isset($listing)) ? $listing['post_type'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">cats_id</label>
+                                        <input class="span8" id="normalInput" type="text" name="post[cats_id]" value="<?= (isset($listing)) ? $listing['cats_id'] : '' ?>" />
                                     </div>
                                 </div>
                             </div>
