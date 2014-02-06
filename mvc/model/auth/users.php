@@ -37,12 +37,12 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
             
             if(!$_session = $this -> getSessionValidate( $this->_login, $this->_password )) :
             
-                $_query = self::$db -> query("SELECT UserID as id, 
-                                                     UserName as login, 
-                                                     Email as email
+                $_query = self::$db -> query("SELECT userID as id, 
+                                                     login as login, 
+                                                     email as email
                                               FROM ".$this->_tableName." 
-                                              WHERE (UserName = '".$this->_login."' OR Email = '".$this->_login."') 
-                                                        AND Password = '".$this->_password."' ", array('target'=>'main'), array())
+                                              WHERE (login = '".$this->_login."' OR email = '".$this->_login."') 
+                                                        AND password = '".$this->_password."' ", array('target'=>'main'), array())
                                         -> fetchAll();          
                 if(is_array($_query) and count($_query) > 0):
                     $this->_users = (object) array_merge( (array)array_shift($_query), ['validate' => true] );
