@@ -21,7 +21,7 @@ abstract class CApplication extends \CModule
 	 */
 	public $sourceLanguage='en_us';
         
-        private $_cacheInstance = null;
+        private $_cacheInstance = false; // true or false
 
 	private $_id;
 	private $_basePath;
@@ -582,17 +582,16 @@ abstract class CApplication extends \CModule
 	 */
 	public function getMemcaches()
 	{
-                if (!extension_loaded("memcache")) {
-                        throw new \CException(\init::t('init','memcache not installed. Skipping.'));
-			// $this->markTestSkipped("memcache not installed. Skipping.");
-                       // this fatal error ( not connected memcached! )
-		}
-
-		if ($this->_cacheInstance === null) {
+                
+		if ($this->_cacheInstance != false) {
+                        if (!extension_loaded("memcache")) {
+                            throw new \CException(\init::t('init','memcache not installed. Skipping.'));
+                            // $this->markTestSkipped("memcache not installed. Skipping.");
+                        // this fatal error ( not connected memcached! )
+                        }
+                    
 			$this->_cacheInstance = $this->getComponent('memcache');
 		}
-		return $this->_cacheInstance;
-            
 		return $this->_cacheInstance;
 	}
         
