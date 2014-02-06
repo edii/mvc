@@ -95,7 +95,10 @@
                                 $lavel = 1;
                                 foreach($section_list as $_key => $_item): ?>
                                     <li id="custom">
-                                        <div class="item-sorttable w-20 left"><a class="tabledrag" href="#"><?= $lavel ?></a></div>
+                                        <div class="item-sorttable w-20 left">  
+                                            <a class="tabledrag" href="#"><?= $lavel ?></a>
+                                            <span id="sections" class="open-subcat"> sub </span>
+                                        </div>
                                         <div class="item-sorttable w-100 left"><?= $_item['TimeCreated'] ?></div>
                                         <div class="item-sorttable w-100 left"><?= $_item['SectionAlias'] ?></div>
                                         <div class="item-sorttable w-100 left"><?= $_item['UserID'] ?></div>
