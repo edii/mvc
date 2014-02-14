@@ -2,7 +2,7 @@
 
 class HomeController extends \Controller
 {
-	public $layout = 'column2'; //'column1'
+	public $layout = 'test'; //'column1'
 
 	private $_model;
 
@@ -64,7 +64,7 @@ class HomeController extends \Controller
 
 	public function actionIndex()
 	{
-            $this->layout( 'column1' );
+            $this->layout( 'test' );
             
             //  \init::app()->setTheme( 'column2' );
             

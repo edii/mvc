@@ -2,7 +2,7 @@
 
 class TestController extends \Controller
 {
-	public $layout = false;
+	public $layout = 'column1';
 	private $_model;
 
 	public function filters() {
@@ -65,7 +65,10 @@ class TestController extends \Controller
 	 */
 	public function actionIndex()
 	{
+            $this->layout( 'test' );
             
+            echo 'Blaaaaaaaaaaaaa';
+
             $dataProvider = ['blaaa', 'ddddd'];
             
             $this->render('index', array(
