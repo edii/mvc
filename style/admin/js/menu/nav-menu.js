@@ -576,6 +576,8 @@ var wpNavMenu;
 			menuEdge += api.isRTL ? api.menuList.width() : 0;
 
 			api.menuList.sortable({
+                                items: 'li:not(#head)', 
+                                //cancel: "li:not(#custom)",
 				handle: '.menu-item-handle',
 				placeholder: 'sortable-placeholder',
 				start: function(e, ui) {

@@ -126,9 +126,9 @@
                                     
                                     <?php
                                       // childs
-//                                      if(isset($_item['childs']) and !empty($_item['childs'])) :
-//                                          $this -> renderView('childs', array('childs_list' => $_item['childs'], 'lavel' => $lavel));
-//                                      endif; 
+                                      if(isset($_item['childs']) and !empty($_item['childs'])) :
+                                          $this -> renderView('childs', array('childs_list' => $_item['childs'], 'lavel' => $lavel));
+                                      endif; 
                                     ?>
                                         
                                 <?php endforeach; ?>
