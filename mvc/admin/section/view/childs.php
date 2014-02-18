@@ -7,7 +7,7 @@
         $_nbsp .= '<div class="iteration">-</div>';
     }
     foreach($childs_list as $_key => $_item): ?>
-        <li id="custom" class="menu-item-depth-<?= $lavel ?>">
+        <li id="menu-item-<?= $_item['SectionID'] ?>" class="menu-item menu-item-depth-<?= $lavel ?> menu-item-edit-inactive">
             
             <dl class="menu-item-bar clearfix">
                 <dt class="menu-item-handle clearfix">
