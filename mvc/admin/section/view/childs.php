@@ -9,8 +9,8 @@
     foreach($childs_list as $_key => $_item): ?>
         <li id="custom" class="menu-item-depth-<?= $lavel ?>">
             
-            <dl class="menu-item-bar">
-                <dt class="menu-item-handle">
+            <dl class="menu-item-bar clearfix">
+                <dt class="menu-item-handle clearfix">
                     <div class="item-sorttable w-20 left">
                         <?= $_nbsp ?>
                         <a class="tabledrag" href="#"> <?= $lavel ++ ?>  </a>

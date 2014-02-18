@@ -96,8 +96,8 @@
                                 foreach($section_list as $_key => $_item): ?>
                                     <li id="menu-item-<?= $_item['SectionID'] ?>" class="menu-item menu-item-depth-<?= $lavel ?> menu-item-edit-inactive"> <?php //custom ?>
                                         
-                                        <dl class="menu-item-bar">
-                                            <dt class="menu-item-handle">
+                                        <dl class="menu-item-bar clearfix">
+                                            <dt class="menu-item-handle clearfix">
                                                 <div class="item-sorttable w-20 left">  
                                                     <a class="item-edit tabledrag" href="#"><?= $lavel ?></a>
                                                     <span id="sections" class="open-subcat"> sub </span>
