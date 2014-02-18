@@ -36,25 +36,25 @@ var wpNavMenu;
 
 			this.jQueryExtensions();
 
-			this.attachMenuEditListeners();
-
-			this.setupInputWithDefaultTitle();
-			this.attachQuickSearchListeners();
-			this.attachThemeLocationsListeners();
-
-			this.attachTabsPanelListeners();
-
-			this.attachUnsavedChangesListener();
+//			this.attachMenuEditListeners();
+//
+//			this.setupInputWithDefaultTitle();
+//			this.attachQuickSearchListeners();
+//			this.attachThemeLocationsListeners();
+//
+//			this.attachTabsPanelListeners();
+//
+//			this.attachUnsavedChangesListener();
 
 			if ( api.menuList.length )
 				this.initSortables();
 
 //			if ( menus.oneThemeLocationNoMenus )
 //				$( '#posttype-page' ).addSelectedToMenu( api.addMenuItemToBottom );
-
-			this.initManageLocations();
-
-			this.initAccessibility();
+//
+//			this.initManageLocations();
+//
+//			this.initAccessibility();
 
 //			this.initToggles();
 		},
@@ -569,8 +569,8 @@ var wpNavMenu;
 				body = $('body'), maxChildDepth,
 				menuMaxDepth = initialMenuMaxDepth();
 
-			if( 0 !== $( '#menu-to-edit li' ).length )
-				$( '.drag-instructions' ).show();
+			// if( 0 !== $( '#menu-to-edit li' ).length )
+				// $( '.drag-instructions' ).show();
 
 			// Use the right edge if RTL.
 			menuEdge += api.isRTL ? api.menuList.width() : 0;
