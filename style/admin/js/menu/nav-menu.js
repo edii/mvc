@@ -49,14 +49,14 @@ var wpNavMenu;
 			if ( api.menuList.length )
 				this.initSortables();
 
-			if ( menus.oneThemeLocationNoMenus )
-				$( '#posttype-page' ).addSelectedToMenu( api.addMenuItemToBottom );
+//			if ( menus.oneThemeLocationNoMenus )
+//				$( '#posttype-page' ).addSelectedToMenu( api.addMenuItemToBottom );
 
 			this.initManageLocations();
 
 			this.initAccessibility();
 
-			this.initToggles();
+//			this.initToggles();
 		},
 
 		jQueryExtensions : function() {
@@ -426,7 +426,9 @@ var wpNavMenu;
 					prevItemNameRight = menuItem.prevAll('.menu-item-depth-' + depth).first().find( '.menu-item-title' ).text(),
 					totalMenuItems = $('#menu-to-edit li').length,
 					hasSameDepthSibling = menuItem.nextAll( '.menu-item-depth-' + depth ).length;
-
+                                     
+                                /*     
+                                     
 				// Where can they move this menu item?
 				if ( 0 !== position ) {
 					thisLink = menuItem.find( '.menus-move-up' );
@@ -481,7 +483,11 @@ var wpNavMenu;
 				}
 
 				$this.prop('title', title).html( title );
+                                */
+                                
 			});
+                        
+                        
 		},
 
 		refreshKeyboardAccessibility : function() {

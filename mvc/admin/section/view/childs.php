@@ -1,5 +1,5 @@
 <?php if(is_array($childs_list) and count($childs_list) > 0): ?>
-   <ul class="sortable subcat-section section hidden">
+<!--   <ul class="sortable subcat-section section hidden">-->
     <?php 
     $lavel += 1;
     $_nbsp = '';
@@ -7,10 +7,10 @@
         $_nbsp .= '<div class="iteration">-</div>';
     }
     foreach($childs_list as $_key => $_item): ?>
-        <li id="custom">
+        <li id="custom" class="menu-item-depth-<?= $lavel ?>">
             <div class="item-sorttable w-20 left">
                 <?= $_nbsp ?>
-                <a class="tabledrag" href="#"> <?= $lavel ?>  </a>
+                <a class="tabledrag" href="#"> <?= $lavel ++ ?>  </a>
                 <span id="sections" class="open-subcat"> sub </span>
             </div>
             <div class="item-sorttable w-100 left"><?= $_item['TimeCreated'] ?></div>
@@ -37,5 +37,5 @@
           endif; ?>
 
     <?php endforeach; ?>
-   </ul>      
+<!--   </ul>      -->
   <?php endif; ?> 

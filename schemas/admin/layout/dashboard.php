@@ -48,6 +48,10 @@
 
     <!--[if IE 8]><link href="/style/admin/css/ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
     
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script type="text/javascript" src="/style/admin/js/libs/excanvas.min.js"></script>
@@ -69,6 +73,9 @@
     <!-- Load modernizr first -->
     <script type="text/javascript" src="/style/admin/js/libs/modernizr.js"></script>
 
+     <!-- nav-menu -->
+    <script type="text/javascript" src="/style/admin/js/menu/nav-menu.js"></script>
+    
     </head>
       
     <body>
@@ -141,9 +148,7 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Important plugins put in all pages -->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    
     <script type="text/javascript" src="/style/admin/js/bootstrap/bootstrap.js"></script>  
     <script type="text/javascript" src="/style/admin/js/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="/style/admin/js/libs/jRespond.min.js"></script>
@@ -174,6 +179,8 @@
     <!-- Init plugins -->
     <script type="text/javascript" src="/style/admin/js/main.js"></script><!-- Core js functions -->
     <script type="text/javascript" src="/style/admin/js/dashboard.js"></script><!-- Init plugins only for page -->
+    
+   
     
     <!-- Error -->
     <script type="text/javascript" src="/style/admin/js/error.js"></script><!-- Error js functions -->
