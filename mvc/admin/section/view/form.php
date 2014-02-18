@@ -114,7 +114,7 @@
 //                                                2 => array('t3' => 'test3'),
 //                                            );
                                         
-                                        $_listOptions = array(
+                                        /*$_listOptions = array(
                                               'value1' => array('disabled' => true),
                                               'value2' => array('label' => 'value 2'),
                                          );
@@ -122,6 +122,7 @@
                                            
                                             // echo \CHtml::dropDownList('test[]', 't3', $_listOptions);
                                             echo \CHtml::activeDropDownList(array('formName' => 'section', 't3' => true), 't3', $_listOptions);
+                                         */
                                         ?>
                                         
                                         <label class="form-label span4" for="normal">SectionParentID</label>
