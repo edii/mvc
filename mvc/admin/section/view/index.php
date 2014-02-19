@@ -73,7 +73,7 @@
                     <div class="content noPad clearfix">
                         
                         
-                        <ul class="sortable section clearfix">
+                        <ul id="menu-to-edit" class="menu ui-sortable sortable section clearfix">
                             <li id="head">
                                 <div class="item-sorttable w-20 left font-bold">#</div>
                                 <div class="item-sorttable w-100 left font-bold">TimeCreated</div>
@@ -89,41 +89,47 @@
                             </li>
                            
                                 <?php 
-                              // var_dump($section_list); die('stop');
+                               //var_dump($section_list); die('stop');
                               if(is_array($section_list) and count($section_list) > 0): ?>
                                 <?php 
-                                $lavel = 1;
+                                $lavel = 0;
                                 foreach($section_list as $_key => $_item): ?>
-                                    <li id="custom">
-                                        <div class="item-sorttable w-20 left">  
-                                            <a class="tabledrag" href="#"><?= $lavel ?></a>
-                                            <span id="sections" class="open-subcat"> sub </span>
-                                        </div>
-                                        <div class="item-sorttable w-100 left"><?= $_item['TimeCreated'] ?></div>
-                                        <div class="item-sorttable w-100 left"><?= $_item['SectionAlias'] ?></div>
-                                        <div class="item-sorttable w-100 left"><?= $_item['UserID'] ?></div>
-                                        <div class="item-sorttable w-100 left"><?= $_item['SectionType'] ?></div>
-                                        <div class="item-sorttable w-100 left"><?= $_item['SectionName'] ?></div>
-                                        <div class="item-sorttable w-100 left"><?= $_item['SectionController'] ?></div>
-                                        <div class="item-sorttable w-100 left"><?= $_item['SectionAction'] ?></div>
+                                    <li id="menu-item-<?= $_item['SectionID'] ?>" class="menu-item menu-item-depth-<?= $lavel ?> menu-item-edit-inactive"> <?php //custom ?>
                                         
-                                        <div class="item-sorttable ch Children left"><input type="checkbox" name="checkbox" value="1" class="styled" /></div>
-                                        <div class="action right">
-                                            <div class="controls center">
-                                                <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $_item['SectionID'] ?>" title="Редактировать Section" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
-                                                <a class="delete" href="<?= $this->_getUrl() ?>/delete/id/<?= $_item['SectionID'] ?>" title="Удалить Section" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
-                                            </div>
-                                        </div>
+                                        <dl class="menu-item-bar clearfix">
+                                            <dt class="menu-item-handle clearfix">
+                                                <div class="item-sorttable w-20 left">  
+                                                    <a class="item-edit tabledrag" href="#"><?= $lavel ?></a>
+                                                    <span id="sections" class="open-subcat"> sub </span>
+                                                </div>
+                                                <div class="item-sorttable w-100 left"><?= $_item['TimeCreated'] ?></div>
+                                                <div class="item-sorttable w-100 left"><?= $_item['SectionAlias'] ?></div>
+                                                <div class="item-sorttable w-100 left"><?= $_item['UserID'] ?></div>
+                                                <div class="item-sorttable w-100 left"><?= $_item['SectionType'] ?></div>
+                                                <div class="item-sorttable w-100 left"><?= $_item['SectionName'] ?></div>
+                                                <div class="item-sorttable w-100 left"><?= $_item['SectionController'] ?></div>
+                                                <div class="item-sorttable w-100 left"><?= $_item['SectionAction'] ?></div>
+
+                                                <div class="item-sorttable ch Children left"><input type="checkbox" name="checkbox" value="1" class="styled" /></div>
+                                                <div class="action right">
+                                                    <div class="controls center">
+                                                        <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $_item['SectionID'] ?>" title="Редактировать Section" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
+                                                        <a class="delete" href="<?= $this->_getUrl() ?>/delete/id/<?= $_item['SectionID'] ?>" title="Удалить Section" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
+                                                    </div>
+                                                </div>
+                                            </dt>
+                                        </dl>
+                                        <ul class="menu-item-transport"></ul>
+                                        
                                       
-                                      
-                                      <?php
+                                    </li>  
+                                    
+                                    <?php
                                       // childs
                                       if(isset($_item['childs']) and !empty($_item['childs'])) :
                                           $this -> renderView('childs', array('childs_list' => $_item['childs'], 'lavel' => $lavel));
                                       endif; 
-                                      ?>
-                                      
-                                    </li>  
+                                    ?>
                                         
                                 <?php endforeach; ?>
                               <?php endif; ?>  

@@ -3538,8 +3538,8 @@ div.iteration {
     padding: 0px;
 }
 
-.sortable li.placeholder {
-    height: 37px;
+.sortable li.placeholder, .sortable li.sortable-placeholder {
+    height: 20px;
     content: "";
     background-color: #FBF9EE;
     border: 1px solid #FCEFA1;

@@ -1,4 +1,4 @@
----------------------------------------- start --------- column1
+---------------------------------------- start --------- Makslolo
 <?php $this->beginContent(); ?>
 <div class="container">
 	<div id="content">

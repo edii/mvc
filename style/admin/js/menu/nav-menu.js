@@ -36,27 +36,27 @@ var wpNavMenu;
 
 			this.jQueryExtensions();
 
-			this.attachMenuEditListeners();
-
-			this.setupInputWithDefaultTitle();
-			this.attachQuickSearchListeners();
-			this.attachThemeLocationsListeners();
-
-			this.attachTabsPanelListeners();
-
-			this.attachUnsavedChangesListener();
+//			this.attachMenuEditListeners();
+//
+//			this.setupInputWithDefaultTitle();
+//			this.attachQuickSearchListeners();
+//			this.attachThemeLocationsListeners();
+//
+//			this.attachTabsPanelListeners();
+//
+//			this.attachUnsavedChangesListener();
 
 			if ( api.menuList.length )
 				this.initSortables();
 
-			if ( menus.oneThemeLocationNoMenus )
-				$( '#posttype-page' ).addSelectedToMenu( api.addMenuItemToBottom );
+//			if ( menus.oneThemeLocationNoMenus )
+//				$( '#posttype-page' ).addSelectedToMenu( api.addMenuItemToBottom );
+//
+//			this.initManageLocations();
+//
+//			this.initAccessibility();
 
-			this.initManageLocations();
-
-			this.initAccessibility();
-
-			this.initToggles();
+//			this.initToggles();
 		},
 
 		jQueryExtensions : function() {
@@ -426,7 +426,9 @@ var wpNavMenu;
 					prevItemNameRight = menuItem.prevAll('.menu-item-depth-' + depth).first().find( '.menu-item-title' ).text(),
 					totalMenuItems = $('#menu-to-edit li').length,
 					hasSameDepthSibling = menuItem.nextAll( '.menu-item-depth-' + depth ).length;
-
+                                     
+                                /*     
+                                     
 				// Where can they move this menu item?
 				if ( 0 !== position ) {
 					thisLink = menuItem.find( '.menus-move-up' );
@@ -481,7 +483,11 @@ var wpNavMenu;
 				}
 
 				$this.prop('title', title).html( title );
+                                */
+                                
 			});
+                        
+                        
 		},
 
 		refreshKeyboardAccessibility : function() {
@@ -563,13 +569,15 @@ var wpNavMenu;
 				body = $('body'), maxChildDepth,
 				menuMaxDepth = initialMenuMaxDepth();
 
-			if( 0 !== $( '#menu-to-edit li' ).length )
-				$( '.drag-instructions' ).show();
+			// if( 0 !== $( '#menu-to-edit li' ).length )
+				// $( '.drag-instructions' ).show();
 
 			// Use the right edge if RTL.
 			menuEdge += api.isRTL ? api.menuList.width() : 0;
 
 			api.menuList.sortable({
+                                items: 'li:not(#head)', 
+                                //cancel: "li:not(#custom)",
 				handle: '.menu-item-handle',
 				placeholder: 'sortable-placeholder',
 				start: function(e, ui) {
