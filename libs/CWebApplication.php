@@ -385,12 +385,10 @@ class CWebApplication extends \CApplication {
                 
                 if($owner===null)
                     $owner=$this;
-                //var_dump($route);die('stop');
                 if( trim($route,'/') !== '' and _detected == 'front') {
                     
                     // load section
-                    if($_section = $this->getTreeSection() and is_array($_section) and count($_section) > 0) {
-                        // echo "FRONT BLAAAAAAAAAA"; die('stop');
+                    if($_section = $this->getTreeSection() and is_array($_section) and count($_section) > 0 and $_box == false) {
                         if(isset($_section['Controller']) and !empty($_section['Controller'])) {
                             $_sec_action = (isset($_section['Action']) and !empty($_section['Action'])) ? $_section['Action'] : 'index';
                             $route = $_section['Controller'].'/'.$_sec_action; 
