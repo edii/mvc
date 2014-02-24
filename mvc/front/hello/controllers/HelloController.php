@@ -2,7 +2,7 @@
 
 class HelloController extends \Controller
 {
-	public $layout = 'column1'; //'column1'
+	public $layout = 'test'; //'column1'
 
 	private $_model;
 
@@ -88,25 +88,32 @@ class HelloController extends \Controller
 
 	public function actionIndex() {
             
-            
+//            echo '<pre>';
+//            var_dump(\init::app()->getTreeSection());
+//            echo '</pre>';
+//            die("STOP");
                     
             //echo "path = ".PATH; die('stop');
                     
             //$img = ResizeImages::createImage(PATH.'/style/front/image/sisky.jpg');
             //$img->cropCenter('4pr', '3pr')->save(PATH.'/style/front/image/crop_image.jpg');
             
-             echo "layout ---- = ".$this->layout;
-             echo "<hr />";
+//             echo "layout ---- = ".$this->layout;
+//             echo "<hr />";
+//            
+//            $themes = \init::app()->getTheme( 'home' );
+//                   
+//            $_gets = $this->getActionParams();
+//            
+//            $dataProvider = ['blaaa', 'ddddd'];
+//            
+//            
+//            $this->render('index', array(
+//			'dataProvider'=>$dataProvider,
+//		));
             
-            $themes = \init::app()->getTheme( 'home' );
-                   
-            $_gets = $this->getActionParams();
-            
-            $dataProvider = ['blaaa', 'ddddd'];
-            
-            
-            $this->render('index', array(
-			'dataProvider'=>$dataProvider,
-		));
+            $this->layout( false );
+ 
+            $this->render('index'); 
 	}
 }

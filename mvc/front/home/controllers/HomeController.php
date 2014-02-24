@@ -66,12 +66,44 @@ class HomeController extends \Controller
 	{
             $this->layout( 'test' );
             
-            //  \init::app()->setTheme( 'column2' );
-            
-            $dataProvider = ['blaaa', 'ddddd'];
-            
-            $this->render('index', array(
-                    'dataProvider'=>$dataProvider,
-            )); 
+//            $_db = new CDatabase( 'main', NULL);
+//            
+//            $options['target'] = 'main';   
+//            $args = array();
+//             
+//            $_connector = $_db->getConnection();
+//            $_dbdefionitions = $_db->getDatabaseDefinition();
+//            
+//            $front_section = $_connector -> query("SELECT s.SectionID, s.hidden, s.SectionAlias, s.SectionInMenu, s.SectionParentID, s.SectionName, s.SectionTitle, s.SectionDescription, s.SectionKeywords, s.SectionUrl "
+//                                            . " FROM `section` AS s WHERE SectionType = 'front'", $args, $options)-> fetchAll();
+//            
+//            
+////            echo '<pre>';
+////            var_dump($front_section);
+////            echo '</pre>';
+////            die("STOP");
+//            
+//            
+            $this->render('index'); 
 	}
+       
+        public function actionMenu() {
+            
+            $_db = new CDatabase( 'main', NULL);
+            
+            $options['target'] = 'main';   
+            $args = array();
+             
+            $_connector = $_db->getConnection();
+           $_dbdefionitions = $_db->getDatabaseDefinition();
+            
+            $front_section = $_connector -> query("SELECT s.SectionID, s.hidden, s.SectionAlias, s.SectionInMenu, s.SectionParentID, s.SectionName, "
+                                            . "s.SectionTitle, s.SectionDescription, s.SectionKeywords, s.SectionUrl "
+                                            . " FROM `section` AS s WHERE SectionType = 'front'", $args, $options)-> fetchAll();
+            
+            $this->render('menu', array(
+                'front_section'=>$front_section,
+                'sections_actual' => \init::app()->getTreeSection(),
+            ));
+        }
 }

@@ -1,7 +1,1 @@
-<hr />
-    <b> Hello world </b>
-<hr />
-Maks Sonechlo!
-
-
-index
+<div style="color: #00620C;"><?php echo "HELLO/INDEX"; ?></div>
