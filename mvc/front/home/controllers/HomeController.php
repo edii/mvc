@@ -106,4 +106,8 @@ class HomeController extends \Controller
                 'sections_actual' => \init::app()->getTreeSection(),
             ));
         }
+        
+        public function actionCarousel() {
+            $this->render('carousel');
+        }
 }

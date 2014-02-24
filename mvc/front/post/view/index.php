@@ -1,1 +1,1 @@
-<div style="color: #00620C;"><?php echo "HELLO/INDEX"; ?></div>
+<div style="color: #00620C;"><?php echo "POST/INDEX"; ?></div>
