@@ -33,10 +33,14 @@ class SectionController extends \Controller
             
             $_tree = \init::app() -> getCTree()-> set( $_items, array('id' => 'SectionID', 'p_id' => 'SectionParentID') ) -> get();
             
+            $validate = $this -> _users -> getRight();
+            if(!$validate)
+                $this -> redirect('/'._request_uri.'/home/login');
+            
             $this->render('index', array(
                 'sections_actual' => \init::app()->getTreeSection(),
                 'section_list'   => $_tree,
-                'validate'  => $this -> _users -> getRight(),
+                'validate'  => $validate,
                 '_lang' => $_lang
             ));
 	}
@@ -78,14 +82,16 @@ class SectionController extends \Controller
             }
             
             // update info
-           
+            $validate = $this -> _users -> getRight();
+            if(!$validate)
+                $this -> redirect('/'._request_uri.'/home/login');
                
             if(!$_error) {   
                 $this->render('form',array(
                     'title'   => $_title,
                     'sections_actual' => \init::app()->getTreeSection(),
                     'listing'   => $this->_msection -> getSectionID($_id),
-                    'validate'  => $this -> _users -> getRight(),
+                    'validate'  => $validate,
                     '_session'  =>  $this -> _users -> getValidate() -> getSession()
                 ));
             } else {

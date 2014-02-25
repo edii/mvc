@@ -25,10 +25,14 @@ class CatsController extends \Controller
         public function actionIndex() {
             $this->layout( false );
             
+            $validate = $this -> _users -> getRight();
+            if(!$validate)
+                $this -> redirect('/'._request_uri.'/home/login');
+            
             $this->render('index', array(
                         'sections_actual' => \init::app()->getTreeSection(),
                         'listing'   => $this->_mcats -> getCats(),
-                        'validate'  => $this -> _users -> getRight(),
+                        'validate'  => $validate,
                         '_session'  =>  $this -> _users -> getValidate() -> getSession()
                     ));
 
@@ -71,14 +75,16 @@ class CatsController extends \Controller
             }
             
             // update info
-           
+            $validate = $this -> _users -> getRight();
+            if(!$validate)
+                $this -> redirect('/'._request_uri.'/home/login');
                
             if(!$_error) {   
                 $this->render('form',array(
                     'title'   => $_title,
                     'sections_actual' => \init::app()->getTreeSection(),
                     'listing'   => $this->_mcats -> getCatsID($_id),
-                    'validate'  => $this -> _users -> getRight(),
+                    'validate'  => $validate,
                     '_session'  =>  $this -> _users -> getValidate() -> getSession()
                 ));
             } else {
