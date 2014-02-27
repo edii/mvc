@@ -200,6 +200,16 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                                
+                            <div class="form-row row-fluid">
+                                <div class="span12">
+                                    <div class="row-fluid">
+                                        <label class="form-label span4" for="normal">SectionInMenu</label>
+                                        <input class="span8" id="normalInput" type="text" name="section[SectionInMenu]" value="<?= (isset($listing)) ? $listing['SectionInMenu'] : '' ?>" />
+                                    </div>
+                                </div>
+                            </div>
                              
         
                             <div class="form-actions">
