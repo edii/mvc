@@ -106,7 +106,7 @@ class SectionController extends \Controller
             $_id = \init::app() ->getRequest() -> getParam('id');
             $this -> _msection -> delete(array('SectionID' => $_id));
             
-            $this ->redirect('/'._request_uri.'/section/');
+            $this ->redirect('/'._request_uri.'/section');
         }
         
 }
