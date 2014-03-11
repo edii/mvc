@@ -76,6 +76,7 @@
                         <ul id="menu-to-edit" class="menu ui-sortable sortable section clearfix">
                             <li id="head">
                                 <div class="item-sorttable w-20 left font-bold">#</div>
+                                <div class="item-sorttable w-20 left font-bold">ID</div>
                                 <div class="item-sorttable w-100 left font-bold">TimeCreated</div>
                                 <div class="item-sorttable w-100 left font-bold">Alias</div>
                                 <div class="item-sorttable w-100 left font-bold">UserID</div>
@@ -102,6 +103,7 @@
                                                     <a class="item-edit tabledrag" href="#"><?= $lavel ?></a>
                                                     <span id="sections" class="open-subcat"> sub </span>
                                                 </div>
+                                                <div class="item-sorttable w-20 sections-list-collumn left"><?= $_item['SectionID'] ?></div>
                                                 <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['TimeCreated'] ?></div>
                                                 <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['SectionAlias'] ?></div>
                                                 <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['UserID'] ?></div>
