@@ -98,19 +98,19 @@
                                         
                                         <dl class="menu-item-bar clearfix">
                                             <dt class="menu-item-handle clearfix">
-                                                <div class="item-sorttable w-20 left">  
+                                                <div class="item-sorttable w-20 sections-list-collumn left">  
                                                     <a class="item-edit tabledrag" href="#"><?= $lavel ?></a>
                                                     <span id="sections" class="open-subcat"> sub </span>
                                                 </div>
-                                                <div class="item-sorttable w-100 left"><?= $_item['TimeCreated'] ?></div>
-                                                <div class="item-sorttable w-100 left"><?= $_item['SectionAlias'] ?></div>
-                                                <div class="item-sorttable w-100 left"><?= $_item['UserID'] ?></div>
-                                                <div class="item-sorttable w-100 left"><?= $_item['SectionType'] ?></div>
-                                                <div class="item-sorttable w-100 left"><?= $_item['SectionName'] ?></div>
-                                                <div class="item-sorttable w-100 left"><?= $_item['SectionController'] ?></div>
-                                                <div class="item-sorttable w-100 left"><?= $_item['SectionAction'] ?></div>
+                                                <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['TimeCreated'] ?></div>
+                                                <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['SectionAlias'] ?></div>
+                                                <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['UserID'] ?></div>
+                                                <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['SectionType'] ?></div>
+                                                <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['SectionName'] ?></div>
+                                                <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['SectionController'] ?></div>
+                                                <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['SectionAction'] ?></div>
 
-                                                <div class="item-sorttable ch Children left"><input type="checkbox" name="checkbox" value="1" class="styled" /></div>
+                                                <div class="item-sorttable sections-list-collumn ch Children left"><input type="checkbox" name="checkbox" value="1" class="styled" /></div>
                                                 <div class="action right">
                                                     <div class="controls center">
                                                         <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $_item['SectionID'] ?>" title="Редактировать Section" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>

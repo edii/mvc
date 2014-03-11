@@ -25,9 +25,13 @@ class UsersController extends \Controller
         public function actionIndex() {
             $this->layout( false );
             
+            $validate = $this -> _users -> getRight();
+            if(!$validate)
+                $this -> redirect('/'._request_uri.'/home/login');
+            
             $this->render('index', array(
                         'listing'   => $this -> _musers ->getUsers(),
-                        'validate'  => $this -> _users -> getRight(),
+                        'validate'  => $validate,
                         '_session'  =>  $this -> _users -> getValidate() -> getSession()
                     ));
 
@@ -66,13 +70,15 @@ class UsersController extends \Controller
             }
             
             // update info
-           
+            $validate = $this -> _users -> getRight();
+            if(!$validate)
+                $this -> redirect('/'._request_uri.'/home/login');
                
             if(!$_error) {   
                 $this->render('form',array(
                     'title'   => $_title,
                     'listing'   => $this->_musers -> getUserID($_id),
-                    'validate'  => $this -> _users -> getRight(),
+                    'validate'  => $validate,
                     '_session'  =>  $this -> _users -> getValidate() -> getSession()
                 ));
             } else {
