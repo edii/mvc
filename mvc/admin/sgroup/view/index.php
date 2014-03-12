@@ -94,8 +94,8 @@
                                         <td class="chChildren"><input type="checkbox" name="checkbox" value="1" class="styled" /></td>
                                         <td>
                                             <div class="controls center">
-                                                <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $_item -> SectionGroupID ?>" title="Редактировать категорию" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
-                                                <a class="delete" href="<?= $this->_getUrl() ?>/delete/id/<?= $_item -> SectionGroupID ?>" title="Удалить категорию" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
+                                                <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $_item -> SectionGroupID ?>" title="Редактировать групу" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
+                                                <a class="delete" href="<?= $this->_getUrl() ?>/delete/id/<?= $_item -> SectionGroupID ?>" title="Удалить групу" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
                                             </div>
                                         </td>
                                       </tr>

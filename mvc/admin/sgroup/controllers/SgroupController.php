@@ -101,7 +101,7 @@ class SgroupController extends \Controller
             $_id = \init::app() ->getRequest() -> getParam('id');
             $this -> _msgroup -> delete(array('SectionGroupID' => $_id));
             
-            $this ->redirect('/'._request_uri.'/sgroup/');
+            $this ->redirect('/'._request_uri.'/sgroup');
         }
         
 }
