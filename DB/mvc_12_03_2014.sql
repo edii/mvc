@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Час створення: Лют 27 2014 р., 11:25
+-- Час створення: Бер 12 2014 р., 14:54
 -- Версія сервера: 5.5.23
 -- Версія PHP: 5.4.21
 
@@ -5130,7 +5130,7 @@ CREATE TABLE IF NOT EXISTS `section` (
   FULLTEXT KEY `SectionContent` (`SectionContent`),
   FULLTEXT KEY `SectionKeywords` (`SectionKeywords`),
   FULLTEXT KEY `SectionDescription` (`SectionDescription`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=36 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=39 ;
 
 --
 -- Дамп даних таблиці `section`
@@ -5162,7 +5162,10 @@ INSERT INTO `section` (`SectionID`, `hidden`, `SectionInMenu`, `SectionAlias`, `
 (30, 0, 0, 'users', 'root', 'root', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, 'Users', 'Users', NULL, NULL, NULL, '', '', 0, '', 'users', 'index', 'index', 'users', NULL),
 (35, 0, 0, 'user', 'root', 'root', '2014-02-27 09:32:52', '0000-00-00 00:00:00', 'front', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, 'User', NULL, NULL, NULL, NULL, '', '', 0, '', 'user', 'index', 'index', 'user', NULL),
 (33, 0, 1, 'post', 'root', 'root', '2014-02-21 17:44:00', '2014-02-27 10:31:20', 'front', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, 'post', NULL, NULL, NULL, NULL, '', '', 0, '', 'post', 'index', 'index', 'post', NULL),
-(34, 0, 1, 'manager', 'root', 'root', '2014-02-25 15:40:49', '0000-00-00 00:00:00', 'admin', '', '30', '', '', '', '', NULL, NULL, NULL, NULL, 'User manager (Edit/Add)', NULL, NULL, NULL, NULL, '', '', 0, '', 'users', 'manager', 'index', 'users/manager', NULL);
+(34, 0, 1, 'manager', 'root', 'root', '2014-02-25 15:40:49', '0000-00-00 00:00:00', 'admin', '', '30', '', '', '', '', NULL, NULL, NULL, NULL, 'User manager (Edit/Add)', NULL, NULL, NULL, NULL, '', '', 0, '', 'users', 'manager', 'index', 'users/manager', NULL),
+(36, 0, 0, 'sgroup', 'root', 'root', '2014-03-11 19:13:20', '0000-00-00 00:00:00', 'admin', '', '0', '', '', '', '', NULL, NULL, NULL, NULL, 'Меню', NULL, NULL, NULL, NULL, '', '', 0, '', 'sgroup', 'index', 'index', 'sgroup', NULL),
+(37, 0, 1, 'manager', 'root', 'root', '2014-03-11 20:11:33', '2014-03-11 23:15:05', 'admin', '', '36', '', '', '', '', NULL, NULL, NULL, NULL, 'Manager Section Group', NULL, NULL, NULL, NULL, '', '', 0, '', 'sgroup', 'manager', 'index', 'sgroup/manager', NULL),
+(38, 0, 1, 'delete', 'root', 'root', '2014-03-11 20:51:27', '2014-03-11 23:14:48', 'admin', '', '36', '', '', '', '', NULL, NULL, NULL, NULL, 'Delete', NULL, NULL, NULL, NULL, '', '', 0, '', 'sgroup', 'delete', 'index', 'sgroup/delete', NULL);
 
 -- --------------------------------------------------------
 
@@ -5171,7 +5174,7 @@ INSERT INTO `section` (`SectionID`, `hidden`, `SectionInMenu`, `SectionAlias`, `
 --
 
 CREATE TABLE IF NOT EXISTS `sectiongroup` (
-  `SectionGroupID` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `SectionGroupID` int(11) NOT NULL AUTO_INCREMENT,
   `SectionGroupCode` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT '',
   `OwnerID` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '',
   `UserID` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '',
@@ -5185,7 +5188,6 @@ CREATE TABLE IF NOT EXISTS `sectiongroup` (
   `SectionGroupModule` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '',
   `SectionGroupViewOptions` varchar(200) COLLATE utf8_bin NOT NULL DEFAULT '',
   PRIMARY KEY (`SectionGroupID`),
-  UNIQUE KEY `SectionTypeID` (`SectionGroupID`),
   KEY `SectionTypeAlias` (`SectionGroupCode`),
   KEY `OwnerID` (`OwnerID`),
   KEY `UserID` (`UserID`),
@@ -5197,49 +5199,16 @@ CREATE TABLE IF NOT EXISTS `sectiongroup` (
   KEY `TimeCreated` (`TimeCreated`,`TimeSaved`),
   FULLTEXT KEY `SectionGroupViewOptions_2` (`SectionGroupViewOptions`),
   FULLTEXT KEY `AccessGroups_2` (`AccessGroups`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=7 ;
 
 --
 -- Дамп даних таблиці `sectiongroup`
 --
 
 INSERT INTO `sectiongroup` (`SectionGroupID`, `SectionGroupCode`, `OwnerID`, `UserID`, `PermAll`, `TimeCreated`, `TimeSaved`, `SectionGroupName`, `AccessGroups`, `SectionGroupType`, `SectionGroupPosition`, `SectionGroupModule`, `SectionGroupViewOptions`) VALUES
-('1', 'main', '', '1', 0, '0000-00-00 00:00:00', '2008-04-30 13:36:32', '<en>Left menu</en><fr>Left menu</fr>', '|root|admin|content|owner|', 'layout', 10, 'core', ''),
-('2', 'top', '', '1', 0, '0000-00-00 00:00:00', '2010-06-20 21:00:52', '<ua>Top menu</ua><ru>Top menu</ru><us>Top menu</us><en>Top menu</en>', '|root|admin|content|owner|', 'menu', 8, 'core', '|allowners|virtual|'),
-('3', 'bottom', '', '1', 0, '0000-00-00 00:00:00', '2010-06-20 21:04:59', '<ua>Bottom menu</ua><ru>Bottom menu</ru><us>Bottom menu</us><en>Bottom menu</en>', '|root|admin|content|owner|', 'menu', 16, 'core', '|allowners|'),
-('4', 'system', '', '1', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '<fr>System sections</fr><en>System sections</en>', '|root|', 'system', 42, 'core', ''),
-('5', 'catalog', '', '1', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '<fr>Resources module sections</fr><en>Resources module sections</en>', '|root|admin|', 'system', 44, 'resource', ''),
-('6', 'adminmenu', '', '1', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '<fr>Admin menu</fr><en>Admin menu</en>', '|root|', 'system', 36, 'core', ''),
-('7', 'adminsystem', '', '1', 0, '0000-00-00 00:00:00', '2006-04-16 05:19:42', '<en>Admin system sections</en><fr>Admin system sections</fr>', '|root|', 'system', 48, 'core', ''),
-('9', 'additional', 'root', 'root', 0, '0000-00-00 00:00:00', '2010-10-10 21:17:32', '<ru>Additional pages / modules</ru><en>Additional pages / modules</en>', '|user|root|admin|content|owner|', 'menu', 20, 'core', '|sitemap|allowners|'),
-('16', 'billing', 'root', 'root', 0, '0000-00-00 00:00:00', '2006-04-16 05:19:55', '<en>Billing system sections</en><fr>Billing system sections</fr>', '|root|', 'system', 50, 'billing', ''),
-('17', 'adminfront', 'root', 'root', 0, '0000-00-00 00:00:00', '2008-04-30 13:37:38', '<en>Admin menu front-end</en><fr>Admin menu front-end</fr>', '|root|', 'layout', 32, 'core', '|sitemap|allowners|'),
-('18', 'mail', 'root', 'root', 0, '0000-00-00 00:00:00', '2006-04-16 05:20:07', '<en>Mail module sections</en><fr>Mail module sections</fr>', '|root|', 'system', 52, 'mail', ''),
-('22', 'design', 'root', 'root', 0, '0000-00-00 00:00:00', '2006-04-16 05:18:20', '<en>Design sections</en><fr>Design sections</fr>', '|root|admin|content|', 'layout', 30, 'core', ''),
-('20', 'help', 'root', 'root', 0, '0000-00-00 00:00:00', '2006-04-16 05:20:22', '<en>Help module sections</en><fr>Help module sections</fr>', '|root|', 'system', 54, 'help', ''),
-('21', 'banner', 'root', 'root', 0, '0000-00-00 00:00:00', '2006-04-16 05:20:36', '<en>Banner module sections</en><fr>Banner module sections</fr>', '|root|', 'system', 56, 'banner', ''),
-('23', 'right', 'root', 'root', 0, '0000-00-00 00:00:00', '2008-04-30 13:36:42', '<en>Right menu</en><fr>Right menu</fr>', '|root|admin|content|owner|', 'layout', 12, 'core', '|virtual|'),
-('8', 'newsletter', 'root', 'root', 0, '0000-00-00 00:00:00', '2006-04-16 05:21:37', '<en>Newsletter module sections</en><fr>Newsletter module sections</fr>', '|root|', 'system', 58, 'newsletter', ''),
-('24', 'tour', 'root', 'root', 0, '0000-00-00 00:00:00', '2006-04-16 05:21:46', '<en>Tour module sections</en><fr>Tour module sections</fr>', '|root|', 'system', 60, 'tour', ''),
-('26', 'adminmenushortcuts', 'root', 'root', 0, '0000-00-00 00:00:00', '2006-04-16 05:18:58', '<en>Admin menu shortcuts</en><fr>Admin menu shortcuts</fr>', '|sitemap|root|admin|content|owner|', 'system', 38, 'core', '|sitemap|'),
-('27', 'stats', 'root', 'root', 0, '0000-00-00 00:00:00', '2006-04-16 05:14:19', ' <en>Stats module sections</en><fr>Stats module sections</fr>', '|root|admin|', 'system', 28, 'stats', ''),
-('32', 'property', 'root', 'root', 0, '0000-00-00 00:00:00', '2006-04-16 05:21:57', '<en>Property module sections</en><fr>Property module sections</fr>', '|root|admin|', 'system', 62, 'property', ''),
-('33', 'comboard', 'root', 'root', 0, '0000-00-00 00:00:00', '2006-04-16 05:14:06', '<en>Comboard module sections</en><fr>Comboard module sections</fr>', '|root|admin|content|', '', 24, 'comboard', '| |'),
-('34', 'poll', 'root', 'root', 0, '0000-00-00 00:00:00', '2006-04-16 05:22:17', '<en>Poll module sections</en><fr>Poll module sections</fr>', '|root|', 'system', 64, 'poll', ''),
-('1136548044200604211648267e1111', 'special', 'root', 'root', 4, '2006-04-21 16:48:26', '2008-04-30 13:36:20', '<en>Special offers sections</en><fr>Special offers sections</fr>', '', 'layout', 14, 'core', ''),
-('11365480442006051406130149k111', 'virtual', 'root', 'root', 4, '2006-05-14 06:13:01', '2008-04-30 13:37:49', '<en>Main sections for virtual websites</en><fr>Main sections for virtual websites</fr>', '|root|admin|content|', 'layout', 22, 'core', ''),
-('11365480442006093014415232t111', 'news', 'root', 'root', 4, '2006-09-30 14:41:52', '2006-09-30 14:41:52', '<en>News module sections</en><ru>News module sections</ru><ua>News module sections</ua>', '|root|admin|content|owner|', 'system', 6, '', ''),
-('11365480442006102106222791e111', 'submission', 'root', 'root', 4, '2006-10-21 06:22:27', '2006-10-21 06:24:35', '<en>Submission & Links module</en><ru>Submission & Links module</ru>', '', 'system', 40, 'submission', ''),
-('11365480442008082118081130t111', 'seo', 'root', 'root', 4, '2008-08-21 18:08:11', '2008-08-21 18:08:11', '<en>SEO module sections</en> ', '', 'system', 66, '', ''),
-('1136548044200811240231540l1111', 'support', 'root', 'root', 4, '2008-12-20 16:43:36', '2008-12-20 16:43:36', '<en>Support module sections</en><ru>Support module sections</ru>', '', 'system', 46, '', ''),
-('11365480442008122718262022t111', 'system-section', 'root', 'root', 4, '2008-12-27 18:26:20', '2010-10-10 21:16:40', '<ru>System section (not in sitemap)</ru><en>System section</en>', '', 'menu', 18, 'core', '|allowners|'),
-('11365480442009082013164278v111', 'adminfrontshortcuts', 'root', 'root', 4, '2009-08-20 13:16:42', '2009-08-20 13:16:42', '<en>Admin menu front-end shortcuts</en><ru>Admin menu front-end shortcuts</ru>', '', '', 34, '', ''),
-('11365480442007041515400051c111', 'parser', 'root', 'root', 4, '2007-04-15 15:40:00', '2007-04-15 15:40:00', '<en>Parser sections</en><ru>Parser sections</ru>', '', 'system', 26, 'parser', ''),
-('11365480442010051021200897d111', '', 'yachts', 'root', 4, '2010-05-10 21:20:08', '2010-05-10 21:20:08', '', '', '', 4, '', ''),
-('1136548044201007161735262a1111', 'shop', 'bestmoments', 'root', 4, '2010-07-16 17:35:26', '2010-07-16 17:35:46', '<ru>Shop sections</ru><en>Shop sections</en>', '|root|admin|content|owner|', 'system', 2, '', '|allowners|'),
-('11365480442012071909294877d111', 'sectionNoActive', 'ksport', 'root', 4, '2012-07-19 09:29:48', '2012-07-19 09:29:48', '<ru>Не Активные секции</ru><en>No active Section</en>', '|root|admin|', '', 3, '', ''),
-('11365480442012091821163381o111', 'admin-panel', 'ksport', 'root', 4, '2012-09-18 21:16:33', '2012-09-18 21:16:33', '<ru>(Front)Admin-Panel</ru><en>(Front)Админ-панель</en>', '|root|admin|content|', 'menu', 1, '', '|allowners|'),
-('11365480442012092015520176x111', 'adminpanelmodule', 'ksport', 'root', 4, '2012-09-20 15:52:01', '2012-09-20 15:52:01', '<ru>(TopMenu) Admin Panel</ru><en>(TopMenu) Admin Panel</en>', '|root|admin|content|', 'menu', 9, '', '|allowners|');
+(1, 'main', '', '1', 0, '0000-00-00 00:00:00', '2008-04-30 13:36:32', '<en>Left menu</en><fr>Left menu</fr>', '|root|admin|content|owner|', 'layout', 10, 'core', ''),
+(2, 'top', '', '1', 0, '0000-00-00 00:00:00', '2010-06-20 21:00:52', '<ua>Top menu</ua><ru>Top menu</ru><us>Top menu</us><en>Top menu</en>', '|root|admin|content|owner|', 'menu', 8, 'core', '|allowners|virtual|'),
+(3, 'bottom', '', '1', 0, '0000-00-00 00:00:00', '2010-06-20 21:04:59', '<ua>Bottom menu</ua><ru>Bottom menu</ru><us>Bottom menu</us><en>Bottom menu</en>', '|root|admin|content|owner|', 'menu', 16, 'core', '|allowners|');
 
 -- --------------------------------------------------------
 
@@ -5262,8 +5231,9 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('3ca99a25152efa39825e325847a48d6f', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36', 1393482983, 'a:9:{s:10:"session_id";s:32:"3ca99a25152efa39825e325847a48d6f";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:109:"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36";s:13:"last_activity";i:1393482983;s:9:"user_data";s:0:"";s:2:"id";s:1:"1";s:5:"login";s:4:"root";s:5:"email";s:14:"root@gmail.com";s:8:"validate";b:1;}'),
-('c4c2c66cd9ec6707356654d8cbb1645e', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36', 1393491955, 'a:9:{s:10:"session_id";s:32:"c4c2c66cd9ec6707356654d8cbb1645e";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:109:"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36";s:13:"last_activity";i:1393491955;s:9:"user_data";s:0:"";s:2:"id";s:1:"1";s:5:"login";s:4:"root";s:5:"email";s:14:"root@gmail.com";s:8:"validate";b:1;}');
+('5df1b5f224de3f00e85b869acd4cc05e', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36', 1394572461, 'a:9:{s:10:"session_id";s:32:"5df1b5f224de3f00e85b869acd4cc05e";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:109:"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36";s:13:"last_activity";i:1394572461;s:9:"user_data";s:0:"";s:2:"id";s:1:"1";s:5:"login";s:4:"root";s:5:"email";s:14:"root@gmail.com";s:8:"validate";b:1;}'),
+('b27d01fceef83a98441731d045f44cab', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36', 1394628719, 'a:9:{s:10:"session_id";s:32:"b27d01fceef83a98441731d045f44cab";s:10:"ip_address";s:9:"127.0.0.1";s:10:"user_agent";s:109:"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36";s:13:"last_activity";i:1394628719;s:9:"user_data";s:0:"";s:2:"id";s:1:"1";s:5:"login";s:4:"root";s:5:"email";s:14:"root@gmail.com";s:8:"validate";b:1;}'),
+('bbecb8722c919f1a3687fa2fd7870101', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36', 1394620806, '');
 
 -- --------------------------------------------------------
 
