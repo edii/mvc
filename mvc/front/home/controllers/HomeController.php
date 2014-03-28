@@ -95,7 +95,7 @@ class HomeController extends \Controller
             $args = array();
              
             $_connector = $_db->getConnection();
-           $_dbdefionitions = $_db->getDatabaseDefinition();
+            $_dbdefionitions = $_db->getDatabaseDefinition();
             
             $front_section = $_connector -> query("SELECT s.SectionID, s.hidden, s.SectionAlias, s.SectionInMenu, s.SectionParentID, s.SectionName, "
                                             . "s.SectionTitle, s.SectionDescription, s.SectionKeywords, s.SectionUrl "

@@ -16,6 +16,7 @@
                         <a class="tabledrag" href="#"> <?= $lavel ++ ?>  </a>
                         <span id="sections" class="open-subcat"> sub </span>
                     </div>
+                    <div class="item-sorttable w-20 sections-list-collumn left"><?= $_item['SectionID'] ?></div>
                     <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['TimeCreated'] ?></div>
                     <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['SectionAlias'] ?></div>
                     <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['UserID'] ?></div>
