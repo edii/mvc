@@ -34,7 +34,7 @@ class CDatabase extends CApplicationComponent {
         //if(!empty($properties) and isset($properties))
           //      $this->setProperties( $properties );
         
-        $this->_getDefinitions(); // load definitions from controller
+        // $this->_getDefinitions(); // load definitions from controller
         $this->database();
         // $this->_loadDbDefionition(); // load definitions
     }
@@ -57,22 +57,22 @@ class CDatabase extends CApplicationComponent {
         return $this->_configs;
     }
     
-    protected function _getDefinitions() {
-        $this->_definitions = \init::app()->getDefinition();
-        if(!is_array($this->_definitions) or empty($this->_definitions) or !isset($this->_definitions)) {
-            return null;
-        }
-        
-        if(is_array($this->_definitions)) {
-            if(isset($this->_definitions['databaseDefinition']) and is_array($this->_definitions['databaseDefinition']))
-                $this->setDatabaseDefinition( $this->_definitions['databaseDefinition'] );
-           // if(isset($this->_definitions['boxesDefinition']) and is_array($this->_definitions['boxesDefinition']))
-             //   $this->setBoxesDefinition( $this->_definitions['boxesDefinition'] );
-        }
-        
-        return $this->_definitions;
-        
-    }
+//    protected function _getDefinitions() {
+//        $this->_definitions = \init::app()->getDefinition();
+//        if(!is_array($this->_definitions) or empty($this->_definitions) or !isset($this->_definitions)) {
+//            return null;
+//        }
+//        
+//        if(is_array($this->_definitions)) {
+//            if(isset($this->_definitions['databaseDefinition']) and is_array($this->_definitions['databaseDefinition']))
+//                $this->setDatabaseDefinition( $this->_definitions['databaseDefinition'] );
+//           // if(isset($this->_definitions['boxesDefinition']) and is_array($this->_definitions['boxesDefinition']))
+//             //   $this->setBoxesDefinition( $this->_definitions['boxesDefinition'] );
+//        }
+//        
+//        return $this->_definitions;
+//        
+//    }
     
       /**
      * 
