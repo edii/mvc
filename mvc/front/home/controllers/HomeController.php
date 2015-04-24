@@ -38,6 +38,12 @@ class HomeController extends \Controller
                                 //-> execute()
                                // -> fetchObject();
              
+//             $secondary = \init::app() -> getDBConnector( 'secondary' );
+//             $phones_res = $secondary -> query("SELECT * FROM phones LIMIT 1", 
+//                     array(), 
+//                     array('target' => 'secondary'))-> fetchAll();
+
+            
              $data = ['blaaaa'];
              $this->render('db', array(
 			'data'=>$data,

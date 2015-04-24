@@ -40,7 +40,7 @@ return [
             
             'secondary' => [
                 'driver' => 'mysql',
-                'database' => 'mvc',
+                'database' => 'phones',
                 'username' => 'root',
                 'password' => 'password',
                 'host' => 'localhost',

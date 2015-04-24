@@ -9,14 +9,12 @@ class HelloController extends \Controller
 	public function actionDB()
 	{
             
-            
-            
             // \init::app()->setTheme( false );
             
             // connect db from controlers
             //$_db = new CDatabase( 'main', NULL);
             
-            $_connector = \init::app() -> getDBConnector();
+            $_main = \init::app() -> getDBConnector();
             $_dbDefinition = \init::app() -> getDBDefinitions();
             
             // CI (mysql)
@@ -31,13 +29,22 @@ class HelloController extends \Controller
              
              //$_dbdefionitions = $_db->getDatabaseDefinition();
              
-             $query_res = $_connector -> query("SELECT * FROM section LIMIT 1", $args, $options)-> fetchAll();
+             $query_res = $_main -> query("SELECT * FROM section LIMIT 1", $args, $options)-> fetchAll();
              //$query_res = $_connector -> select('section', 's', $options) 
                                // -> fields('s', array('SectionID')) 
                                 //-> range(0, 1)
                                // -> addTag('section_access')    
                                 //-> execute()
                                // -> fetchObject();
+             
+             $secondary = \init::app() -> getDBConnector( 'secondary' );
+             $phones_res = $secondary -> query("SELECT * FROM phones LIMIT 1", 
+                     array(), 
+                     array('target' => 'secondary'))-> fetchAll();
+
+             echo "<pre>";
+             var_dump( $phones_res );
+             echo "</pre>";
              
              $data = ['blaaaa'];
              $this->render('db', array(
