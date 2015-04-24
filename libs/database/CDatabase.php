@@ -163,7 +163,8 @@ class CDatabase extends CApplicationComponent {
                         
                         Database::setSettings($this->_configs);
                         $_settings = Database::getSettings();
-                        self::$db = Database::getConnection($this->getParams(), $this->getKey()); // $target = 'main', $key = NULL   
+                        $_targets = (is_array($_settings)) ? array_keys($_settings) : 'main';
+                        self::$db = Database::getConnection($_targets, $this->getKey()); //$this->getParams() $target = 'main', $key = NULL   
                         
                        
                 } catch(Exception $e) {
