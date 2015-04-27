@@ -19,6 +19,7 @@ class SectionController extends \Controller
         }
         
         public function actionIndex() {
+            
             $_lang = \init::app() -> getLanguage();
             
             $this->layout( false );

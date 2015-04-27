@@ -33,19 +33,19 @@ return [
                 'driver' => 'mysql',
                 'database' => 'mvc',
                 'username' => 'root',
-                'password' => 'password',
+                'password' => '',
                 'host' => 'localhost',
                 'prefix' => '',
             ],
             
-            'secondary' => [
-                'driver' => 'mysql',
-                'database' => 'phones',
-                'username' => 'root',
-                'password' => 'password',
-                'host' => 'localhost',
-                'prefix' => '',
-            ],
+//            'secondary' => [
+//                'driver' => 'mysql',
+//                'database' => 'phones',
+//                'username' => 'root',
+//                'password' => '',
+//                'host' => 'localhost',
+//                'prefix' => '',
+//            ],
         ],
         
     

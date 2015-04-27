@@ -15,7 +15,7 @@ class Mtree extends \CDetectedModel { //extends \CDetectedModel
     private $_level = 1;
     private $_type; // type panel
     
-    private $_owner_code = 'root';
+    private $_cowner = false;
     private $_tree = array();
     // protected $_sections;
     
@@ -23,7 +23,7 @@ class Mtree extends \CDetectedModel { //extends \CDetectedModel
         self::$db = \init::app() -> getDBConnector(); // connected DB
         if(!$this->_mod_access) throw new \CException(\init::t('init','Not access this controller!'));
         $this -> _type = \init::app() -> _getPanel();
-        $this->_owner_code = \init::app() -> getOwner() -> getOwnerCode();
+        $this->_cowner = \init::app() -> getOwner();
     }
     
     public function attributeNames() {
@@ -35,7 +35,7 @@ class Mtree extends \CDetectedModel { //extends \CDetectedModel
      * @param type $attributes
      */
     public function getTree() {
-        
+        if(!$this->_cowner) return NULL;
         
         $sql = self::$db -> select($this->_tableName, 'sec', array('target' => 'main'))
                          -> fields('sec', array('SectionID', 
@@ -47,12 +47,12 @@ class Mtree extends \CDetectedModel { //extends \CDetectedModel
                                                 ));
         $sql ->condition('SectionType', $this -> _type, '=') 
              ->condition('SectionParentID', 0, '=')
-             ->condition('OwnerID', $this->_owner_code, '=')
+             ->condition('OwnerID', $this->_cowner -> getOwnerID(), '=')
              ->condition('SectionInMenu', 0, '=')   
              ->condition('hidden', 0, '='); 
 
         $sections = $sql -> execute()->fetchAll(); 
-        
+ 
         if(is_array($sections) and count($sections) > 0) :
             foreach($sections as $key=>$_section):
                 $this->_tree[$_section -> SectionID] = (array)$_section;
@@ -84,7 +84,7 @@ class Mtree extends \CDetectedModel { //extends \CDetectedModel
                                                 ));
                 $sql ->condition('SectionType', $this -> _type, '=') 
                      ->condition('SectionParentID', $section['SectionID'], '=')
-                     ->condition('OwnerID', $this->_owner_code, '=')
+                     ->condition('OwnerID', $this->_cowner -> getOwnerID(), '=')
                      ->condition('SectionInMenu', 0, '=')   
                      ->condition('hidden', 0, '='); 
 

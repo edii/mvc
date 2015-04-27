@@ -42,7 +42,10 @@ $(window).load(function(){
 });
 
 // document ready function
-$(document).ready(function(){ 	
+$(document).ready(function(){ 
+        /* tooltip */
+        $("[data-toggle='tooltip']").tooltip();
+    
         /* sortable */
     
 //         $( ".sortable" ).sortable({

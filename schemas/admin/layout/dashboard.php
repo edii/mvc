@@ -29,11 +29,12 @@
 
     <!-- Core stylesheets do not remove -->
    
-    <link id="bootstrap" href="/style/admin/css/bootstrap_v2.3.2/bootstrap.css" rel="stylesheet" type="text/css" />
+<!--   <link id="bootstrap" href="/style/admin/css/bootstrap_v2.3.2/bootstrap.css" rel="stylesheet" type="text/css" />
     <link id="bootstrap-responsive" href="/style/admin/css/bootstrap_v2.3.2/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
-   
-    <link id="bootstrap" href="/style/admin/css/bootstrap_v3/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link id="bootstrap-responsive" href="/style/admin/css/bootstrap_v3/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+   -->
+    <link id="bootstrap" href="/style/admin/css/bootstrap_v3/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link id="bootstrap-responsive" href="/style/admin/css/bootstrap_v3/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
+    
     
     <link href="/style/admin/css/supr-theme/jquery.ui.supr.css" rel="stylesheet" type="text/css"/>
     <link href="/style/admin/css/icons.css" rel="stylesheet" type="text/css" />
@@ -53,7 +54,8 @@
 
     <!--[if IE 8]><link href="/style/admin/css/ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
     
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     
@@ -77,7 +79,7 @@
 
      <!-- Bootstrap -->
      <script type="text/javascript" src="/style/admin/js/bootstrap_v3/bootstrap.js"></script>
-     <script type="text/javascript" src="/style/admin/js/bootstrap_v3/npm.js"></script>
+<!--     <script type="text/javascript" src="/style/admin/js/bootstrap_v3/npm.js"></script>-->
     
     <!-- Load modernizr first -->
     <script type="text/javascript" src="/style/admin/js/libs/modernizr.js"></script>
@@ -94,7 +96,7 @@
     <div id="qLoverlay"></div>
     <div id="qLbar"></div>    
     
-    <?= $this->getBox('home/header'); ?>
+    <?php echo $this->getBox('home/header'); ?>
         
     <div id="wrapper">
         <!--Responsive navigation button-->  

@@ -39,8 +39,8 @@
 
         </div><!-- End .heading-->
         
-        <div class="row-fluid">
-            <div class="span">
+        <div class="row">
+            <div class="col-lg-12">
                 <div class="box">
 
                     <div class="title">

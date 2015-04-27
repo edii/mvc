@@ -6,18 +6,32 @@
 
     <div class="navbar">
         <div class="navbar-inner">
-          <div class="container-fluid">
+          <div class="container">
             <a class="brand" href="dashboard.html">Rotor (v2.0).<span class="slogan">admin</span></a>
-            <div class="nav-no-collapse">
-                <ul class="nav">
+            <div class="nav-no-collapse row">
+                <ul class="nav pull-left">
                     <li class="active"><a href="dashboard.html"><span class="icon16 icomoon-icon-screen-2"></span> <span class="txt">Dashboard</span></a></li>
+                    <li>
+                        <div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Tutorials
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+      <li role="presentation"><a role="menuitem" href="#">HTML</a></li>
+      <li role="presentation"><a role="menuitem" href="#">CSS</a></li>
+      <li role="presentation"><a role="menuitem"  href="#">JavaScript</a></li>
+      <li role="presentation" class="divider"></li>
+      <li role="presentation"><a role="menuitem" href="#">About Us</a></li>
+    </ul>
+  </div>
+                    </li>
+                    
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <a class="dropdown-toggle" id="header_settings" data-toggle="dropdown" href="#">
                             <span class="icon16 icomoon-icon-cog"></span><span class="txt"> Settings</span>
                             <b class="caret"></b>
                         </a>
-                        <ul class="dropdown-menu">
-                            <li class="menu">
+                        <ul class="dropdown-menu" role="header_settings" aria-labelledby="header_settings">
+                            <li role="presentation" class="menu">
                                 <ul>
                                     <li>                                                    
                                         <a href="#"><span class="icon16 icomoon-icon-equalizer"></span>Site config</a>

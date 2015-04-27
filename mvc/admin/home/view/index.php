@@ -38,57 +38,57 @@
         </div><!-- End .heading-->
 
         <!-- Build page from here: -->
-        <div class="row-fluid">
+        <div class="row">
 
-            <div class="span8">
+            <div class="col-lg-8">
                 <div class="centerContent">
 
                     <ul class="bigBtnIcon">
                         <li>
-                            <a href="#" title="I`m with gradient" class="tipB">
+                            <a data-toggle='tooltip' href="#" title="Users" class="tipB">
                                 <span class="icon icomoon-icon-users"></span>
-                                <span class="txt">Users</span>
+<!--                                <span class="txt">Users</span>-->
                                 <span class="notification">5</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a data-toggle='tooltip' title="Support tickets" href="#">
                                 <span class="icon icomoon-icon-support"></span>
-                                <span class="txt">Support tickets</span>
+<!--                                <span class="txt">Support tickets</span>-->
                                 <span class="notification blue">12</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" title="I`m with pattern" class="pattern tipB">
+                            <a data-toggle='tooltip' href="#" title="New Comments" class="pattern tipB">
                                 <span class="icon icomoon-icon-bubbles-2"></span>
-                                <span class="txt">New Comments</span>
+<!--                                <span class="txt">New Comments</span>-->
                                 <span class="notification green">23</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a data-toggle='tooltip' title="Orders" href="#">
                                 <span class="icon icomoon-icon-basket"></span>
-                                <span class="txt">Orders</span>
+<!--                                <span class="txt">Orders</span>-->
                                 <span class="notification">+5</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a data-toggle='tooltip' title="Backups" href="#">
                                 <span class="icon icomoon-icon-history"></span>
-                                <span class="txt">Backups</span>
+<!--                                <span class="txt">Backups</span>-->
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a data-toggle='tooltip' title="Site Usage" href="#">
                                 <span class="icon icomoon-icon-meter-fast"></span>
-                                <span class="txt">Site Usage</span>
+<!--                                <span class="txt">Site Usage</span>-->
                             </a>
                         </li>
                     </ul>
                 </div>
-            </div><!-- End .span8 -->
+            </div><!-- End .col-lg-8 -->
 
-            <div class="span4">
+            <div class="col-lg-4">
                 <div class="centerContent">
                     <div dir="ltr" class="circle-stats">
 
@@ -110,13 +110,13 @@
                     </div>
                 </div>
 
-            </div><!-- End .span4 -->
+            </div><!-- End .col-lg-4 -->
 
         </div><!-- End .row-fluid -->
 
-        <div class="row-fluid">
+        <div class="row">
 
-            <div class="span8">
+            <div class="col-lg-8">
 
                 <div class="box chart gradient">
 
@@ -161,9 +161,9 @@
 
                 </div><!-- End .box -->
 
-            </div><!-- End .span8 -->
+            </div><!-- End .col-lg-8 -->
 
-            <div class="span4">
+            <div class="col-lg-4">
 
                 <div class="sparkStats">
                     <h4>389 people visited this site <a href="#" class="icon tip" title="Configure"><span class="icon16 icomoon-icon-cog-2"></span></a></h4>
@@ -201,13 +201,13 @@
                 </div><!-- End .sparkStats -->
 
 
-            </div><!-- End .span4 -->
+            </div><!-- End .col-lg-4 -->
 
         </div><!-- End .row-fluid -->
 
-        <div class="row-fluid">
+        <div class="row">
 
-            <div class="span4">
+            <div class="col-lg-4">
 
                 <div class="box gradient">
 
@@ -228,9 +228,9 @@
                 </div><!-- End .box -->
 
 
-            </div><!-- End .span4 -->
+            </div><!-- End .col-lg-4 -->
 
-            <div class="span4">
+            <div class="col-lg-4">
                 <div class="box gradient">
 
                     <div class="title">
@@ -280,9 +280,9 @@
                     </div>
 
                 </div><!-- End .box -->  
-            </div><!-- End .span4 -->
+            </div><!-- End .col-lg-4 -->
 
-            <div class="span4">
+            <div class="col-lg-4">
 
                 <div class="reminder">
                     <h4>Things you need to do 
@@ -332,13 +332,13 @@
                     </ul>
                 </div><!-- End .reminder -->
 
-            </div><!-- End .span4 -->
+            </div><!-- End .col-lg-4 -->
 
         </div><!-- End .row-fluid -->
 
-        <div class="row-fluid">
+        <div class="row">
 
-            <div class="span8">
+            <div class="col-lg-8">
                 <div class="box calendar gradient">
 
                     <div class="title">
@@ -355,9 +355,9 @@
                     </div>
 
                 </div><!-- End .box -->  
-            </div><!-- End .span8 --> 
+            </div><!-- End .col-lg-8 --> 
 
-            <div class="span4">
+            <div class="col-lg-4">
 
                 <div class="todo">
                     <h4>To Do List <a href="#" class="icon tip" title="Add task"><span class="icon16 icomoon-icon-plus"></span></a></h4>
@@ -365,7 +365,7 @@
                         <li class="clearfix">
                             <div class="txt">
                                 Fix some bugs
-                                <span class="by label">Admin</span>
+                                <span class="btn-info by label">Admin</span>
                                 <span class="date badge badge-important">Today</span>
                             </div>
                             <div class="controls">
@@ -376,7 +376,7 @@
                         <li class="clearfix">
                             <div class="txt">
                                 Add post about birds
-                                <span class="by label">Julia</span>
+                                <span class="btn-info by label">Julia</span>
                                 <span class="date badge badge-success">Tomorrow</span>
                             </div>
                             <div class="controls">
@@ -387,7 +387,7 @@
                         <li class="clearfix">
                             <div class="txt">
                                 Remove some items
-                                <span class="by label">Admin</span>
+                                <span class="btn-info by label">Admin</span>
                                 <span class="date badge badge-success">Tomorrow</span>
                             </div>
                             <div class="controls">
@@ -398,7 +398,7 @@
                         <li class="clearfix">
                             <div class="txt">
                                 Staff party
-                                <span class="by label">Admin</span>
+                                <span class="btn-info by label">Admin</span>
                                 <span class="date badge badge-info">08.08.2012</span>
                             </div>
                             <div class="controls">
@@ -409,7 +409,7 @@
                         <li class="clearfix">
                             <div class="txt">
                                 Shedule backup
-                                <span class="by label">Steve</span>
+                                <span class="btn-info by label">Steve</span>
                                 <span class="date badge badge-info">08.08.2012</span>
                             </div>
                             <div class="controls">
@@ -420,9 +420,9 @@
                     </ul>
                 </div>
 
-            </div><!-- End .span4 -->
+            </div><!-- End .col-lg-4 -->
 
-            <div class="span4">
+            <div class="col-lg-4">
 
                 <div class="box gradient">
                     <div class="title">
@@ -477,7 +477,7 @@
                 </div><!-- End .box -->
 
 
-            </div><!-- End .span4 -->
+            </div><!-- End .col-lg-4 -->
 
         </div><!-- End .row-fluid -->
 
