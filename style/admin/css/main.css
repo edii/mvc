@@ -1110,6 +1110,7 @@ select {width: 150px;}
 		top:1px;
 		width:36px;
 		height:32px;
+                margin: 2px;
 	}
 
 	.dropdown-menu {
@@ -1177,7 +1178,7 @@ select {width: 150px;}
 		background: #fff;
 		padding:0 10px;
 		margin-bottom: 0;
-		min-width: 150px;
+		min-width: 170px;
 	}
 	.dropdown-menu .menu ul {list-style:none; margin: 0; padding-left: 0px;}
 	.dropdown-menu .menu li {
@@ -1232,7 +1233,7 @@ select {width: 150px;}
 		display: inline-block;
 		width: 0;
 		height: 0;
-		vertical-align: top;
+		vertical-align: middle;
 		border-top: 4px solid #666666;
 		border-right: 4px solid transparent;
 		border-left: 4px solid transparent;
@@ -1240,13 +1241,16 @@ select {width: 150px;}
 		opacity: 1;
 		filter: alpha(opacity=100);
 	}
-	.nav li.dropdown.open .caret, .nav li.dropdown.open.active .caret, .nav li.dropdown.open a:hover .caret {
+	.nav li.dropdown.open .caret, 
+        .nav li.dropdown.open.active .caret, 
+        .nav li.dropdown.open a:hover .caret {
 	    border-top-color: #666666;
 	    border-bottom-color: #666666;
 	    opacity: 0.8;
 	}
 
-	.navbar .nav li.dropdown .dropdown-toggle .caret, .navbar .nav li.dropdown.open .caret {
+	.navbar .nav li.dropdown .dropdown-toggle .caret, 
+        .navbar .nav li.dropdown.open .caret {
 		border-top-color: #666666;
 		border-bottom-color: #666666;
 	}
@@ -1319,7 +1323,7 @@ select {width: 150px;}
 
 /*Collapse sidebar button*/
 .collapseBtn {position: absolute;z-index: 1000;display: block;}
-.collapseBtn.leftbar {top:120px;left:170px;}
+.collapseBtn.leftbar {top:126px;left:170px;}
 	.collapseBtn.leftbar.top {left: 300px; top:20px;}
 
 .collapseBtn.rightbar {top:120px;right:18px;}
@@ -1447,7 +1451,7 @@ select {width: 150px;}
 
 #sidebar {
 	width: 210px;
-	padding-top: 67px;
+	padding-top: 70px;
 	float: left;
 	z-index: 1;
 	position: relative;
@@ -1872,7 +1876,7 @@ select {width: 150px;}
 		.box .box-form .btn span {margin-right: 0; margin-top: -8px; display: inline-block;}
 		.box .box-form .btn-mini span {margin-top: -7px;}
 		.box .box-form .dropdown-toggle {margin-top: -4px; padding-bottom: 0;}
-		.box .box-form .btn span.caret {margin-left: 2px; margin-top:7px;}
+		.box .box-form .btn span.caret {margin-left: 2px; margin-top:-4px;}
 		.box .box-form .ibutton-container {	margin-top:-2px;}
 		.box .title .label span, .box .title .badge span {margin-left:0; margin-right:0}
 		.box .title .progress {
@@ -1921,7 +1925,7 @@ select {width: 150px;}
 
 /*General heading style*/
 .heading {
-	height:49px;
+	height:50px;
 	border-bottom: 1px solid #c4c4c4;
 	background: rgb(255,255,255);
 	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIxJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmM2YzZjMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -3677,4 +3681,40 @@ ul.unstyled, ol.unstyled {
     content: "";
     display: table;
     line-height: 0;
+}
+
+/* ===================== // dropDown ============= */
+.navbar .nav li.dropdown.open > .dropdown-toggle, 
+.navbar .nav li.dropdown.active > .dropdown-toggle, 
+.navbar .nav li.dropdown.open.active > .dropdown-toggle {
+    background-color: #e5e5e5;
+    color: #555555;
+}
+.navbar .nav > li > .dropdown-menu::before {
+    border-bottom: 7px solid rgba(0, 0, 0, 0.2);
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    content: "";
+    display: inline-block;
+    left: 9px;
+    position: absolute;
+    top: -7px;
+}
+.navbar .nav > li > .dropdown-menu::after {
+    border-bottom: 6px solid #ffffff;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    content: "";
+    display: inline-block;
+    left: 10px;
+    position: absolute;
+    top: -6px;
+}
+.navbar .nav > li > a {
+    color: #777777;
+    float: none;
+    padding: 10px 15px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #ffffff;
+    outline: 0 none;
 }

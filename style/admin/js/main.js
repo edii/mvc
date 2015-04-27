@@ -10,18 +10,18 @@ var supr_Options = {
 
 //------------- Modernizr -------------//
 //load some plugins only if is needed
-Modernizr.load({
-  test: Modernizr.placeholder,
-  nope: '/style/admin/plugins/forms/placeholder/jquery.placeholder.min.js',
-  complete: function () {
-	//------------- placeholder fallback  -------------//
-	$('input[placeholder], textarea[placeholder]').placeholder();
-  }
-});
-Modernizr.load({
-  test: Modernizr.touch,
-  yep: ['/style/admin/plugins/fix/ios-fix/ios-orientationchange-fix.js', '/style/admin/plugins/fix/touch-punch/jquery.ui.touch-punch.min.js']
-});
+//Modernizr.load({
+//  test: Modernizr.placeholder,
+//  nope: '/style/admin/plugins/forms/placeholder/jquery.placeholder.min.js',
+//  complete: function () {
+//	//------------- placeholder fallback  -------------//
+//	$('input[placeholder], textarea[placeholder]').placeholder();
+//  }
+//});
+//Modernizr.load({
+//  test: Modernizr.touch,
+//  yep: ['/style/admin/plugins/fix/ios-fix/ios-orientationchange-fix.js', '/style/admin/plugins/fix/touch-punch/jquery.ui.touch-punch.min.js']
+//});
 
 //window resize events
 $(window).resize(function(){

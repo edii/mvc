@@ -33,8 +33,7 @@
     <link id="bootstrap-responsive" href="/style/admin/css/bootstrap_v2.3.2/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
    -->
     <link id="bootstrap" href="/style/admin/css/bootstrap_v3/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link id="bootstrap-responsive" href="/style/admin/css/bootstrap_v3/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
-    
+    <link id="bootstrap-responsive" href="/style/admin/css/bootstrap_v3/bootstrap-theme.css" rel="stylesheet" type="text/css" />
     
     <link href="/style/admin/css/supr-theme/jquery.ui.supr.css" rel="stylesheet" type="text/css"/>
     <link href="/style/admin/css/icons.css" rel="stylesheet" type="text/css" />
@@ -54,8 +53,8 @@
 
     <!--[if IE 8]><link href="/style/admin/css/ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
     
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     
@@ -77,16 +76,11 @@
     <meta name="application-name" content="Supr"/> 
     <meta name="msapplication-TileColor" content="#3399cc"/> 
 
-     <!-- Bootstrap -->
-     <script type="text/javascript" src="/style/admin/js/bootstrap_v3/bootstrap.js"></script>
-<!--     <script type="text/javascript" src="/style/admin/js/bootstrap_v3/npm.js"></script>-->
-    
     <!-- Load modernizr first -->
     <script type="text/javascript" src="/style/admin/js/libs/modernizr.js"></script>
 
-     <!-- nav-menu -->
+<!--      nav-menu -->
     <script type="text/javascript" src="/style/admin/js/menu/nav-menu.js"></script>
-    
     </head>
       
     <body>
@@ -159,8 +153,8 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Important plugins put in all pages -->
-    
-    <script type="text/javascript" src="/style/admin/js/bootstrap_v2.3.2/bootstrap.js"></script>  
+    <script type="text/javascript" src="/style/admin/js/bootstrap_v3/bootstrap.js"></script>
+<!--    <script type="text/javascript" src="/style/admin/js/bootstrap_v2.3.2/bootstrap.js"></script>  -->
     <script type="text/javascript" src="/style/admin/js/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="/style/admin/js/libs/jRespond.min.js"></script>
 
