@@ -28,8 +28,13 @@
     <![endif]-->
 
     <!-- Core stylesheets do not remove -->
-    <link id="bootstrap" href="/style/admin/css/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link id="bootstrap-responsive" href="/style/admin/css/bootstrap/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+   
+    <link id="bootstrap" href="/style/admin/css/bootstrap_v2.3.2/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link id="bootstrap-responsive" href="/style/admin/css/bootstrap_v2.3.2/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
+   
+    <link id="bootstrap" href="/style/admin/css/bootstrap_v3/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link id="bootstrap-responsive" href="/style/admin/css/bootstrap_v3/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+    
     <link href="/style/admin/css/supr-theme/jquery.ui.supr.css" rel="stylesheet" type="text/css"/>
     <link href="/style/admin/css/icons.css" rel="stylesheet" type="text/css" />
 
@@ -70,6 +75,10 @@
     <meta name="application-name" content="Supr"/> 
     <meta name="msapplication-TileColor" content="#3399cc"/> 
 
+     <!-- Bootstrap -->
+     <script type="text/javascript" src="/style/admin/js/bootstrap_v3/bootstrap.js"></script>
+     <script type="text/javascript" src="/style/admin/js/bootstrap_v3/npm.js"></script>
+    
     <!-- Load modernizr first -->
     <script type="text/javascript" src="/style/admin/js/libs/modernizr.js"></script>
 
@@ -149,7 +158,7 @@
     ================================================== -->
     <!-- Important plugins put in all pages -->
     
-    <script type="text/javascript" src="/style/admin/js/bootstrap/bootstrap.js"></script>  
+    <script type="text/javascript" src="/style/admin/js/bootstrap_v2.3.2/bootstrap.js"></script>  
     <script type="text/javascript" src="/style/admin/js/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="/style/admin/js/libs/jRespond.min.js"></script>
 

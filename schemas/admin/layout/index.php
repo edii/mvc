@@ -14,8 +14,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <!-- Le styles -->
-    <link href="/style/admin/css/bootstrap/bootstrap.css" rel="stylesheet" />
-    <link href="/style/admin/css/bootstrap/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/style/admin/css/bootstrap_v3/bootstrap.css" rel="stylesheet" />
+    <link href="/style/admin/css/bootstrap_v3/bootstrap-responsive.css" rel="stylesheet" />
     <link href="/style/admin/css/supr-theme/jquery.ui.supr.css" rel="stylesheet" type="text/css"/>
     <link href="/style/admin/css/icons.css" rel="stylesheet" type="text/css" />
     <link href="/style/admin/plugins/forms/uniform/uniform.default.css" type="text/css" rel="stylesheet" />
@@ -75,7 +75,7 @@
     <!-- Le javascript
     ================================================== -->
     <script  type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/style/admin/js/bootstrap/bootstrap.js"></script>  
+    <script type="text/javascript" src="/style/admin/js/bootstrap_v2.3.2/bootstrap.js"></script>  
     <script type="text/javascript" src="/style/admin/plugins/forms/validate/jquery.validate.min.js"></script>
     <script type="text/javascript" src="/style/admin/plugins/forms/uniform/jquery.uniform.min.js"></script>
 

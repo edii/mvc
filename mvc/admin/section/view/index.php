@@ -72,19 +72,63 @@
                     
                     <div class="content noPad clearfix">
                         
+                            <div class="row">    
+                               
+                                    <div class="col-lg-3 font-bold">#</div>
+                                    <div class="col-lg-3 font-bold">ID</div>
+                                    <div class="col-lg-4 font-bold">UserID</div>
+                                    <div class="col-lg-4 font-bold">TimeCreated</div>
+                                    <div class="col-lg-4 font-bold">Name <span class="alies">(Alias)</span></div>
+                                    <div class="col-lg-4 font-bold">Type</div>
+                                    <div class="col-lg-4 font-bold">Controller/Action</div>
+                                    <div id="masterCh" class="col-lg-4 ch font-bold"><input type="checkbox" name="checkbox" value="all" class="styled" /></div>
+                                    <div class="col-lg-5 action font-bold">Actions</div>
+                                
+                            </div>
+                            
+                            <?php /* ?>
+                                <?php if(is_array($section_list) and count($section_list) > 0): ?>
+                                    
+                                    <?php 
+                                        $lavel = 1;
+                                        foreach($section_list as $_key => $_item): ?>
+                                    <div class="table-row">
+                                        <div class="table-cell col-lg-3 sections-list-collumn left">  
+                                            lv: <a class="item-edit tabledrag" href="#"><?= $lavel ?></a>
+                                            <br /><span id="sections" class="open-subcat"> sub </span>
+                                        </div>
+                                        <div class="table-cell col-lg-3 sections-list-collumn left"><?= $_item['SectionID'] ?></div>
+                                        <div class="table-cell col-lg-4 sections-list-collumn left"><?= $_item['UserID'] ?></div>
+                                        <div class="table-cell col-lg-4 sections-list-collumn left"><?= $_item['TimeCreated'] ?></div>
+                                        <div class="table-cell col-lg-4 sections-list-collumn left"><?= $_item['SectionName'] ?> <span class="alies">(<?= $_item['SectionAlias'] ?>)</span></div>
+
+                                        <div class="table-cell col-lg-4 sections-list-collumn left"><?= $_item['SectionType'] ?></div>
+                                        <div class="table-cell col-lg-4 sections-list-collumn left"><?= $_item['SectionController'] ?>/<?= $_item['SectionAction'] ?></div>
+
+                                        <div class="table-cell col-lg-4 sections-list-collumn ch Children left"><input type="checkbox" name="checkbox" value="1" class="styled" /></div>
+                                        <div class="table-cell col-lg-5 action right">
+                                            <div class="controls center">
+                                                <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $_item['SectionID'] ?>" title="Редактировать Section" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
+                                                <a class="delete" href="<?= $this->_getUrl() ?>/delete/id/<?= $_item['SectionID'] ?>" title="Удалить Section" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
+                                            </div>
+                                        </div>
+                                            
+                                    </div>
+                                    <?php endforeach; ?>
+                                    
+                                <?php endif; ?>
+                            <?php */ ?>
                         
+                        <?php /*
                         <ul id="menu-to-edit" class="menu ui-sortable sortable section clearfix">
                             <li id="head">
-                                <div class="item-sorttable w-20 left font-bold">#</div>
+                                <div class="item-sorttable w-30 left font-bold">#</div>
                                 <div class="item-sorttable w-20 left font-bold">ID</div>
-                                <div class="item-sorttable w-100 left font-bold">TimeCreated</div>
-                                <div class="item-sorttable w-100 left font-bold">Alias</div>
                                 <div class="item-sorttable w-100 left font-bold">UserID</div>
+                                <div class="item-sorttable w-100 left font-bold">TimeCreated</div>
+                                <div class="item-sorttable w-100 left font-bold">Name <span class="alies">(Alias)</span></div>
                                 <div class="item-sorttable w-100 left font-bold">Type</div>
-                                <div class="item-sorttable w-100 left font-bold">Name</div>
-                                <div class="item-sorttable w-100 left font-bold">Controller</div>
-                                <div class="item-sorttable w-100 left font-bold">Action</div>
-                              
+                                <div class="item-sorttable w-100 left font-bold">Controller/Action</div>
                                 <div id="masterCh" class="item-sorttable ch left font-bold"><input type="checkbox" name="checkbox" value="all" class="styled" /></div>
                                 <div class="w-50 action right font-bold">Actions</div>
                             </li>
@@ -93,25 +137,25 @@
                                //var_dump($section_list); die('stop');
                               if(is_array($section_list) and count($section_list) > 0): ?>
                                 <?php 
-                                $lavel = 0;
+                                $lavel = 1;
                                 foreach($section_list as $_key => $_item): ?>
-                                    <li id="menu-item-<?= $_item['SectionID'] ?>" class="menu-item menu-item-depth-<?= $lavel ?> menu-item-edit-inactive"> <?php //custom ?>
+                                    <li id="menu-item-<?= $_item['SectionID'] ?>" 
+                                        class="menu-item menu-item-depth-<?= $lavel ?> menu-item-edit-inactive"> <?php //custom ?>
                                         
                                         <dl class="menu-item-bar clearfix">
                                             <dt class="menu-item-handle clearfix">
-                                                <div class="item-sorttable w-20 sections-list-collumn left">  
-                                                    <a class="item-edit tabledrag" href="#"><?= $lavel ?></a>
-                                                    <span id="sections" class="open-subcat"> sub </span>
+                                                <div class="item-sorttable w-30 sections-list-collumn left">  
+                                                    lv: <a class="item-edit tabledrag" href="#"><?= $lavel ?></a>
+                                                    <br /><span id="sections" class="open-subcat"> sub </span>
                                                 </div>
                                                 <div class="item-sorttable w-20 sections-list-collumn left"><?= $_item['SectionID'] ?></div>
-                                                <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['TimeCreated'] ?></div>
-                                                <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['SectionAlias'] ?></div>
                                                 <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['UserID'] ?></div>
+                                                <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['TimeCreated'] ?></div>
+                                                <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['SectionName'] ?> <span class="alies">(<?= $_item['SectionAlias'] ?>)</span></div>
+                                                
                                                 <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['SectionType'] ?></div>
-                                                <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['SectionName'] ?></div>
-                                                <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['SectionController'] ?></div>
-                                                <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['SectionAction'] ?></div>
-
+                                                <div class="item-sorttable w-100 sections-list-collumn left"><?= $_item['SectionController'] ?>/<?= $_item['SectionAction'] ?></div>
+                                                
                                                 <div class="item-sorttable sections-list-collumn ch Children left"><input type="checkbox" name="checkbox" value="1" class="styled" /></div>
                                                 <div class="action right">
                                                     <div class="controls center">
@@ -137,7 +181,7 @@
                               <?php endif; ?>  
                             
                         </ul>
-                        
+                        */ ?>
                         
                     </div>
 

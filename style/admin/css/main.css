@@ -3597,3 +3597,14 @@ div.iteration {
     position: absolute;
     width: 0;
 }*/
+
+/* =============== \\ table ================ */
+.box-table { display: table; }
+.table-row { display: table-row; }
+.table-caption { display: table-caption; }
+.table-column { display: table-column; }
+.table-cell { display: table-cell; }
+.table-hedare-group { display: table-header-group; }
+.table-footer-group { display: table-footer-group; }
+.table-column-group { display: table-column-group; }
+/* .table-wrapper {display:table-wrapper; } */
