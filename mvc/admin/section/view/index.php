@@ -45,47 +45,97 @@
 
                     <div class="title">
 
-                        <h4>
-                            <span class="icon16 icomoon-icon-equalizer-2"></span>
-                            <span>Sections controls</span>
-                            
-                             
-                            
-                            <form class="box-form right" action="">
-                                <a style="margin-right: 5px;" href="<?= $this->_getUrl() ?>/manager/method/add">Добавить</a> 
-                                
-                                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <span class="icon16 icomoon-icon-cog-2"></span>
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#"><span class="icon-pencil"></span> Скрыть </a></li>
-                                    <li><a href="#"><span class="icon-pencil"></span> Отобразить </a></li>
-                                    <li><a class="delete" href="#"><span class="icon-trash"></span> Удалить </a></li>
-                                </ul>
-                            </form>
-                            
+                        <h4 class="clearfix">
+                            <div class="container col-lg-12">
+                                <div class="row">
+                                    <span class="icon16 icomoon-icon-equalizer-2 col-lg-1"></span>
+                                    <span class="col-lg-7">Sections controls</span>
+
+
+
+                                    <form class="box-form right col-lg-2" action="">
+                                        <a style="margin-right: 5px;" href="<?= $this->_getUrl() ?>/manager/method/add">Добавить</a> 
+
+                                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                            <span class="icon16 icomoon-icon-cog-2"></span>
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#"><span class="icon-pencil"></span> Скрыть </a></li>
+                                            <li><a href="#"><span class="icon-pencil"></span> Отобразить </a></li>
+                                            <li><a class="delete" href="#"><span class="icon-trash"></span> Удалить </a></li>
+                                        </ul>
+                                    </form>
+                                </div>
+                            </div>    
                         </h4>
                         
                         <a href="#" class="minimize"> Минимизация </a>
                     </div>
                     
                     <div class="content noPad clearfix">
-                        
+                        <div class='container col-lg-12'>
                             <div class="row">    
                                
-                                    <div class="col-lg-3 font-bold">#</div>
-                                    <div class="col-lg-3 font-bold">ID</div>
-                                    <div class="col-lg-4 font-bold">UserID</div>
-                                    <div class="col-lg-4 font-bold">TimeCreated</div>
-                                    <div class="col-lg-4 font-bold">Name <span class="alies">(Alias)</span></div>
-                                    <div class="col-lg-4 font-bold">Type</div>
-                                    <div class="col-lg-4 font-bold">Controller/Action</div>
-                                    <div id="masterCh" class="col-lg-4 ch font-bold"><input type="checkbox" name="checkbox" value="all" class="styled" /></div>
-                                    <div class="col-lg-5 action font-bold">Actions</div>
+                                    <div class="col-lg-1 font-bold">#</div>
+                                    <div class="col-lg-1 font-bold">ID</div>
+                                    <div class="col-lg-1 font-bold">UserID</div>
+                                    <div class="col-lg-1 font-bold">TimeCreated</div>
+                                    <div class="col-lg-3 font-bold">Name <span class="alies">(Alias)</span></div>
+                                    <div class="col-lg-1 font-bold">Type</div>
+                                    <div class="col-lg-2 font-bold">Controller/Action</div>
+                                    <div id="masterCh" class="col-lg-1 ch font-bold"><input type="checkbox" name="checkbox" value="all" class="styled" /></div>
+                                    <div class="col-lg-1 action font-bold">Actions</div>
                                 
                             </div>
+                        </div> <!-- .container -->    
                             
+                        <!-- list -->
+                        <?php if(is_array($section_list) and count($section_list) > 0): ?>
+                        <div class='container col-lg-12'>
+                            <div class="row">
+                                <?php 
+                                        $lavel = 1;
+                                        foreach($section_list as $_key => $_item): ?>
+                                <ul class="box-section col-lg-12">
+                                    <li class="col-lg-1">
+                                        lv: <a class="item-edit tabledrag" href="#"><?= $lavel ?></a>
+                                        <br /><span id="sections" class="open-subcat"> sub </span>
+                                    </li>
+                                    <li class="col-lg-1">
+                                        <?= $_item['SectionID'] ?>
+                                    </li>
+                                    <li class="col-lg-1">
+                                        <?= $_item['UserID'] ?>
+                                    </li>
+                                    <li class="col-lg-1">
+                                        <?= $_item['TimeCreated'] ?>
+                                    </li>
+                                    <li class="col-lg-3">
+                                        <?= $_item['SectionName'] ?>
+                                    </li>
+                                    <li class="col-lg-1">
+                                        <?= $_item['SectionType'] ?>
+                                    </li>
+                                    <li class="col-lg-2">
+                                        <?= $_item['SectionController'] ?>/<?= $_item['SectionAction'] ?>
+                                    </li>
+                                    <li class="col-lg-1">
+                                        <input type="checkbox" name="checkbox" value="1" class="styled" />
+                                    </li>
+                                    <li class="col-lg-1">
+                                        <div class="controls center">
+                                            <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $_item['SectionID'] ?>" title="Редактировать Section" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
+                                            <a class="delete" href="<?= $this->_getUrl() ?>/delete/id/<?= $_item['SectionID'] ?>" title="Удалить Section" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>    
+                        <?php endif; ?>
+                        <!-- end -->
+                        
                             <?php /* ?>
                                 <?php if(is_array($section_list) and count($section_list) > 0): ?>
                                     
@@ -189,6 +239,7 @@
             </div> <!-- End span -->
             
         </div>
+        
 
     </div><!-- End contentwrapper -->
 </div><!-- End #content -->

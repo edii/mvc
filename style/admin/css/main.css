@@ -3718,3 +3718,14 @@ ul.unstyled, ol.unstyled {
     text-shadow: 0 1px 0 #ffffff;
     outline: 0 none;
 }
+
+/* ================ // box-section =============== */
+.box-section { 
+    margin: 0px;
+    padding: 0px;
+}
+
+.box-section > li {
+    display: inline-block;
+    list-style: none;
+}
