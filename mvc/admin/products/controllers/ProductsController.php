@@ -1,6 +1,6 @@
 <?php
 
-class SectionController extends \Controller
+class ProductsController extends \Controller
 {
 	public $layout = 'dashboard';
 
@@ -24,6 +24,17 @@ class SectionController extends \Controller
             $_lang = \init::app() -> getLanguage();
             
             $this->layout( false );
+            $validate = $this -> _users -> getRight();
+            if(!$validate)
+                $this -> redirect('/'._request_uri.'/home/login');
+            
+            $this->render('list');
+            
+//            
+//            $this->render('list', array(
+//                'validate'  => $validate,
+//                '_lang' => $_lang
+//            ));
         }
         public function actionManager() {
             $this->layout( false );
