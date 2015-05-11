@@ -1,5 +1,22 @@
 // document ready function
-$(document).ready(function() { 	
+$(document).ready(function() { 
+        /* sortable */
+    
+         $( ".sortable" ).sortable({
+            items: 'li:not(#head)', 
+            cancel: "li:not(#custom)", 
+            placeholder: "placeholder"
+        });
+        $( ".sortable" ).disableSelection();
+    
+        // --------------- Toggle sub cat ------------------ //
+        $(".table-toggle").toggle(function() {
+          var _p = $(this).parent().parent();
+          _p.children('ul').removeClass('hidden').addClass('show');
+        }, function() {
+          var _p = $(this).parent().parent();
+          _p.children('ul').removeClass('show').addClass('hidden');
+        });
 
 	//------------- Full calendar  -------------//
 	$(function () {

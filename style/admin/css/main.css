@@ -309,7 +309,7 @@ body, p {font-family: 'Droid Sans', Helvetica, Arial, sans-serif;}
 .table {position: relative;}
 .table td { border-top: 1px solid #c4c4c4;}
 .table thead th, .table tbody td {text-align: center;}
-.table thead th:first-child, .table tbody td:first-child  {text-align: left;}
+/*.table thead th:first-child, .table tbody td:first-child  {text-align: left;}*/
 
 .table tr {
 	-moz-box-shadow:0 1px 0px rgba(255, 255, 255, 1);
@@ -1863,7 +1863,7 @@ select {width: 150px;}
 			float: right;
 		}
 		.box .box-form {
-			margin-right: 40px;
+/*			margin-right: 40px;*/
 			margin-bottom: 0;
 			position: relative;
 		}
@@ -3728,4 +3728,77 @@ ul.unstyled, ol.unstyled {
 .box-section > li {
     display: inline-block;
     list-style: none;
+}
+
+.padding-null { padding: 0px; }
+.margin-null { margin: 0px; }
+
+.p-t9 {
+    padding-top: 9px;
+}
+
+.p-r0 {
+    padding-right: 0px;
+}
+
+.p-b9 {
+    padding-bottom: 9px;
+}
+
+.m-r0 {
+    margin-right: 0px;
+}
+
+.m-r40 {
+    margin-right: 40px;
+}
+
+/* --- div table --- */
+.table { display: table; }
+.table > .table-header {
+    display: table-header-group;
+}
+.table > .table-body {
+    display: table-row-group;
+/*    display: inline-block;*/
+   
+}
+
+.table .table-row {
+    display: table-row;
+}
+
+.table .table-cell {
+    display: table-cell;
+}
+
+.table > .table-footer {
+    display: table-footer-group;
+}
+
+/*.table > ul {
+    display: inline-block;
+    margin: 0px;
+    padding: 0px;
+}
+
+.table ul > li ul {
+    margin: 0px;
+    display: table;
+    padding: 0px;
+}
+
+.table ul > li ul > li {
+    display: table-row;
+}*/
+
+.box-list {
+    padding: 0px;
+    display: inline-block;
+    width: 100%;
+}
+.box-list > li {
+    list-style: none;
+    display: inline-block;
+    width: 100%;
 }

@@ -47,7 +47,7 @@ class Mtree extends \CDetectedModel { //extends \CDetectedModel
                                                 ));
         $sql ->condition('SectionType', $this -> _type, '=') 
              ->condition('SectionParentID', 0, '=')
-             ->condition('OwnerID', $this->_cowner -> getOwnerID(), '=')
+             ->condition('OwnerID', $this->_cowner -> getOwnerCode(), '=')
              ->condition('SectionInMenu', 0, '=')   
              ->condition('hidden', 0, '='); 
 
@@ -84,7 +84,7 @@ class Mtree extends \CDetectedModel { //extends \CDetectedModel
                                                 ));
                 $sql ->condition('SectionType', $this -> _type, '=') 
                      ->condition('SectionParentID', $section['SectionID'], '=')
-                     ->condition('OwnerID', $this->_cowner -> getOwnerID(), '=')
+                     ->condition('OwnerID', $this->_cowner -> getOwnerCode(), '=')
                      ->condition('SectionInMenu', 0, '=')   
                      ->condition('hidden', 0, '='); 
 

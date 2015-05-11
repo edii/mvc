@@ -46,8 +46,8 @@ $(document).ready(function(){
         /* tooltip */
         $("[data-toggle='tooltip']").tooltip();
     
-        /* sortable */
-    
+//        /* sortable */
+//    
 //         $( ".sortable" ).sortable({
 //            items: 'li:not(#head)', 
 //            cancel: "li:not(#custom)", 
