@@ -5,7 +5,26 @@ class HomeController extends \Controller
 	public $layout = 'test'; //'column1'
 
 	private $_model;
+        private $_msection = false;
 
+        public function init() {
+            if(empty($this -> _msection))
+               $this -> _msection = \init::app() -> getModels('section/msection');
+        }
+        
+        /* --- // page content --- */
+        public function actionContent() {
+            $this->layout( 'test' );
+            $secID = false;
+            if($section = \init::app() -> getTreeSection() and is_array( $section )) {
+                $secID = $section['SectionId'];
+            }
+            $_content = '';
+            if(isset($this -> _msection -> getSectionID( $secID )['SectionContent'])) 
+                $_content = $this -> _msection -> getSectionID( $secID )['SectionContent'];
+            $this->render('content', array('_content' => $_content ));
+        }
+        
 	public function actionDB()
 	{
             
