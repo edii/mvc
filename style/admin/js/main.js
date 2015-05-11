@@ -307,12 +307,12 @@ $(document).ready(function(){
 			
 			if($(this).hasClass('hide')) {
 				//show sidebar
-				$this.removeClass('hide');
+				// $this.removeClass('hide').addClass('show');
 				$this.children('a').attr('title','Hide Left Sidebar');
 
 			} else {
 				//hide sidebar
-				$this.addClass('hide');
+				// $this.removeClass('hide').addClass('sho');
 				$this.children('a').attr('title','Show Left Sidebar');		
 			}
 			$('#sidebarbg').toggleClass('hided');
