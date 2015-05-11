@@ -11,10 +11,10 @@ $(document).ready(function() {
     
         // --------------- Toggle sub cat ------------------ //
         $(".table-toggle").toggle(function() {
-          var _p = $(this).parent().parent();
+          var _p = $(this).closest('li');
           _p.children('ul').removeClass('hidden').addClass('show');
         }, function() {
-          var _p = $(this).parent().parent();
+          var _p = $(this).closest('li');
           _p.children('ul').removeClass('show').addClass('hidden');
         });
 

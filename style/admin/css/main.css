@@ -3793,6 +3793,7 @@ ul.unstyled, ol.unstyled {
 }*/
 
 .box-list {
+    margin: 0px;
     padding: 0px;
     display: inline-block;
     width: 100%;
@@ -3801,4 +3802,24 @@ ul.unstyled, ol.unstyled {
     list-style: none;
     display: inline-block;
     width: 100%;
+    margin: 0px;
+}
+
+.box-list ul > li:last-child {
+    border-bottom: none;
+}
+
+.box-list > li .list-item:hover {
+    cursor: default;
+    background: #ddd;
+}
+
+.box-list li > .list-item {
+    padding: 10px 0px;
+    display: inherit;
+    width: 100%;
+}
+
+.box-list ul ul > li{
+    background: #ccc;
 }
