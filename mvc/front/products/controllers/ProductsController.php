@@ -58,7 +58,7 @@ class ProductsController extends \Controller
             echo "<hr />";
             
             echo "<pre>";
-            //var_dump( \init::app() -> getBreadcrumbs() );
+            var_dump( \init::app() -> getBreadcrumbs() );
             echo "</pre>";
             
             $this->render('productList', array()); 

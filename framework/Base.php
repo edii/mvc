@@ -546,6 +546,8 @@ class Base
 	 * PLEASE RUN 'build autoload' COMMAND TO UPDATE THIS ARRAY.
 	 */
 	private static $_coreClasses = array(
+                // breadcrumbs
+                'CBreadcrumbs'                 => '/libs/CBreadcrumbs.php',
                 // load memcached
                 'CCache'                => '/libs/memcache/CCache.php',
                 'CMemCache'             => '/libs/memcache/CMemCache.php',
@@ -609,7 +611,6 @@ class Base
 //                'CPhpMessageSource'     => '/framework/i18n/CPhpMessageSource.php',
 //                'CMessageSource'        => '/framework/i18n/CMessageSource.php',
             
-                'CHtml'                 => '/libs/helpers/CHtml.php',
                 'CMap'                  => '/libs/collections/CMap.php',
 		'CMapIterator'          => '/libs/collections/CMapIterator.php',
             
@@ -662,6 +663,9 @@ class Base
                 // Resize Images
                 //'ResizeImages'           => '/framework/imagetoolkit/AcImage.php',
                 'ResizeImages'           => '/framework/imagetoolkit/ResizeImages.php',
+            
+                // helpers
+                'CHtml'                 => '/libs/helpers/CHtml.php',
 		
 	);
 }
