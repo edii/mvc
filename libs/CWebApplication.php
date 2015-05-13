@@ -223,6 +223,11 @@ class CWebApplication extends \CApplication {
 			'clientScript'=>array(
                             'class'=>'CClientScript',
 			),
+                    
+                        // detected boxes
+			'CBreadcrumbs'=>array(
+                            'class'=>'CBreadcrumbs',
+			),
                        
 		);
 
@@ -313,6 +318,10 @@ class CWebApplication extends \CApplication {
 		return $this->getComponent('CBox');
 	}
 
+        public function getBreadcrumbs()
+        {
+            return $this->getComponent('CBreadcrumbs');
+        }
 
 	/**
 	 * @return CTheme the theme used currently. Null if no theme is being used.

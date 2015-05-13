@@ -111,7 +111,66 @@ class CHtml
 		$html = "<$name" . static::renderTagAttributes($options) . '>';
 		return isset(static::$voidElements[strtolower($name)]) ? $html : "$html$content</$name>";
 	}
+        
+        /**
+	 * Generates an open HTML element.
+	 * @param string $tag the tag name
+	 * @param array $htmlOptions the element attributes. The values will be HTML-encoded using {@link encode()}.
+	 * If an 'encode' attribute is given and its value is false,
+	 * the rest of the attribute values will NOT be HTML-encoded.
+	 * Since version 1.1.5, attributes whose value is null will not be rendered.
+	 * @return string the generated HTML element tag
+	 */
+	public static function openTag($tag,$options=array())
+	{
+		return '<' . $tag . static::renderTagAttributes($options) . '>';
+	}
 
+        /**
+	 * Generates a close HTML element.
+	 * @param string $tag the tag name
+	 * @return string the generated HTML element tag
+	 */
+        public static function closeTag($tag)
+	{
+		return '</'.$tag.'>';
+	}
+        
+        /**
+	 * Normalizes the input parameter to be a valid URL.
+	 *
+	 * If the input parameter is an empty string, the currently requested URL will be returned.
+	 *
+	 * If the input parameter is a non-empty string, it is treated as a valid URL and will
+	 * be returned without any change.
+	 *
+	 * If the input parameter is an array, it is treated as a controller route and a list of
+	 * GET parameters, and the {@link CController::createUrl} method will be invoked to
+	 * create a URL. In this case, the first array element refers to the controller route,
+	 * and the rest key-value pairs refer to the additional GET parameters for the URL.
+	 * For example, <code>array('post/list', 'page'=>3)</code> may be used to generate the URL
+	 * <code>/index.php?r=post/list&page=3</code>.
+	 *
+	 * @param mixed $url the parameter to be used to generate a valid URL
+	 * @return string the normalized URL
+	 */
+	public static function normalizeUrl($url)
+	{
+		if(is_array($url))
+		{
+			if(isset($url[0]))
+			{
+				if(($c=\init::app()->getController())!==null)
+					$url=$c->createUrl($url[0],array_splice($url,1));
+				else
+					$url=\init::app()->createUrl($url[0],array_splice($url,1));
+			}
+			else
+				$url='';
+		}
+		return $url==='' ? \init::app()->getRequest()->getUrl() : $url;
+	}
+        
 	/**
 	 * Generates a start tag.
 	 * @param string $name the tag name

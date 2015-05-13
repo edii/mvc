@@ -55,6 +55,12 @@ class ProductsController extends \Controller
             var_dump( $secID, $alies, $sec_url, \init::app() -> getRequest() -> getUrl(), $productAlies );
             echo "</pre>";
             
+            echo "<hr />";
+            
+            echo "<pre>";
+            //var_dump( \init::app() -> getBreadcrumbs() );
+            echo "</pre>";
+            
             $this->render('productList', array()); 
 	}
        
