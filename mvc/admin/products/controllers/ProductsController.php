@@ -8,6 +8,8 @@ class ProductsController extends \Controller
         
         // section (model)
         private $_msection = false;
+        private $_mproducts = false;
+        private $_mproducts_categories = false;
         
         /**
          * construct
@@ -16,6 +18,10 @@ class ProductsController extends \Controller
            $this -> _users = \init::app() -> getModels('auth/users');
            if(empty($this -> _msection))
                $this -> _msection = \init::app() -> getModels('section/msection');
+           if(empty($this -> _mproducts))
+               $this -> _mproducts = \init::app() -> getModels('products/mproducts');
+           if(empty($this -> _mproducts_categories))
+               $this -> _mproducts_categories = \init::app() -> getModels('products_categories/mproductsCategories');
         }
         
         public function actionIndex() {

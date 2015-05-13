@@ -3823,3 +3823,8 @@ ul.unstyled, ol.unstyled {
 .box-list ul ul > li{
     background: #ccc;
 }
+
+/* ------ // boxFilters ------- */
+.boxFilters {
+    padding: 10px 0px;
+}

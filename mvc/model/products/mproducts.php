@@ -7,7 +7,7 @@
 class Mproducts extends \CDetectedModel { //extends \CDetectedModel 
     
     public static $db;
-    public $_table_name = 'section';
+    public $_table_name = 'products';
     
     private $_mod_access = true; // true or false
     private $_type; // type panel
@@ -18,8 +18,7 @@ class Mproducts extends \CDetectedModel { //extends \CDetectedModel
         if(!$this->_mod_access) throw new \CException(\init::t('init','Not access this controller!'));
         $this -> _type = \init::app() -> _getPanel();
         
-        $this -> _pk = 'SectionID';
-        $this -> _table_name = 'section';
+        $this -> _pk = 'id';
     }
     
     public function attributeNames() {
@@ -27,50 +26,22 @@ class Mproducts extends \CDetectedModel { //extends \CDetectedModel
     }
     
     /**
-     * getSectionID
+     * getPdoductID
      * @param type $_id
-     * @return type array section
+     * @return type array product
      */
-    public function getSectionID( $_id ) {
-        $_sections = false;
+    public function getPdoductID( $_id ) {
+        $_product = false;
         if((int)$_id) {
-            
-            $sql = self::$db -> select( $this->_table_name , 'section', array('target' => 'main'))
-                         -> fields('section', array('SectionID',
-                                                  'hidden',
-                                                  'SectionInMenu',
-                                                  'SectionAlias',
-                                                  'OwnerID',  
-                                                  'UserID',
-                                                  'TimeCreated',
-                                                  'TimeSaved',
-                                                  'SectionType',
-                                                  'SectionLanguages',
-                                                  'SectionParentID',
-                                                  'SectionGroupID',
-                                                  'SectionLayout',
-                                                  'SectionBox',
-                                                  'SectionBoxStyle',
-                                                  'AccessGroups',
-                                                  'SectionArguments',
-                                                  'SectionLink',
-                                                  'SectionTarget',
-                                                  'SectionName',
-                                                  'SectionTitle',
-                                                  'SectionDescription',
-                                                  'SectionKeywords',
-                                                  'SectionPosition',
-                                                  'SectionIntroContent',
-                                                  'SectionContent',
-                                                  'SectionClicks',
-                                                  'SectionViewOptions',
-                                                  'SectionController',
-                                                  'SectionAction',
-                                                  'SectionView',
-                                                  'SectionUrl',
-                                                  'SectionRout'));
+            $sql = self::$db -> select( $this->_table_name , 'p', array('target' => 'main'))
+                         -> fields('p', array('id',
+                                              'alias',
+                                              'UserID', 'OwnerID', 'hidden', 'timeCreated', 'timeSaved',
+                                              'categoryID', 'extraCategoryID', 'name', 'code', 'price',
+                                              'description', 'metaTitle', 'metaDescription', 'metaKeywords',
+                                              'icon'));
             $sql ->condition('hidden', 0, '=') 
-                 ->condition('SectionID', (int)$_id, '='); 
+                 ->condition('id', (int)$_id, '='); 
             $_sections = $sql -> execute()->fetchAssoc(); 
             
         } 
@@ -80,48 +51,21 @@ class Mproducts extends \CDetectedModel { //extends \CDetectedModel
     
     /**
      * 
-     * @param type $attributes
+     * @param type array $products
      */
-    public function getSections() {
+    public function getProducts() {
         
-        $sql = self::$db -> select( $this->_table_name , 'section', array('target' => 'main'))
-                         -> fields('section', array('SectionID',
-                                                  'hidden',
-                                                  'SectionInMenu',
-                                                  'SectionAlias',
-                                                  'OwnerID',  
-                                                  'UserID',
-                                                  'TimeCreated',
-                                                  'TimeSaved',
-                                                  'SectionType',
-                                                  'SectionLanguages',
-                                                  'SectionParentID',
-                                                  'SectionGroupID',
-                                                  'SectionLayout',
-                                                  'SectionBox',
-                                                  'SectionBoxStyle',
-                                                  'AccessGroups',
-                                                  'SectionArguments',
-                                                  'SectionLink',
-                                                  'SectionTarget',
-                                                  'SectionName',
-                                                  'SectionTitle',
-                                                  'SectionDescription',
-                                                  'SectionKeywords',
-                                                  'SectionPosition',
-                                                  'SectionIntroContent',
-                                                  'SectionContent',
-                                                  'SectionClicks',
-                                                  'SectionViewOptions',
-                                                  'SectionController',
-                                                  'SectionAction',
-                                                  'SectionView',
-                                                  'SectionUrl',
-                                                  'SectionRout'));
+        $sql = self::$db -> select( $this->_table_name , 'p', array('target' => 'main'))
+                         -> fields('p', array('id',
+                                              'alias',
+                                              'UserID', 'OwnerID', 'hidden', 'timeCreated', 'timeSaved',
+                                              'categoryID', 'extraCategoryID', 'name', 'code', 'price',
+                                              'description', 'metaTitle', 'metaDescription', 'metaKeywords',
+                                              'icon'));
         $sql ->condition('hidden', 0, '='); 
-        $_sections = $sql -> execute()->fetchAll(); 
+        $_products = $sql -> execute()->fetchAll(); 
         
-        return $_sections;
+        return $_products;
     }
     
 }
