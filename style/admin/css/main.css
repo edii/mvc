@@ -3828,3 +3828,23 @@ ul.unstyled, ol.unstyled {
 .boxFilters {
     padding: 10px 0px;
 }
+
+.mt10 {
+    margin-top: 10px;
+}
+
+.mr10 {
+  margin-right: 10px;  
+}
+
+.ml10 {
+    margin-left: 10px;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+} 
+
+.p10 {
+    padding: 10px;
+}

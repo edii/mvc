@@ -116,6 +116,20 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
         return (isset($_password) and !empty($_password)) ? $_password : false;    
     }
     
+    public function getUserID( $_id ) {
+        $user = false;
+        if($_id) {
+           $user = self::$db -> query("SELECT userID as id, 
+                                                     login as login, 
+                                                     email as email
+                                              FROM ".$this->_tableName." 
+                                              WHERE userID = ".$_id, array('target'=>'main'), array())
+                                        -> fetch();
+          
+        }
+        return $user;   
+    }
+    
     /**
      * LogOut systems 
      */

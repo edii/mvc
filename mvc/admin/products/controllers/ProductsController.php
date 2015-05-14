@@ -48,7 +48,7 @@ class ProductsController extends \Controller
             $_error = false;
             $_id = \init::app() ->getRequest() -> getParam('id'); 
             $_method = \init::app() ->getRequest() -> getParam('method');
-            $_section = \init::app() ->getRequest() -> getParam('section');
+            $_product = \init::app() ->getRequest() -> getParam('product');
             if(empty($_method) or !isset($_method)) {
                 // fatal error ( rediract listings owners )
                $_error = true;
@@ -60,8 +60,8 @@ class ProductsController extends \Controller
                  if(!(int)$_id) {
                     $_error = true;
                  } else {
-                     if(is_array($_section) and count($_section) > 0) {
-                        $this->_msection ->save(true, $_section);
+                     if(is_array($_product) and count($_product) > 0) {
+                        $this->_mproducts ->save(true, $_product);
                      }
                  }
                  
@@ -69,8 +69,8 @@ class ProductsController extends \Controller
                 // add
                 $_title = 'Добавить';               
                 if(!(int)$_id) {
-                    if(is_array($_section) and count($_section) > 0) {
-                        $this->_msection ->save(true, $_section);
+                    if(is_array($_product) and count($_product) > 0) {
+                        $this->_mproducts ->save(true, $_product);
                     }
                 }
                 
@@ -87,7 +87,7 @@ class ProductsController extends \Controller
                 $this->render('form',array(
                     'title'   => $_title,
                     'sections_actual' => \init::app()->getTreeSection(),
-                    'listing'   => $this->_msection -> getSectionID($_id),
+                    'listing'   => $this->_mproducts -> getProductID($_id),
                     'validate'  => $validate,
                     '_session'  =>  $this -> _users -> getValidate() -> getSession()
                 ));
@@ -99,7 +99,7 @@ class ProductsController extends \Controller
             $this->layout( false );
      
             $_id = \init::app() ->getRequest() -> getParam('id');
-            $this -> _msection -> delete(array('SectionID' => $_id));
+            $this -> _mproducts -> delete(array('id' => $_id));
             
             $this ->redirect('/'._request_uri.'/section');
         }

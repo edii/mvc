@@ -455,7 +455,7 @@ div.radio {
 
 /* Uploader */
 div.uploader {
-  width: 200px;
+/*  width: 200px;*/
   cursor: pointer;
   border-right:none;
 }
@@ -609,6 +609,7 @@ div.uploader span.action {
   overflow: hidden;
   cursor: pointer;
   margin-top: -1px;
+  min-height: 27px;
 }
 
 div.uploader span.filename {

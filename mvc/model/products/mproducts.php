@@ -30,7 +30,7 @@ class Mproducts extends \CDetectedModel { //extends \CDetectedModel
      * @param type $_id
      * @return type array product
      */
-    public function getPdoductID( $_id ) {
+    public function getProductID( $_id ) {
         $_product = false;
         if((int)$_id) {
             $sql = self::$db -> select( $this->_table_name , 'p', array('target' => 'main'))
@@ -42,11 +42,11 @@ class Mproducts extends \CDetectedModel { //extends \CDetectedModel
                                               'icon'));
             $sql ->condition('hidden', 0, '=') 
                  ->condition('id', (int)$_id, '='); 
-            $_sections = $sql -> execute()->fetchAssoc(); 
+            $_product = $sql -> execute()->fetchAssoc(); 
             
         } 
          
-        return $_sections;
+        return $_product;
     }
     
     /**
