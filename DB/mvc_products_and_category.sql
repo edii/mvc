@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Май 14 2015 г., 18:06
+-- Время создания: Май 14 2015 г., 18:27
 -- Версия сервера: 5.5.43-0ubuntu0.14.04.1
 -- Версия PHP: 5.5.9-1ubuntu4.9
 
@@ -67,23 +67,23 @@ INSERT INTO `products` (`id`, `langID`, `alias`, `UserID`, `OwnerID`, `hidden`, 
 
 CREATE TABLE IF NOT EXISTS `products_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parentID` int(11) NOT NULL,
+  `parentID` int(11) NOT NULL DEFAULT '0',
   `UserID` varchar(30) NOT NULL,
   `OwnerID` varchar(30) NOT NULL,
-  `hidden` tinyint(1) NOT NULL DEFAULT '4',
+  `hidden` tinyint(1) NOT NULL DEFAULT '0',
   `timeCreated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `timeSaved` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `alias` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `logo` varchar(255) NOT NULL,
-  `titleIcon` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `logo` varchar(255) DEFAULT NULL,
+  `titleIcon` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `name` varchar(255) NOT NULL,
-  `intro` mediumtext NOT NULL,
-  `description` mediumtext NOT NULL,
+  `intro` mediumtext,
+  `description` mediumtext,
   `position` int(11) NOT NULL DEFAULT '0',
-  `metaTitle` varchar(255) NOT NULL,
-  `metaDescription` mediumtext NOT NULL,
-  `metaKeywords` text NOT NULL,
-  `showProducts` smallint(6) NOT NULL,
+  `metaTitle` varchar(255) DEFAULT NULL,
+  `metaDescription` mediumtext,
+  `metaKeywords` text,
+  `showProducts` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `hidden` (`hidden`),
   KEY `timeCreated` (`timeCreated`),
@@ -91,7 +91,14 @@ CREATE TABLE IF NOT EXISTS `products_category` (
   KEY `code` (`alias`),
   KEY `name` (`name`),
   KEY `position` (`position`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Дамп данных таблицы `products_category`
+--
+
+INSERT INTO `products_category` (`id`, `parentID`, `UserID`, `OwnerID`, `hidden`, `timeCreated`, `timeSaved`, `alias`, `logo`, `titleIcon`, `name`, `intro`, `description`, `position`, `metaTitle`, `metaDescription`, `metaKeywords`, `showProducts`) VALUES
+(1, 0, 'root', 'root', 0, '2015-05-14 18:25:05', '0000-00-00 00:00:00', 'cat1', NULL, NULL, 'cat1', NULL, 'cat1', 0, NULL, NULL, NULL, 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

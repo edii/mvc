@@ -109,7 +109,9 @@
                                         <label class="form-label span4" for="normal">parentID</label>
                                         <select name="category[parentID]">
                                             <option value="0"> -- Root category -- </option>
-                                            <option value="1"> Test 1 </option>
+                                            <?php foreach($_categories as $category): ?>
+                                                <option value="<?= $category -> id ?>"> <?= $category -> name ?> </option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>

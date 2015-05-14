@@ -94,12 +94,13 @@ class Mproducts_categories extends \CDetectedModel { //extends \CDetectedModel
     
     public function getCategoriesTree( $parentID, $level = 0 ) {
         $_tree = array();
-        if(empty($parentID)) $parentID = false;
         $_categories = $this ->getCategoryParentID($parentID);
         if(is_array($_categories) and count($_categories) > 0) {
             foreach($_categories as $_category) :
-                $_tree[ $_category['id'] ]['level'] = $level;
-                $_tree[ $_category['id'] ] = $this -> getCategoriesTree( $_category['id'], $level ++ );
+                $_tree[ $_category ->id ] = new stdClass();
+                $_tree[ $_category ->id ] = $_category;
+                $_tree[ $_category ->id ] -> level = $level;
+                $_tree[ $_category ->id ] -> childs = $this -> getCategoriesTree( $_category -> id, $level ++ );
                 
             endforeach;
         }
