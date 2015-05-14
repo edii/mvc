@@ -52,6 +52,29 @@ class MproductsCategories extends \CDetectedModel { //extends \CDetectedModel
     }
     
     /**
+     * getCategoryParentID
+     * @param type $_id
+     * @return type array category
+     */
+    public function getCategoryParentID( $parent_id ) {
+        $_categories = false;
+            
+        $sql = self::$db -> select( $this->_table_name , 'cat', array('target' => 'main'))
+                     -> fields('cat', array('id',
+                                              'parentID', 'UserID', 'OwnerID', 'hidden',
+                                              'timeCreated', 'timeSaved', 'code', 'logo',
+                                              'titleIcon', 'name', 'intro', 'description', 'position',
+                                              'metaTitle', 'metaDescription', 'metaKeywords', 'showProducts'
+                                              ));
+        $sql ->condition('hidden', 0, '=') 
+             ->condition('parentID', (int)$parent_id, '='); 
+        $_categories = $sql -> execute()->fetchAll(); 
+            
+         
+        return $_categories;
+    }
+    
+    /**
      * 
      * @param type array $categories
      */
@@ -67,6 +90,20 @@ class MproductsCategories extends \CDetectedModel { //extends \CDetectedModel
         $_categoies = $sql -> execute()->fetchAll(); 
         
         return $_categoies;
+    }
+    
+    public function getCategoriesTree( $parentID, $level = 0 ) {
+        $_tree = array();
+        if(empty($parentID)) $parentID = false;
+        $_categories = $this ->getCategoryParentID($parentID);
+        if(is_array($_categories) and count($_categories) > 0) {
+            foreach($_categories as $_category) :
+                $_tree[ $_category['id'] ]['level'] = $level;
+                $_tree[ $_category['id'] ] = $this -> getCategoriesTree( $_category['id'], $level ++ );
+                
+            endforeach;
+        }
+        return $_tree;
     }
     
     /**
