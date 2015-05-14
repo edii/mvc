@@ -21,7 +21,7 @@ class ProductsCategoryController extends \Controller
            if(empty($this -> _mproducts))
                $this -> _mproducts = \init::app() -> getModels('products/mproducts');
            if(empty($this -> _mproducts_categories))
-               $this -> _mproducts_categories = \init::app() -> getModels('products_categories/mproductsCategories');
+               $this -> _mproducts_categories = \init::app() -> getModels('products_categories/mproducts_categories');
         }
         
         public function actionIndex() {
@@ -33,6 +33,7 @@ class ProductsCategoryController extends \Controller
             $validate = $this -> _users -> getRight();
             if(!$validate)
                 $this -> redirect('/'._request_uri.'/home/login');
+            
             
             $this->render('list', array(
                 'categories' => $this -> _mproducts_categories ->getCategories(),

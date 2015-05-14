@@ -4,7 +4,7 @@
  * model Input
  */
 
-class MproductsCategories extends \CDetectedModel { //extends \CDetectedModel 
+class Mproducts_categories extends \CDetectedModel { //extends \CDetectedModel 
     
     public static $db;
     public $_table_name = 'products_category';
@@ -38,7 +38,7 @@ class MproductsCategories extends \CDetectedModel { //extends \CDetectedModel
             $sql = self::$db -> select( $this->_table_name , 'cat', array('target' => 'main'))
                          -> fields('cat', array('id',
                                                   'parentID', 'UserID', 'OwnerID', 'hidden',
-                                                  'timeCreated', 'timeSaved', 'code', 'logo',
+                                                  'timeCreated', 'timeSaved', 'alias', 'logo',
                                                   'titleIcon', 'name', 'intro', 'description', 'position',
                                                   'metaTitle', 'metaDescription', 'metaKeywords', 'showProducts'
                                                   ));
@@ -62,7 +62,7 @@ class MproductsCategories extends \CDetectedModel { //extends \CDetectedModel
         $sql = self::$db -> select( $this->_table_name , 'cat', array('target' => 'main'))
                      -> fields('cat', array('id',
                                               'parentID', 'UserID', 'OwnerID', 'hidden',
-                                              'timeCreated', 'timeSaved', 'code', 'logo',
+                                              'timeCreated', 'timeSaved', 'alias', 'logo',
                                               'titleIcon', 'name', 'intro', 'description', 'position',
                                               'metaTitle', 'metaDescription', 'metaKeywords', 'showProducts'
                                               ));
@@ -83,7 +83,7 @@ class MproductsCategories extends \CDetectedModel { //extends \CDetectedModel
         $sql = self::$db -> select( $this->_table_name , 'cats', array('target' => 'main'))
                          -> fields('cats', array('id',
                                                   'parentID', 'UserID', 'OwnerID', 'hidden',
-                                                  'timeCreated', 'timeSaved', 'code', 'logo',
+                                                  'timeCreated', 'timeSaved', 'alias', 'logo',
                                                   'titleIcon', 'name', 'intro', 'description', 'position',
                                                   'metaTitle', 'metaDescription', 'metaKeywords', 'showProducts'));
         $sql ->condition('hidden', 0, '='); 

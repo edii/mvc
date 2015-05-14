@@ -76,19 +76,19 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <?php foreach($products as $product): ?>  
+                                  <?php foreach($categories as $category): ?>  
                                   <tr>
-                                    <td><?= $product -> id ?></td>
-                                    <td><?= $product -> alias ?></td>
-                                    <td><?= $product -> name ?></td>
-                                    <td><?= $product -> timeCreated ?></td>
-                                    <td><?= $product -> timeSaved ?></td>
+                                    <td><?= $category -> id ?></td>
+                                    <td><?= $category -> alias ?></td>
+                                    <td><?= $category -> name ?></td>
+                                    <td><?= $category -> timeCreated ?></td>
+                                    <td><?= $category -> timeSaved ?></td>
                                     <td>
                                         <div class="controls center">
-                                            <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $product -> id ?>" title="Edit task" class="tip">
+                                            <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $category -> id ?>" title="Edit task" class="tip">
                                                 <span class="icon12 icomoon-icon-pencil"></span>
                                             </a>
-                                            <a href="<?= $this->_getUrl() ?>/manager/method/delete/id/<?= $product -> id ?>" title="Remove task" class="tip">
+                                            <a href="<?= $this->_getUrl() ?>/manager/method/delete/id/<?= $category -> id ?>" title="Remove task" class="tip">
                                                 <span class="icon12 icomoon-icon-remove"></span>
                                             </a>
                                         </div>
