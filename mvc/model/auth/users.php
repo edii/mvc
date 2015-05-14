@@ -124,7 +124,7 @@ class Users extends \CDetectedModel { //extends \CDetectedModel
                                                      email as email
                                               FROM ".$this->_tableName." 
                                               WHERE userID = ".$_id, array('target'=>'main'), array())
-                                        -> fetch();
+                                        -> fetchAssoc();
           
         }
         return $user;   

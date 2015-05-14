@@ -34,7 +34,9 @@ class ProductsController extends \Controller
             if(!$validate)
                 $this -> redirect('/'._request_uri.'/home/login');
             
-            $this->render('list');
+            $this->render('list', array(
+                'products' => $this->_mproducts ->getProducts(),
+            ));
             
 //            
 //            $this->render('list', array(
@@ -44,8 +46,15 @@ class ProductsController extends \Controller
         }
         public function actionManager() {
             $this->layout( false );
+            // update info
+            $validate = $this -> _users -> getRight();
+            if(!$validate)
+                $this -> redirect('/'._request_uri.'/home/login');
+            
             
             $_error = false;
+            // $_user = $this -> _users -> getUserID(); 
+            
             $_id = \init::app() ->getRequest() -> getParam('id'); 
             $_method = \init::app() ->getRequest() -> getParam('method');
             $_product = \init::app() ->getRequest() -> getParam('product');
@@ -70,6 +79,8 @@ class ProductsController extends \Controller
                 $_title = 'Добавить';               
                 if(!(int)$_id) {
                     if(is_array($_product) and count($_product) > 0) {
+                        $_product['UserID'] = 'root';
+                        $_product['OwnerID'] = 'root';
                         $this->_mproducts ->save(true, $_product);
                     }
                 }
@@ -78,11 +89,6 @@ class ProductsController extends \Controller
                 $_error = true;
             }
             
-            // update info
-            $validate = $this -> _users -> getRight();
-            if(!$validate)
-                $this -> redirect('/'._request_uri.'/home/login');
-               
             if(!$_error) {   
                 $this->render('form',array(
                     'title'   => $_title,

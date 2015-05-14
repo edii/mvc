@@ -1,3 +1,4 @@
+
 <!--Body content-->
 <div id="content" class="clearfix">
     <div class="contentwrapper"><!--Content wrapper-->
@@ -56,55 +57,55 @@
                             </h4>
                             <a href="#" class="minimize">Minimize</a>
                         </div>
+                        <?php
+//                            echo "<pre>";
+//                            var_dump( $products );
+//                            echo "</pre>";
+                        ?>
+                        
                         <div class="content noPad">
                             <table class="table table-bordered">
                                 <thead>
                                   <tr>
                                     <th>#</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Username</th>
-                                    <th>Actions</th>
+                                    <th>alias</th>
+                                    <th>name</th>
+                                    <th>timeCreated</th>
+                                    <th>timeSaved</th>
+                                    <th>Action</th>
                                   </tr>
                                 </thead>
                                 <tbody>
+                                  <?php foreach($products as $product): ?>  
                                   <tr>
-                                    <td>1</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
+                                    <td><?= $product -> id ?></td>
+                                    <td><?= $product -> alias ?></td>
+                                    <td><?= $product -> name ?></td>
+                                    <td><?= $product -> timeCreated ?></td>
+                                    <td><?= $product -> timeSaved ?></td>
                                     <td>
                                         <div class="controls center">
-                                            <a href="#" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
-                                            <a href="#" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
+                                            <a href="<?= $this->_getUrl() ?>/manager/method/edit/id/<?= $product -> id ?>" title="Edit task" class="tip">
+                                                <span class="icon12 icomoon-icon-pencil"></span>
+                                            </a>
+                                            <a href="<?= $this->_getUrl() ?>/manager/method/delete/id/<?= $product -> id ?>" title="Remove task" class="tip">
+                                                <span class="icon12 icomoon-icon-remove"></span>
+                                            </a>
                                         </div>
                                     </td>
                                   </tr>
-                                  <tr>
-                                    <td>2</td>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                    <td>
-                                        <div class="controls center">
-                                            <a href="#" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
-                                            <a href="#" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
-                                        </div>
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>3</td>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                    <td>
-                                        <div class="controls center">
-                                            <a href="#" title="Edit task" class="tip"><span class="icon12 icomoon-icon-pencil"></span></a>
-                                            <a href="#" title="Remove task" class="tip"><span class="icon12 icomoon-icon-remove"></span></a>
-                                        </div>
-                                    </td>
-                                  </tr>
+                                  <?php endforeach; ?>
                                 </tbody>
+<!--                                <tfoot> 
+                                  <tr>
+                                    <th>#</th>
+                                    <th>alias</th>
+                                    <th>name</th>
+                                    <th>timeCreated</th>
+                                    <th>timeSaved</th>
+                                    <th>Action</th>
+                                  </tr>
+                                </tfoot>-->
                             </table>
                         </div>
 
